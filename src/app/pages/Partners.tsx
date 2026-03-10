@@ -3,10 +3,10 @@ import { ImageWithFallback } from "../components/figma/ImageWithFallback";
 
 export default function Partners() {
   const partnerCategories = [
-    { name: "Corporate Partners", count: 24 },
-    { name: "Foundation Partners", count: 12 },
-    { name: "Community Organizations", count: 35 },
-    { name: "Government Agencies", count: 8 }
+    { name: "Corporate Partners", count: 2 },
+    { name: "Foundation Partners", count: 1 },
+    { name: "Community Organizations", count: 2 },
+    { name: "Government Agencies", count: 2 }
   ];
 
   return (
