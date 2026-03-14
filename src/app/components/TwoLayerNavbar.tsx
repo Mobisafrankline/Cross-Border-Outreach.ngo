@@ -162,6 +162,12 @@ export default function TwoLayerNavbar() {
           href: "/news",
           icon: <FileText className="w-5 h-5" />,
           description: "Latest announcements"
+        },
+        {
+          label: "Publications",
+          href: "/publications",
+          icon: <BookOpen className="w-5 h-5" />,
+          description: "latest publications"
         }
       ]
     },

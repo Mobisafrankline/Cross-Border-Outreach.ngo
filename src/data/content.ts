@@ -471,5 +471,25 @@ export const events = [
   organizer: "Crossborders Outreach Ministry Inc",
   contactEmail: "volunteer@crossborders.org",
   contactPhone: "+1 (234) 567-8903"
+},
+
+{
+  id: 3,
+  title: "Visit to RCCG Peace Assembly",
+  description: "Cross-Borders Outreach Ministry visited RCCG Peace Assembly for a community outreach and engagement program.",
+  longDescription: "On March 14, 2026, Cross-Borders Outreach Ministry held an outreach visit at The Redeemed Christian Church of God (RCCG) Peace Assembly in Lilburn, Georgia. The event focused on community engagement, faith encouragement, and supporting individuals through mentorship and fellowship. Volunteers interacted with church members and visitors while sharing the mission of Cross-Borders Outreach Ministry to support vulnerable communities.",
+  date: "March 14, 2026",
+  time: "8:00 AM - 5:00 PM",
+  location: "RCCG Peace Assembly",
+  address: "2158 McDaniel's Bridge Court, Lilburn, GA 30047, USA",
+  category: "Outreach",
+  status: "upcoming",
+  ticketPrice: "Free",
+  capacity: 10,
+  registered: 10,
+  image: "https://s3-media0.fl.yelpcdn.com/bphoto/7F5PCKyicmVX_ZLjw0uM0g/348s.jpg", // uploaded image
+  organizer: "Cross-Borders Outreach Ministry Inc",
+  contactEmail: "info@cross-bordersoutreach.org",
+  contactPhone: "+1 (404) 641-9248"
 }
 ];
