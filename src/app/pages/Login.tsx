@@ -2,7 +2,7 @@ import { User, Lock, Mail } from "lucide-react";
 
 export default function Login() {
   return (
-    <div className="min-h-screen pt-24 bg-gray-50">
+    <div className="min-h-screen bg-gray-50">
       <section className="py-20">
         <div className="max-w-md mx-auto px-6">
           <div className="bg-white rounded-2xl shadow-xl p-8 md:p-12">

@@ -58,7 +58,7 @@ Through mentorship, awareness campaigns, and community dialogue, the mission enc
   ];
 
   return (
-    <div className="min-h-screen pt-24">
+    <div className="min-h-screen">
       <section className="relative h-[500px] flex items-center justify-center overflow-hidden">
         <div className="absolute inset-0">
           <ImageWithFallback

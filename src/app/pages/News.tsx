@@ -1,10 +1,11 @@
 import { Calendar, ArrowRight } from "lucide-react";
+import { Link } from "react-router";
 import { ImageWithFallback } from "../components/figma/ImageWithFallback";
 import { newsUpdates } from "../../data/content";
 
 export default function News() {
   return (
-    <div className="min-h-screen pt-24">
+    <div className="min-h-screen">
       {/* Hero Section */}
       <section className="relative h-[400px] flex items-center justify-center overflow-hidden">
         <div className="absolute inset-0">
@@ -27,7 +28,7 @@ export default function News() {
         <div className="max-w-6xl mx-auto px-6">
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
             {newsUpdates.map((item) => (
-              <article key={item.id} className="bg-white rounded-xl overflow-hidden shadow-md hover:shadow-xl transition-shadow group">
+              <article key={item.id} className="bg-white rounded-xl overflow-hidden shadow-md hover:shadow-xl transition-shadow group flex flex-col">
                 <div className="h-48 overflow-hidden">
                   <ImageWithFallback
                     src={item.image}
@@ -35,19 +36,19 @@ export default function News() {
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                   />
                 </div>
-                <div className="p-6">
-                  <div className="inline-block px-3 py-1 bg-blue-100 text-blue-600 rounded-full text-xs font-semibold mb-3">
+                <div className="p-6 flex flex-col flex-1">
+                  <div className="inline-block px-3 py-1 bg-blue-100 text-blue-600 rounded-full text-xs font-semibold mb-3 self-start">
                     {item.category}
                   </div>
-                  <h3 className="text-xl font-bold text-gray-900 mb-3">{item.title}</h3>
-                  <p className="text-gray-600 mb-4 line-clamp-2">{item.excerpt}</p>
-                  <div className="flex items-center gap-2 text-sm text-gray-500 mb-4">
+                  <h3 className="text-xl font-bold text-gray-900 mb-3 line-clamp-2">{item.title}</h3>
+                  <p className="text-gray-600 mb-4 line-clamp-3 flex-1">{item.excerpt}</p>
+                  <div className="flex items-center gap-2 text-sm text-gray-500 mb-4 mt-auto">
                     <Calendar className="w-4 h-4" />
                     <span>{item.date}</span>
                   </div>
-                  <a href="#" className="inline-flex items-center gap-2 text-blue-600 font-semibold hover:text-blue-700">
+                  <Link to={`/news/${item.id}`} className="inline-flex items-center gap-2 text-blue-600 font-semibold hover:text-blue-700">
                     Read More <ArrowRight className="w-4 h-4" />
-                  </a>
+                  </Link>
                 </div>
               </article>
             ))}

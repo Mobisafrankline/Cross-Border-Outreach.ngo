@@ -1,9 +1,6 @@
 import { useState, useEffect, useRef } from "react";
-import { 
-  Heart, 
-  ChevronDown,
-  User,
-  Shield,
+import {
+  Heart,
   Utensils,
   GraduationCap,
   Stethoscope,
@@ -19,23 +16,23 @@ import {
   UserCircle,
   Building2,
   BarChart3,
-  Globe,
   Menu,
-  X
+  X,
+  LogIn
 } from "lucide-react";
 import { motion, AnimatePresence } from "motion/react";
-import { useTranslation } from 'react-i18next';
 import { Link, useLocation } from "react-router";
+import { DesktopLanguageSelector, MobileLanguageSelector } from "./GoogleTranslate";
 
 export default function TwoLayerNavbar() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
-  const [languageDropdown, setLanguageDropdown] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [mobileExpandedItem, setMobileExpandedItem] = useState<string | null>(null);
-  const { t, i18n } = useTranslation();
   const location = useLocation();
   const dropdownRef = useRef<HTMLDivElement>(null);
+  const dropdownTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const drawerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -49,14 +46,12 @@ export default function TwoLayerNavbar() {
     const handleClickOutside = (event: MouseEvent) => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
         setActiveDropdown(null);
-        setLanguageDropdown(false);
       }
     };
     document.addEventListener('mousedown', handleClickOutside);
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
-  // Lock body scroll when mobile menu is open
   useEffect(() => {
     if (mobileMenuOpen) {
       document.body.style.overflow = 'hidden';
@@ -68,20 +63,72 @@ export default function TwoLayerNavbar() {
     };
   }, [mobileMenuOpen]);
 
-  const changeLanguage = (lng: string) => {
-    i18n.changeLanguage(lng);
-    setLanguageDropdown(false);
+  useEffect(() => {
     setMobileMenuOpen(false);
+    setMobileExpandedItem(null);
+  }, [location.pathname]);
+
+  useEffect(() => {
+    if (!mobileMenuOpen) return;
+
+    const drawer = drawerRef.current;
+    if (!drawer) return;
+
+    const focusableSelectors = [
+      'a[href]', 'button:not([disabled])', 'input:not([disabled])',
+      'select:not([disabled])', 'textarea:not([disabled])', '[tabindex]:not([tabindex="-1"])'
+    ];
+
+    const getFocusable = () =>
+      Array.from(drawer.querySelectorAll<HTMLElement>(focusableSelectors.join(',')));
+
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        setMobileMenuOpen(false);
+        return;
+      }
+      if (e.key !== 'Tab') return;
+
+      const focusable = getFocusable();
+      if (focusable.length === 0) return;
+
+      const first = focusable[0];
+      const last = focusable[focusable.length - 1];
+
+      if (e.shiftKey) {
+        if (document.activeElement === first) {
+          e.preventDefault();
+          last.focus();
+        }
+      } else {
+        if (document.activeElement === last) {
+          e.preventDefault();
+          first.focus();
+        }
+      }
+    };
+
+    document.addEventListener('keydown', handleKeyDown);
+
+    const focusable = getFocusable();
+    if (focusable.length > 0) focusable[0].focus();
+
+    return () => document.removeEventListener('keydown', handleKeyDown);
+  }, [mobileMenuOpen]);
+
+  const handleDropdownEnter = (label: string) => {
+    if (dropdownTimeoutRef.current) {
+      clearTimeout(dropdownTimeoutRef.current);
+      dropdownTimeoutRef.current = null;
+    }
+    setActiveDropdown(label);
   };
 
-  const languages = [
-    { code: 'en', label: 'English', flag: '🇺🇸' },
-    { code: 'es', label: 'Español', flag: '🇪🇸' },
-    { code: 'fr', label: 'Français', flag: '🇫🇷' },
-    { code: 'pt', label: 'Português', flag: '🇧🇷' }
-  ];
-
-  const currentLanguage = languages.find(lang => lang.code === i18n.language) || languages[0];
+  const handleDropdownLeave = () => {
+    dropdownTimeoutRef.current = setTimeout(() => {
+      setActiveDropdown(null);
+    }, 150);
+  };
 
   const menuItems = [
     {
@@ -167,7 +214,7 @@ export default function TwoLayerNavbar() {
           label: "Publications",
           href: "/publications",
           icon: <BookOpen className="w-5 h-5" />,
-          description: "latest publications"
+          description: "Latest publications"
         }
       ]
     },
@@ -207,23 +254,32 @@ export default function TwoLayerNavbar() {
     { label: "Education", href: "/education" },
     { label: "Healthcare", href: "/healthcare" },
     { label: "Economic Empowerment", href: "/economic" },
-    { label: "News", href: "/news" },
-    { label: "Events", href: "/events" },
     { label: "Gallery", href: "/gallery" },
     { label: "Impact Stories", href: "/impact" }
   ];
 
   return (
-    <nav ref={dropdownRef} className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-      isScrolled ? 'shadow-lg' : ''
-    }`}>
+    <nav
+      id="main-nav"
+      ref={dropdownRef}
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${isScrolled ? 'shadow-lg' : ''}`}
+    >
       {/* Top Layer - Primary Navigation */}
-      <div className="bg-gradient-to-r from-blue-700 to-blue-600">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6">
+      <div className={`relative z-10 transition-colors duration-300 ${isScrolled
+        ? 'bg-blue-700/95 backdrop-blur-md'
+        : 'bg-gradient-to-r from-blue-800 via-blue-700 to-blue-600'
+        }`}>
+        <div
+          className="max-w-7xl mx-auto px-4 sm:px-6"
+          style={{
+            paddingLeft: 'max(1rem, env(safe-area-inset-left))',
+            paddingRight: 'max(1rem, env(safe-area-inset-right))'
+          }}
+        >
           <div className="flex items-center justify-between h-16">
             {/* Logo */}
             <Link to="/" className="flex items-center gap-3 group flex-shrink-0">
-              <div className="w-10 h-10 bg-transparent rounded-lg flex items-center justify-center group-hover:scale-110 transition-transform">
+              <div className="w-10 h-10 bg-transparent rounded-lg flex items-center justify-center group-hover:scale-110 transition-transform duration-200">
                 <img
                   src="/logo.png"
                   alt="Crossborders Outreach Logo"
@@ -232,7 +288,7 @@ export default function TwoLayerNavbar() {
               </div>
               <div className="text-white hidden sm:block">
                 <div className="font-bold text-base sm:text-lg leading-tight">Cross-Borders</div>
-                <div className="text-xs opacity-90">Outreach Ministry Inc</div>
+                <div className="text-xs opacity-80">Outreach Ministry Inc</div>
               </div>
               <div className="text-white sm:hidden">
                 <div className="font-bold text-sm leading-tight">Cross-Borders</div>
@@ -240,53 +296,60 @@ export default function TwoLayerNavbar() {
             </Link>
 
             {/* Desktop Navigation */}
-            <div className="hidden lg:flex items-center gap-6">
+            <div className="hidden lg:flex items-center gap-1">
               {menuItems.map((item) => (
-                <div key={item.label} className="relative">
+                <div
+                  key={item.label}
+                  className="relative"
+                  onMouseEnter={() => handleDropdownEnter(item.label)}
+                  onMouseLeave={handleDropdownLeave}
+                >
                   <button
-                    onMouseEnter={() => setActiveDropdown(item.label)}
                     onClick={() => setActiveDropdown(activeDropdown === item.label ? null : item.label)}
-                    className="flex items-center gap-1 text-white hover:text-blue-100 font-semibold transition-colors py-2"
+                    aria-expanded={activeDropdown === item.label}
+                    aria-haspopup="true"
+                    className={`flex items-center gap-1 px-3 py-2 rounded-lg text-white/90 hover:text-white hover:bg-white/10 font-semibold transition-all duration-200 text-sm ${activeDropdown === item.label ? 'bg-white/15 text-white' : ''}`}
                   >
                     {item.label}
-                    <ChevronDown className={`w-4 h-4 transition-transform ${
-                      activeDropdown === item.label ? 'rotate-180' : ''
-                    }`} />
                   </button>
 
-                  {/* Dropdown Menu */}
                   <AnimatePresence>
                     {activeDropdown === item.label && (
                       <motion.div
-                        initial={{ opacity: 0, y: -10 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        exit={{ opacity: 0, y: -10 }}
-                        transition={{ duration: 0.2 }}
-                        className="absolute top-full left-0 mt-2 w-80 bg-white rounded-lg shadow-xl border border-gray-200 py-2 z-50"
-                        onMouseLeave={() => setActiveDropdown(null)}
+                        initial={{ opacity: 0, y: -5, scale: 0.98 }}
+                        animate={{ opacity: 1, y: 0, scale: 1 }}
+                        exit={{ opacity: 0, y: -5, scale: 0.98 }}
+                        transition={{ duration: 0.15, ease: "easeOut" }}
+                        className="absolute top-full left-0 pt-1 z-50"
                       >
-                        {item.dropdown.map((subItem) => (
-                          <Link
-                            key={subItem.href}
-                            to={subItem.href}
-                            onClick={() => setActiveDropdown(null)}
-                            className="flex items-start gap-3 px-4 py-3 hover:bg-blue-50 transition-colors group"
-                          >
-                            <div className="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center group-hover:bg-blue-600 transition-colors flex-shrink-0">
-                              <div className="text-blue-600 group-hover:text-white transition-colors">
+                        <div className="w-80 bg-white rounded-xl shadow-2xl border border-gray-100 py-2 overflow-hidden">
+                          {item.dropdown.map((subItem) => (
+                            <Link
+                              key={subItem.href}
+                              to={subItem.href}
+                              onClick={() => setActiveDropdown(null)}
+                              className={`flex items-start gap-3 px-4 py-3 hover:bg-blue-50 transition-colors duration-150 group ${location.pathname === subItem.href ? 'bg-blue-50/80' : ''}`}
+                            >
+                              <div className={`w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0 transition-colors duration-150 ${location.pathname === subItem.href
+                                ? 'bg-blue-600 text-white'
+                                : 'bg-blue-100 text-blue-600 group-hover:bg-blue-600 group-hover:text-white'
+                                }`}>
                                 {subItem.icon}
                               </div>
-                            </div>
-                            <div className="flex-1">
-                              <div className="font-semibold text-gray-900 group-hover:text-blue-600 transition-colors">
-                                {subItem.label}
+                              <div className="flex-1 min-w-0">
+                                <div className={`font-semibold transition-colors duration-150 ${location.pathname === subItem.href
+                                  ? 'text-blue-600'
+                                  : 'text-gray-900 group-hover:text-blue-600'
+                                  }`}>
+                                  {subItem.label}
+                                </div>
+                                <div className="text-sm text-gray-500 mt-0.5 truncate">
+                                  {subItem.description}
+                                </div>
                               </div>
-                              <div className="text-sm text-gray-600 mt-0.5">
-                                {subItem.description}
-                              </div>
-                            </div>
-                          </Link>
-                        ))}
+                            </Link>
+                          ))}
+                        </div>
                       </motion.div>
                     )}
                   </AnimatePresence>
@@ -294,84 +357,61 @@ export default function TwoLayerNavbar() {
               ))}
 
               <Link
+                to="/news"
+                className={`px-3 py-2 rounded-lg font-semibold transition-all duration-200 text-sm ${location.pathname === '/news'
+                  ? 'bg-white/20 text-white'
+                  : 'text-white/90 hover:text-white hover:bg-white/10'
+                  }`}
+              >
+                News
+              </Link>
+              <Link
+                to="/events"
+                className={`px-3 py-2 rounded-lg font-semibold transition-all duration-200 text-sm ${location.pathname === '/events'
+                  ? 'bg-white/20 text-white'
+                  : 'text-white/90 hover:text-white hover:bg-white/10'
+                  }`}
+              >
+                Events
+              </Link>
+              <Link
                 to="/contact"
-                className="text-white hover:text-blue-100 font-semibold transition-colors"
+                className={`px-3 py-2 rounded-lg font-semibold transition-all duration-200 text-sm ${location.pathname === '/contact'
+                  ? 'bg-white/20 text-white'
+                  : 'text-white/90 hover:text-white hover:bg-white/10'
+                  }`}
               >
                 Contact
               </Link>
             </div>
 
             {/* Right Side Actions */}
-            <div className="flex items-center gap-2 sm:gap-3">
-              {/* Desktop Language Dropdown */}
-              <div className="hidden md:block relative">
-                <button
-                  onClick={() => setLanguageDropdown(!languageDropdown)}
-                  className="flex items-center gap-2 px-3 py-2 bg-white/10 hover:bg-white/20 text-white rounded-lg transition-colors"
-                >
-                  <Globe className="w-4 h-4" />
-                  <span className="text-sm font-semibold hidden lg:inline">{currentLanguage.flag} {currentLanguage.code.toUpperCase()}</span>
-                  <span className="text-sm font-semibold lg:hidden">{currentLanguage.flag}</span>
-                  <ChevronDown className={`w-4 h-4 transition-transform ${languageDropdown ? 'rotate-180' : ''}`} />
-                </button>
+            <div className="flex items-center gap-2 sm:gap-2.5">
+              <DesktopLanguageSelector />
 
-                <AnimatePresence>
-                  {languageDropdown && (
-                    <motion.div
-                      initial={{ opacity: 0, y: -10 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      exit={{ opacity: 0, y: -10 }}
-                      className="absolute top-full right-0 mt-2 w-48 bg-white rounded-lg shadow-xl border border-gray-200 py-2 z-50"
-                    >
-                      {languages.map((lang) => (
-                        <button
-                          key={lang.code}
-                          onClick={() => changeLanguage(lang.code)}
-                          className={`w-full flex items-center gap-3 px-4 py-2 text-left hover:bg-blue-50 transition-colors ${
-                            i18n.language === lang.code ? 'bg-blue-50 text-blue-600' : 'text-gray-700'
-                          }`}
-                        >
-                          <span className="text-xl">{lang.flag}</span>
-                          <span className="font-medium">{lang.label}</span>
-                        </button>
-                      ))}
-                    </motion.div>
-                  )}
-                </AnimatePresence>
-              </div>
-
-              {/* Desktop Donor Portal */}
               <Link
-                to="/donor/login"
-                className="hidden md:flex items-center gap-2 px-4 py-2 bg-white/10 hover:bg-white/20 text-white rounded-lg transition-colors text-sm font-semibold"
+                to="/login"
+                className="hidden md:flex items-center gap-1.5 px-3 py-2 bg-white/10 hover:bg-white/20 text-white rounded-lg transition-all duration-200 text-sm font-semibold"
               >
-                <User className="w-4 h-4" />
-                <span className="hidden xl:inline">Donor Portal</span>
+                <LogIn className="w-4 h-4" />
+                <span className="hidden lg:inline">Login</span>
               </Link>
 
-              {/* Desktop Admin */}
-              <Link
-                to="/admin/login"
-                className="hidden xl:flex items-center gap-2 px-4 py-2 bg-white/10 hover:bg-white/20 text-white rounded-lg transition-colors text-sm font-semibold"
-              >
-                <Shield className="w-4 h-4" />
-                Admin
-              </Link>
-
-              {/* Mobile Menu Toggle */}
               <button
                 onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-                className="lg:hidden p-2 text-white hover:bg-white/10 rounded-lg transition-colors"
-                aria-label="Toggle menu"
+                className="lg:hidden p-3 text-white hover:bg-white/10 rounded-lg transition-colors duration-200"
+                aria-label={mobileMenuOpen ? "Close menu" : "Open menu"}
+                aria-expanded={mobileMenuOpen}
+                aria-controls="mobile-menu"
               >
                 {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
               </button>
 
-              {/* Donate Button */}
               <Link
                 to="/donate"
-                className="hidden sm:flex px-4 sm:px-6 py-2 bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600 text-white rounded-lg font-bold transition-all shadow-lg hover:shadow-xl text-sm whitespace-nowrap"
+                className="flex px-4 sm:px-5 py-2 bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600 text-white rounded-lg font-bold transition-all duration-200 shadow-lg hover:shadow-xl hover:scale-[1.02] active:scale-95 text-sm whitespace-nowrap items-center gap-1.5"
               >
+                <Heart className="w-4 h-4 hidden sm:block" />
                 Donate
               </Link>
             </div>
@@ -383,55 +423,63 @@ export default function TwoLayerNavbar() {
       <AnimatePresence>
         {mobileMenuOpen && (
           <>
-            {/* Backdrop */}
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               onClick={() => setMobileMenuOpen(false)}
               className="fixed inset-0 bg-black/50 z-40 lg:hidden"
+              aria-hidden="true"
             />
-            
-            {/* Mobile Menu Drawer */}
+
             <motion.div
+              id="mobile-menu"
+              role="dialog"
+              aria-modal="true"
+              aria-label="Navigation menu"
+              ref={drawerRef}
               initial={{ x: '100%' }}
               animate={{ x: 0 }}
               exit={{ x: '100%' }}
               transition={{ type: 'spring', damping: 25, stiffness: 200 }}
               className="fixed top-0 right-0 bottom-0 w-full max-w-sm bg-white z-50 shadow-2xl lg:hidden overflow-y-auto"
+              style={{ paddingBottom: 'env(safe-area-inset-bottom)' }}
             >
-              <div className="p-4 border-b border-gray-200 bg-gradient-to-r from-blue-700 to-blue-600">
+              <div className="p-4 border-b border-gray-200 bg-gradient-to-r from-blue-800 via-blue-700 to-blue-600">
                 <div className="flex items-center justify-between">
-                  <span className="text-white font-bold text-lg">Menu</span>
+                  <div className="flex items-center gap-2">
+                    <img src="/logo.png" alt="Logo" className="w-8 h-8 object-contain" />
+                    <span className="text-white font-bold text-lg">Menu</span>
+                  </div>
                   <button
                     onClick={() => setMobileMenuOpen(false)}
-                    className="p-2 text-white hover:bg-white/10 rounded-lg transition-colors"
+                    className="p-3 text-white hover:bg-white/10 rounded-lg transition-colors"
+                    aria-label="Close menu"
                   >
                     <X className="w-6 h-6" />
                   </button>
                 </div>
               </div>
 
-              <div className="p-4 space-y-2">
-                {/* Mobile Menu Items with Accordions */}
+              <div className="p-4 space-y-1">
                 {menuItems.map((item) => (
                   <div key={item.label} className="border-b border-gray-100 last:border-0">
                     <button
                       onClick={() => setMobileExpandedItem(mobileExpandedItem === item.label ? null : item.label)}
+                      aria-expanded={mobileExpandedItem === item.label}
                       className="w-full flex items-center justify-between py-3 text-left"
                     >
                       <span className="font-semibold text-gray-900">{item.label}</span>
-                      <ChevronDown className={`w-5 h-5 text-gray-500 transition-transform ${
-                        mobileExpandedItem === item.label ? 'rotate-180' : ''
-                      }`} />
+                      <span className={`text-gray-400 transition-transform duration-200 text-lg ${mobileExpandedItem === item.label ? 'rotate-45' : ''}`}>+</span>
                     </button>
-                    
+
                     <AnimatePresence>
                       {mobileExpandedItem === item.label && (
                         <motion.div
                           initial={{ height: 0, opacity: 0 }}
                           animate={{ height: 'auto', opacity: 1 }}
                           exit={{ height: 0, opacity: 0 }}
+                          transition={{ duration: 0.2, ease: "easeOut" }}
                           className="overflow-hidden"
                         >
                           <div className="pb-3 space-y-1">
@@ -440,14 +488,20 @@ export default function TwoLayerNavbar() {
                                 key={subItem.href}
                                 to={subItem.href}
                                 onClick={() => setMobileMenuOpen(false)}
-                                className="flex items-center gap-3 px-3 py-3 rounded-lg hover:bg-blue-50 transition-colors"
+                                className={`flex items-center gap-3 px-3 py-3 rounded-lg transition-colors duration-150 ${location.pathname === subItem.href
+                                  ? 'bg-blue-50'
+                                  : 'hover:bg-gray-50'
+                                  }`}
                               >
-                                <div className="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center flex-shrink-0">
-                                  <div className="text-blue-600">{subItem.icon}</div>
+                                <div className={`w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0 ${location.pathname === subItem.href
+                                  ? 'bg-blue-600 text-white'
+                                  : 'bg-blue-100 text-blue-600'
+                                  }`}>
+                                  {subItem.icon}
                                 </div>
                                 <div>
-                                  <div className="font-medium text-gray-900">{subItem.label}</div>
-                                  <div className="text-sm text-gray-600">{subItem.description}</div>
+                                  <div className={`font-medium ${location.pathname === subItem.href ? 'text-blue-600' : 'text-gray-900'}`}>{subItem.label}</div>
+                                  <div className="text-sm text-gray-500">{subItem.description}</div>
                                 </div>
                               </Link>
                             ))}
@@ -459,58 +513,45 @@ export default function TwoLayerNavbar() {
                 ))}
 
                 <Link
+                  to="/news"
+                  onClick={() => setMobileMenuOpen(false)}
+                  className={`block py-3 font-semibold border-b border-gray-100 ${location.pathname === '/news' ? 'text-blue-600' : 'text-gray-900'}`}
+                >
+                  News
+                </Link>
+
+                <Link
+                  to="/events"
+                  onClick={() => setMobileMenuOpen(false)}
+                  className={`block py-3 font-semibold border-b border-gray-100 ${location.pathname === '/events' ? 'text-blue-600' : 'text-gray-900'}`}
+                >
+                  Events
+                </Link>
+
+                <Link
                   to="/contact"
                   onClick={() => setMobileMenuOpen(false)}
-                  className="block py-3 font-semibold text-gray-900 border-b border-gray-100"
+                  className={`block py-3 font-semibold border-b border-gray-100 ${location.pathname === '/contact' ? 'text-blue-600' : 'text-gray-900'}`}
                 >
                   Contact
                 </Link>
 
-                {/* Mobile Language Selector */}
-                <div className="py-3 border-b border-gray-100">
-                  <div className="font-semibold text-gray-900 mb-2">Language</div>
-                  <div className="grid grid-cols-2 gap-2">
-                    {languages.map((lang) => (
-                      <button
-                        key={lang.code}
-                        onClick={() => changeLanguage(lang.code)}
-                        className={`flex items-center gap-2 px-3 py-2 rounded-lg transition-colors ${
-                          i18n.language === lang.code 
-                            ? 'bg-blue-50 text-blue-600 border border-blue-200' 
-                            : 'hover:bg-gray-50 text-gray-700 border border-transparent'
-                        }`}
-                      >
-                        <span className="text-xl">{lang.flag}</span>
-                        <span className="text-sm font-medium">{lang.label}</span>
-                      </button>
-                    ))}
-                  </div>
-                </div>
+                <MobileLanguageSelector onClose={() => setMobileMenuOpen(false)} />
 
-                {/* Mobile Action Buttons */}
-                <div className="space-y-2 pt-2">
-                  <Link
-                    to="/donor/login"
-                    onClick={() => setMobileMenuOpen(false)}
-                    className="flex items-center gap-3 px-4 py-3 rounded-lg bg-gray-50 hover:bg-gray-100 transition-colors text-gray-900"
-                  >
-                    <User className="w-5 h-5 text-blue-600" />
-                    <span className="font-semibold">Donor Portal</span>
-                  </Link>
-                  
-                  <Link
-                    to="/admin/login"
-                    onClick={() => setMobileMenuOpen(false)}
-                    className="flex items-center gap-3 px-4 py-3 rounded-lg bg-gray-50 hover:bg-gray-100 transition-colors text-gray-900"
-                  >
-                    <Shield className="w-5 h-5 text-blue-600" />
-                    <span className="font-semibold">Admin Dashboard</span>
-                  </Link>
+                <Link
+                  to="/login"
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="flex items-center gap-3 py-3 font-semibold text-gray-900 border-b border-gray-100"
+                >
+                  <LogIn className="w-5 h-5 text-blue-600" />
+                  Login
+                </Link>
 
+                <div className="pt-3">
                   <Link
                     to="/donate"
                     onClick={() => setMobileMenuOpen(false)}
-                    className="flex items-center justify-center gap-2 w-full px-4 py-3 bg-gradient-to-r from-orange-500 to-red-500 text-white rounded-lg font-bold shadow-lg mt-4"
+                    className="flex items-center justify-center gap-2 w-full px-4 py-3.5 bg-gradient-to-r from-orange-500 to-red-500 text-white rounded-xl font-bold shadow-lg text-base"
                   >
                     <Heart className="w-5 h-5" />
                     Donate Now
@@ -522,19 +563,32 @@ export default function TwoLayerNavbar() {
         )}
       </AnimatePresence>
 
-      {/* Bottom Layer - Secondary Navigation */}
-      <div className="bg-white border-b border-gray-200">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6">
-          <div className="flex items-center gap-1 py-2 overflow-x-auto scrollbar-hide snap-x snap-mandatory">
+      {/* Bottom Layer - Secondary Navigation (ALL screen sizes) */}
+      <div className={`relative z-0 block bg-white border-b border-gray-200 transition-shadow duration-300 ${isScrolled ? 'shadow-sm' : ''}`}>
+        <div
+          className="max-w-7xl mx-auto"
+          style={{
+            paddingLeft: 'max(1rem, env(safe-area-inset-left))',
+            paddingRight: 'max(1rem, env(safe-area-inset-right))'
+          }}
+        >
+          <div
+            className="flex items-center gap-1 py-2 overflow-x-auto"
+            style={{
+              scrollbarWidth: 'none',
+              msOverflowStyle: 'none',
+              maskImage: 'linear-gradient(to right, black 90%, transparent 100%)',
+              WebkitMaskImage: 'linear-gradient(to right, black 90%, transparent 100%)',
+            }}
+          >
             {secondaryNavItems.map((item) => (
               <Link
                 key={item.href}
                 to={item.href}
-                className={`px-3 sm:px-4 py-2 rounded-lg text-sm font-medium transition-colors whitespace-nowrap snap-start ${
-                  location.pathname === item.href
-                    ? 'bg-blue-50 text-blue-600'
-                    : 'text-gray-700 hover:bg-gray-50 hover:text-blue-600'
-                }`}
+                className={`px-3 py-2 rounded-lg text-sm font-medium transition-all duration-200 whitespace-nowrap ${location.pathname === item.href
+                  ? 'bg-blue-600 text-white shadow-sm'
+                  : 'text-gray-600 hover:bg-gray-100 hover:text-blue-600'
+                  }`}
               >
                 {item.label}
               </Link>

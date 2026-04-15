@@ -11,7 +11,7 @@ const projection2026 = [
 
 export default function Reports() {
   return (
-    <div className="min-h-screen pt-20">
+    <div className="min-h-screen">
 
       {/* Hero Section */}
       <section className="relative h-[300px] md:h-[400px] flex items-center justify-center overflow-hidden">

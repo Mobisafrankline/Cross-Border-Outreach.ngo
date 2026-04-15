@@ -56,7 +56,7 @@ export default function Blog() {
   const categories = ["All", "Impact", "Programs", "Stories", "Healthcare", "Economic", "Volunteers"];
 
   return (
-    <div className="min-h-screen pt-24">
+    <div className="min-h-screen">
       {/* Hero Section */}
       <section className="relative h-[400px] flex items-center justify-center overflow-hidden">
         <div className="absolute inset-0">

@@ -1,9 +1,10 @@
 import { Heart, ArrowRight, CheckCircle2, Quote, Calendar } from "lucide-react";
+import { Link } from "react-router";
 import { ImageWithFallback } from "../components/figma/ImageWithFallback";
 import Slider from "react-slick";
 import { newsUpdates, galleryImages } from "../../data/content";
-import "../../styles/carousel.css";
 import { useTranslation } from "react-i18next";
+import "../../styles/carousel.css";
 
 export default function Home() {
   const { t } = useTranslation();
@@ -230,13 +231,13 @@ const carouselSettings = {
                     <span>{newsItem.date}</span>
                   </div>
                   
-                  <a
-                    href="/news"
-                    className="inline-flex items-center gap-2 text-blue-600 font-semibold hover:text-blue-700 transition-colors"
+                  <Link
+                    to={`/news/${newsItem.id}`}
+                    className="inline-flex items-center gap-2 text-blue-600 font-semibold hover:text-blue-700 transition-colors mt-auto"
                   >
                     Read More
                     <ArrowRight className="w-4 h-4" />
-                  </a>
+                  </Link>
                 </div>
               </article>
             ))}

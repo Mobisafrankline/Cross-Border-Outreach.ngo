@@ -14,6 +14,7 @@ import Fundraise from "./pages/Fundraise";
 import Blog from "./pages/Blog";
 import ImpactStories from "./pages/ImpactStories";
 import News from "./pages/News";
+import NewsArticle from "./pages/NewsArticle";
 import Events from "./pages/Events";
 import Gallery from "./pages/Gallery";
 import Mission from "./pages/Mission";
@@ -54,6 +55,7 @@ export const router = createBrowserRouter([
       { path: "blog", Component: Blog },
       { path: "impact", Component: ImpactStories },
       { path: "news", Component: News },
+      { path: "news/:id", Component: NewsArticle },
       { path: "events", Component: Events },
       { path: "gallery", Component: Gallery },
       { path: "mission", Component: Mission },

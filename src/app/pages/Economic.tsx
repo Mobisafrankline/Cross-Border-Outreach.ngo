@@ -33,7 +33,7 @@ export default function Economic() {
   ];
 
   return (
-    <div className="min-h-screen pt-24">
+    <div className="min-h-screen">
       {/* Hero Section */}
       <section className="relative h-[500px] flex items-center justify-center overflow-hidden">
         <div className="absolute inset-0">

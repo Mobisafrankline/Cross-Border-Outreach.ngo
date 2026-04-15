@@ -10,7 +10,7 @@ export default function Team() {
   ];
 
   return (
-    <div className="min-h-screen pt-24">
+    <div className="min-h-screen">
       <section className="relative h-[400px] flex items-center justify-center overflow-hidden">
         <div className="absolute inset-0">
           <ImageWithFallback

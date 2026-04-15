@@ -29,7 +29,7 @@ export default function Contact() {
   };
 
   return (
-    <div className="min-h-screen pt-24">
+    <div className="min-h-screen">
       {/* Hero */}
       <section className="py-20 bg-gradient-to-r from-blue-600 to-blue-700">
         <div className="max-w-4xl mx-auto px-6 text-center text-white">
