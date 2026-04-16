@@ -69,14 +69,14 @@ export default function CustomerSupportChat() {
       }
 
       const genAI = new GoogleGenerativeAI(apiKey);
-      const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+      const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash" });
 
       // Format previous history for Gemini (excluding the initial greeting if we want, or mapping to model/user)
       const chat = model.startChat({
         history: [
           { role: "user", parts: [{ text: SYSTEM_PROMPT }] },
           { role: "model", parts: [{ text: "Understood." }] },
-          ...newMessages.slice(1).map(msg => ({
+          ...messages.slice(1).map(msg => ({
             role: msg.role === "user" ? "user" : "model",
             parts: [{ text: msg.text }]
           }))

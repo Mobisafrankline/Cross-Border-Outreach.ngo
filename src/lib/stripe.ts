@@ -1,11 +1,19 @@
 import { loadStripe, Stripe } from '@stripe/stripe-js';
 
 // Replace with your actual Stripe publishable key
-const stripePublishableKey = import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY || 'YOUR_STRIPE_PUBLISHABLE_KEY';
+const stripePublishableKey = import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY || '';
 
-let stripePromise: Promise<Stripe | null>;
+// Only a valid key (starts with pk_test_ or pk_live_) should be used
+export const isStripeConfigured = (): boolean => {
+  return typeof stripePublishableKey === 'string' && stripePublishableKey.startsWith('pk_');
+};
+
+let stripePromise: Promise<Stripe | null> | null = null;
 
 export const getStripe = () => {
+  if (!isStripeConfigured()) {
+    return Promise.resolve(null);
+  }
   if (!stripePromise) {
     stripePromise = loadStripe(stripePublishableKey);
   }

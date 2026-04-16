@@ -8,11 +8,11 @@ import {
   LinkAuthenticationElement,
   AddressElement
 } from "@stripe/react-stripe-js";
-import { 
-  Mail, 
-  User, 
-  MapPin, 
-  Lock, 
+import {
+  Mail,
+  User,
+  MapPin,
+  Lock,
   CreditCard,
   Building2,
   Smartphone,
@@ -20,7 +20,8 @@ import {
   QrCode,
   CheckCircle2,
   AlertCircle,
-  Loader2
+  Loader2,
+  Shield
 } from "lucide-react";
 import { createPaymentIntent, PaymentMethodType } from "../../lib/stripe";
 import { supabase } from "../../lib/supabase";
@@ -35,25 +36,25 @@ interface PaymentFormProps {
 }
 
 // Extended payment method type for all options
-type ExtendedPaymentMethod = PaymentMethodType | 
-  'venmo' | 'zelle' | 'crypto' | 'momo' | 'klarna' | 'afterpay' | 
+type ExtendedPaymentMethod = PaymentMethodType |
+  'venmo' | 'zelle' | 'crypto' | 'momo' | 'klarna' | 'afterpay' |
   'affirm' | 'sepa' | 'ach' | 'check' | 'wire';
 
 interface ExtendedPaymentFormProps extends Omit<PaymentFormProps, 'paymentMethod'> {
   paymentMethod: ExtendedPaymentMethod;
 }
 
-export default function PaymentForm({ 
-  amount, 
-  donationType, 
-  program, 
+export default function PaymentForm({
+  amount,
+  donationType,
+  program,
   paymentMethod,
   onSuccess,
   onError
 }: ExtendedPaymentFormProps) {
   const stripe = useStripe();
   const elements = useElements();
-  
+
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
@@ -65,7 +66,7 @@ export default function PaymentForm({
     zip: "",
     country: "US"
   });
-  
+
   const [cryptoType, setCryptoType] = useState<'bitcoin' | 'ethereum' | 'usdc'>('bitcoin');
   const [momoProvider, setMomoProvider] = useState<'mtn' | 'mpesa' | 'airtel' | 'orange'>('mtn');
   const [isProcessing, setIsProcessing] = useState(false);
@@ -104,7 +105,7 @@ export default function PaymentForm({
     if (paymentMethod === 'card') {
       const cardElement = elements.getElement(CardElement);
       if (!cardElement) throw new Error("Card element not found");
-      
+
       result = await stripe.confirmCardPayment(paymentData.clientSecret, {
         payment_method: {
           card: cardElement,
@@ -171,13 +172,13 @@ export default function PaymentForm({
 
     // For demo purposes, simulate processing
     await new Promise(resolve => setTimeout(resolve, 1500));
-    
+
     return { paymentIntent: { id: `manual_${Date.now()}` } };
   };
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
-    
+
     if (!stripe || !elements) {
       setError("Payment system not initialized");
       return;
@@ -190,12 +191,12 @@ export default function PaymentForm({
       let result;
 
       // Check if this is a Stripe-supported payment
-      const stripeMethods = ['card', 'apple_pay', 'google_pay', 'paypal', 'cashapp', 
+      const stripeMethods = ['card', 'apple_pay', 'google_pay', 'paypal', 'cashapp',
         'us_bank_account', 'sepa_debit', 'klarna', 'afterpay', 'affirm'];
-      
+
       if (stripeMethods.includes(paymentMethod)) {
         result = await handleStripePayment();
-        
+
         if (result?.error) {
           throw new Error(result.error.message || "Payment failed");
         }
@@ -337,7 +338,8 @@ export default function PaymentForm({
             <p className="text-gray-600 mb-4">Pay easily from your Venmo balance</p>
             <div className="bg-blue-50 rounded-lg p-4 text-sm text-blue-800 space-y-2">
               <p>Search: <span className="font-bold">@CrossbordersOutreach</span></p>
-              <p>Or send to: <span className="font-bold">donations@crossborders.org</span></p>
+              <p>Or send to: <span className="font-bold">skamau@crossbordersoutreach.org
+              </span></p>
             </div>
             <input
               type="text"
@@ -358,7 +360,8 @@ export default function PaymentForm({
             </div>
             <p className="text-gray-600 mb-4">Direct bank-to-bank transfer</p>
             <div className="bg-purple-50 rounded-lg p-4 text-left text-sm text-purple-800 space-y-2">
-              <p><span className="font-medium">Email:</span> donations@crossborders.org</p>
+              <p><span className="font-medium">Email:</span> skamau@crossbordersoutreach.org
+              </p>
               <p><span className="font-medium">Phone:</span> (555) 123-4567</p>
               <p><span className="font-medium">Name:</span> Cross-Borders Outreach</p>
             </div>
@@ -382,11 +385,10 @@ export default function PaymentForm({
                   key={type}
                   type="button"
                   onClick={() => setCryptoType(type)}
-                  className={`px-4 py-2 rounded-lg font-semibold transition-all ${
-                    cryptoType === type
-                      ? "bg-orange-500 text-white"
-                      : "bg-gray-200 text-gray-700 hover:bg-gray-300"
-                  }`}
+                  className={`px-4 py-2 rounded-lg font-semibold transition-all ${cryptoType === type
+                    ? "bg-orange-500 text-white"
+                    : "bg-gray-200 text-gray-700 hover:bg-gray-300"
+                    }`}
                 >
                   {type === 'bitcoin' && '₿ BTC'}
                   {type === 'ethereum' && 'Ξ ETH'}
@@ -394,7 +396,7 @@ export default function PaymentForm({
                 </button>
               ))}
             </div>
-            
+
             <div className="bg-orange-50 border border-orange-200 rounded-lg p-6">
               <div className="flex flex-col items-center">
                 {showQrCode ? (
@@ -410,32 +412,32 @@ export default function PaymentForm({
                     Show QR Code
                   </button>
                 )}
-                
+
                 <code className="block w-full bg-white p-3 rounded text-xs break-all font-mono text-orange-800 text-center">
                   {cryptoType === 'bitcoin' && 'bc1qxy2kgdygjrsqtzq2n0yrf2493p83kkfjhx0wlh'}
                   {cryptoType === 'ethereum' && '0x71C7656EC7ab88b098defB751B7401B5f6d8976F'}
                   {cryptoType === 'usdc' && '0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48'}
                 </code>
-                
+
                 <button
                   type="button"
                   onClick={() => navigator.clipboard.writeText(
                     cryptoType === 'bitcoin' ? 'bc1qxy2kgdygjrsqtzq2n0yrf2493p83kkfjhx0wlh' :
-                    cryptoType === 'ethereum' ? '0x71C7656EC7ab88b098defB751B7401B5f6d8976F' :
-                    '0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48'
+                      cryptoType === 'ethereum' ? '0x71C7656EC7ab88b098defB751B7401B5f6d8976F' :
+                        '0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48'
                   )}
                   className="mt-2 text-sm text-orange-600 hover:text-orange-700 underline"
                 >
                   Copy Address
                 </button>
               </div>
-              
+
               <p className="text-xs text-gray-600 mt-4 text-center">
-                *Send only {cryptoType.toUpperCase()} to this address. 
+                *Send only {cryptoType.toUpperCase()} to this address.
                 Crypto donations are tax-deductible at fair market value.
               </p>
             </div>
-            
+
             <input
               type="text"
               name="phone"
@@ -462,11 +464,10 @@ export default function PaymentForm({
                   key={provider.id}
                   type="button"
                   onClick={() => setMomoProvider(provider.id)}
-                  className={`p-3 border-2 rounded-lg text-center transition-all ${
-                    momoProvider === provider.id
-                      ? `border-${provider.color}-500 bg-${provider.color}-50`
-                      : 'border-gray-200 hover:border-gray-300'
-                  }`}
+                  className={`p-3 border-2 rounded-lg text-center transition-all ${momoProvider === provider.id
+                    ? `border-${provider.color}-500 bg-${provider.color}-50`
+                    : 'border-gray-200 hover:border-gray-300'
+                    }`}
                 >
                   <span className={`font-bold text-${provider.color}-600 text-sm`}>
                     {provider.name}
@@ -474,7 +475,7 @@ export default function PaymentForm({
                 </button>
               ))}
             </div>
-            
+
             <div className="bg-yellow-50 rounded-lg p-4 text-sm text-yellow-800">
               <p className="font-medium mb-2">Payment Instructions:</p>
               <ol className="list-decimal list-inside space-y-1">
@@ -484,7 +485,7 @@ export default function PaymentForm({
                 <li>Enter PIN to confirm</li>
               </ol>
             </div>
-            
+
             <input
               type="tel"
               name="phone"
@@ -583,7 +584,7 @@ export default function PaymentForm({
           <User className="w-5 h-5 text-blue-600" />
           Your Information
         </h3>
-        
+
         <div className="grid md:grid-cols-2 gap-4 mb-4">
           <div>
             <label className="block text-sm font-semibold text-gray-700 mb-2">
@@ -705,7 +706,7 @@ export default function PaymentForm({
             {paymentMethod.replace(/_/g, ' ')}
           </span>
         </h3>
-        
+
         <div className="bg-white border-2 border-gray-300 rounded-lg p-4">
           {renderPaymentMethodUI()}
         </div>
@@ -733,8 +734,8 @@ export default function PaymentForm({
         ) : (
           <>
             <CreditCard className="w-5 h-5" />
-            {['check', 'wire', 'crypto', 'momo', 'zelle', 'venmo'].includes(paymentMethod) 
-              ? "Confirm Donation" 
+            {['check', 'wire', 'crypto', 'momo', 'zelle', 'venmo'].includes(paymentMethod)
+              ? "Confirm Donation"
               : `Donate $${amount} ${donationType === "recurring" ? "Monthly" : "Now"}`
             }
           </>
@@ -767,7 +768,9 @@ export default function PaymentForm({
 
       <p className="text-center text-xs text-gray-500">
         By donating, you agree to our Terms of Service and Privacy Policy.
-        Questions? Contact <a href="mailto:donations@crossborders.org" className="text-blue-600 hover:underline">donations@crossborders.org</a>
+        Questions? Contact <a href="mailto:skamau@crossbordersoutreach.org
+" className="text-blue-600 hover:underline">skamau@crossbordersoutreach.org
+        </a>
       </p>
     </form>
   );
