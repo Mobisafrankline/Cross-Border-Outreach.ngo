@@ -9,7 +9,8 @@ import {
   Wallet,
   Globe,
   ChevronDown,
-  AlertCircle
+  AlertCircle,
+  Building2
 } from "lucide-react";
 import { ImageWithFallback } from "../components/figma/ImageWithFallback";
 import { useState, useMemo } from "react";
@@ -29,7 +30,6 @@ export default function Donate() {
   const [selectedAmount, setSelectedAmount] = useState<number | null>(50);
   const [customAmount, setCustomAmount] = useState("");
   const [paymentMethod, setPaymentMethod] = useState<PaymentMethod>("card");
-  const [selectedProgram, setSelectedProgram] = useState("general");
   const [showMoreMethods, setShowMoreMethods] = useState(false);
 
   const predefinedAmounts = [25, 50, 100, 250, 500, 1000];
@@ -47,44 +47,11 @@ export default function Donate() {
   }, [currentAmount]);
 
   const topMethods = [
-    { id: "card" as PaymentMethod, label: "Credit Card", icon: <CreditCard className="w-5 h-5 text-gray-700" /> },
-    { id: "paypal" as PaymentMethod, label: "PayPal", icon: <span className="font-bold text-blue-800 text-sm">PayPal</span> },
-    { id: "apple" as PaymentMethod, label: "Apple Pay", icon: <Apple className="w-5 h-5 text-black" /> },
-    { id: "google" as PaymentMethod, label: "Google Pay", icon: <Wallet className="w-5 h-5 text-red-500" /> },
+    { id: "card" as PaymentMethod, label: "Visa Payment", icon: <CreditCard className="w-5 h-5 text-gray-700" /> },
   ];
 
-  const extendedMethodsOptions = [
-    { id: "venmo" as PaymentMethod, label: "Venmo" },
-    { id: "cashapp" as PaymentMethod, label: "Cash App" },
-    { id: "bank" as PaymentMethod, label: "Wire Transfer" },
-    { id: "crypto" as PaymentMethod, label: "Crypto" },
-    { id: "klarna" as PaymentMethod, label: "Klarna" },
-    { id: "zelle" as PaymentMethod, label: "Zelle" },
-    { id: "momo" as PaymentMethod, label: "Mobile Money" }
-  ];
+  const extendedMethodsOptions: { id: PaymentMethod; label: string; }[] = [];
 
-  // Map local payment method to PaymentForm prop type
-  const mappedPaymentMethod = useMemo(() => {
-    const mapping: Record<PaymentMethod, any> = {
-      card: "card",
-      paypal: "paypal",
-      apple: "apple_pay",
-      google: "google_pay",
-      venmo: "venmo",
-      cashapp: "cashapp",
-      zelle: "zelle",
-      crypto: "crypto",
-      momo: "momo",
-      klarna: "klarna",
-      afterpay: "afterpay",
-      affirm: "affirm",
-      sepa: "sepa_debit",
-      ach: "us_bank_account",
-      check: "check",
-      bank: "wire"
-    };
-    return mapping[paymentMethod] || "card";
-  }, [paymentMethod]);
 
   return (
     <div className="min-h-screen bg-white">
@@ -206,58 +173,24 @@ export default function Donate() {
                 </div>
               </div>
 
-              {/* Program Selector */}
-              <div className="mb-8">
-                <h3 className="text-gray-900 font-bold text-lg mb-4">Support a Program</h3>
-                <select 
-                  value={selectedProgram}
-                  onChange={(e) => setSelectedProgram(e.target.value)}
-                  className="w-full bg-gray-50 border-2 border-gray-200 rounded-xl px-4 py-3.5 text-sm font-medium focus:outline-none focus:border-blue-400"
-                >
-                  <option value="general">Where Most Needed</option>
-                  <option value="food">Food Support</option>
-                  <option value="education">Education Support</option>
-                  <option value="healthcare">Health Outreach</option>
-                  <option value="economic">Economic Empowerment</option>
-                </select>
-              </div>
+
 
               {/* Payment Methods */}
               <div className="mb-8">
                 <h3 className="text-gray-900 font-bold text-lg mb-4">Payment Method</h3>
-                <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-4">
+                <div className="grid grid-cols-1 gap-3 mb-4">
                   {topMethods.map((method) => (
                     <button
                       key={method.id}
                       onClick={() => { setPaymentMethod(method.id); setShowMoreMethods(false); }}
-                      className={`flex flex-col items-center justify-center p-3 rounded-xl border-2 transition-all ${
+                      className={`flex flex-col items-center justify-center p-4 rounded-xl border-2 transition-all ${
                         paymentMethod === method.id ? "border-blue-600 bg-blue-50/50 shadow-sm" : "border-gray-200 bg-white hover:border-gray-300 transition-colors"
                       }`}
                     >
                       <div className="h-6 flex items-center justify-center mb-1.5">{method.icon}</div>
-                      <span className={`text-[11px] font-semibold ${paymentMethod === method.id ? "text-blue-800" : "text-gray-600"}`}>{method.label}</span>
+                      <span className={`text-[13px] font-semibold ${paymentMethod === method.id ? "text-blue-800" : "text-gray-600"}`}>{method.label}</span>
                     </button>
                   ))}
-                </div>
-
-                <div className="border border-gray-100 rounded-xl overflow-hidden bg-gray-50">
-                   <button onClick={() => setShowMoreMethods(!showMoreMethods)} className="w-full flex items-center justify-between p-4 text-sm font-semibold text-gray-600 hover:text-gray-900 transition-colors">
-                     <span>More payment options</span>
-                     <motion.div animate={{ rotate: showMoreMethods ? 180 : 0 }} className="text-gray-400"><ChevronDown className="w-5 h-5"/></motion.div>
-                   </button>
-                   <AnimatePresence>
-                     {showMoreMethods && (
-                       <motion.div initial={{ height: 0, opacity: 0 }} animate={{ height: "auto", opacity: 1 }} exit={{ height: 0, opacity: 0 }} className="px-4 pb-4 border-t border-gray-200/60 pt-2">
-                         <div className="flex flex-wrap gap-2">
-                           {extendedMethodsOptions.map((method) => (
-                              <button key={method.id} onClick={() => setPaymentMethod(method.id)} className={`px-4 py-2 text-sm font-medium rounded-lg border transition-all ${paymentMethod === method.id ? "bg-gray-800 text-white border-gray-800" : "bg-white text-gray-600 border-gray-200 hover:border-gray-400"}`}>
-                                {method.label}
-                              </button>
-                           ))}
-                         </div>
-                       </motion.div>
-                     )}
-                   </AnimatePresence>
                 </div>
               </div>
 
@@ -269,8 +202,6 @@ export default function Donate() {
                       <PaymentForm 
                         amount={currentAmount}
                         donationType={donationType === "one-time" ? "one-time" : "recurring"}
-                        program={selectedProgram}
-                        paymentMethod={mappedPaymentMethod}
                       />
                     </Elements>
                   ) : (
