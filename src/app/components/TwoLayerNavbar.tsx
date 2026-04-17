@@ -287,11 +287,11 @@ export default function TwoLayerNavbar() {
                 />
               </div>
               <div className="text-white hidden sm:block">
-                <div className="font-bold text-base sm:text-lg leading-tight">Cross-Borders</div>
+                <div className="font-bold text-base sm:text-lg leading-tight">CrossBorders</div>
                 <div className="text-xs opacity-80">Outreach Ministry Inc</div>
               </div>
               <div className="text-white sm:hidden">
-                <div className="font-bold text-sm leading-tight">Cross-Borders</div>
+                <div className="font-bold text-sm leading-tight">CrossBorders</div>
               </div>
             </Link>
 
