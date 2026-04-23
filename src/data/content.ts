@@ -236,6 +236,28 @@ Mental health matters. Let us speak before we shatter, check on our children bey
     `,
     externalUrl: "https://crossbordersoutreach.medium.com/beyond-grades-why-mental-health-must-be-part-of-the-cross-border-outreach-mission",
     sourceName: "Medium"
+  },
+  {
+    id: 4,
+    title: "Spring Festival · Festival de Primavera: A Celebration of Community and Compassion in Atlanta",
+    excerpt: "Over 100 families received high-value household items during a large-scale community festival at Sienna Ridge Apartment Homes.",
+    date: "April 14, 2026",
+    category: "Community Outreach",
+    slug: "spring-festival-atlanta-outreach",
+    image: "https://images.unsplash.com/photo-1567965178128-abb8d8532ae7?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MjB8fHNwcmluZyUyMGZlc3RpdmFsJTIwdXNhfGVufDB8fDB8fHww",
+    content: `
+On April 12, 2026, the Cross-Borders Outreach Ministry, in a powerful demonstration of unity and generosity, hosted the Spring Festival · Festival de Primavera at Sienna Ridge Apartment Homes in Atlanta, Georgia. This vibrant, bilingual event marked a major milestone in our mission to serve the Atlanta metropolitan area, bringing together diverse communities for a day of celebration, support, and profound connection.
+
+In collaboration with Amazon, Operation Compassion, and over twelve other partner organizations, the festival successfully served more than 100 families. But this was more than just an event; it was a testament to what we can achieve when we unite across borders—whether they be linguistic, cultural, or geographic.
+
+Attendees were blessed with significant, high-value household items designed to improve their daily lives and well-being. From humidifiers and air purifiers to essential kitchen appliances, these resources provided tangible relief and comfort to families navigating challenging times. The impact of these gifts extends far beyond their material value, offering a sense of dignity and reminding the community that they are seen, valued, and supported.
+
+The festival atmosphere was electric, filled with the sounds of laughter and live entertainment. Food trucks offered delicious meals, creating spaces where neighbors could break bread together and share their stories. Vendor booths provided additional resources and fostered engagement, bridging gaps across generations and cultures.
+
+As children played and families connected, the true spirit of Cross-Borders Outreach Ministry shone through. We believe that compassion knows no boundaries, and the Spring Festival exemplified this core value perfectly. By addressing holistic needs—providing practical resources while also cultivating joy and community spirit—we continue to plant seeds of hope that will grow into long-lasting resilience.
+
+We extend our deepest gratitude to our incredible partners, dedicated volunteers, and the beautiful community of Sienna Ridge for making the Spring Festival · Festival de Primavera an unforgettable success. Together, we are building stronger, more connected communities, one act of love at a time.
+    `,
   }
 ];
 // Gallery Images
@@ -524,7 +546,7 @@ export const events = [
     ticketPrice: "Free",
     capacity: 100,
     registered: 100,
-    image: "/images/spring-festival.jpg",
+    image: "https://images.unsplash.com/photo-1567965178128-abb8d8532ae7?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MjB8fHNwcmluZyUyMGZlc3RpdmFsJTIwdXNhfGVufDB8fDB8fHww",
     organizer: "Cross-Borders Outreach Ministry Inc.",
     contactEmail: "info@cross-bordersoutreach.org",
     contactPhone: "+1 (404) 641-9248"

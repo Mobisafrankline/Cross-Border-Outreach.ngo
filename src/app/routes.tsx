@@ -1,5 +1,6 @@
-import { createBrowserRouter } from "react-router";
+import { createBrowserRouter, Navigate } from "react-router";
 import Layout from "./components/Layout";
+import ProtectedRoute from "./components/ProtectedRoute";
 
 // Public Pages
 import Home from "./pages/Home";
@@ -23,18 +24,15 @@ import Partners from "./pages/Partners";
 import Reports from "./pages/Reports";
 import Contact from "./pages/Contact";
 import Publications from "./pages/Publications";
-import Login from "./pages/Login";
+import AuthPortal from "./pages/AuthPortal";
 
 // Admin Pages
-import AdminLogin from "./pages/admin/AdminLogin";
 import AdminDashboard from "./pages/admin/AdminDashboard";
 import AdminGallery from "./pages/admin/AdminGallery";
 import AdminContentEditor from "./pages/admin/AdminContentEditor";
 import AdminDonors from "./pages/admin/AdminDonors";
 
 // Donor Pages
-import DonorLogin from "./pages/donor/DonorLogin";
-import DonorRegister from "./pages/donor/DonorRegister";
 import DonorDashboard from "./pages/donor/DonorDashboard";
 import DonorProfile from "./pages/donor/DonorProfile";
 
@@ -64,26 +62,68 @@ export const router = createBrowserRouter([
       { path: "reports", Component: Reports },
       { path: "contact", Component: Contact },
       { path: "publications", Component: Publications },
-      { path: "login", Component: Login },
+      { path: "login", Component: AuthPortal },
     ],
   },
   {
     path: "/admin",
     children: [
-      { path: "login", Component: AdminLogin },
-      { path: "dashboard", Component: AdminDashboard },
-      { path: "gallery", Component: AdminGallery },
-      { path: ":type/new", Component: AdminContentEditor },
-      { path: "donors", Component: AdminDonors },
+      { path: "login", element: <Navigate to="/login?type=admin" replace /> },
+      {
+        path: "dashboard",
+        element: (
+          <ProtectedRoute redirectTo="/admin/login">
+            <AdminDashboard />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: "gallery",
+        element: (
+          <ProtectedRoute redirectTo="/admin/login">
+            <AdminGallery />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: ":type/new",
+        element: (
+          <ProtectedRoute redirectTo="/admin/login">
+            <AdminContentEditor />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: "donors",
+        element: (
+          <ProtectedRoute redirectTo="/admin/login">
+            <AdminDonors />
+          </ProtectedRoute>
+        ),
+      },
     ],
   },
   {
     path: "/donor",
     children: [
-      { path: "login", Component: DonorLogin },
-      { path: "register", Component: DonorRegister },
-      { path: "dashboard", Component: DonorDashboard },
-      { path: "profile", Component: DonorProfile },
+      { path: "login", element: <Navigate to="/login?type=donor" replace /> },
+      { path: "register", element: <Navigate to="/login?type=donor&mode=register" replace /> },
+      {
+        path: "dashboard",
+        element: (
+          <ProtectedRoute redirectTo="/donor/login">
+            <DonorDashboard />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: "profile",
+        element: (
+          <ProtectedRoute redirectTo="/donor/login">
+            <DonorProfile />
+          </ProtectedRoute>
+        ),
+      },
     ],
   },
 ]);

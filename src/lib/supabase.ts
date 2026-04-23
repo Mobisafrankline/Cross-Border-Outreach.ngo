@@ -1,10 +1,11 @@
 import { createClient, SupabaseClient } from '@supabase/supabase-js';
 
-// Environment variables - Replace with your actual Supabase credentials
+// Environment variables - add to .env.local:
+// VITE_SUPABASE_URL=https://your-project.supabase.co
+// VITE_SUPABASE_ANON_KEY=your-anon-key
 const supabaseUrl = import.meta.env.VITE_SUPABASE_URL || '';
 const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY || '';
 
-// Only create the client when both URL and key look valid
 const isSupabaseConfigured =
   supabaseUrl.startsWith('https://') && supabaseAnonKey.length > 10;
 
@@ -134,7 +135,24 @@ export const getAllDonors = async () => {
   return { data, error };
 };
 
-export const createDonor = async (donor: Omit<Donor, 'id' | 'created_at'>) => {
+export const registerAdmin = async (
+  secretCode: string,
+  firstName?: string,
+  lastName?: string,
+  phone?: string,
+  location?: string
+) => {
+  const { data, error } = await supabase.rpc('register_admin', { 
+    secret_code: secretCode,
+    p_first_name: firstName,
+    p_last_name: lastName,
+    p_phone: phone,
+    p_location: location
+  });
+  return { data, error };
+};
+
+export const createDonor = async (donor: Omit<Donor, 'created_at'>) => {
   const { data, error } = await supabase
     .from('donors')
     .insert(donor)
