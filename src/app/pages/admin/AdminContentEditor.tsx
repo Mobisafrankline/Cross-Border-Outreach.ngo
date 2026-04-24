@@ -24,7 +24,16 @@ export default function AdminContentEditor() {
     story: { label: "Impact Story", icon: "⭐", color: "pink" }
   };
 
-  const currentType = type ? contentTypes[type] : contentTypes.article;
+  const currentTypeKey = (() => {
+    if (!type) return "article";
+    if (type.startsWith("article")) return "article";
+    if (type.startsWith("stori") || type.startsWith("story")) return "story";
+    if (type.startsWith("blog")) return "blog";
+    if (type === "news") return "news";
+    return "article";
+  })();
+
+  const currentType = contentTypes[currentTypeKey as keyof typeof contentTypes] || contentTypes.article;
 
   const handleSave = (status: "draft" | "publish") => {
     // TODO: Implement save functionality

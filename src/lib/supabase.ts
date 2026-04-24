@@ -103,7 +103,7 @@ export const getDonorProfile = async (userId: string) => {
     .from('donors')
     .select('*')
     .eq('id', userId)
-    .single();
+    .maybeSingle();
   return { data, error };
 };
 

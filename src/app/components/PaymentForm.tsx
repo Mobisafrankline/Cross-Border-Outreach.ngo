@@ -22,29 +22,35 @@ import { supabase } from "../../lib/supabase";
 
 interface PaymentFormProps {
   amount: number;
-  donationType: "one-time" | "recurring";
   onSuccess?: () => void;
   onError?: (error: string) => void;
+  prefillData?: {
+    firstName?: string;
+    lastName?: string;
+    email?: string;
+  };
 }
 
 export default function PaymentForm({
   amount,
   donationType,
   onSuccess,
-  onError
+  onError,
+  prefillData
 }: PaymentFormProps) {
   const stripe = useStripe();
   const elements = useElements();
 
   const [formData, setFormData] = useState({
-    firstName: "",
-    lastName: "",
-    email: "",
+    firstName: prefillData?.firstName || "",
+    lastName: prefillData?.lastName || "",
+    email: prefillData?.email || "",
     address: "",
     city: "",
     state: "",
     zip: "",
-    country: "US"
+    country: "US",
+    program: "General donation"
   });
 
   const [isProcessing, setIsProcessing] = useState(false);
@@ -73,7 +79,7 @@ export default function PaymentForm({
       const { data: paymentData, error: paymentError } = await createPaymentIntent({
         amount: amount * 100,
         currency: "usd",
-        program: "general",
+        program: formData.program,
         donorEmail: formData.email,
         donorName: `${formData.firstName} ${formData.lastName}`,
         recurring: donationType === "recurring",
@@ -115,7 +121,7 @@ export default function PaymentForm({
           donor_email: formData.email,
           donor_name: `${formData.firstName} ${formData.lastName}`,
           amount: amount,
-          program: "general",
+          program: formData.program,
           payment_method: "card",
           stripe_payment_id: result.paymentIntent?.id || null,
           status: 'completed',
@@ -255,6 +261,28 @@ export default function PaymentForm({
               className={`${inputClasses} pl-12`}
               required
             />
+          </div>
+        </div>
+
+        <div className="relative group">
+          <label className="block text-xs font-bold text-slate-500 uppercase tracking-widest mb-1.5 ml-1">Select Fund / Program</label>
+          <div className="relative">
+            <select
+              name="program"
+              value={formData.program}
+              onChange={handleInputChange as any}
+              className={`${inputClasses} appearance-none cursor-pointer`}
+              required
+            >
+              <option value="General donation">General donation</option>
+              <option value="Food Support Program">Food Support Program</option>
+              <option value="Education Support">Education Support</option>
+              <option value="Healthcare Outreach">Healthcare Outreach</option>
+              <option value="Economic Empowerment">Economic Empowerment</option>
+            </select>
+            <div className="pointer-events-none absolute inset-y-0 right-4 flex items-center px-2 text-slate-500">
+              <svg className="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
+            </div>
           </div>
         </div>
 
