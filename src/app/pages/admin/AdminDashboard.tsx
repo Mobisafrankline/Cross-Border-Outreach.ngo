@@ -3,7 +3,7 @@ import { Link, useNavigate } from "react-router";
 import {
   LayoutDashboard, Image, FileText, Users, Newspaper,
   BookOpen, Award, TrendingUp, DollarSign, Calendar,
-  BarChart3, LogOut, Loader2, AlertCircle, RefreshCw
+  BarChart3, LogOut, Loader2, AlertCircle, RefreshCw, UserCog
 } from "lucide-react";
 import { useAuth } from "../../../lib/AuthContext";
 import { getAllDonors, signOut, supabase } from "../../../lib/supabase";
@@ -23,6 +23,11 @@ interface RecentActivity {
   type: string;
 }
 
+interface AdminProfile {
+  first_name: string;
+  last_name: string;
+}
+
 export default function AdminDashboard() {
   const { user, loading: authLoading } = useAuth();
   const navigate = useNavigate();
@@ -33,6 +38,7 @@ export default function AdminDashboard() {
     galleryImages: 0,
     publishedArticles: 0,
   });
+  const [adminProfile, setAdminProfile] = useState<AdminProfile | null>(null);
   const [recentDonors, setRecentDonors] = useState<Donor[]>([]);
   const [dataLoading, setDataLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -43,11 +49,12 @@ export default function AdminDashboard() {
 
     try {
       // Run all queries in parallel
-      const [donorsRes, donationsRes, imagesRes, articlesRes] = await Promise.all([
+      const [donorsRes, donationsRes, imagesRes, articlesRes, adminRes] = await Promise.all([
         supabase.from("donors").select("*", { count: "exact" }).order("created_at", { ascending: false }),
         supabase.from("donations").select("amount").eq("status", "completed"),
         supabase.from("gallery_images").select("id", { count: "exact", head: true }),
         supabase.from("articles").select("id", { count: "exact", head: true }).eq("status", "published"),
+        user ? supabase.from("admins").select("first_name, last_name").eq("id", user.id).maybeSingle() : Promise.resolve({ data: null })
       ]);
 
       const totalDonations = (donationsRes.data ?? []).reduce(
@@ -61,6 +68,10 @@ export default function AdminDashboard() {
         galleryImages: imagesRes.count ?? 0,
         publishedArticles: articlesRes.count ?? 0,
       });
+
+      if (adminRes.data) {
+        setAdminProfile(adminRes.data);
+      }
 
       // Show 5 most recent donors as activity
       setRecentDonors((donorsRes.data ?? []).slice(0, 5));
@@ -86,7 +97,7 @@ export default function AdminDashboard() {
     { label: "Create News", href: "/admin/news/new", icon: Newspaper, color: "from-green-500 to-green-600" },
     { label: "Write Blog", href: "/admin/blog/new", icon: BookOpen, color: "from-orange-500 to-orange-600" },
     { label: "Add Story", href: "/admin/stories/new", icon: Award, color: "from-pink-500 to-pink-600" },
-    { label: "Manage Donors", href: "/admin/donors", icon: Users, color: "from-indigo-500 to-indigo-600" },
+    { label: "Manage People", href: "/admin/users", icon: UserCog, color: "from-teal-500 to-teal-600" },
   ];
 
   const statCards = [
@@ -131,30 +142,32 @@ export default function AdminDashboard() {
     <div className="min-h-screen bg-gray-50">
       {/* Header */}
       <div className="bg-white border-b border-gray-200">
-        <div className="max-w-7xl mx-auto px-6 py-6">
-          <div className="flex items-center justify-between">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 py-6">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
             <div className="flex items-center gap-3">
-              <LayoutDashboard className="w-8 h-8 text-blue-600" />
+              <LayoutDashboard className="w-8 h-8 text-blue-600 shrink-0" />
               <div>
-                <h1 className="text-3xl font-bold text-gray-900">Admin Dashboard</h1>
-                <p className="text-gray-600 text-sm">
-                  Signed in as <span className="font-semibold text-blue-600">{user?.email}</span>
+                <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">Admin Dashboard</h1>
+                <p className="text-gray-600 text-sm break-all">
+                  Signed in as <span className="font-semibold text-blue-600">
+                    {adminProfile ? `${adminProfile.first_name} ${adminProfile.last_name}` : user?.email}
+                  </span>
                 </p>
               </div>
             </div>
-            <div className="flex items-center gap-3">
+            <div className="flex items-center gap-3 w-full sm:w-auto">
               <button
                 onClick={loadData}
-                className="flex items-center gap-2 px-4 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-lg font-semibold text-sm transition-colors"
+                className="flex-1 sm:flex-none flex justify-center items-center gap-2 px-4 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-lg font-semibold text-sm transition-colors"
               >
                 <RefreshCw className="w-4 h-4" />
                 Refresh
               </button>
               <button
                 onClick={handleSignOut}
-                className="flex items-center gap-2 px-4 py-2 bg-red-50 hover:bg-red-100 text-red-600 rounded-lg font-semibold text-sm transition-colors"
+                className="flex-1 sm:flex-none flex justify-center items-center gap-2 px-4 py-2 bg-red-50 hover:bg-red-100 text-red-600 rounded-lg font-semibold text-sm transition-colors"
               >
-                <LogOut className="w-4 h-4" />
+                <LogOut className="w-4 h-4 shrink-0" />
                 Sign Out
               </button>
             </div>
@@ -240,22 +253,22 @@ export default function AdminDashboard() {
               ) : (
                 <div className="divide-y divide-gray-200">
                   {recentDonors.map((donor) => (
-                    <div key={donor.id} className="p-6 hover:bg-gray-50 transition-colors">
-                      <div className="flex items-center justify-between">
+                    <div key={donor.id} className="p-4 sm:p-6 hover:bg-gray-50 transition-colors">
+                      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                         <div className="flex items-center gap-3">
-                          <div className="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center">
+                          <div className="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center shrink-0">
                             <span className="text-sm font-bold text-blue-600">
                               {donor.first_name[0]}{donor.last_name[0]}
                             </span>
                           </div>
                           <div>
-                            <div className="font-semibold text-gray-900">
+                            <div className="font-semibold text-gray-900 break-words">
                               {donor.first_name} {donor.last_name}
                             </div>
-                            <div className="text-sm text-gray-500">{donor.email}</div>
+                            <div className="text-sm text-gray-500 break-all">{donor.email}</div>
                           </div>
                         </div>
-                        <div className="text-right">
+                        <div className="text-left sm:text-right">
                           <div className="font-semibold text-gray-900">
                             ${(donor.total_donated ?? 0).toLocaleString()}
                           </div>
@@ -321,7 +334,7 @@ export default function AdminDashboard() {
               <div className="space-y-2">
                 {[
                   { label: "Manage Gallery", href: "/admin/gallery", icon: Image },
-                  { label: "Manage Donors", href: "/admin/donors", icon: Users },
+                  { label: "Manage People", href: "/admin/users", icon: UserCog },
                   { label: "New Article", href: "/admin/articles/new", icon: FileText },
                   { label: "New News Post", href: "/admin/news/new", icon: Newspaper },
                 ].map((item) => (

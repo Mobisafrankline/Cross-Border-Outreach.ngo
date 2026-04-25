@@ -1,6 +1,7 @@
 import { createBrowserRouter, Navigate } from "react-router";
 import Layout from "./components/Layout";
 import ProtectedRoute from "./components/ProtectedRoute";
+import RouteErrorBoundary from "./components/RouteErrorBoundary";
 
 // Public Pages
 import Home from "./pages/Home";
@@ -30,7 +31,7 @@ import AuthPortal from "./pages/AuthPortal";
 import AdminDashboard from "./pages/admin/AdminDashboard";
 import AdminGallery from "./pages/admin/AdminGallery";
 import AdminContentEditor from "./pages/admin/AdminContentEditor";
-import AdminDonors from "./pages/admin/AdminDonors";
+import AdminUsers from "./pages/admin/AdminUsers";
 
 // Donor Pages
 import DonorDashboard from "./pages/donor/DonorDashboard";
@@ -40,6 +41,7 @@ export const router = createBrowserRouter([
   {
     path: "/",
     Component: Layout,
+    errorElement: <RouteErrorBoundary />,
     children: [
       { index: true, Component: Home },
       { path: "food-support", Component: FoodSupport },
@@ -67,6 +69,7 @@ export const router = createBrowserRouter([
   },
   {
     path: "/admin",
+    errorElement: <RouteErrorBoundary />,
     children: [
       { path: "login", element: <Navigate to="/login?type=admin" replace /> },
       {
@@ -94,10 +97,10 @@ export const router = createBrowserRouter([
         ),
       },
       {
-        path: "donors",
+        path: "users",
         element: (
           <ProtectedRoute redirectTo="/admin/login">
-            <AdminDonors />
+            <AdminUsers />
           </ProtectedRoute>
         ),
       },
@@ -105,6 +108,7 @@ export const router = createBrowserRouter([
   },
   {
     path: "/donor",
+    errorElement: <RouteErrorBoundary />,
     children: [
       { path: "login", element: <Navigate to="/login?type=donor" replace /> },
       { path: "register", element: <Navigate to="/login?type=donor&mode=register" replace /> },

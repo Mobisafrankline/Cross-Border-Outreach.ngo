@@ -3,7 +3,8 @@ import { Link, useNavigate } from "react-router";
 import {
   Heart, DollarSign, Calendar, TrendingUp, Download,
   Eye, Gift, Award, LogOut, Loader2, AlertCircle,
-  PieChart, Star, ChevronRight, Activity, Map, X
+  PieChart, Star, ChevronRight, Activity, Map, X,
+  BarChart3
 } from "lucide-react";
 import { useAuth } from "../../../lib/AuthContext";
 import { getDonorProfile, getDonorDonations, signOut } from "../../../lib/supabase";
@@ -137,108 +138,82 @@ export default function DonorDashboard() {
     );
   }
 
-  const displayName = donor ? `${donor.first_name} ${donor.last_name}` : user?.email ?? "Donor";
-  const firstName = donor?.first_name ?? displayName.split(" ")[0];
-  const initials = displayName.split(" ").map((n) => n[0]).join("").toUpperCase().slice(0, 2);
-  const memberSince = donor?.created_at ? new Date(donor.created_at).getFullYear() : new Date().getFullYear();
+  const donorName = donor ? `${donor.first_name} ${donor.last_name}` : user?.user_metadata?.first_name ? `${user.user_metadata.first_name} ${user.user_metadata.last_name || ''}` : "Valued Donor";
+  const firstName = donor?.first_name || user?.user_metadata?.first_name || "Donor";
 
   return (
-    <div className="min-h-screen bg-[#f8fafc] font-sans text-slate-900 pb-20">
+    <div className="min-h-screen bg-gray-50 text-gray-900 pb-20">
       
-      {/* ── PREMIUM HEADER ── */}
-      <div className="relative bg-slate-900 overflow-hidden">
-        {/* Abstract Background Elements */}
-        <div className="absolute inset-0 overflow-hidden pointer-events-none">
-          <div className="absolute -top-40 -right-40 w-96 h-96 bg-blue-600 rounded-full mix-blend-multiply filter blur-3xl opacity-40 animate-blob"></div>
-          <div className="absolute top-20 -left-20 w-72 h-72 bg-purple-600 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-blob animation-delay-2000"></div>
-          <div className="absolute -bottom-40 left-1/2 w-80 h-80 bg-indigo-600 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-blob animation-delay-4000"></div>
-          <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAiIGhlaWdodD0iMjAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGNpcmNsZSBjeD0iMSIgY3k9IjEiIHI9IjEiIGZpbGw9InJnYmEoMjU1LDI1NSwyNTUsMC4wNSkiLz48L3N2Zz4=')] [mask-image:linear-gradient(to_bottom,white,transparent)]"></div>
-        </div>
-
-        <div className="relative max-w-7xl mx-auto px-6 pt-12 pb-24">
-          <div className="flex flex-col md:flex-row md:items-end justify-between gap-8">
-            <div className="flex items-center gap-6">
-              <div className="relative group">
-                <div className="absolute inset-0 bg-gradient-to-tr from-blue-500 to-purple-500 rounded-2xl blur opacity-40 group-hover:opacity-60 transition duration-500"></div>
-                <div className="relative w-20 h-20 bg-white/10 backdrop-blur-xl border border-white/20 rounded-2xl flex items-center justify-center shadow-2xl">
-                  <span className="text-3xl font-bold bg-gradient-to-br from-white to-white/70 bg-clip-text text-transparent">{initials}</span>
-                </div>
-                {donor?.status === 'active' && (
-                  <div className="absolute -bottom-2 -right-2 w-6 h-6 bg-green-500 border-2 border-slate-900 rounded-full flex items-center justify-center">
-                    <Star className="w-3 h-3 text-white fill-white" />
-                  </div>
-                )}
-              </div>
-              
-              <div className="text-white">
-                <div className="inline-flex items-center gap-2 px-3 py-1 bg-white/10 backdrop-blur-md rounded-full border border-white/10 text-xs font-medium text-white/80 mb-3">
-                  <Award className="w-3.5 h-3.5" />
-                  {currentTier.name} Member since {memberSince}
-                </div>
-                <h1 className="text-4xl md:text-5xl font-extrabold tracking-tight mb-2">
-                  Welcome back, <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-400">{firstName}</span>
-                </h1>
-                <p className="text-lg text-slate-300 max-w-xl leading-relaxed">
-                  Your generosity continues to transform lives across borders. Here is your impact summary.
+      {/* ── HEADER ── */}
+      <div className="bg-white border-b border-gray-200">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 py-6">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+            <div className="flex items-center gap-3">
+              <Heart className="w-8 h-8 text-blue-600 shrink-0" />
+              <div>
+                <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">Donor Dashboard</h1>
+                <p className="text-gray-600 text-sm break-all">
+                  Welcome back, <span className="font-semibold text-blue-600">{donorName}</span>
                 </p>
               </div>
             </div>
-
-            <div className="flex items-center gap-3">
-              <button onClick={handleSignOut} className="px-5 py-3 bg-white/5 hover:bg-white/10 backdrop-blur-md border border-white/10 text-white rounded-xl font-semibold transition-all flex items-center gap-2">
-                <LogOut className="w-4 h-4" />
+            
+            <div className="flex items-center gap-3 w-full sm:w-auto">
+              <button
+                onClick={handleSignOut}
+                className="flex-1 sm:flex-none flex justify-center items-center gap-2 px-4 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-lg font-semibold text-sm transition-colors"
+              >
+                <LogOut className="w-4 h-4 shrink-0" />
                 Sign Out
               </button>
-              <button onClick={() => setIsDonateModalOpen(true)} className="px-6 py-3 bg-white text-slate-900 hover:bg-blue-50 rounded-xl font-bold transition-all shadow-[0_0_20px_rgba(255,255,255,0.3)] hover:shadow-[0_0_25px_rgba(255,255,255,0.5)] flex items-center gap-2 hover:scale-[1.02]">
-                <Heart className="w-5 h-5 fill-blue-600 text-blue-600" />
+              <button
+                onClick={() => setIsDonateModalOpen(true)}
+                className="flex-1 sm:flex-none flex justify-center items-center gap-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-semibold text-sm transition-colors shadow-sm"
+              >
+                <Heart className="w-4 h-4 fill-white shrink-0" />
                 New Donation
               </button>
             </div>
           </div>
-
-          {/* Gamification Tier Bar */}
-          {nextTier && (
-            <div className="mt-10 bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl p-5 max-w-3xl">
-              <div className="flex justify-between text-sm text-slate-300 font-medium mb-3">
-                <span className="flex items-center gap-1.5 text-white"><Award className="w-4 h-4 text-amber-400"/> {currentTier.name} Tier</span>
-                <span>${(nextTier.threshold - totalDonated).toLocaleString()} to {nextTier.name} Tier</span>
-              </div>
-              <div className="h-2.5 bg-slate-800 rounded-full overflow-hidden">
-                <div 
-                  className="h-full bg-gradient-to-r from-blue-500 to-purple-500 rounded-full transition-all duration-1000 ease-out relative"
-                  style={{ width: `${progressToNextTier}%` }}
-                >
-                  <div className="absolute inset-0 bg-white/20 w-full animate-[shimmer_2s_infinite]"></div>
-                </div>
-              </div>
-            </div>
-          )}
         </div>
       </div>
 
-      <div className="max-w-7xl mx-auto px-6 -mt-12 relative z-10">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 py-8">
         
+        {/* Tier Alert */}
+        {nextTier && (
+          <div className="mb-8 bg-blue-50 border border-blue-200 rounded-xl p-4 flex items-center justify-between">
+            <div className="flex items-center gap-3">
+              <Award className="w-6 h-6 text-blue-600" />
+              <div>
+                <p className="text-sm font-semibold text-blue-900">{currentTier.name} Member</p>
+                <p className="text-xs text-blue-700">${(nextTier.threshold - totalDonated).toLocaleString()} to {nextTier.name} Tier</p>
+              </div>
+            </div>
+            <div className="w-1/3 h-2 bg-blue-200 rounded-full overflow-hidden hidden sm:block">
+              <div 
+                className="h-full bg-blue-600 rounded-full transition-all"
+                style={{ width: `${progressToNextTier}%` }}
+              ></div>
+            </div>
+          </div>
+        )}
+
         {/* ── KEY METRICS ── */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
           {[
-            { label: "Total Contribution", value: `$${totalDonated.toLocaleString()}`, icon: DollarSign, color: "blue", trend: "+12% this year" },
-            { label: "Donations Made", value: donor?.donation_count ?? donations.length, icon: Gift, color: "purple", trend: "Active supporter" },
-            { label: "Impact Score", value: Math.round(totalDonated * 0.15) + 100, icon: Activity, color: "emerald", trend: "Top 15% of donors" }
+            { label: "Total Contribution", value: `$${totalDonated.toLocaleString()}`, icon: DollarSign, color: "bg-blue-500" },
+            { label: "Donations Made", value: donor?.donation_count ?? donations.length, icon: Gift, color: "bg-purple-500" },
+            { label: "Impact Score", value: Math.round(totalDonated * 0.15) + 100, icon: Activity, color: "bg-green-500" }
           ].map((stat, i) => (
-            <div key={i} className="bg-white rounded-3xl p-6 shadow-[0_8px_30px_rgb(0,0,0,0.03)] border border-slate-100 hover:shadow-[0_8px_30px_rgb(0,0,0,0.08)] transition-shadow group relative overflow-hidden">
-              <div className={`absolute -right-6 -top-6 w-24 h-24 bg-${stat.color}-50 rounded-full group-hover:scale-150 transition-transform duration-500 ease-out`}></div>
-              <div className="relative flex justify-between items-start mb-4">
-                <div className={`w-12 h-12 bg-${stat.color}-100 text-${stat.color}-600 rounded-2xl flex items-center justify-center`}>
-                  <stat.icon className="w-6 h-6" />
+            <div key={i} className="bg-white rounded-xl shadow-sm p-6 border border-gray-200 hover:shadow-md transition-shadow">
+              <div className="flex items-start justify-between mb-4">
+                <div className={`${stat.color} w-12 h-12 rounded-lg flex items-center justify-center`}>
+                  <stat.icon className="w-6 h-6 text-white" />
                 </div>
-                <span className="inline-flex items-center gap-1 text-xs font-semibold text-slate-500 bg-slate-50 px-2.5 py-1 rounded-full">
-                  {stat.trend}
-                </span>
               </div>
-              <div className="relative">
-                <h3 className="text-3xl font-extrabold text-slate-900 mb-1">{stat.value}</h3>
-                <p className="text-sm font-medium text-slate-500">{stat.label}</p>
-              </div>
+              <div className="text-3xl font-bold text-gray-900 mb-1">{stat.value}</div>
+              <div className="text-sm text-gray-600">{stat.label}</div>
             </div>
           ))}
         </div>
@@ -248,36 +223,35 @@ export default function DonorDashboard() {
           <div className="lg:col-span-2 space-y-8">
             
             {/* Real-world Impact Visuals */}
-            <div className="bg-white rounded-3xl p-8 shadow-[0_8px_30px_rgb(0,0,0,0.03)] border border-slate-100 overflow-hidden relative">
-              <div className="absolute top-0 left-0 w-1 h-full bg-gradient-to-b from-blue-500 to-purple-500"></div>
-              <h2 className="text-xl font-bold text-slate-900 mb-6 flex items-center gap-2">
+            <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-200">
+              <h2 className="text-xl font-bold text-gray-900 mb-6 flex items-center gap-2">
                 <Map className="w-5 h-5 text-blue-600" /> Real-World Impact
               </h2>
               <div className="grid sm:grid-cols-2 gap-4">
                 {impactStats.map((stat, i) => (
-                  <div key={i} className="bg-slate-50 rounded-2xl p-5 border border-slate-100 hover:border-blue-200 transition-colors">
-                    <div className="flex items-center gap-4">
-                      <div className="w-14 h-14 bg-white rounded-xl shadow-sm flex items-center justify-center text-3xl">
-                        {stat.icon}
+                  <div key={i} className="bg-gray-50 rounded-xl p-4 border border-gray-100 hover:border-blue-200 transition-colors">
+                      <div className="flex items-center gap-4">
+                        <div className="w-12 h-12 bg-white rounded-lg shadow-sm flex items-center justify-center text-2xl shrink-0">
+                          {stat.icon}
+                        </div>
+                        <div className="min-w-0">
+                          <div className="text-xl font-bold text-gray-900 truncate">{stat.value}</div>
+                          <div className="text-sm font-medium text-gray-500 truncate">{stat.label}</div>
+                        </div>
                       </div>
-                      <div>
-                        <div className="text-2xl font-bold text-slate-900">{stat.value}</div>
-                        <div className="text-sm font-medium text-slate-500">{stat.label}</div>
-                      </div>
-                    </div>
                   </div>
                 ))}
               </div>
             </div>
 
             {/* Donation History */}
-            <div className="bg-white rounded-3xl shadow-[0_8px_30px_rgb(0,0,0,0.03)] border border-slate-100">
-              <div className="p-6 sm:p-8 border-b border-slate-100 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+            <div className="bg-white rounded-xl shadow-sm border border-gray-200">
+              <div className="p-6 border-b border-gray-200 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                 <div>
-                  <h2 className="text-xl font-bold text-slate-900">Transaction History</h2>
-                  <p className="text-sm text-slate-500 mt-1">Your recent contributions</p>
+                  <h2 className="text-xl font-bold text-gray-900">Transaction History</h2>
+                  <p className="text-sm text-gray-500 mt-1">Your recent contributions</p>
                 </div>
-                <button className="flex items-center justify-center gap-2 px-4 py-2 bg-slate-50 hover:bg-slate-100 text-slate-700 rounded-xl font-semibold transition-colors text-sm border border-slate-200">
+                <button className="flex items-center justify-center gap-2 px-4 py-2 bg-gray-50 hover:bg-gray-100 text-gray-700 rounded-lg font-semibold transition-colors text-sm border border-gray-200">
                   <Download className="w-4 h-4" />
                   Tax Receipt (2025)
                 </button>
@@ -285,12 +259,12 @@ export default function DonorDashboard() {
 
               {donations.length === 0 ? (
                 <div className="p-12 text-center">
-                  <div className="w-20 h-20 bg-slate-50 rounded-full flex items-center justify-center mx-auto mb-4">
-                    <Gift className="w-8 h-8 text-slate-300" />
+                  <div className="w-16 h-16 bg-gray-50 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <Gift className="w-8 h-8 text-gray-300" />
                   </div>
-                  <p className="text-slate-900 font-semibold text-lg mb-1">Your journey starts here</p>
-                  <p className="text-slate-500 text-sm mb-6 max-w-sm mx-auto">Make your first donation today and start tracking your global impact immediately.</p>
-                  <button onClick={() => setIsDonateModalOpen(true)} className="inline-flex items-center gap-2 px-6 py-3 bg-blue-600 text-white rounded-xl font-semibold hover:bg-blue-700 transition-colors shadow-lg shadow-blue-600/20">
+                  <p className="text-gray-900 font-semibold text-lg mb-1">Your journey starts here</p>
+                  <p className="text-gray-500 text-sm mb-6 max-w-sm mx-auto">Make your first donation today and start tracking your global impact immediately.</p>
+                  <button onClick={() => setIsDonateModalOpen(true)} className="inline-flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg font-semibold hover:bg-blue-700 transition-colors">
                     <Heart className="w-4 h-4" /> Give Now
                   </button>
                 </div>
@@ -298,7 +272,7 @@ export default function DonorDashboard() {
                 <div className="overflow-x-auto">
                   <table className="w-full text-left border-collapse">
                     <thead>
-                      <tr className="bg-slate-50 border-b border-slate-100 text-xs uppercase tracking-wider text-slate-500 font-semibold">
+                      <tr className="bg-gray-50 border-b border-gray-200 text-xs uppercase tracking-wider text-gray-500 font-semibold">
                         <th className="px-6 py-4">Date</th>
                         <th className="px-6 py-4">Program</th>
                         <th className="px-6 py-4">Amount</th>
@@ -306,21 +280,21 @@ export default function DonorDashboard() {
                         <th className="px-6 py-4 text-right">Receipt</th>
                       </tr>
                     </thead>
-                    <tbody className="divide-y divide-slate-100 text-sm">
+                    <tbody className="divide-y divide-gray-200 text-sm">
                       {donations.slice(0, 5).map((donation) => (
-                        <tr key={donation.id} className="hover:bg-slate-50/50 transition-colors group">
-                          <td className="px-6 py-4 font-medium text-slate-600">
+                        <tr key={donation.id} className="hover:bg-gray-50 transition-colors group">
+                          <td className="px-6 py-4 font-medium text-gray-600">
                             {new Date(donation.date).toLocaleDateString(undefined, { month: 'short', day: 'numeric', year: 'numeric' })}
                           </td>
-                          <td className="px-6 py-4 font-semibold text-slate-900">
+                          <td className="px-6 py-4 font-semibold text-gray-900">
                             {donation.program}
                           </td>
-                          <td className="px-6 py-4 font-bold text-slate-900">
+                          <td className="px-6 py-4 font-bold text-gray-900">
                             ${donation.amount.toLocaleString()}
                           </td>
                           <td className="px-6 py-4">
-                            <span className={`inline-flex px-2.5 py-1 text-xs font-bold rounded-lg ${
-                              donation.status === "completed" ? "bg-emerald-100 text-emerald-700" : 
+                            <span className={`inline-flex px-2 py-0.5 text-xs font-semibold rounded-full ${
+                              donation.status === "completed" ? "bg-green-100 text-green-700" : 
                               donation.status === "pending" ? "bg-amber-100 text-amber-700" : 
                               "bg-red-100 text-red-700"
                             }`}>
@@ -328,7 +302,7 @@ export default function DonorDashboard() {
                             </span>
                           </td>
                           <td className="px-6 py-4 text-right">
-                            <button className="inline-flex items-center gap-1.5 text-blue-600 font-semibold hover:text-blue-800 opacity-0 group-hover:opacity-100 transition-opacity">
+                            <button className="inline-flex items-center gap-1.5 text-blue-600 font-semibold hover:text-blue-800 transition-opacity">
                               <Eye className="w-4 h-4" /> View
                             </button>
                           </td>
@@ -337,8 +311,8 @@ export default function DonorDashboard() {
                     </tbody>
                   </table>
                   {donations.length > 5 && (
-                    <div className="p-4 border-t border-slate-100 text-center">
-                      <button className="text-sm font-semibold text-slate-500 hover:text-blue-600 transition-colors inline-flex items-center gap-1">
+                    <div className="p-4 border-t border-gray-200 text-center">
+                      <button className="text-sm font-semibold text-gray-500 hover:text-blue-600 transition-colors inline-flex items-center gap-1">
                         View All Transactions <ChevronRight className="w-4 h-4" />
                       </button>
                     </div>
@@ -352,8 +326,8 @@ export default function DonorDashboard() {
           <div className="space-y-8">
             
             {/* Portfolio of Impact (Analytics) */}
-            <div className="bg-white rounded-3xl shadow-[0_8px_30px_rgb(0,0,0,0.03)] border border-slate-100 p-6">
-              <h3 className="text-lg font-bold text-slate-900 mb-6 flex items-center gap-2">
+            <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+              <h3 className="text-lg font-bold text-gray-900 mb-6 flex items-center gap-2">
                 <PieChart className="w-5 h-5 text-purple-600" /> Portfolio of Impact
               </h3>
               
@@ -362,12 +336,12 @@ export default function DonorDashboard() {
                   {distribution.map((item, i) => (
                     <div key={i}>
                       <div className="flex justify-between text-sm font-semibold mb-2">
-                        <span className="text-slate-700">{item.name}</span>
-                        <span className="text-slate-900">{item.percentage}%</span>
+                        <span className="text-gray-700">{item.name}</span>
+                        <span className="text-gray-900">{item.percentage}%</span>
                       </div>
-                      <div className="h-2 w-full bg-slate-100 rounded-full overflow-hidden">
+                      <div className="h-2 w-full bg-gray-100 rounded-full overflow-hidden">
                         <div 
-                          className={`h-full rounded-full ${['bg-blue-500', 'bg-purple-500', 'bg-emerald-500', 'bg-amber-500'][i % 4]}`} 
+                          className={`h-full rounded-full ${['bg-blue-500', 'bg-purple-500', 'bg-green-500', 'bg-yellow-500'][i % 4]}`} 
                           style={{ width: `${item.percentage}%` }}
                         ></div>
                       </div>
@@ -375,22 +349,22 @@ export default function DonorDashboard() {
                   ))}
                 </div>
               ) : (
-                <p className="text-sm text-slate-500 text-center py-4">Make a donation to see your portfolio distribution.</p>
+                <p className="text-sm text-gray-500 text-center py-4">Make a donation to see your portfolio distribution.</p>
               )}
             </div>
 
             {/* Quick Actions */}
-            <div className="bg-slate-900 rounded-3xl p-6 text-white relative overflow-hidden">
-              <div className="absolute top-0 right-0 w-32 h-32 bg-white/5 rounded-full filter blur-2xl translate-x-10 -translate-y-10"></div>
-              <h3 className="text-lg font-bold mb-4 relative z-10">Manage Account</h3>
-              <div className="space-y-3 relative z-10">
-                <Link to="/donor/profile" className="flex items-center justify-between p-4 bg-white/10 hover:bg-white/20 border border-white/10 rounded-2xl transition-colors group">
-                  <span className="font-semibold">Account Settings</span>
-                  <ChevronRight className="w-4 h-4 text-white/50 group-hover:text-white group-hover:translate-x-1 transition-all" />
+            <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+              <h3 className="text-lg font-bold text-gray-900 mb-4 flex items-center gap-2">
+                <BarChart3 className="w-5 h-5 text-blue-600" />
+                Manage Account
+              </h3>
+              <div className="space-y-2">
+                <Link to="/donor/profile" className="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-blue-50 text-gray-700 hover:text-blue-700 transition-colors">
+                  <span className="text-sm font-medium">Account Settings</span>
                 </Link>
-                <Link to="/contact" className="flex items-center justify-between p-4 bg-white/10 hover:bg-white/20 border border-white/10 rounded-2xl transition-colors group">
-                  <span className="font-semibold">Support / FAQ</span>
-                  <ChevronRight className="w-4 h-4 text-white/50 group-hover:text-white group-hover:translate-x-1 transition-all" />
+                <Link to="/contact" className="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-blue-50 text-gray-700 hover:text-blue-700 transition-colors">
+                  <span className="text-sm font-medium">Support / FAQ</span>
                 </Link>
               </div>
             </div>
@@ -398,26 +372,6 @@ export default function DonorDashboard() {
           </div>
         </div>
       </div>
-      
-      {/* Global CSS Additions for Animations */}
-      <style>{`
-        @keyframes blob {
-          0% { transform: translate(0px, 0px) scale(1); }
-          33% { transform: translate(30px, -50px) scale(1.1); }
-          66% { transform: translate(-20px, 20px) scale(0.9); }
-          100% { transform: translate(0px, 0px) scale(1); }
-        }
-        .animate-blob {
-          animation: blob 10s infinite;
-        }
-        .animation-delay-2000 { animation-delay: 2s; }
-        .animation-delay-4000 { animation-delay: 4s; }
-        
-        @keyframes shimmer {
-          0% { transform: translateX(-100%); }
-          100% { transform: translateX(100%); }
-        }
-      `}</style>
 
       {/* ── DONATION PORTAL MODAL ── */}
       {isDonateModalOpen && (

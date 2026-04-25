@@ -1,16 +1,10 @@
-import { useState } from "react";
-import { Users, Search, Filter, Edit, Trash2, Eye, Plus, Download, Mail, Phone } from "lucide-react";
+import { useState, useEffect } from "react";
+import { Users, Search, Filter, Edit, Trash2, Eye, Plus, Download, Mail, Phone, Loader2, AlertCircle } from "lucide-react";
+import { supabase } from "../../../lib/supabase";
+import type { Donor as BaseDonor } from "../../../lib/supabase";
 
-interface Donor {
-  id: number;
-  name: string;
-  email: string;
-  phone: string;
-  totalDonated: number;
-  lastDonation: string;
-  donationCount: number;
-  status: "active" | "inactive";
-  joinDate: string;
+interface Donor extends BaseDonor {
+  // Extending the base Donor type if needed, though they match well
 }
 
 export default function AdminDonors() {
@@ -18,55 +12,35 @@ export default function AdminDonors() {
   const [filterStatus, setFilterStatus] = useState<"all" | "active" | "inactive">("all");
   const [selectedDonor, setSelectedDonor] = useState<Donor | null>(null);
 
-  const [donors] = useState<Donor[]>([
-    {
-      id: 1,
-      name: "John Smith",
-      email: "john.smith@email.com",
-      phone: "+1 (234) 567-8901",
-      totalDonated: 5000,
-      lastDonation: "2026-03-01",
-      donationCount: 12,
-      status: "active",
-      joinDate: "2024-01-15"
-    },
-    {
-      id: 2,
-      name: "Sarah Johnson",
-      email: "sarah.j@email.com",
-      phone: "+1 (234) 567-8902",
-      totalDonated: 3500,
-      lastDonation: "2026-02-28",
-      donationCount: 8,
-      status: "active",
-      joinDate: "2024-03-20"
-    },
-    {
-      id: 3,
-      name: "Michael Chen",
-      email: "m.chen@email.com",
-      phone: "+1 (234) 567-8903",
-      totalDonated: 10000,
-      lastDonation: "2026-03-05",
-      donationCount: 24,
-      status: "active",
-      joinDate: "2023-06-10"
-    },
-    {
-      id: 4,
-      name: "Emily Davis",
-      email: "emily.davis@email.com",
-      phone: "+1 (234) 567-8904",
-      totalDonated: 1500,
-      lastDonation: "2025-12-15",
-      donationCount: 3,
-      status: "inactive",
-      joinDate: "2025-09-05"
+  const [donors, setDonors] = useState<Donor[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    fetchDonors();
+  }, []);
+
+  const fetchDonors = async () => {
+    setLoading(true);
+    setError(null);
+    try {
+      const { data, error } = await supabase
+        .from('donors')
+        .select('*')
+        .order('created_at', { ascending: false });
+        
+      if (error) throw error;
+      setDonors(data || []);
+    } catch (err: any) {
+      setError(err.message || "Failed to load donors.");
+    } finally {
+      setLoading(false);
     }
-  ]);
+  };
 
   const filteredDonors = donors.filter(donor => {
-    const matchesSearch = donor.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    const fullName = `${donor.first_name} ${donor.last_name}`.toLowerCase();
+    const matchesSearch = fullName.includes(searchQuery.toLowerCase()) ||
                          donor.email.toLowerCase().includes(searchQuery.toLowerCase());
     const matchesFilter = filterStatus === "all" || donor.status === filterStatus;
     return matchesSearch && matchesFilter;
@@ -75,9 +49,17 @@ export default function AdminDonors() {
   const stats = {
     total: donors.length,
     active: donors.filter(d => d.status === "active").length,
-    totalDonated: donors.reduce((sum, d) => sum + d.totalDonated, 0),
-    avgDonation: Math.round(donors.reduce((sum, d) => sum + d.totalDonated, 0) / donors.length)
+    totalDonated: donors.reduce((sum, d) => sum + (d.total_donated || 0), 0),
+    avgDonation: donors.length > 0 ? Math.round(donors.reduce((sum, d) => sum + (d.total_donated || 0), 0) / donors.length) : 0
   };
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+        <Loader2 className="w-10 h-10 text-blue-600 animate-spin" />
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -107,6 +89,12 @@ export default function AdminDonors() {
       </div>
 
       <div className="max-w-7xl mx-auto px-6 py-8">
+        {error && (
+          <div className="mb-6 p-4 bg-red-50 border border-red-200 text-red-700 rounded-lg flex items-center gap-2">
+            <AlertCircle className="w-5 h-5" /> {error}
+          </div>
+        )}
+        
         {/* Stats */}
         <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
           <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
@@ -198,13 +186,13 @@ export default function AdminDonors() {
                     <td className="px-6 py-4 whitespace-nowrap">
                       <div className="flex items-center gap-3">
                         <div className="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center flex-shrink-0">
-                          <span className="text-blue-600 font-bold text-sm">
-                            {donor.name.split(' ').map(n => n[0]).join('')}
+                          <span className="text-blue-600 font-bold text-sm uppercase">
+                            {donor.first_name?.[0]}{donor.last_name?.[0]}
                           </span>
                         </div>
                         <div>
-                          <div className="font-semibold text-gray-900">{donor.name}</div>
-                          <div className="text-xs text-gray-600">Since {new Date(donor.joinDate).toLocaleDateString()}</div>
+                          <div className="font-semibold text-gray-900">{donor.first_name} {donor.last_name}</div>
+                          <div className="text-xs text-gray-600">Since {new Date(donor.created_at).toLocaleDateString()}</div>
                         </div>
                       </div>
                     </td>
@@ -216,23 +204,24 @@ export default function AdminDonors() {
                         </div>
                         <div className="flex items-center gap-1 text-gray-600 mt-1">
                           <Phone className="w-3 h-3" />
-                          {donor.phone}
+                          {donor.phone || 'N/A'}
                         </div>
                       </div>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
                       <div className="text-lg font-bold text-gray-900">
-                        ${donor.totalDonated.toLocaleString()}
+                        ${(donor.total_donated || 0).toLocaleString()}
                       </div>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
                       <div className="text-sm font-semibold text-gray-900">
-                        {donor.donationCount} times
+                        {donor.donation_count || 0} times
                       </div>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
                       <div className="text-sm text-gray-900">
-                        {new Date(donor.lastDonation).toLocaleDateString()}
+                        {/* We don't track lastDonation separately in the donor model yet, defaulting to created_at or NA */}
+                        {donor.donation_count > 0 ? "Recently" : "N/A"}
                       </div>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
@@ -296,24 +285,24 @@ export default function AdminDonors() {
             <div className="p-6">
               <div className="flex items-center gap-4 mb-6">
                 <div className="w-20 h-20 bg-blue-100 rounded-full flex items-center justify-center">
-                  <span className="text-blue-600 font-bold text-2xl">
-                    {selectedDonor.name.split(' ').map(n => n[0]).join('')}
+                  <span className="text-blue-600 font-bold text-2xl uppercase">
+                    {selectedDonor.first_name?.[0]}{selectedDonor.last_name?.[0]}
                   </span>
                 </div>
                 <div>
-                  <h3 className="text-2xl font-bold text-gray-900">{selectedDonor.name}</h3>
-                  <p className="text-gray-600">Member since {new Date(selectedDonor.joinDate).toLocaleDateString()}</p>
+                  <h3 className="text-2xl font-bold text-gray-900">{selectedDonor.first_name} {selectedDonor.last_name}</h3>
+                  <p className="text-gray-600">Member since {new Date(selectedDonor.created_at).toLocaleDateString()}</p>
                 </div>
               </div>
 
               <div className="grid grid-cols-2 gap-6 mb-6">
                 <div>
                   <div className="text-sm text-gray-600 mb-1">Total Donated</div>
-                  <div className="text-2xl font-bold text-blue-600">${selectedDonor.totalDonated.toLocaleString()}</div>
+                  <div className="text-2xl font-bold text-blue-600">${(selectedDonor.total_donated || 0).toLocaleString()}</div>
                 </div>
                 <div>
                   <div className="text-sm text-gray-600 mb-1">Total Donations</div>
-                  <div className="text-2xl font-bold text-green-600">{selectedDonor.donationCount}</div>
+                  <div className="text-2xl font-bold text-green-600">{selectedDonor.donation_count || 0}</div>
                 </div>
               </div>
 
@@ -324,11 +313,11 @@ export default function AdminDonors() {
                 </div>
                 <div>
                   <div className="text-sm font-semibold text-gray-700 mb-1">Phone</div>
-                  <div className="text-gray-900">{selectedDonor.phone}</div>
+                  <div className="text-gray-900">{selectedDonor.phone || 'N/A'}</div>
                 </div>
                 <div>
                   <div className="text-sm font-semibold text-gray-700 mb-1">Last Donation</div>
-                  <div className="text-gray-900">{new Date(selectedDonor.lastDonation).toLocaleDateString()}</div>
+                  <div className="text-gray-900">{selectedDonor.donation_count > 0 ? "Recently" : "N/A"}</div>
                 </div>
                 <div>
                   <div className="text-sm font-semibold text-gray-700 mb-1">Status</div>

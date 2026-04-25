@@ -1,13 +1,19 @@
-import { useState } from "react";
-import { User, Mail, Phone, MapPin, Lock, Save } from "lucide-react";
+import { useState, useEffect } from "react";
+import { User, Mail, Phone, MapPin, Lock, Save, Loader2 } from "lucide-react";
+import { supabase } from "../../../lib/supabase";
 
 export default function DonorProfile() {
+  const [loading, setLoading] = useState(true);
+  const [saving, setSaving] = useState(false);
+  const [userId, setUserId] = useState<string | null>(null);
+  const [userRole, setUserRole] = useState<"donor" | "admin">("donor");
+  
   const [formData, setFormData] = useState({
-    firstName: "John",
-    lastName: "Smith",
-    email: "john.smith@email.com",
-    phone: "+1 (234) 567-8901",
-    address: "123 Main Street, Hope City, HC 12345",
+    firstName: "",
+    lastName: "",
+    email: "",
+    phone: "",
+    address: "",
     notifications: {
       email: true,
       sms: false,
@@ -20,6 +26,53 @@ export default function DonorProfile() {
     newPassword: "",
     confirmPassword: ""
   });
+
+  useEffect(() => {
+    fetchProfile();
+  }, []);
+
+  const fetchProfile = async () => {
+    try {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) return;
+      
+      setUserId(user.id);
+      
+      // Try to fetch donor profile first
+      let { data: profileData, error } = await supabase
+        .from('donors')
+        .select('*')
+        .eq('id', user.id)
+        .single();
+        
+      if (error || !profileData) {
+        // Try admins table if not a donor
+        const { data: adminData } = await supabase
+          .from('admins')
+          .select('*')
+          .eq('id', user.id)
+          .single();
+          
+        if (adminData) {
+          profileData = adminData;
+          setUserRole("admin");
+        }
+      }
+
+      setFormData(prev => ({
+        ...prev,
+        firstName: profileData?.first_name || user.user_metadata?.first_name || "",
+        lastName: profileData?.last_name || user.user_metadata?.last_name || "",
+        email: user.email || "",
+        phone: profileData?.phone || "",
+        address: profileData?.address || profileData?.location || ""
+      }));
+    } catch (error) {
+      console.error("Error fetching profile:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({
@@ -38,10 +91,46 @@ export default function DonorProfile() {
     });
   };
 
-  const handleSave = (e: React.FormEvent) => {
+  const handleSave = async (e: React.FormEvent) => {
     e.preventDefault();
-    alert("Profile updated successfully!");
+    if (!userId) return;
+    setSaving(true);
+    
+    try {
+      const table = userRole === "admin" ? "admins" : "donors";
+      const updatePayload: any = {
+        first_name: formData.firstName,
+        last_name: formData.lastName,
+        phone: formData.phone,
+      };
+      
+      if (table === "donors") {
+        updatePayload.address = formData.address;
+      } else {
+        updatePayload.location = formData.address;
+      }
+
+      const { error } = await supabase
+        .from(table)
+        .update(updatePayload)
+        .eq('id', userId);
+
+      if (error) throw error;
+      alert("Profile updated successfully!");
+    } catch (error: any) {
+      alert("Failed to update profile: " + error.message);
+    } finally {
+      setSaving(false);
+    }
   };
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+        <Loader2 className="w-10 h-10 text-blue-600 animate-spin" />
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -110,8 +199,8 @@ export default function DonorProfile() {
                     type="email"
                     name="email"
                     value={formData.email}
-                    onChange={handleChange}
-                    className="w-full pl-11 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-600 focus:border-transparent outline-none"
+                    disabled
+                    className="w-full pl-11 pr-4 py-3 border border-gray-300 rounded-lg bg-gray-50 text-gray-500 cursor-not-allowed outline-none"
                   />
                 </div>
               </div>
@@ -153,10 +242,11 @@ export default function DonorProfile() {
               {/* Save Button */}
               <button
                 type="submit"
-                className="flex items-center gap-2 px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-semibold transition-colors"
+                disabled={saving}
+                className="flex items-center gap-2 px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-semibold transition-colors disabled:opacity-70"
               >
-                <Save className="w-4 h-4" />
-                Save Changes
+                {saving ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
+                {saving ? "Saving..." : "Save Changes"}
               </button>
             </form>
           </div>
