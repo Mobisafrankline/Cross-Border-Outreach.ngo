@@ -134,6 +134,12 @@ export default function AuthPortal() {
     if (signUpError) { setError(signUpError.message); setLoading(false); return; }
 
     if (data.user) {
+      if (!data.session) {
+        setLoading(false);
+        setSuccess(true);
+        return;
+      }
+
       const { error: adminError } = await registerAdmin(adminCode, firstName, lastName, phone, address);
       if (adminError) {
         setError("Account created but admin verification failed: " + adminError.message);
@@ -144,7 +150,9 @@ export default function AuthPortal() {
 
     setLoading(false);
     setSuccess(true);
-    setTimeout(() => navigate("/admin/dashboard"), 2500);
+    if (data.session) {
+      setTimeout(() => navigate("/admin/dashboard"), 2500);
+    }
   };
 
   const handleRegister = async (e: React.FormEvent) => {
@@ -164,6 +172,12 @@ export default function AuthPortal() {
     if (signUpError) { setError(signUpError.message); setLoading(false); return; }
 
     if (data.user) {
+      if (!data.session) {
+        setLoading(false);
+        setSuccess(true);
+        return;
+      }
+
       const { error: profileError } = await createDonor({
         id: data.user.id,
         email,
@@ -185,7 +199,9 @@ export default function AuthPortal() {
 
     setLoading(false);
     setSuccess(true);
-    setTimeout(() => navigate("/donor/dashboard"), 2500);
+    if (data.session) {
+      setTimeout(() => navigate("/donor/dashboard"), 2500);
+    }
   };
 
   return (
@@ -441,17 +457,33 @@ export default function AuthPortal() {
               <div style={{ display: "flex", gap: 14, padding: "16px 18px", borderRadius: 12, background: "#f0fdf4", border: "1px solid #bbf7d0", marginBottom: 24 }}>
                 <CheckCircle size={22} color="#16a34a" style={{ flexShrink: 0 }} />
                 <div>
-                  <p style={{ fontWeight: 700, color: "#15803d", margin: 0 }}>Account created! 🎉</p>
-                  <p style={{ color: "#166534", fontSize: 13, marginTop: 4 }}>Check your email to confirm your address. Redirecting…</p>
+                  <p style={{ fontWeight: 700, color: "#15803d", margin: 0 }}>You have successfully created your account.</p>
+                  <p style={{ color: "#166534", fontSize: 13, marginTop: 4 }}>Please confirm your email in your inbox to continue.</p>
                 </div>
               </div>
             )}
 
             {error && (
-              <div style={{ display: "flex", gap: 12, padding: "14px 16px", borderRadius: 10, background: "#fef2f2", border: "1px solid #fecaca", marginBottom: 22 }}>
-                <AlertCircle size={18} color="#ef4444" style={{ flexShrink: 0, marginTop: 2 }} />
-                <p style={{ fontSize: 14, color: "#b91c1c", margin: 0 }}>{error}</p>
-              </div>
+              error.toLowerCase().includes("email not confirmed") ? (
+                <div style={{ display: "flex", gap: 14, padding: "18px", borderRadius: 16, background: "linear-gradient(to right, #fffbeb, #fef3c7)", border: "1px solid #fde68a", marginBottom: 26, boxShadow: "0 8px 20px rgba(251,191,36,0.12)" }}>
+                  <div style={{ width: 42, height: 42, borderRadius: 12, background: "#fde68a", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, boxShadow: "inset 0 2px 4px rgba(255,255,255,0.5)" }}>
+                    <Mail size={22} color="#b45309" />
+                  </div>
+                  <div style={{ flex: 1 }}>
+                    <p style={{ fontWeight: 800, color: "#92400e", margin: 0, fontSize: 15, display: "flex", alignItems: "center", gap: 6 }}>
+                      Action Required <Sparkles size={14} color="#d97706" />
+                    </p>
+                    <p style={{ color: "#92400e", fontSize: 13.5, marginTop: 6, lineHeight: 1.5, opacity: 0.9 }}>
+                      Your email address hasn't been verified yet. Please check the inbox for <strong>{email}</strong> and click the secure link we sent you to activate your account.
+                    </p>
+                  </div>
+                </div>
+              ) : (
+                <div style={{ display: "flex", gap: 12, padding: "14px 16px", borderRadius: 12, background: "#fef2f2", border: "1px solid #fecaca", marginBottom: 24 }}>
+                  <AlertCircle size={18} color="#ef4444" style={{ flexShrink: 0, marginTop: 2 }} />
+                  <p style={{ fontSize: 14, color: "#b91c1c", margin: 0, lineHeight: 1.4 }}>{error}</p>
+                </div>
+              )
             )}
 
             {/* ── DONOR CONTEXT ── */}
