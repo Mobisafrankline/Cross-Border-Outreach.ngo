@@ -105,6 +105,151 @@ export default function DonorDashboard() {
     })).sort((a, b) => b.amount - a.amount);
   }, [completedDonations, actualTotal]);
 
+  const donorName = donor ? `${donor.first_name} ${donor.last_name}` : user?.user_metadata?.first_name ? `${user.user_metadata.first_name} ${user.user_metadata.last_name || ''}` : "Valued Donor";
+  const firstName = donor?.first_name || user?.user_metadata?.first_name || "Donor";
+
+  // ── Receipt Generation ───────────────────────────────────────────────────
+  const generateAnnualReceipt = () => {
+    const year = new Date().getFullYear();
+    const yearlyDonations = completedDonations.filter(d => new Date(d.date).getFullYear() === year);
+    const yearlyTotal = yearlyDonations.reduce((acc, curr) => acc + curr.amount, 0);
+
+    const receiptHtml = `
+      <html>
+        <head>
+          <title>Tax Receipt ${year} - Cross Border Outreach</title>
+          <style>
+            body { font-family: system-ui, sans-serif; color: #111827; max-width: 800px; margin: 0 auto; padding: 40px; }
+            .header { text-align: center; border-bottom: 2px solid #e5e7eb; padding-bottom: 20px; margin-bottom: 30px; }
+            .title { font-size: 24px; font-weight: bold; margin: 0; }
+            .org { color: #4b5563; margin-top: 5px; }
+            .info { display: flex; justify-content: space-between; margin-bottom: 40px; }
+            table { border-collapse: collapse; margin-bottom: 30px; width: 100%; }
+            th, td { padding: 12px; text-align: left; border-bottom: 1px solid #e5e7eb; }
+            th { background-color: #f9fafb; font-weight: 600; color: #4b5563; }
+            .total { font-size: 20px; font-weight: bold; text-align: right; }
+            .footer { margin-top: 50px; font-size: 14px; color: #6b7280; text-align: center; border-top: 1px solid #e5e7eb; padding-top: 20px; }
+          </style>
+        </head>
+        <body>
+          <div class="header">
+            <h1 class="title">Official Annual Tax Receipt</h1>
+            <p class="org">Cross Border Outreach - Tax ID: 12-3456789</p>
+            <p class="org">${year} Tax Year</p>
+          </div>
+          
+          <div class="info">
+            <div>
+              <strong>Donor Name:</strong> ${donorName}<br>
+              <strong>Email:</strong> ${user?.email}
+            </div>
+            <div style="text-align: right;">
+              <strong>Date Issued:</strong> ${new Date().toLocaleDateString()}<br>
+            </div>
+          </div>
+
+          <p>Thank you for your generous support. This document serves as your official tax receipt for the year ${year}. No goods or services were provided in exchange for these contributions.</p>
+
+          <table>
+            <thead>
+              <tr>
+                <th>Date</th>
+                <th>Program</th>
+                <th>Amount</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${yearlyDonations.map(d => `
+                <tr>
+                  <td>${new Date(d.date).toLocaleDateString()}</td>
+                  <td>${d.program}</td>
+                  <td>$${d.amount.toFixed(2)}</td>
+                </tr>
+              `).join('')}
+            </tbody>
+          </table>
+
+          <div class="total">
+            Total Eligible Contributions: $${yearlyTotal.toFixed(2)}
+          </div>
+
+          <div class="footer">
+            Cross Border Outreach is a registered 501(c)(3) non-profit organization.
+            <br>123 Charity Way, Goodville, XY 12345 | support@crossbordersoutreach.org
+          </div>
+        </body>
+      </html>
+    `;
+
+    const printWindow = window.open('', '_blank');
+    if (printWindow) {
+      printWindow.document.write(receiptHtml);
+      printWindow.document.close();
+      printWindow.focus();
+      setTimeout(() => {
+        printWindow.print();
+        printWindow.close();
+      }, 250);
+    }
+  };
+
+  const generateSingleReceipt = (donation: Donation) => {
+    const receiptHtml = `
+      <html>
+        <head>
+          <title>Donation Receipt - ${donation.id}</title>
+          <style>
+            body { font-family: system-ui, sans-serif; color: #111827; max-width: 800px; margin: 0 auto; padding: 40px; }
+            .header { text-align: center; border-bottom: 2px solid #e5e7eb; padding-bottom: 20px; margin-bottom: 30px; }
+            .title { font-size: 24px; font-weight: bold; margin: 0; }
+            .org { color: #4b5563; margin-top: 5px; }
+            .details { background: #f9fafb; padding: 20px; border-radius: 8px; margin-bottom: 30px; }
+            .row { display: flex; justify-content: space-between; margin-bottom: 10px; border-bottom: 1px dashed #e5e7eb; padding-bottom: 10px; }
+            .row:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+            .footer { margin-top: 50px; font-size: 14px; color: #6b7280; text-align: center; border-top: 1px solid #e5e7eb; padding-top: 20px; }
+          </style>
+        </head>
+        <body>
+          <div class="header">
+            <h1 class="title">Official Donation Receipt</h1>
+            <p class="org">Cross Border Outreach - Tax ID: 12-3456789</p>
+          </div>
+          
+          <div style="margin-bottom: 30px;">
+            <strong>Donor Name:</strong> ${donorName}<br>
+            <strong>Email:</strong> ${user?.email}
+          </div>
+
+          <div class="details">
+            <div class="row"><span>Receipt ID:</span> <strong>${donation.id || 'N/A'}</strong></div>
+            <div class="row"><span>Date:</span> <strong>${new Date(donation.date).toLocaleDateString()}</strong></div>
+            <div class="row"><span>Program:</span> <strong>${donation.program}</strong></div>
+            <div class="row"><span>Amount:</span> <strong>$${donation.amount.toFixed(2)}</strong></div>
+            <div class="row"><span>Payment Method:</span> <strong style="text-transform: capitalize;">${donation.payment_method}</strong></div>
+          </div>
+
+          <p>Thank you for your generous support. No goods or services were provided in exchange for this contribution. Please retain this receipt for your tax records.</p>
+
+          <div class="footer">
+            Cross Border Outreach is a registered 501(c)(3) non-profit organization.
+            <br>123 Charity Way, Goodville, XY 12345 | support@crossbordersoutreach.org
+          </div>
+        </body>
+      </html>
+    `;
+
+    const printWindow = window.open('', '_blank');
+    if (printWindow) {
+      printWindow.document.write(receiptHtml);
+      printWindow.document.close();
+      printWindow.focus();
+      setTimeout(() => {
+        printWindow.print();
+        printWindow.close();
+      }, 250);
+    }
+  };
+
   // ── Render States ──────────────────────────────────────────────────────
   if (authLoading || dataLoading) {
     return (
@@ -138,8 +283,6 @@ export default function DonorDashboard() {
     );
   }
 
-  const donorName = donor ? `${donor.first_name} ${donor.last_name}` : user?.user_metadata?.first_name ? `${user.user_metadata.first_name} ${user.user_metadata.last_name || ''}` : "Valued Donor";
-  const firstName = donor?.first_name || user?.user_metadata?.first_name || "Donor";
 
   return (
     <div className="min-h-screen bg-gray-50 text-gray-900 pb-20">
@@ -251,9 +394,9 @@ export default function DonorDashboard() {
                   <h2 className="text-xl font-bold text-gray-900">Transaction History</h2>
                   <p className="text-sm text-gray-500 mt-1">Your recent contributions</p>
                 </div>
-                <button className="flex items-center justify-center gap-2 px-4 py-2 bg-gray-50 hover:bg-gray-100 text-gray-700 rounded-lg font-semibold transition-colors text-sm border border-gray-200">
+                <button onClick={generateAnnualReceipt} className="flex items-center justify-center gap-2 px-4 py-2 bg-gray-50 hover:bg-gray-100 text-gray-700 rounded-lg font-semibold transition-colors text-sm border border-gray-200">
                   <Download className="w-4 h-4" />
-                  Tax Receipt (2025)
+                  Tax Receipt ({new Date().getFullYear()})
                 </button>
               </div>
 
@@ -302,7 +445,7 @@ export default function DonorDashboard() {
                             </span>
                           </td>
                           <td className="px-6 py-4 text-right">
-                            <button className="inline-flex items-center gap-1.5 text-blue-600 font-semibold hover:text-blue-800 transition-opacity">
+                            <button onClick={() => generateSingleReceipt(donation)} className="inline-flex items-center gap-1.5 text-blue-600 font-semibold hover:text-blue-800 transition-opacity">
                               <Eye className="w-4 h-4" /> View
                             </button>
                           </td>
@@ -376,49 +519,48 @@ export default function DonorDashboard() {
       {/* ── DONATION PORTAL MODAL ── */}
       {isDonateModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 overflow-y-auto">
-          <div className="absolute inset-0 bg-slate-900/60 backdrop-blur-sm" onClick={() => setIsDonateModalOpen(false)}></div>
+          <div className="absolute inset-0 bg-gray-900/60 backdrop-blur-sm" onClick={() => setIsDonateModalOpen(false)}></div>
           
-          <div className="relative bg-white rounded-3xl shadow-2xl w-full max-w-3xl my-auto overflow-hidden flex flex-col max-h-[90vh]">
+          <div className="relative bg-white rounded-3xl shadow-2xl w-full max-w-4xl my-auto overflow-hidden flex flex-col max-h-[90vh]">
             {/* Modal Header */}
-            <div className="flex-shrink-0 bg-slate-900 px-6 py-5 flex items-center justify-between text-white relative overflow-hidden">
-              <div className="absolute top-0 right-0 w-32 h-32 bg-blue-600 rounded-full mix-blend-screen filter blur-2xl opacity-40 translate-x-10 -translate-y-10"></div>
-              <h2 className="text-xl font-bold flex items-center gap-2 relative z-10">
-                <Heart className="w-5 h-5 text-blue-400" /> Donor Portal Contribution
+            <div className="flex-shrink-0 bg-white border-b border-gray-200 px-6 py-5 flex items-center justify-between">
+              <h2 className="text-xl font-bold text-gray-900 flex items-center gap-2">
+                <Heart className="w-5 h-5 text-blue-600" /> New Contribution
               </h2>
-              <button onClick={() => setIsDonateModalOpen(false)} className="relative z-10 p-2 bg-white/10 hover:bg-white/20 rounded-full transition-colors">
+              <button onClick={() => setIsDonateModalOpen(false)} className="p-2 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-full transition-colors">
                 <X className="w-5 h-5" />
               </button>
             </div>
 
             {/* Modal Body (Scrollable) */}
-            <div className="p-6 sm:p-8 overflow-y-auto flex-1">
+            <div className="p-6 sm:p-8 overflow-y-auto flex-1 bg-gray-50/50">
               
-              <div className="grid md:grid-cols-5 gap-8">
+              <div className="grid md:grid-cols-12 gap-8">
                 {/* Donation Setup Column */}
-                <div className="md:col-span-2 space-y-6">
+                <div className="md:col-span-5 space-y-6">
                   
                   {/* Frequency Toggle */}
                   <div>
-                    <label className="block text-sm font-bold text-slate-700 mb-3">Donation Frequency</label>
-                    <div className="bg-slate-100 p-1.5 rounded-xl flex relative">
+                    <label className="block text-sm font-bold text-gray-700 mb-3">Donation Frequency</label>
+                    <div className="bg-gray-100 p-1.5 rounded-xl flex relative">
                       <div 
-                        className="absolute inset-y-1.5 w-[calc(50%-6px)] bg-white rounded-lg shadow-sm border border-slate-200 transition-all duration-300 ease-out"
+                        className="absolute inset-y-1.5 w-[calc(50%-6px)] bg-white rounded-lg shadow-sm border border-gray-200 transition-all duration-300 ease-out"
                         style={{ left: donateFrequency === "one-time" ? "6px" : "calc(50% + 3px)" }}
                       />
-                      <button onClick={() => setDonateFrequency("one-time")} className={`relative z-10 flex-1 py-2.5 text-sm font-bold transition-colors ${donateFrequency === "one-time" ? "text-slate-900" : "text-slate-500"}`}>Give Once</button>
-                      <button onClick={() => setDonateFrequency("monthly")} className={`relative z-10 flex-1 py-2.5 text-sm font-bold transition-colors flex items-center justify-center gap-1.5 ${donateFrequency === "monthly" ? "text-blue-700" : "text-slate-500"}`}><Calendar className="w-3.5 h-3.5" /> Monthly</button>
+                      <button onClick={() => setDonateFrequency("one-time")} className={`relative z-10 flex-1 py-2.5 text-sm font-bold transition-colors ${donateFrequency === "one-time" ? "text-gray-900" : "text-gray-500 hover:text-gray-700"}`}>Give Once</button>
+                      <button onClick={() => setDonateFrequency("monthly")} className={`relative z-10 flex-1 py-2.5 text-sm font-bold transition-colors flex items-center justify-center gap-1.5 ${donateFrequency === "monthly" ? "text-blue-700" : "text-gray-500 hover:text-gray-700"}`}><Calendar className="w-3.5 h-3.5" /> Monthly</button>
                     </div>
                   </div>
 
                   {/* Amount Selection */}
                   <div>
-                    <label className="block text-sm font-bold text-slate-700 mb-3">Select Amount</label>
+                    <label className="block text-sm font-bold text-gray-700 mb-3">Select Amount</label>
                     <div className="grid grid-cols-2 gap-3 mb-3">
                       {[25, 50, 100, 250].map((amt) => (
                         <button
                           key={amt}
                           onClick={() => { setDonateAmount(amt); setCustomAmount(""); }}
-                          className={`py-3 rounded-xl font-bold border-2 transition-all ${donateAmount === amt ? "border-blue-600 bg-blue-50 text-blue-700 shadow-sm" : "border-slate-200 bg-white text-slate-600 hover:border-blue-300"}`}
+                          className={`py-3 rounded-xl font-bold border-2 transition-all ${donateAmount === amt ? "border-blue-600 bg-blue-50 text-blue-700" : "border-gray-200 bg-white text-gray-600 hover:border-blue-300"}`}
                         >
                           ${amt}
                         </button>
@@ -426,28 +568,28 @@ export default function DonorDashboard() {
                     </div>
                     <div className="relative">
                       <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                        <DollarSign className={`w-4 h-4 transition-colors ${!donateAmount && customAmount ? "text-blue-600" : "text-slate-400"}`} />
+                        <DollarSign className={`w-4 h-4 transition-colors ${!donateAmount && customAmount ? "text-blue-600" : "text-gray-400"}`} />
                       </div>
                       <input
                         type="number"
                         placeholder="Other Amount"
                         value={customAmount}
                         onChange={(e) => { setCustomAmount(e.target.value); if(e.target.value) setDonateAmount(0); }}
-                        className={`w-full pl-10 pr-4 py-3 rounded-xl border-2 font-bold text-slate-900 focus:outline-none transition-colors ${!donateAmount && customAmount ? "border-blue-600 bg-blue-50/30" : "border-slate-200 focus:border-blue-400"}`}
+                        className={`w-full pl-10 pr-4 py-3 rounded-xl border-2 font-bold text-gray-900 focus:outline-none transition-colors ${!donateAmount && customAmount ? "border-blue-600 bg-blue-50/30" : "border-gray-200 focus:border-blue-400 bg-white"}`}
                       />
                     </div>
                   </div>
 
                   <div className="bg-blue-50 border border-blue-100 rounded-xl p-4 text-sm text-blue-800 flex items-start gap-3">
-                    <AlertCircle className="w-5 h-5 text-blue-600 shrink-0 mt-0.5" />
-                    <p>Your {donateFrequency} contribution of <strong className="font-bold">${donateAmount || customAmount || 0}</strong> goes directly to funding critical global programs.</p>
+                    <Heart className="w-5 h-5 text-blue-600 shrink-0 mt-0.5" />
+                    <p>Your {donateFrequency} contribution of <strong className="font-bold">${donateAmount || customAmount || 0}</strong> directly funds critical global programs.</p>
                   </div>
 
                 </div>
 
                 {/* Payment Form Column */}
-                <div className="md:col-span-3">
-                  <div className="bg-slate-50 border border-slate-200 rounded-2xl p-6">
+                <div className="md:col-span-7">
+                  <div className="bg-white border border-gray-200 rounded-2xl p-6 sm:p-8 shadow-sm h-full">
                     {(donateAmount > 0 || Number(customAmount) > 0) ? (
                       isStripeConfigured() ? (
                         <Elements stripe={getStripe()}>
@@ -468,16 +610,18 @@ export default function DonorDashboard() {
                           />
                         </Elements>
                       ) : (
-                        <div className="text-center py-8">
+                        <div className="text-center py-12 bg-gray-50 rounded-xl border border-gray-100">
                           <AlertCircle className="w-10 h-10 text-amber-500 mx-auto mb-3" />
-                          <h4 className="font-bold text-slate-900">Payment Setup Required</h4>
-                          <p className="text-sm text-slate-500 mt-2">Stripe keys are not configured in your environment.</p>
+                          <h4 className="font-bold text-gray-900">Payment Setup Required</h4>
+                          <p className="text-sm text-gray-500 mt-2">Stripe keys are not configured in your environment.</p>
                         </div>
                       )
                     ) : (
-                      <div className="text-center py-12 text-slate-400">
-                        <DollarSign className="w-12 h-12 mx-auto mb-3 opacity-20" />
-                        <p className="font-medium">Please select an amount to continue.</p>
+                      <div className="text-center py-20 flex flex-col items-center justify-center h-[calc(100%-3rem)] bg-slate-50/50 rounded-2xl border border-slate-100 border-dashed">
+                        <div className="w-20 h-20 bg-white rounded-full flex items-center justify-center shadow-sm mb-4">
+                          <DollarSign className="w-8 h-8 text-slate-300" />
+                        </div>
+                        <p className="font-bold text-slate-500">Select an amount to continue</p>
                       </div>
                     )}
                   </div>
