@@ -184,7 +184,7 @@ LANGUAGE sql SECURITY DEFINER SET search_path = public AS $$
   SELECT 
     au.id,
     au.email::text,
-    COALESCE(a.phone, d.phone, au.phone::text) AS phone,
+    COALESCE(a.phone, d.phone, au.phone::text, au.raw_user_meta_data->>'phone') AS phone,
     au.created_at,
     au.last_sign_in_at,
     CASE 

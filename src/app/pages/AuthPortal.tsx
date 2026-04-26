@@ -129,6 +129,8 @@ export default function AuthPortal() {
     const { data, error: signUpError } = await signUp(email, password, {
       first_name: firstName,
       last_name: lastName,
+      phone: phone || null,
+      address: address || null,
     });
 
     if (signUpError) { setError(signUpError.message); setLoading(false); return; }
@@ -167,6 +169,8 @@ export default function AuthPortal() {
     const { data, error: signUpError } = await signUp(email, password, {
       first_name: firstName,
       last_name: lastName,
+      phone: phone || null,
+      address: address || null,
     });
 
     if (signUpError) { setError(signUpError.message); setLoading(false); return; }
