@@ -478,6 +478,20 @@ export default function AuthPortal() {
                     </p>
                   </div>
                 </div>
+              ) : error.toLowerCase().includes("rate limit") || error.toLowerCase().includes("too many requests") ? (
+                <div style={{ display: "flex", gap: 14, padding: "18px", borderRadius: 16, background: "linear-gradient(to right, #fef2f2, #fee2e2)", border: "1px solid #fecaca", marginBottom: 26, boxShadow: "0 8px 20px rgba(239,68,68,0.08)" }}>
+                  <div style={{ width: 42, height: 42, borderRadius: 12, background: "#fecaca", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, boxShadow: "inset 0 2px 4px rgba(255,255,255,0.5)" }}>
+                    <AlertCircle size={22} color="#b91c1c" />
+                  </div>
+                  <div style={{ flex: 1 }}>
+                    <p style={{ fontWeight: 800, color: "#991b1b", margin: 0, fontSize: 15, display: "flex", alignItems: "center", gap: 6 }}>
+                      Too Many Attempts
+                    </p>
+                    <p style={{ color: "#991b1b", fontSize: 13.5, marginTop: 6, lineHeight: 1.5, opacity: 0.9 }}>
+                      For your security, we've temporarily paused sign-in attempts for this email. Please wait 10-15 minutes before trying again.
+                    </p>
+                  </div>
+                </div>
               ) : (
                 <div style={{ display: "flex", gap: 12, padding: "14px 16px", borderRadius: 12, background: "#fef2f2", border: "1px solid #fecaca", marginBottom: 24 }}>
                   <AlertCircle size={18} color="#ef4444" style={{ flexShrink: 0, marginTop: 2 }} />
