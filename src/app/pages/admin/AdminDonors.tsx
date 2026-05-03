@@ -65,7 +65,7 @@ export default function AdminDonors() {
     <div className="min-h-screen bg-gray-50">
       {/* Header */}
       <div className="bg-white border-b border-gray-200">
-        <div className="max-w-7xl mx-auto px-6 py-6">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 py-6">
           <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
             <div className="flex items-center gap-3">
               <Users className="w-8 h-8 text-blue-600" />
@@ -88,7 +88,7 @@ export default function AdminDonors() {
         </div>
       </div>
 
-      <div className="max-w-7xl mx-auto px-6 py-8">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 py-8">
         {error && (
           <div className="mb-6 p-4 bg-red-50 border border-red-200 text-red-700 rounded-lg flex items-center gap-2">
             <AlertCircle className="w-5 h-5" /> {error}
@@ -133,7 +133,7 @@ export default function AdminDonors() {
             </div>
 
             {/* Status Filter */}
-            <div className="flex gap-2">
+            <div className="flex flex-wrap gap-2">
               {(["all", "active", "inactive"] as const).map((status) => (
                 <button
                   key={status}

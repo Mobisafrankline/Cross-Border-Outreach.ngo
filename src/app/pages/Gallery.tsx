@@ -16,9 +16,11 @@ import {
   Heart,
   Globe,
   ImageIcon,
+  Loader2,
 } from "lucide-react";
 import { ImageWithFallback } from "../components/figma/ImageWithFallback";
-import { galleryImages, assets } from "../../data/content";
+import { assets } from "../../data/content";
+import { supabase } from "../../lib/supabase";
 
 type Category = "all" | "community" | "education" | "healthcare" | "food" | "economic";
 type ViewMode = "grid" | "masonry";
@@ -48,10 +50,27 @@ export default function Gallery() {
   const [searchQuery, setSearchQuery] = useState("");
   const [isFilterOpen, setIsFilterOpen] = useState(false);
   const [copied, setCopied] = useState(false);
+  
+  const [dbImages, setDbImages] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
 
-  // Build deduped image list
+  useEffect(() => {
+    const fetchImages = async () => {
+      setLoading(true);
+      const { data, error } = await supabase
+        .from('gallery_images')
+        .select('*')
+        .order('created_at', { ascending: false });
+      if (!error && data) {
+        setDbImages(data);
+      }
+      setLoading(false);
+    };
+    fetchImages();
+  }, []);
+
   const combinedImages = [
-    ...galleryImages,
+    ...dbImages,
     ...assets.heroes.map((img) => ({ id: img.id, url: img.url, alt: img.title, category: "community" })),
     ...assets.programs.education.map((img) => ({ id: img.id, url: img.url, alt: img.title, category: "education" })),
     ...assets.programs.healthcare.map((img) => ({ id: img.id, url: img.url, alt: img.title, category: "healthcare" })),
@@ -61,16 +80,17 @@ export default function Gallery() {
     ...assets.events.map((img) => ({ id: img.id, url: img.url, alt: img.title, category: "community" })),
   ];
 
+  // Strictly deduplicate by image URL to remove any visual duplicates
   const allImages = combinedImages.filter(
-    (img, index, self) => index === self.findIndex((i) => i.id === img.id)
+    (img, index, self) => index === self.findIndex((i) => i.url === img.url)
   );
 
   const filteredImages = allImages
     .filter((img) => selectedCategory === "all" || img.category === selectedCategory)
     .filter((img) =>
       searchQuery.trim() === "" ||
-      img.alt.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      img.category.toLowerCase().includes(searchQuery.toLowerCase())
+      (img.alt || "").toLowerCase().includes(searchQuery.toLowerCase()) ||
+      (img.category || "").toLowerCase().includes(searchQuery.toLowerCase())
     );
 
   const categories = (["all", "community", "education", "healthcare", "food", "economic"] as Category[]).map(
@@ -308,6 +328,11 @@ export default function Gallery() {
           </p>
         </motion.div>
 
+        {loading ? (
+          <div className="flex justify-center items-center py-24">
+            <Loader2 className="w-10 h-10 text-blue-600 animate-spin" />
+          </div>
+        ) : (
         <motion.div
           layout
           className={
@@ -354,6 +379,7 @@ export default function Gallery() {
             ))}
           </AnimatePresence>
         </motion.div>
+        )}
 
         {/* Empty state */}
         {filteredImages.length === 0 && (

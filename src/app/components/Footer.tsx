@@ -168,7 +168,7 @@ export default function Footer() {
       </div>
 
       {/* Reusable Styles */}
-      <style jsx>{`
+      <style jsx="true">{`
         .social-btn {
           width: 40px;
           height: 40px;

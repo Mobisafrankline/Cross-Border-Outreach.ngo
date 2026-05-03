@@ -93,7 +93,7 @@ export default function AdminDashboard() {
 
   const quickActions = [
     { label: "Upload Images", href: "/admin/gallery", icon: Image, color: "from-purple-500 to-purple-600" },
-    { label: "Write Article", href: "/admin/articles/new", icon: FileText, color: "from-blue-500 to-blue-600" },
+    { label: "Add Events", href: "/admin/events/new", icon: Calendar, color: "from-blue-500 to-blue-600" },
     { label: "Create News", href: "/admin/news/new", icon: Newspaper, color: "from-green-500 to-green-600" },
     { label: "Write Blog", href: "/admin/blog/new", icon: BookOpen, color: "from-orange-500 to-orange-600" },
     { label: "Add Story", href: "/admin/stories/new", icon: Award, color: "from-pink-500 to-pink-600" },
@@ -175,7 +175,7 @@ export default function AdminDashboard() {
         </div>
       </div>
 
-      <div className="max-w-7xl mx-auto px-6 py-8">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 py-8">
 
         {/* Error Banner */}
         {error && (
@@ -335,7 +335,7 @@ export default function AdminDashboard() {
                 {[
                   { label: "Manage Gallery", href: "/admin/gallery", icon: Image },
                   { label: "Manage People", href: "/admin/users", icon: UserCog },
-                  { label: "New Article", href: "/admin/articles/new", icon: FileText },
+                  { label: "Add Event", href: "/admin/events/new", icon: Calendar },
                   { label: "New News Post", href: "/admin/news/new", icon: Newspaper },
                 ].map((item) => (
                   <Link
