@@ -37,35 +37,35 @@ Through shared activities, conversations, and laughter, the team reminded the ch
   },
   {
     id: 2,
-    title: "Standing Together During the Nairobi Floods",
-    category: "Disaster Response",
-    image: "https://images.unsplash.com/photo-1547683905-f686c993aae5?auto=format&fit=crop&w=1080&q=80",
-    quote: "When the floods came, we thought we were alone. Seeing people come to help gave us hope again.",
-    impact: "Community support efforts helped raise awareness, encourage preparedness, and stand with families affected by the devastating Nairobi floods.",
-    location: "Nairobi, Kenya",
-    date: "2025",
-    beneficiaries: "500+ Families",
-    story: `Heavy rains in Nairobi caused severe flooding that displaced families, damaged homes, and disrupted daily life across many neighborhoods.
+    title: "Easter Egg Hunt at Sienna Ridge",
+    category: "Community Outreach",
+    image: "/Easter Egg.jpeg",
+    quote: "Every bit of support makes a massive difference for our family.",
+    impact: "Provided essential resources and a bilingual Easter celebration to over 80 families in the Atlanta community.",
+    location: "Atlanta, GA",
+    date: "April 6, 2026",
+    beneficiaries: "80+ Families",
+    story: `On behalf of Cross-Borders Outreach Ministry, we shared the impact from our community outreach event held at Sienna Ridge Apartment Homes in Atlanta. Thanks to incredible logistical support from Operation Compassion and generous donations from Amazon, we provided essential resources and joy to over 80 families.
 
-During the crisis, communities came together to support one another, forming rescue chains, sharing resources, and helping stranded residents reach safety.
+The event was a vibrant bilingual celebration featuring a full Easter egg hunt, games, and live entertainment. We distributed hundreds of Easter baskets, toys, candy, hygiene products, and household essentials.
 
-Crossborder Outreach used the moment to promote compassion, unity, and disaster preparedness, reminding communities that collective action and care can help rebuild hope even after disaster. Our rapid response teams worked tirelessly to distribute emergency supplies, clean water, and temporary shelter materials to those who lost everything.`
+The Amazon-donated products reaching these families represented more than just physical goods; they provided dignity and solidarity. One single mother noted that every bit of support makes a massive difference for her family. These events not only meet immediate physical needs but also empower our youth volunteers and foster deep connections within the multicultural Atlanta community.`
   },
   {
     id: 3,
-    title: "Beyond Grades: Supporting Students' Mental Health",
-    category: "Mental Health",
-    image: "https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&w=1080&q=80",
-    quote: "Sometimes students don't fail because they are incapable, but because they are silently struggling.",
-    impact: "Mental health awareness initiatives help students feel heard, supported, and empowered to succeed beyond academic pressure.",
-    location: "Multiple Locations",
-    date: "Ongoing",
-    beneficiaries: "1,000+ Students",
-    story: `Academic success is important, but mental wellbeing is just as critical for students. Many young people silently struggle with stress, anxiety, and overwhelming expectations. 
+    title: "Spring Festival Community Support",
+    category: "Community Outreach",
+    image: "/Spring Festival.jpeg",
+    quote: "People still care about one another.",
+    impact: "A large-scale community festival supported by over 12 partner organizations, distributing high-value household items to 100 families.",
+    location: "Atlanta, GA",
+    date: "April 12, 2026",
+    beneficiaries: "100 Families",
+    story: `Following our Easter event, we hosted the Spring Festival at Sienna Ridge Apartment Homes in Atlanta. This was a large-scale community festival supported by over 12 partner organizations coming together to serve the community.
 
-Crossborder Outreach advocates for safe spaces where students can speak openly and receive guidance without judgment or stigma.
+During this event, we distributed high-value household items including humidifiers, air purifiers, kitchen appliances, heaters, and baby supplies to 100 families. The impact of these donations goes far beyond the items themselves.
 
-Through mentorship, awareness campaigns, and community dialogue, the mission encourages families and institutions to care about emotional wellbeing as much as academic achievement. We partner with local schools to implement ongoing counseling programs and peer support networks.`
+A senior resident shared that the event reminded them that "people still care about one another". Your role in facilitating the connection between Amazon and our ministry is invaluable. We are already looking ahead to future outreach opportunities and look forward to our continued work together to build a stronger, more compassionate community.`
   },
   {
     id: 4,
