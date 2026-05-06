@@ -18,6 +18,7 @@ import ImpactStories from "./pages/ImpactStories";
 import News from "./pages/News";
 import NewsArticle from "./pages/NewsArticle";
 import Events from "./pages/Events";
+import EventDetail from "./pages/EventDetail";
 import Gallery from "./pages/Gallery";
 import Mission from "./pages/Mission";
 import Team from "./pages/Team";
@@ -32,7 +33,6 @@ import AdminDashboard from "./pages/admin/AdminDashboard";
 import AdminGallery from "./pages/admin/AdminGallery";
 import AdminContentEditor from "./pages/admin/AdminContentEditor";
 import AdminUsers from "./pages/admin/AdminUsers";
-import AdminReports from "./pages/admin/AdminReports";
 
 // Donor Pages
 import DonorDashboard from "./pages/donor/DonorDashboard";
@@ -58,6 +58,7 @@ export const router = createBrowserRouter([
       { path: "news", Component: News },
       { path: "news/:id", Component: NewsArticle },
       { path: "events", Component: Events },
+      { path: "events/:id", Component: EventDetail },
       { path: "gallery", Component: Gallery },
       { path: "mission", Component: Mission },
       { path: "team", Component: Team },
@@ -102,14 +103,6 @@ export const router = createBrowserRouter([
         element: (
           <ProtectedRoute redirectTo="/admin/login">
             <AdminUsers />
-          </ProtectedRoute>
-        ),
-      },
-      {
-        path: "reports",
-        element: (
-          <ProtectedRoute redirectTo="/admin/login">
-            <AdminReports />
           </ProtectedRoute>
         ),
       },

@@ -201,12 +201,6 @@ export default function TwoLayerNavbar() {
           description: "Read our latest updates"
         },
         {
-          label: "Impact Stories",
-          href: "/impact",
-          icon: <Award className="w-5 h-5" />,
-          description: "Real-world change we're making"
-        },
-        {
           label: "News",
           href: "/news",
           icon: <FileText className="w-5 h-5" />,
@@ -260,6 +254,7 @@ export default function TwoLayerNavbar() {
     { label: "Events", href: "/events" },
     { label: "Gallery", href: "/gallery" },
     { label: "Reports", href: "/reports" },
+    { label: "Impact Stories", href: "/impact" },
   ];
 
   return (
