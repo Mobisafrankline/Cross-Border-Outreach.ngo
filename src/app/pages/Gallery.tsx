@@ -17,10 +17,11 @@ import {
   Globe,
   ImageIcon,
   Loader2,
+  Folder
 } from "lucide-react";
 import { ImageWithFallback } from "../components/figma/ImageWithFallback";
 import { assets } from "../../data/content";
-import { supabase } from "../../lib/supabase";
+import { supabase, getEventArchives, EventArchive } from "../../lib/supabase";
 
 type Category = "all" | "community" | "education" | "healthcare" | "food" | "economic";
 type ViewMode = "grid" | "masonry";
@@ -53,8 +54,20 @@ export default function Gallery() {
   
   const [dbImages, setDbImages] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
+  const [eventArchives, setEventArchives] = useState<EventArchive[]>([]);
+  const [archivesLoading, setArchivesLoading] = useState(true);
 
   useEffect(() => {
+    const fetchArchives = async () => {
+      setArchivesLoading(true);
+      const { data, error } = await getEventArchives();
+      if (!error && data) {
+        setEventArchives(data);
+      }
+      setArchivesLoading(false);
+    };
+    fetchArchives();
+
     const fetchImages = async () => {
       setLoading(true);
       const { data, error } = await supabase
@@ -69,15 +82,21 @@ export default function Gallery() {
     fetchImages();
   }, []);
 
+  // Build static images in reverse order (most recent entries last in arrays → first visually)
+  const staticImages = [
+    ...assets.events.map((img) => ({ id: img.id, url: img.url, alt: img.title, category: "community", created_at: null as string | null })),
+    ...assets.team.map((img) => ({ id: img.id, url: img.url, alt: img.title, category: "community", created_at: null as string | null })),
+    ...assets.heroes.map((img) => ({ id: img.id, url: img.url, alt: img.title, category: "community", created_at: null as string | null })),
+    ...assets.programs.education.map((img) => ({ id: img.id, url: img.url, alt: img.title, category: "education", created_at: null as string | null })),
+    ...assets.programs.healthcare.map((img) => ({ id: img.id, url: img.url, alt: img.title, category: "healthcare", created_at: null as string | null })),
+    ...assets.programs.foodSupport.map((img) => ({ id: img.id, url: img.url, alt: img.title, category: "food", created_at: null as string | null })),
+    ...assets.programs.economic.map((img) => ({ id: img.id, url: img.url, alt: img.title, category: "economic", created_at: null as string | null })),
+  ].reverse();
+
+  // DB images (already sorted by created_at DESC from Supabase) come first, then static images
   const combinedImages = [
     ...dbImages,
-    ...assets.heroes.map((img) => ({ id: img.id, url: img.url, alt: img.title, category: "community" })),
-    ...assets.programs.education.map((img) => ({ id: img.id, url: img.url, alt: img.title, category: "education" })),
-    ...assets.programs.healthcare.map((img) => ({ id: img.id, url: img.url, alt: img.title, category: "healthcare" })),
-    ...assets.programs.foodSupport.map((img) => ({ id: img.id, url: img.url, alt: img.title, category: "food" })),
-    ...assets.programs.economic.map((img) => ({ id: img.id, url: img.url, alt: img.title, category: "economic" })),
-    ...assets.team.map((img) => ({ id: img.id, url: img.url, alt: img.title, category: "community" })),
-    ...assets.events.map((img) => ({ id: img.id, url: img.url, alt: img.title, category: "community" })),
+    ...staticImages,
   ];
 
   // Strictly deduplicate by image URL to remove any visual duplicates
@@ -173,7 +192,7 @@ export default function Gallery() {
           ))}
         </div>
 
-        <div className="relative max-w-6xl mx-auto px-6 pt-24 pb-16 text-center">
+        <div className="relative max-w-6xl mx-auto px-6 pt-8 pb-10 text-center">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
@@ -521,6 +540,65 @@ export default function Gallery() {
           </motion.div>
         )}
       </AnimatePresence>
+
+      {/* ── Google Drive Archive Section ────────────────────────────── */}
+      {/* ── Google Drive Archive Section ────────────────────────────── */}
+      <section className="py-16 px-6 bg-slate-50 border-t border-slate-200">
+        <div className="max-w-6xl mx-auto">
+          <div className="text-center mb-12">
+            <div className="inline-flex items-center justify-center w-16 h-16 bg-white rounded-full border border-slate-200 shadow-sm mb-6">
+              {/* Google Drive SVG Icon */}
+              <svg viewBox="0 0 87.3 78" className="w-8 h-8">
+                <path d="M6.6 66.85l22.04 38.12 43.62-75.46L50.22-8.6 6.6 66.85z" fill="#0066da"/>
+                <path d="M43.6 75.45L65.65 37.3 22.03-8.6H-22l43.58 75.46h22.02z" fill="#00ac47"/>
+                <path d="M87.23 66.85L65.2 28.73H21.13l22.05 38.12h44.05z" fill="#ea4335"/>
+                <path d="M21.13 28.73h44.07l-22.02 38.12H-1l22.13-38.12z" fill="#ffba00"/>
+              </svg>
+            </div>
+            <h3 className="text-3xl md:text-4xl font-bold text-slate-900 mb-4">Event Photo Archives</h3>
+            <p className="text-lg text-slate-600 max-w-2xl mx-auto">
+              Browse and download high-resolution photos from our specific past events and programs in our public Google Drive folders.
+            </p>
+          </div>
+
+          {archivesLoading ? (
+            <div className="flex justify-center items-center py-12">
+              <Loader2 className="w-10 h-10 text-blue-600 animate-spin" />
+            </div>
+          ) : eventArchives.length > 0 ? (
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {eventArchives.map((archive) => (
+                <div key={archive.id} className="bg-white rounded-2xl p-6 border border-slate-200 shadow-sm hover:shadow-md transition-all group flex flex-col h-full">
+                  <div className="flex items-start gap-4 mb-4">
+                    <div className="w-12 h-12 shrink-0 bg-blue-50 text-blue-600 rounded-xl flex items-center justify-center group-hover:bg-blue-600 group-hover:text-white transition-colors">
+                      <Folder className="w-6 h-6" />
+                    </div>
+                    <div>
+                      <h4 className="font-bold text-slate-900 line-clamp-2">{archive.title}</h4>
+                      <span className="text-xs text-slate-500 font-medium uppercase tracking-wider">{archive.date}</span>
+                    </div>
+                  </div>
+                  <p className="text-sm text-slate-600 line-clamp-2 flex-grow mb-6">
+                    {archive.description}
+                  </p>
+                  <a
+                    href={archive.drive_url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="w-full py-2.5 text-center bg-slate-50 text-slate-700 font-semibold rounded-xl hover:bg-slate-100 transition-colors border border-slate-200 mt-auto"
+                  >
+                    Open Drive Folder
+                  </a>
+                </div>
+              ))}
+            </div>
+          ) : (
+            <div className="text-center py-12">
+              <p className="text-slate-500">No event archives available yet.</p>
+            </div>
+          )}
+        </div>
+      </section>
 
       {/* ── CTA Banner ────────────────────────────────────────────── */}
       <section className="py-16 px-6 bg-white border-t border-slate-200">

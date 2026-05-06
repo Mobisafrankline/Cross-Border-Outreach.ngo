@@ -93,7 +93,7 @@ export default function ImpactStories() {
   return (
     <div className="min-h-screen bg-slate-50 text-slate-800 font-sans">
       {/* ── Hero Section ────────────────────────────────────────── */}
-      <section className="relative pt-32 pb-24 lg:pt-40 lg:pb-32 overflow-hidden">
+      <section className="relative pt-12 pb-24 lg:pt-16 lg:pb-32 overflow-hidden">
         {/* Background Gradients & Effects */}
         <div className="absolute inset-0 bg-blue-600 bg-gradient-to-b from-blue-700 to-blue-500 z-0" />
         <div className="absolute top-0 left-0 w-full h-full overflow-hidden z-0 pointer-events-none">

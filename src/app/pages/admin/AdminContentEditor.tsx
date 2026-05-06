@@ -26,17 +26,19 @@ export default function AdminContentEditor() {
     events: { label: "Event", icon: "📅", color: "purple" }
   };
 
-  const currentTypeKey = (() => {
-    if (!type) return "article";
+  const initialTypeKey = (() => {
+    if (!type) return "blog";
     if (type.startsWith("article")) return "article";
     if (type.startsWith("stori") || type.startsWith("story")) return "story";
     if (type.startsWith("blog")) return "blog";
     if (type.startsWith("event")) return "events";
     if (type === "news") return "news";
-    return "article";
+    return "blog";
   })();
 
-  const currentType = contentTypes[currentTypeKey as keyof typeof contentTypes] || contentTypes.article;
+  const [selectedType, setSelectedType] = useState(initialTypeKey);
+  const currentTypeKey = selectedType;
+  const currentType = contentTypes[currentTypeKey as keyof typeof contentTypes] || contentTypes.blog;
 
   const [isSaving, setIsSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -226,6 +228,23 @@ export default function AdminContentEditor() {
               <h3 className="font-bold text-gray-900 mb-4">Publish Settings</h3>
               
               <div className="space-y-4">
+                {/* Content Type Selector */}
+                <div>
+                  <label className="block text-sm font-semibold text-gray-700 mb-2">
+                    Content Type
+                  </label>
+                  <select
+                    value={selectedType}
+                    onChange={(e) => setSelectedType(e.target.value)}
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-600 focus:border-transparent outline-none font-semibold"
+                  >
+                    <option value="blog">✍️ Blog Post</option>
+                    <option value="news">📰 News</option>
+                    <option value="story">⭐ Impact Story</option>
+                    <option value="events">📅 Event</option>
+                  </select>
+                </div>
+
                 <div>
                   <label className="block text-sm font-semibold text-gray-700 mb-2">
                     <Calendar className="w-4 h-4 inline mr-1" />

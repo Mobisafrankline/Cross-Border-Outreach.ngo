@@ -4,11 +4,11 @@ import {
   Heart, DollarSign, Calendar, TrendingUp, Download,
   Eye, Gift, Award, LogOut, Loader2, AlertCircle,
   PieChart, Star, ChevronRight, Activity, Map, X,
-  BarChart3
+  BarChart3, Folder, FileText, RefreshCw, LayoutDashboard, UserCog, Image
 } from "lucide-react";
 import { useAuth } from "../../../lib/AuthContext";
-import { getDonorProfile, getDonorDonations, signOut } from "../../../lib/supabase";
-import type { Donor, Donation } from "../../../lib/supabase";
+import { getDonorProfile, getDonorDonations, signOut, getEventArchives, getReports, getGalleryImages, getArticles } from "../../../lib/supabase";
+import type { Donor, Donation, EventArchive, Report, GalleryImage, Article } from "../../../lib/supabase";
 import { Elements } from "@stripe/react-stripe-js";
 import { getStripe, isStripeConfigured } from "../../../lib/stripe";
 import PaymentForm from "../../components/PaymentForm";
@@ -32,6 +32,10 @@ export default function DonorDashboard() {
 
   const [donor, setDonor] = useState<Donor | null>(null);
   const [donations, setDonations] = useState<Donation[]>([]);
+  const [eventArchives, setEventArchives] = useState<EventArchive[]>([]);
+  const [orgReports, setOrgReports] = useState<Report[]>([]);
+  const [galleryImages, setGalleryImages] = useState<GalleryImage[]>([]);
+  const [projectUpdates, setProjectUpdates] = useState<Article[]>([]);
   const [dataLoading, setDataLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -47,15 +51,23 @@ export default function DonorDashboard() {
 
     const load = async () => {
       setDataLoading(true);
-      const [profileRes, donationsRes] = await Promise.all([
+      const [profileRes, donationsRes, archivesRes, reportsRes, galleryRes, articlesRes] = await Promise.all([
         getDonorProfile(user.id),
         getDonorDonations(user.id),
+        getEventArchives(),
+        getReports(),
+        getGalleryImages(),
+        getArticles(undefined, 'published')
       ]);
 
       if (profileRes.error) setError(profileRes.error.message);
       else setDonor(profileRes.data);
 
       if (!donationsRes.error) setDonations(donationsRes.data ?? []);
+      if (!archivesRes.error) setEventArchives(archivesRes.data ?? []);
+      if (!reportsRes.error) setOrgReports(reportsRes.data ?? []);
+      if (!galleryRes.error) setGalleryImages(galleryRes.data ?? []);
+      if (!articlesRes.error) setProjectUpdates(articlesRes.data?.slice(0, 3) ?? []);
       setDataLoading(false);
     };
 
@@ -289,32 +301,34 @@ export default function DonorDashboard() {
       
       {/* ── HEADER ── */}
       <div className="bg-white border-b border-gray-200">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 py-6">
+        <div className="max-w-7xl mx-auto px-6 py-6">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
             <div className="flex items-center gap-3">
-              <Heart className="w-8 h-8 text-blue-600 shrink-0" />
+              <div className="w-12 h-12 bg-blue-50 text-blue-600 rounded-xl flex items-center justify-center">
+                <LayoutDashboard className="w-7 h-7" />
+              </div>
               <div>
-                <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">Donor Dashboard</h1>
-                <p className="text-gray-600 text-sm break-all">
-                  Welcome back, <span className="font-semibold text-blue-600">{donorName}</span>
+                <h1 className="text-3xl font-bold text-gray-900">Donor Dashboard</h1>
+                <p className="text-blue-600 font-medium text-sm">
+                  Signed in as <span className="underline">{user?.email}</span>
                 </p>
               </div>
             </div>
             
-            <div className="flex items-center gap-3 w-full sm:w-auto">
+            <div className="flex items-center gap-3">
               <button
-                onClick={handleSignOut}
-                className="flex-1 sm:flex-none flex justify-center items-center gap-2 px-4 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-lg font-semibold text-sm transition-colors"
+                onClick={() => window.location.reload()}
+                className="flex items-center gap-2 px-4 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-lg font-semibold text-sm transition-colors"
               >
-                <LogOut className="w-4 h-4 shrink-0" />
-                Sign Out
+                <RefreshCw className="w-4 h-4" />
+                Refresh
               </button>
               <button
-                onClick={() => setIsDonateModalOpen(true)}
-                className="flex-1 sm:flex-none flex justify-center items-center gap-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-semibold text-sm transition-colors shadow-sm"
+                onClick={handleSignOut}
+                className="flex items-center gap-2 px-4 py-2 bg-red-50 hover:bg-red-100 text-red-600 rounded-lg font-semibold text-sm transition-colors"
               >
-                <Heart className="w-4 h-4 fill-white shrink-0" />
-                New Donation
+                <LogOut className="w-4 h-4" />
+                Sign Out
               </button>
             </div>
           </div>
@@ -343,22 +357,61 @@ export default function DonorDashboard() {
         )}
 
         {/* ── KEY METRICS ── */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+        <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6 mb-8">
           {[
             { label: "Total Contribution", value: `$${totalDonated.toLocaleString()}`, icon: DollarSign, color: "bg-blue-500" },
-            { label: "Donations Made", value: donor?.donation_count ?? donations.length, icon: Gift, color: "bg-purple-500" },
-            { label: "Impact Score", value: Math.round(totalDonated * 0.15) + 100, icon: Activity, color: "bg-green-500" }
+            { label: "Donations Made", value: donor?.donation_count ?? donations.length, icon: Gift, color: "bg-green-500" },
+            { label: "Impact Score", value: (Math.round(totalDonated * 0.15) + 100).toLocaleString(), icon: Activity, color: "bg-purple-500" },
+            { label: "Account Tier", value: currentTier.name, icon: Award, color: "bg-orange-500" },
           ].map((stat, i) => (
-            <div key={i} className="bg-white rounded-xl shadow-sm p-6 border border-gray-200 hover:shadow-md transition-shadow">
-              <div className="flex items-start justify-between mb-4">
-                <div className={`${stat.color} w-12 h-12 rounded-lg flex items-center justify-center`}>
-                  <stat.icon className="w-6 h-6 text-white" />
+            <div key={i} className="bg-white rounded-2xl shadow-sm p-6 border border-gray-100">
+              <div className="flex items-center gap-4 mb-4">
+                <div className={`${stat.color} w-10 h-10 rounded-lg flex items-center justify-center text-white`}>
+                  <stat.icon className="w-6 h-6" />
                 </div>
               </div>
               <div className="text-3xl font-bold text-gray-900 mb-1">{stat.value}</div>
-              <div className="text-sm text-gray-600">{stat.label}</div>
+              <div className="text-sm text-gray-500 font-medium">{stat.label}</div>
             </div>
           ))}
+        </div>
+
+        {/* Quick Actions */}
+        <div className="mb-8">
+          <h2 className="text-xl font-bold text-gray-900 mb-4">Quick Actions</h2>
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
+            {[
+              { label: "New Donation", onClick: () => setIsDonateModalOpen(true), icon: Heart, color: "bg-blue-600" },
+              { label: "View Reports", onClick: () => {
+                const el = document.getElementById('org-reports');
+                el?.scrollIntoView({ behavior: 'smooth' });
+              }, icon: FileText, color: "bg-emerald-600" },
+              { label: "Impact Gallery", onClick: () => {
+                const el = document.getElementById('impact-gallery');
+                el?.scrollIntoView({ behavior: 'smooth' });
+              }, icon: Image, color: "bg-purple-600" },
+              { label: "Tax Receipt", onClick: generateAnnualReceipt, icon: Download, color: "bg-orange-600" },
+              { label: "Account Settings", href: "/donor/profile", icon: UserCog, color: "bg-teal-600" },
+              { label: "Suggest Project", href: "/contact", icon: Star, color: "bg-pink-600" },
+            ].map((action, i) => {
+              const ActionContent = (
+                <div className={`${action.color} rounded-2xl p-6 text-white text-center hover:shadow-lg transition-all transform hover:-translate-y-1 h-full flex flex-col items-center justify-center`}>
+                  <action.icon className="w-8 h-8 mb-3" />
+                  <div className="text-sm font-bold">{action.label}</div>
+                </div>
+              );
+
+              if (action.onClick) {
+                return <button key={i} onClick={action.onClick} className="w-full text-left">{ActionContent}</button>
+              }
+
+              return (
+                <Link key={i} to={action.href!} className="block">
+                  {ActionContent}
+                </Link>
+              );
+            })}
+          </div>
         </div>
 
         <div className="grid lg:grid-cols-3 gap-8">
@@ -463,6 +516,129 @@ export default function DonorDashboard() {
                 </div>
               )}
             </div>
+
+            {/* ── Event Archives Section ── */}
+            <div className="bg-white rounded-xl shadow-sm border border-gray-200">
+              <div className="p-6 border-b border-gray-200">
+                <h2 className="text-xl font-bold text-gray-900 flex items-center gap-2">
+                  <Folder className="w-5 h-5 text-blue-600" /> Event Photo Archives
+                </h2>
+                <p className="text-sm text-gray-500 mt-1">Exclusive access to high-resolution photos from our past events and programs.</p>
+              </div>
+              <div className="p-6 bg-gray-50/50">
+                {eventArchives.length > 0 ? (
+                  <div className="grid sm:grid-cols-2 gap-4">
+                    {eventArchives.map((archive) => (
+                      <div key={archive.id} className="bg-white rounded-xl p-4 border border-gray-200 shadow-sm hover:shadow-md transition-all group flex flex-col h-full">
+                        <div className="flex items-start gap-3 mb-3">
+                          <div className="w-10 h-10 shrink-0 bg-blue-50 text-blue-600 rounded-lg flex items-center justify-center group-hover:bg-blue-600 group-hover:text-white transition-colors">
+                            <Folder className="w-5 h-5" />
+                          </div>
+                          <div>
+                            <h4 className="font-bold text-sm text-gray-900 line-clamp-1">{archive.title}</h4>
+                            <span className="text-xs text-gray-500 font-medium uppercase">{archive.date}</span>
+                          </div>
+                        </div>
+                        <a
+                          href={archive.drive_url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="w-full mt-auto py-2 text-center bg-gray-50 text-gray-700 font-semibold text-sm rounded-lg hover:bg-gray-100 transition-colors border border-gray-200"
+                        >
+                          Open Drive Folder
+                        </a>
+                      </div>
+                    ))}
+                  </div>
+                ) : (
+                  <div className="text-center py-8">
+                    <p className="text-sm text-gray-500">No event archives are currently available.</p>
+                  </div>
+                )}
+              </div>
+            </div>
+
+            {/* ── Organization Reports Section ── */}
+            <div id="org-reports" className="bg-white rounded-xl shadow-sm border border-gray-200">
+              <div className="p-6 border-b border-gray-200">
+                <h2 className="text-xl font-bold text-gray-900 flex items-center gap-2">
+                  <FileText className="w-5 h-5 text-blue-600" /> Organization Reports
+                </h2>
+                <p className="text-sm text-gray-500 mt-1">Full access to all published reports including financials.</p>
+              </div>
+              <div className="p-6 bg-gray-50/50">
+                {orgReports.length > 0 ? (
+                  <div className="space-y-3">
+                    {orgReports.slice(0, 6).map((report) => (
+                      <a
+                        key={report.id}
+                        href={report.file_url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="flex items-center gap-3 p-3 bg-white rounded-lg border border-gray-200 hover:shadow-sm hover:border-blue-200 transition-all group"
+                      >
+                        <div className="w-10 h-10 shrink-0 bg-blue-50 text-blue-600 rounded-lg flex items-center justify-center group-hover:bg-blue-600 group-hover:text-white transition-colors">
+                          <FileText className="w-5 h-5" />
+                        </div>
+                        <div className="flex-1 min-w-0">
+                          <h4 className="font-semibold text-sm text-gray-900 truncate">{report.title}</h4>
+                          <div className="flex items-center gap-2 text-xs text-gray-500">
+                            {report.year && <span>{report.year}</span>}
+                            <span className="capitalize px-1.5 py-0.5 rounded bg-gray-100 text-gray-600 font-medium">{report.category}</span>
+                          </div>
+                        </div>
+                        <Download className="w-4 h-4 text-gray-400 group-hover:text-blue-600 shrink-0" />
+                      </a>
+                    ))}
+                  </div>
+                ) : (
+                  <div className="text-center py-8">
+                    <p className="text-sm text-gray-500">No reports are currently available.</p>
+                  </div>
+                )}
+              </div>
+            </div>
+
+            {/* ── Impact Gallery Section ── */}
+            <div id="impact-gallery" className="bg-white rounded-xl shadow-sm border border-gray-200">
+              <div className="p-6 border-b border-gray-200">
+                <h2 className="text-xl font-bold text-gray-900 flex items-center gap-2">
+                  <Eye className="w-5 h-5 text-blue-600" /> Impact Gallery
+                </h2>
+                <p className="text-sm text-gray-500 mt-1">See the direct results of your generosity in the field.</p>
+              </div>
+              <div className="p-6 bg-gray-50/50">
+                {galleryImages.length > 0 ? (
+                  <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
+                    {galleryImages.slice(0, 6).map((img) => (
+                      <div key={img.id} className="relative aspect-square rounded-xl overflow-hidden group cursor-pointer shadow-sm hover:shadow-md transition-all">
+                        <img 
+                          src={img.url} 
+                          alt={img.alt} 
+                          className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" 
+                        />
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex flex-col justify-end p-3">
+                          <p className="text-white text-[10px] font-bold uppercase tracking-wider mb-0.5">{img.category}</p>
+                          <p className="text-white text-xs font-medium truncate">{img.title}</p>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                ) : (
+                  <div className="text-center py-8">
+                    <p className="text-sm text-gray-500">No impact photos are currently available.</p>
+                  </div>
+                )}
+                {galleryImages.length > 6 && (
+                  <div className="mt-6 text-center">
+                    <Link to="/gallery" className="text-sm font-semibold text-blue-600 hover:text-blue-700">
+                      View Full Gallery →
+                    </Link>
+                  </div>
+                )}
+              </div>
+            </div>
+
           </div>
 
           {/* ── SIDEBAR (Right column) ── */}
@@ -496,6 +672,31 @@ export default function DonorDashboard() {
               )}
             </div>
 
+            {/* Project Updates */}
+            <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+              <h3 className="text-lg font-bold text-gray-900 mb-6 flex items-center gap-2">
+                <TrendingUp className="w-5 h-5 text-orange-500" /> Latest Updates
+              </h3>
+              <div className="space-y-4">
+                {projectUpdates.map((update) => (
+                  <Link key={update.id} to={`/blog/${update.id}`} className="block group">
+                    <div className="flex gap-3">
+                      {update.featured_image && (
+                        <img src={update.featured_image} alt="" className="w-16 h-16 rounded-lg object-cover shrink-0" />
+                      )}
+                      <div className="min-w-0">
+                        <h4 className="text-sm font-bold text-gray-900 group-hover:text-blue-600 transition-colors line-clamp-2">{update.title}</h4>
+                        <p className="text-xs text-gray-500 mt-1">{new Date(update.published_at || update.created_at).toLocaleDateString()}</p>
+                      </div>
+                    </div>
+                  </Link>
+                ))}
+                {projectUpdates.length === 0 && (
+                  <p className="text-sm text-gray-500 text-center py-4">No recent updates.</p>
+                )}
+              </div>
+            </div>
+
             {/* Quick Actions */}
             <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
               <h3 className="text-lg font-bold text-gray-900 mb-4 flex items-center gap-2">
@@ -505,6 +706,9 @@ export default function DonorDashboard() {
               <div className="space-y-2">
                 <Link to="/donor/profile" className="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-blue-50 text-gray-700 hover:text-blue-700 transition-colors">
                   <span className="text-sm font-medium">Account Settings</span>
+                </Link>
+                <Link to="/contact" className="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-blue-50 text-gray-700 hover:text-blue-700 transition-colors">
+                  <span className="text-sm font-medium">Suggest a Project</span>
                 </Link>
                 <Link to="/contact" className="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-blue-50 text-gray-700 hover:text-blue-700 transition-colors">
                   <span className="text-sm font-medium">Support / FAQ</span>

@@ -9,8 +9,8 @@ export default function Layout() {
     <div className="min-h-screen flex flex-col">
       <GoogleTranslateInit />
       <TwoLayerNavbar />
-      {/* The navbar is fixed to the top and is exactly 117px tall (64px + 53px). We use inline style to guarantee padding and avoid Tailwind JIT misses. */}
-      <main className="flex-1" style={{ paddingTop: '117px' }}>
+      {/* The navbar is fixed to the top. Mobile: 56px (pt-14), Desktop: 112px (lg:pt-28). */}
+      <main className="flex-1 pt-14 lg:pt-28">
         <Outlet />
       </main>
       <Footer />

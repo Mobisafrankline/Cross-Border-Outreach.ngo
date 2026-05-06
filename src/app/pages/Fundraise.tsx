@@ -122,49 +122,7 @@ export default function Fundraise() {
         </div>
       </section>
 
-      {/* Active Campaigns */}
-      <section className="py-20 bg-white">
-        <div className="max-w-6xl mx-auto px-6">
-          <div className="text-center mb-12">
-            <h2 className="text-4xl font-bold text-gray-900 mb-4">Featured Campaigns</h2>
-            <p className="text-xl text-gray-600">
-              See what others are fundraising for
-            </p>
-          </div>
 
-          <div className="grid md:grid-cols-3 gap-8">
-            {activeCampaigns.map((campaign, index) => (
-              <div key={index} className="bg-blue-50 rounded-xl p-6 hover:shadow-lg transition-shadow">
-                <div className="w-16 h-16 bg-blue-600 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <Users className="w-8 h-8 text-white" />
-                </div>
-                <h3 className="text-xl font-bold text-gray-900 mb-4 text-center">{campaign.name}</h3>
-                
-                <div className="space-y-3 mb-4">
-                  <div className="flex justify-between text-sm">
-                    <span className="text-gray-600">Raised</span>
-                    <span className="font-semibold text-gray-900">{campaign.raised}</span>
-                  </div>
-                  <div className="w-full bg-gray-200 rounded-full h-2">
-                    <div 
-                      className="bg-blue-600 h-2 rounded-full" 
-                      style={{width: `${(parseInt(campaign.raised.replace(/[$,]/g, '')) / parseInt(campaign.goal.replace(/[$,]/g, ''))) * 100}%`}}
-                    />
-                  </div>
-                  <div className="flex justify-between text-sm">
-                    <span className="text-gray-600">Goal</span>
-                    <span className="font-semibold text-gray-900">{campaign.goal}</span>
-                  </div>
-                </div>
-                
-                <div className="text-center text-sm text-gray-600">
-                  {campaign.supporters} supporters
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
 
       {/* Start Campaign Form */}
       <section className="py-20 bg-orange-50">

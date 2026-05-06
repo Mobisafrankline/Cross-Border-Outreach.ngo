@@ -61,30 +61,39 @@ export default function Home() {
     },
   ];
 
-const carouselSettings = {
-  dots: true,
-  infinite: true,
-  speed: 500,
-  slidesToShow: 3, // default for desktop
-  slidesToScroll: 1,
-  autoplay: true,
-  autoplaySpeed: 3000,
-  arrows: false,
-  responsive: [
-    {
-      breakpoint: 1024, // tablets
-      settings: { slidesToShow: 2 },
-    },
-    {
-      breakpoint: 768, // large mobile
-      settings: { slidesToShow: 1 },
-    },
-    {
-      breakpoint: 480, // small mobile
-      settings: { slidesToShow: 1 },
-    },
-  ],
-};
+  const carouselSettings = {
+    dots: true,
+    infinite: true,
+    speed: 500,
+    slidesToShow: 3, // default for desktop
+    slidesToScroll: 1,
+    autoplay: true,
+    autoplaySpeed: 3000,
+    arrows: false,
+    responsive: [
+      {
+        breakpoint: 1024, // tablets
+        settings: { 
+          slidesToShow: 2,
+          slidesToScroll: 1,
+        },
+      },
+      {
+        breakpoint: 768, // large mobile
+        settings: { 
+          slidesToShow: 1,
+          slidesToScroll: 1,
+        },
+      },
+      {
+        breakpoint: 480, // small mobile
+        settings: { 
+          slidesToShow: 1,
+          slidesToScroll: 1,
+        },
+      },
+    ],
+  };
 
   const latestNews = newsUpdates.slice(0, 3);
 
@@ -132,8 +141,8 @@ const carouselSettings = {
       </section>
 
       {/* Image Carousel */}
-      <section className="py-12 sm:py-16 md:py-20 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6">
+      <section className="py-12 sm:py-16 md:py-20 bg-white overflow-hidden">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 pb-10">
           <Slider {...carouselSettings}>
             {galleryImages.map((image) => (
               <div key={image.id} className="px-2 sm:px-3">
@@ -330,32 +339,7 @@ const carouselSettings = {
         </div>
       </section>
 
-{/* CTA Section */}
-      <section className="py-20 bg-gradient-to-r from-blue-600 to-blue-700">
-        <div className="max-w-4xl mx-auto px-6 text-center text-white">
-          <h2 className="text-4xl font-bold mb-6">Ready to Make a Difference?</h2>
 
-          <p className="text-xl mb-8 opacity-95">
-            Your support can transform lives and create lasting change in communities around the world.
-          </p>
-
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <a
-              href="/donate"
-              className="px-8 py-4 bg-gradient-to-r from-orange-500 to-orange-600 text-white rounded-lg font-semibold hover:from-orange-600 hover:to-orange-700 transition-all shadow-lg"
-            >
-              Make a Donation
-            </a>
-
-            <a
-              href="/volunteer"
-              className="px-8 py-4 bg-white text-blue-600 rounded-lg font-semibold hover:bg-gray-50 transition-colors"
-            >
-              Become a Volunteer
-            </a>
-          </div>
-        </div>
-      </section>
     </div>
   );
 }

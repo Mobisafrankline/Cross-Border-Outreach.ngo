@@ -67,6 +67,29 @@ export type Article = {
   updated_at: string;
 };
 
+export type EventArchive = {
+  id: string;
+  title: string;
+  date: string;
+  description: string;
+  drive_url: string;
+  created_at: string;
+};
+
+export type Report = {
+  id: string;
+  title: string;
+  description: string;
+  category: 'event' | 'quarterly' | 'monthly' | 'yearly' | 'financial';
+  year: string;
+  date: string;
+  file_url: string;
+  file_size: string;
+  page_count: number;
+  access_code: string | null;
+  created_at: string;
+};
+
 // Auth helpers
 export const signUp = async (email: string, password: string, metadata: any) => {
   const { data, error } = await supabase.auth.signUp({
@@ -259,4 +282,86 @@ export const deleteArticle = async (articleId: string) => {
     .delete()
     .eq('id', articleId);
   return { error };
+};
+
+// Event Archive operations
+export const getEventArchives = async () => {
+  const { data, error } = await supabase
+    .from('event_archives')
+    .select('*')
+    .order('created_at', { ascending: false });
+  return { data, error };
+};
+
+export const createEventArchive = async (archive: Omit<EventArchive, 'id' | 'created_at'>) => {
+  const { data, error } = await supabase
+    .from('event_archives')
+    .insert(archive)
+    .select()
+    .single();
+  return { data, error };
+};
+
+export const deleteEventArchive = async (archiveId: string) => {
+  const { error } = await supabase
+    .from('event_archives')
+    .delete()
+    .eq('id', archiveId);
+  return { error };
+};
+
+// Report operations
+export const getReports = async (category?: string) => {
+  let query = supabase
+    .from('reports')
+    .select('*')
+    .order('created_at', { ascending: false });
+  if (category) query = query.eq('category', category);
+  const { data, error } = await query;
+  return { data, error };
+};
+
+export const getPublicReports = async () => {
+  const { data, error } = await supabase
+    .from('reports')
+    .select('*')
+    .neq('category', 'financial')
+    .order('created_at', { ascending: false });
+  return { data, error };
+};
+
+export const getFinancialReports = async () => {
+  const { data, error } = await supabase
+    .from('reports')
+    .select('*')
+    .eq('category', 'financial')
+    .order('created_at', { ascending: false });
+  return { data, error };
+};
+
+export const createReport = async (report: Omit<Report, 'id' | 'created_at'>) => {
+  const { data, error } = await supabase
+    .from('reports')
+    .insert(report)
+    .select()
+    .single();
+  return { data, error };
+};
+
+export const deleteReport = async (reportId: string) => {
+  const { error } = await supabase
+    .from('reports')
+    .delete()
+    .eq('id', reportId);
+  return { error };
+};
+
+export const verifyReportAccessCode = async (reportId: string, code: string) => {
+  const { data, error } = await supabase
+    .from('reports')
+    .select('id, file_url')
+    .eq('id', reportId)
+    .eq('access_code', code)
+    .single();
+  return { data, error };
 };

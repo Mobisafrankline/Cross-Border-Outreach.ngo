@@ -47,19 +47,7 @@ export default function Contact() {
             <div>
               <h2 className="text-3xl font-bold text-gray-900 mb-8">Contact Information</h2>
               <div className="space-y-6">
-                {/* Address */}
-                <div className="flex items-start gap-4">
-                  <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center flex-shrink-0">
-                    <MapPin className="w-6 h-6 text-blue-600" />
-                  </div>
-                  <div>
-                    <h3 className="font-semibold text-gray-900 mb-1">Address</h3>
-                    <p className="text-gray-600">
-                      Dallas, GA<br />
-                      United States
-                    </p>
-                  </div>
-                </div>
+
 
                 {/* Phone */}
                 <div className="flex items-start gap-4">
@@ -99,15 +87,7 @@ export default function Contact() {
                 </div>
               </div>
 
-              {/* Map */}
-              <div className="mt-8 h-64 rounded-xl overflow-hidden shadow-md">
-                <iframe
-                  title="Dallas Location"
-                  src="https://www.google.com/maps?q=Dallas,+GA,+United+States&output=embed"
-                  className="w-full h-full border-0"
-                  loading="lazy"
-                />
-              </div>
+
             </div>
 
             {/* Contact Form */}

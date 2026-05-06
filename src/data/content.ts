@@ -389,33 +389,11 @@ export const assets = {
       title: "Team Collaboration",
       description: "Our diverse team working together",
       tags: ["team", "collaboration", "staff"]
-    },
-    {
-      id: "team-2",
-      url: "https://images.unsplash.com/photo-1769837230054-7f3a7356dde1?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHx2b2x1bnRlZXJzJTIwY29tbXVuaXR5JTIwc2VydmljZSUyMHRlYW13b3JrfGVufDF8fHx8MTc3MTk5Njg5M3ww&ixlib=rb-4.1.0&q=80&w=1080",
-      title: "Volunteers at Work",
-      description: "Volunteers providing community service",
-      tags: ["volunteers", "teamwork", "service"]
     }
   ],
   
   // Event Photos
-  events: [
-    {
-      id: "event-1",
-      url: "https://images.unsplash.com/photo-1769837230424-bf083c309ab1?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxmdW5kcmFpc2luZyUyMGV2ZW50JTIwY2hhcml0eSUyMGdhdGhlcmluZ3xlbnwxfHx8fDE3NzE5OTY4OTR8MA&ixlib=rb-4.1.0&q=80&w=1080",
-      title: "Annual Gala",
-      description: "Fundraising event gathering",
-      tags: ["event", "fundraising", "gala"]
-    },
-    {
-      id: "event-2",
-      url: "https://images.unsplash.com/photo-1770922807878-ec02fed1d0c3?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxzdWNjZXNzJTIwc3RvcnklMjBjZWxlYnJhdGlvbiUyMGFjaGlldmVtZW50fGVufDF8fHx8MTc3MTk5NzAxNXww&ixlib=rb-4.1.0&q=80&w=1080",
-      title: "Celebration Event",
-      description: "Celebrating achievements and milestones",
-      tags: ["event", "celebration", "milestone"]
-    }
-  ],
+  events: [],
   
   // News/Press Images
   news: [

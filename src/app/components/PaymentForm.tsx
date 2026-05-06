@@ -29,6 +29,7 @@ interface PaymentFormProps {
     lastName?: string;
     email?: string;
   };
+  donationType: "one-time" | "recurring";
 }
 
 export default function PaymentForm({

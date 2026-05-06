@@ -3,7 +3,7 @@ import { Link, useNavigate } from "react-router";
 import {
   LayoutDashboard, Image, FileText, Users, Newspaper,
   BookOpen, Award, TrendingUp, DollarSign, Calendar,
-  BarChart3, LogOut, Loader2, AlertCircle, RefreshCw, UserCog
+  BarChart3, LogOut, Loader2, AlertCircle, RefreshCw, UserCog, X, ChevronRight
 } from "lucide-react";
 import { useAuth } from "../../../lib/AuthContext";
 import { getAllDonors, signOut, supabase } from "../../../lib/supabase";
@@ -42,6 +42,7 @@ export default function AdminDashboard() {
   const [recentDonors, setRecentDonors] = useState<Donor[]>([]);
   const [dataLoading, setDataLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [isNewContentModalOpen, setIsNewContentModalOpen] = useState(false);
 
   const loadData = async () => {
     setDataLoading(true);
@@ -94,10 +95,10 @@ export default function AdminDashboard() {
   const quickActions = [
     { label: "Upload Images", href: "/admin/gallery", icon: Image, color: "from-purple-500 to-purple-600" },
     { label: "Add Events", href: "/admin/events/new", icon: Calendar, color: "from-blue-500 to-blue-600" },
-    { label: "Create News", href: "/admin/news/new", icon: Newspaper, color: "from-green-500 to-green-600" },
-    { label: "Write Blog", href: "/admin/blog/new", icon: BookOpen, color: "from-orange-500 to-orange-600" },
+    { label: "New & Blog", onClick: () => setIsNewContentModalOpen(true), icon: Newspaper, color: "from-green-500 to-green-600" },
     { label: "Add Story", href: "/admin/stories/new", icon: Award, color: "from-pink-500 to-pink-600" },
     { label: "Manage People", href: "/admin/users", icon: UserCog, color: "from-teal-500 to-teal-600" },
+    { label: "Manage Reports", href: "/admin/reports", icon: BarChart3, color: "from-indigo-500 to-indigo-600" },
   ];
 
   const statCards = [
@@ -215,16 +216,30 @@ export default function AdminDashboard() {
         <div className="mb-8">
           <h2 className="text-xl font-bold text-gray-900 mb-4">Quick Actions</h2>
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
-            {quickActions.map((action) => (
-              <Link key={action.href} to={action.href} className="group">
+            {quickActions.map((action) => {
+              const ActionContent = (
                 <div
-                  className={`bg-gradient-to-br ${action.color} rounded-xl p-6 text-white hover:shadow-lg transition-all transform hover:-translate-y-1`}
+                  className={`bg-gradient-to-br ${action.color} rounded-xl p-6 text-white hover:shadow-lg transition-all transform hover:-translate-y-1 h-full flex flex-col items-center justify-center`}
                 >
                   <action.icon className="w-8 h-8 mb-3 mx-auto" />
                   <div className="text-sm font-semibold text-center">{action.label}</div>
                 </div>
-              </Link>
-            ))}
+              );
+
+              if (action.onClick) {
+                return (
+                  <button key={action.label} onClick={action.onClick} className="group w-full text-left">
+                    {ActionContent}
+                  </button>
+                );
+              }
+
+              return (
+                <Link key={action.href} to={action.href!} className="group">
+                  {ActionContent}
+                </Link>
+              );
+            })}
           </div>
         </div>
 
@@ -352,6 +367,69 @@ export default function AdminDashboard() {
           </div>
         </div>
       </div>
+
+      {/* New Content Selection Modal */}
+      {isNewContentModalOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+          <div className="absolute inset-0 bg-gray-900/60 backdrop-blur-sm" onClick={() => setIsNewContentModalOpen(false)}></div>
+          <div className="relative bg-white rounded-3xl shadow-2xl w-full max-w-lg p-8 animate-in zoom-in-95 duration-200">
+            <div className="flex items-center justify-between mb-8">
+              <div>
+                <h3 className="text-2xl font-bold text-gray-900">New Content</h3>
+                <p className="text-gray-500">What would you like to post today?</p>
+              </div>
+              <button onClick={() => setIsNewContentModalOpen(false)} className="p-2 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-full transition-colors">
+                <X className="w-6 h-6" />
+              </button>
+            </div>
+
+            <div className="grid grid-cols-2 gap-4">
+              <Link
+                to="/admin/news/new"
+                onClick={() => setIsNewContentModalOpen(false)}
+                className="group p-6 rounded-2xl border-2 border-gray-100 hover:border-green-500 hover:bg-green-50 transition-all text-center"
+              >
+                <div className="w-14 h-14 bg-green-100 text-green-600 rounded-xl flex items-center justify-center mx-auto mb-4 group-hover:bg-green-600 group-hover:text-white transition-colors">
+                  <Newspaper className="w-8 h-8" />
+                </div>
+                <h4 className="font-bold text-gray-900">Post News</h4>
+                <p className="text-xs text-gray-500 mt-1">Updates & announcements</p>
+              </Link>
+
+              <Link
+                to="/admin/blog/new"
+                onClick={() => setIsNewContentModalOpen(false)}
+                className="group p-6 rounded-2xl border-2 border-gray-100 hover:border-orange-500 hover:bg-orange-50 transition-all text-center"
+              >
+                <div className="w-14 h-14 bg-orange-100 text-orange-600 rounded-xl flex items-center justify-center mx-auto mb-4 group-hover:bg-orange-600 group-hover:text-white transition-colors">
+                  <BookOpen className="w-8 h-8" />
+                </div>
+                <h4 className="font-bold text-gray-900">Write Blog</h4>
+                <p className="text-xs text-gray-500 mt-1">Articles & perspectives</p>
+              </Link>
+            </div>
+
+            <div className="mt-8 pt-8 border-t border-gray-100">
+              <Link
+                to="/admin/stories/new"
+                onClick={() => setIsNewContentModalOpen(false)}
+                className="flex items-center justify-between p-4 rounded-xl bg-gray-50 hover:bg-pink-50 border border-gray-100 hover:border-pink-200 group transition-all"
+              >
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 bg-pink-100 text-pink-600 rounded-lg flex items-center justify-center">
+                    <Award className="w-6 h-6" />
+                  </div>
+                  <div>
+                    <h5 className="font-bold text-sm text-gray-900">Impact Story</h5>
+                    <p className="text-xs text-gray-500">Share a success story</p>
+                  </div>
+                </div>
+                <ChevronRight className="w-5 h-5 text-gray-400 group-hover:text-pink-600 transition-colors" />
+              </Link>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
