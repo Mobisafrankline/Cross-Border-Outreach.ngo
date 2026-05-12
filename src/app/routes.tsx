@@ -33,6 +33,7 @@ import AdminDashboard from "./pages/admin/AdminDashboard";
 import AdminGallery from "./pages/admin/AdminGallery";
 import AdminContentEditor from "./pages/admin/AdminContentEditor";
 import AdminUsers from "./pages/admin/AdminUsers";
+import AdminReports from "./pages/admin/AdminReports";
 
 // Donor Pages
 import DonorDashboard from "./pages/donor/DonorDashboard";
@@ -103,6 +104,14 @@ export const router = createBrowserRouter([
         element: (
           <ProtectedRoute redirectTo="/admin/login">
             <AdminUsers />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: "reports",
+        element: (
+          <ProtectedRoute redirectTo="/admin/login">
+            <AdminReports />
           </ProtectedRoute>
         ),
       },

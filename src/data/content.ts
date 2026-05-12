@@ -435,25 +435,6 @@ export const assets = {
 // Events Data
 export const events = [
   {
-    id: 1,
-    title: "Visit to Kioimbi Children's Home",
-    description: "Volunteers visited Kioimbi Children's Home in Murang'a County to support the children and staff.",
-    longDescription: "On this day, volunteers engaged with the children at Kioimbi Children's Home through games, learning activities, and general support. The visit helped provide care and bring joy to the children while strengthening the community partnership.",
-    date: "TBD",
-    time: "8:00 AM - 5:00 PM",
-    location: "Kioimbi Children's Home",
-    address: "Murang'a County, Kenya",
-    category: "Volunteer",
-    status: "upcoming",
-    ticketPrice: "Free",
-    capacity: 5,
-    registered: 4,
-    image: "https://lh3.googleusercontent.com/gps-cs-s/AHVAweqYjBIkT0Khmc8WWqpkKoYzGUQDNQJ9YQbQne6EqPvVDU1rqnblWXiXOQ7EJdsXF9ByP2CshyveqmJc3_wN1gqvRg4H1za9gENowIUWrw2ooc4QekGj6xVryZGpo-wa6dZBbQ=s680-w680-h510-rw",
-    organizer: "Crossborders Outreach Ministry Inc",
-    contactEmail: "volunteer@crossborders.org",
-    contactPhone: "+1 (234) 567-8903"
-  },
-  {
     id: 2,
     title: "Visit to Murang'a Rescue Centre",
     description: "Crossborder Outreach volunteers visited Murang'a Rescue Centre to support children and staff through outreach activities.",

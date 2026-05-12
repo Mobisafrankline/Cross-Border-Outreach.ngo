@@ -90,7 +90,7 @@ CREATE POLICY "Uploader can delete their images"
 -- ── 4. Articles ───────────────────────────────────────────────
 CREATE TABLE IF NOT EXISTS articles (
   id             UUID DEFAULT gen_random_uuid() PRIMARY KEY,
-  type           TEXT NOT NULL CHECK (type IN ('article','news','blog','story')),
+  type           TEXT NOT NULL CHECK (type IN ('article','news','blog','story','events')),
   title          TEXT NOT NULL,
   excerpt        TEXT,
   content        TEXT,
@@ -101,7 +101,19 @@ CREATE TABLE IF NOT EXISTS articles (
   status         TEXT DEFAULT 'draft' CHECK (status IN ('draft','published')),
   published_at   TIMESTAMPTZ,
   created_at     TIMESTAMPTZ DEFAULT NOW(),
-  updated_at     TIMESTAMPTZ DEFAULT NOW()
+  updated_at     TIMESTAMPTZ DEFAULT NOW(),
+  -- Event-specific fields
+  event_date     TEXT,
+  event_time     TEXT,
+  event_location TEXT,
+  event_address  TEXT,
+  event_capacity INTEGER DEFAULT 0,
+  event_registered INTEGER DEFAULT 0,
+  ticket_price   TEXT DEFAULT 'Free',
+  event_status   TEXT DEFAULT 'upcoming' CHECK (event_status IN ('upcoming','past')),
+  organizer      TEXT,
+  contact_email  TEXT,
+  contact_phone  TEXT
 );
 
 ALTER TABLE articles ENABLE ROW LEVEL SECURITY;

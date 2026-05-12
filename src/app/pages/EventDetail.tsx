@@ -1,24 +1,130 @@
 import { useParams, Link, useNavigate } from "react-router";
-import { 
-  Calendar, MapPin, Clock, Users, Mail, Phone, 
+import {
+  Calendar, MapPin, Clock, Users, Mail, Phone,
   ArrowLeft, CheckCircle, ExternalLink, Share2,
-  CalendarDays, Map as MapIcon, Info, Sparkles, FileText
+  CalendarDays, Map as MapIcon, Info, Sparkles, Loader2
 } from "lucide-react";
 import { ImageWithFallback } from "../components/figma/ImageWithFallback";
-import { events } from "../../data/content";
-import { useEffect } from "react";
+import { events as staticEvents } from "../../data/content";
+import { supabase } from "../../lib/supabase";
+import { useEffect, useState } from "react";
 import { motion } from "motion/react";
+
+interface EventItem {
+  id: string | number;
+  title: string;
+  description: string;
+  longDescription: string;
+  date: string;
+  time: string;
+  location: string;
+  address: string;
+  category: string;
+  status: "upcoming" | "past";
+  ticketPrice: string;
+  capacity: number;
+  registered: number;
+  image: string;
+  organizer: string;
+  contactEmail: string;
+  contactPhone: string;
+}
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+function fromSupabase(row: any): EventItem {
+  return {
+    id: `sb-${row.id}`,
+    title: row.title ?? "",
+    description: row.excerpt ?? row.content ?? "",
+    longDescription: row.content ?? row.excerpt ?? "",
+    date: row.event_date ?? "",
+    time: row.event_time ?? "",
+    location: row.event_location ?? "",
+    address: row.event_address ?? "",
+    category: row.category ?? "Outreach",
+    status: (row.event_status ?? "upcoming") as "upcoming" | "past",
+    ticketPrice: row.ticket_price ?? "Free",
+    capacity: row.event_capacity ?? 0,
+    registered: row.event_registered ?? 0,
+    image: row.featured_image ?? "",
+    organizer: row.organizer ?? "Cross-Borders Outreach Ministry Inc.",
+    contactEmail: row.contact_email ?? "",
+    contactPhone: row.contact_phone ?? "",
+  };
+}
 
 export default function EventDetail() {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
-  const event = events.find(e => e.id === Number(id));
+
+  const [event, setEvent] = useState<EventItem | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [notFound, setNotFound] = useState(false);
 
   useEffect(() => {
     window.scrollTo(0, 0);
-  }, []);
 
-  if (!event) {
+    const resolve = async () => {
+      if (!id) { setNotFound(true); setLoading(false); return; }
+
+      // ── Supabase event (id starts with "sb-") ──────────────
+      if (id.startsWith("sb-")) {
+        const uuid = id.replace("sb-", "");
+        const { data, error } = await supabase
+          .from("articles")
+          .select("*")
+          .eq("id", uuid)
+          .eq("type", "events")
+          .single();
+
+        if (error || !data) { setNotFound(true); }
+        else { setEvent(fromSupabase(data)); }
+        setLoading(false);
+        return;
+      }
+
+      // ── Static event (numeric id) ──────────────────────────
+      const found = staticEvents.find(e => e.id === Number(id));
+      if (found) {
+        setEvent({
+          id: found.id,
+          title: found.title,
+          description: found.description,
+          longDescription: found.longDescription,
+          date: found.date,
+          time: found.time,
+          location: found.location,
+          address: found.address,
+          category: found.category,
+          status: found.status as "upcoming" | "past",
+          ticketPrice: found.ticketPrice,
+          capacity: found.capacity,
+          registered: found.registered,
+          image: found.image as string,
+          organizer: found.organizer,
+          contactEmail: found.contactEmail,
+          contactPhone: found.contactPhone,
+        });
+      } else {
+        setNotFound(true);
+      }
+      setLoading(false);
+    };
+
+    resolve();
+  }, [id]);
+
+  // ── Loading ────────────────────────────────────────────────
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-white">
+        <Loader2 className="w-12 h-12 animate-spin text-blue-600" />
+      </div>
+    );
+  }
+
+  // ── Not Found ──────────────────────────────────────────────
+  if (notFound || !event) {
     return (
       <div className="min-h-screen flex flex-col items-center justify-center p-6 bg-slate-50">
         <div className="w-24 h-24 bg-rose-100 text-rose-600 rounded-3xl flex items-center justify-center mb-6">
@@ -36,34 +142,30 @@ export default function EventDetail() {
   }
 
   const isUpcoming = event.status === "upcoming";
-  const availabilityPercent = Math.round((event.registered / event.capacity) * 100);
+  const availabilityPercent = event.capacity > 0
+    ? Math.round((event.registered / event.capacity) * 100)
+    : 0;
 
   const formatDate = (dateString: string) => {
-    if (dateString === "TBD") return "To Be Determined";
+    if (!dateString || dateString === "TBD") return "To Be Determined";
     const date = new Date(dateString);
     if (isNaN(date.getTime())) return dateString;
-    return date.toLocaleDateString('en-US', { 
-      weekday: 'long', 
-      year: 'numeric', 
-      month: 'long', 
-      day: 'numeric' 
-    });
+    return date.toLocaleDateString("en-US", { weekday: "long", year: "numeric", month: "long", day: "numeric" });
   };
 
   return (
     <div className="min-h-screen bg-white">
-      {/* ── Top Navigation Bar ── */}
+      {/* Top Nav Bar */}
       <div className="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-gray-100">
         <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
-          <button 
-            onClick={() => navigate('/events')}
-            className="flex items-center gap-2 text-gray-600 hover:text-blue-600 font-bold text-sm transition-colors group"
-          >
+          <button onClick={() => navigate("/events")}
+            className="flex items-center gap-2 text-gray-600 hover:text-blue-600 font-bold text-sm transition-colors group">
             <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />
             Back to Events
           </button>
           <div className="flex items-center gap-4">
-            <button className="p-2 text-gray-400 hover:text-blue-600 transition-colors">
+            <button className="p-2 text-gray-400 hover:text-blue-600 transition-colors"
+              onClick={() => { navigator.clipboard.writeText(window.location.href); }}>
               <Share2 className="w-5 h-5" />
             </button>
             {isUpcoming && (
@@ -75,35 +177,24 @@ export default function EventDetail() {
         </div>
       </div>
 
-      {/* ── Hero Section ── */}
+      {/* Hero */}
       <section className="relative h-[400px] md:h-[600px] overflow-hidden">
-        <ImageWithFallback
-          src={event.image}
-          alt={event.title}
-          className="w-full h-full object-cover"
-        />
+        <ImageWithFallback src={event.image} alt={event.title} className="w-full h-full object-cover" />
         <div className="absolute inset-0 bg-gradient-to-t from-slate-900 via-slate-900/40 to-transparent" />
-        
         <div className="absolute bottom-0 left-0 w-full p-8 md:p-16">
           <div className="max-w-7xl mx-auto">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6 }}
-            >
+            <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}>
               <div className="flex flex-wrap gap-3 mb-6">
                 <span className="px-4 py-1.5 bg-blue-600 text-white rounded-full text-xs font-black uppercase tracking-widest shadow-xl">
                   {event.category}
                 </span>
                 {isUpcoming ? (
                   <span className="px-4 py-1.5 bg-emerald-500 text-white rounded-full text-xs font-black uppercase tracking-widest shadow-xl flex items-center gap-2">
-                    <span className="w-2 h-2 bg-white rounded-full animate-pulse" />
-                    Upcoming Event
+                    <span className="w-2 h-2 bg-white rounded-full animate-pulse" /> Upcoming Event
                   </span>
                 ) : (
                   <span className="px-4 py-1.5 bg-slate-700 text-white rounded-full text-xs font-black uppercase tracking-widest shadow-xl flex items-center gap-2 border border-white/20">
-                    <CheckCircle className="w-3.5 h-3.5 text-emerald-400" />
-                    Past Event
+                    <CheckCircle className="w-3.5 h-3.5 text-emerald-400" /> Past Event
                   </span>
                 )}
               </div>
@@ -111,13 +202,13 @@ export default function EventDetail() {
                 {event.title}
               </h1>
               <div className="flex flex-wrap items-center gap-6 text-white/90 text-sm md:text-lg font-medium">
+                {event.location && (
+                  <div className="flex items-center gap-2">
+                    <MapPin className="w-5 h-5 text-blue-400" /> {event.location}
+                  </div>
+                )}
                 <div className="flex items-center gap-2">
-                  <MapPin className="w-5 h-5 text-blue-400" />
-                  {event.location}
-                </div>
-                <div className="flex items-center gap-2">
-                  <CalendarDays className="w-5 h-5 text-blue-400" />
-                  {formatDate(event.date)}
+                  <CalendarDays className="w-5 h-5 text-blue-400" /> {formatDate(event.date)}
                 </div>
               </div>
             </motion.div>
@@ -125,43 +216,39 @@ export default function EventDetail() {
         </div>
       </section>
 
-      {/* ── Content Grid ── */}
+      {/* Content Grid */}
       <section className="py-16 md:py-24">
         <div className="max-w-7xl mx-auto px-6">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-16">
-            
-            {/* Left Content Area */}
+
+            {/* Left: Description */}
             <div className="lg:col-span-8">
               <div className="prose prose-slate prose-lg max-w-none">
                 <h2 className="text-3xl font-black text-slate-900 mb-8 flex items-center gap-3">
-                  <span className="w-2 h-10 bg-blue-600 rounded-full" />
-                  About the Event
+                  <span className="w-2 h-10 bg-blue-600 rounded-full" /> About the Event
                 </h2>
                 <div className="text-slate-600 leading-relaxed space-y-6 text-xl">
-                  {event.longDescription.split('\n').map((para, i) => (
-                    <p key={i}>{para}</p>
-                  ))}
+                  {(event.longDescription || event.description).split("\n").map((para, i) =>
+                    para.trim() ? <p key={i} dangerouslySetInnerHTML={{ __html: para }} /> : null
+                  )}
                 </div>
               </div>
 
-              {/* Gallery / Impact Highlights (Simulated) */}
+              {/* Impact Highlights */}
               <div className="mt-16 pt-16 border-t border-slate-100">
                 <h3 className="text-2xl font-black text-slate-900 mb-8 flex items-center gap-3">
-                  <Sparkles className="w-6 h-6 text-blue-600" />
-                  Impact Highlights
+                  <Sparkles className="w-6 h-6 text-blue-600" /> Impact Highlights
                 </h3>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div className="bg-slate-50 rounded-3xl p-8 border border-slate-100">
                     <div className="text-4xl font-black text-blue-600 mb-2">
-                      {event.registered}+
+                      {event.registered > 0 ? `${event.registered}+` : "—"}
                     </div>
                     <div className="text-lg font-bold text-slate-900 mb-2">Lives Impacted</div>
                     <p className="text-slate-500 text-sm italic">Direct community reach through this specific program.</p>
                   </div>
                   <div className="bg-slate-50 rounded-3xl p-8 border border-slate-100">
-                    <div className="text-4xl font-black text-emerald-600 mb-2">
-                      100%
-                    </div>
+                    <div className="text-4xl font-black text-emerald-600 mb-2">100%</div>
                     <div className="text-lg font-bold text-slate-900 mb-2">Goal Reached</div>
                     <p className="text-slate-500 text-sm italic">Successfully delivered all planned resources and services.</p>
                   </div>
@@ -169,67 +256,67 @@ export default function EventDetail() {
               </div>
             </div>
 
-            {/* Right Sidebar */}
+            {/* Right: Sidebar */}
             <div className="lg:col-span-4 space-y-8">
-              
-              {/* Registration/Ticket Card */}
               <div className="bg-white rounded-[2.5rem] border border-gray-100 shadow-2xl p-8 sticky top-24">
                 <div className="text-center mb-8">
                   <div className="text-sm font-black text-gray-400 uppercase tracking-widest mb-2">Ticket Price</div>
-                  <div className="text-5xl font-black text-blue-600">{event.ticketPrice}</div>
+                  <div className="text-5xl font-black text-blue-600">{event.ticketPrice || "Free"}</div>
                 </div>
 
                 <div className="space-y-6 mb-10">
-                  <div className="flex items-start gap-4">
-                    <div className="w-12 h-12 bg-blue-50 rounded-2xl flex items-center justify-center text-blue-600 shrink-0">
-                      <Clock className="w-6 h-6" />
-                    </div>
-                    <div>
-                      <div className="text-xs font-black text-gray-400 uppercase tracking-widest mb-1">Schedule</div>
-                      <div className="font-bold text-slate-900">{event.time}</div>
-                    </div>
-                  </div>
-                  <div className="flex items-start gap-4">
-                    <div className="w-12 h-12 bg-blue-50 rounded-2xl flex items-center justify-center text-blue-600 shrink-0">
-                      <MapIcon className="w-6 h-6" />
-                    </div>
-                    <div>
-                      <div className="text-xs font-black text-gray-400 uppercase tracking-widest mb-1">Address</div>
-                      <div className="font-bold text-slate-900 leading-tight">{event.address}</div>
-                    </div>
-                  </div>
-                  <div className="flex items-start gap-4">
-                    <div className="w-12 h-12 bg-blue-50 rounded-2xl flex items-center justify-center text-blue-600 shrink-0">
-                      <Users className="w-6 h-6" />
-                    </div>
-                    <div className="flex-1">
-                      <div className="flex justify-between items-center mb-1">
-                        <div className="text-xs font-black text-gray-400 uppercase tracking-widest">Attendance</div>
-                        <span className="text-xs font-bold text-blue-600">{availabilityPercent}% Filled</span>
+                  {event.time && (
+                    <div className="flex items-start gap-4">
+                      <div className="w-12 h-12 bg-blue-50 rounded-2xl flex items-center justify-center text-blue-600 shrink-0">
+                        <Clock className="w-6 h-6" />
                       </div>
-                      <div className="w-full bg-gray-100 rounded-full h-1.5 overflow-hidden">
-                        <div 
-                          className="h-full bg-blue-600 rounded-full transition-all duration-1000"
-                          style={{ width: `${availabilityPercent}%` }}
-                        />
+                      <div>
+                        <div className="text-xs font-black text-gray-400 uppercase tracking-widest mb-1">Schedule</div>
+                        <div className="font-bold text-slate-900">{event.time}</div>
                       </div>
                     </div>
-                  </div>
+                  )}
+                  {event.address && (
+                    <div className="flex items-start gap-4">
+                      <div className="w-12 h-12 bg-blue-50 rounded-2xl flex items-center justify-center text-blue-600 shrink-0">
+                        <MapIcon className="w-6 h-6" />
+                      </div>
+                      <div>
+                        <div className="text-xs font-black text-gray-400 uppercase tracking-widest mb-1">Address</div>
+                        <div className="font-bold text-slate-900 leading-tight">{event.address}</div>
+                      </div>
+                    </div>
+                  )}
+                  {event.capacity > 0 && (
+                    <div className="flex items-start gap-4">
+                      <div className="w-12 h-12 bg-blue-50 rounded-2xl flex items-center justify-center text-blue-600 shrink-0">
+                        <Users className="w-6 h-6" />
+                      </div>
+                      <div className="flex-1">
+                        <div className="flex justify-between items-center mb-1">
+                          <div className="text-xs font-black text-gray-400 uppercase tracking-widest">Attendance</div>
+                          <span className="text-xs font-bold text-blue-600">{availabilityPercent}% Filled</span>
+                        </div>
+                        <div className="w-full bg-gray-100 rounded-full h-1.5 overflow-hidden">
+                          <div className="h-full bg-blue-600 rounded-full transition-all duration-1000"
+                            style={{ width: `${availabilityPercent}%` }} />
+                        </div>
+                      </div>
+                    </div>
+                  )}
                 </div>
 
                 {isUpcoming ? (
                   <button className="w-full py-5 bg-blue-600 text-white rounded-2xl font-black text-lg shadow-xl shadow-blue-600/30 hover:bg-blue-700 hover:-translate-y-1 transition-all active:scale-95 flex items-center justify-center gap-3">
-                    Register Now
-                    <ExternalLink className="w-5 h-5" />
+                    Register Now <ExternalLink className="w-5 h-5" />
                   </button>
                 ) : (
                   <div className="w-full py-5 bg-slate-100 text-slate-400 rounded-2xl font-black text-lg flex items-center justify-center gap-3 cursor-not-allowed grayscale">
-                    <CheckCircle className="w-5 h-5" />
-                    Event Completed
+                    <CheckCircle className="w-5 h-5" /> Event Completed
                   </div>
                 )}
 
-                {/* Organizer Info */}
+                {/* Organizer */}
                 <div className="mt-10 pt-10 border-t border-slate-50">
                   <div className="flex items-center gap-4 mb-6">
                     <div className="w-12 h-12 bg-slate-100 rounded-full flex items-center justify-center text-slate-400">
@@ -241,31 +328,35 @@ export default function EventDetail() {
                     </div>
                   </div>
                   <div className="grid grid-cols-2 gap-4">
-                    <a href={`tel:${event.contactPhone}`} className="flex flex-col items-center gap-2 p-4 bg-slate-50 hover:bg-blue-50 rounded-2xl transition-colors group">
-                      <Phone className="w-5 h-5 text-gray-400 group-hover:text-blue-600 transition-colors" />
-                      <span className="text-[10px] font-black uppercase text-gray-400 tracking-widest group-hover:text-blue-600">Call</span>
-                    </a>
-                    <a href={`mailto:${event.contactEmail}`} className="flex flex-col items-center gap-2 p-4 bg-slate-50 hover:bg-blue-50 rounded-2xl transition-colors group">
-                      <Mail className="w-5 h-5 text-gray-400 group-hover:text-blue-600 transition-colors" />
-                      <span className="text-[10px] font-black uppercase text-gray-400 tracking-widest group-hover:text-blue-600">Email</span>
-                    </a>
+                    {event.contactPhone && (
+                      <a href={`tel:${event.contactPhone}`}
+                        className="flex flex-col items-center gap-2 p-4 bg-slate-50 hover:bg-blue-50 rounded-2xl transition-colors group">
+                        <Phone className="w-5 h-5 text-gray-400 group-hover:text-blue-600 transition-colors" />
+                        <span className="text-[10px] font-black uppercase text-gray-400 tracking-widest group-hover:text-blue-600">Call</span>
+                      </a>
+                    )}
+                    {event.contactEmail && (
+                      <a href={`mailto:${event.contactEmail}`}
+                        className="flex flex-col items-center gap-2 p-4 bg-slate-50 hover:bg-blue-50 rounded-2xl transition-colors group">
+                        <Mail className="w-5 h-5 text-gray-400 group-hover:text-blue-600 transition-colors" />
+                        <span className="text-[10px] font-black uppercase text-gray-400 tracking-widest group-hover:text-blue-600">Email</span>
+                      </a>
+                    )}
                   </div>
                 </div>
               </div>
-
             </div>
           </div>
         </div>
       </section>
 
-      {/* ── Bottom CTA ── */}
+      {/* Bottom CTA */}
       <section className="py-24 bg-blue-900 text-white overflow-hidden relative">
         <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-blue-600/20 rounded-full blur-[120px] -mr-64 -mt-64" />
         <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-blue-400/10 rounded-full blur-[100px] -ml-64 -mb-64" />
-        
         <div className="max-w-4xl mx-auto px-6 text-center relative z-10">
           <h2 className="text-3xl md:text-5xl font-black mb-8 leading-tight">
-            Can't Attend? <br/>
+            Can't Attend? <br />
             <span className="text-blue-400">You Can Still Support Us.</span>
           </h2>
           <p className="text-xl text-blue-100/80 mb-10 leading-relaxed max-w-2xl mx-auto font-medium">
