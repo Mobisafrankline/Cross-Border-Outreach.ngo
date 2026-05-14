@@ -9,6 +9,7 @@ import FoodSupport from "./pages/FoodSupport";
 import Education from "./pages/Education";
 import Healthcare from "./pages/Healthcare";
 import Economic from "./pages/Economic";
+import HelpingFamilies from "./pages/HelpingFamilies";
 import Donate from "./pages/Donate";
 import Volunteer from "./pages/Volunteer";
 import Partner from "./pages/Partner";
@@ -50,6 +51,7 @@ export const router = createBrowserRouter([
       { path: "education", Component: Education },
       { path: "healthcare", Component: Healthcare },
       { path: "economic", Component: Economic },
+      { path: "helping-families", Component: HelpingFamilies },
       { path: "donate", Component: Donate },
       { path: "volunteer", Component: Volunteer },
       { path: "partner", Component: Partner },

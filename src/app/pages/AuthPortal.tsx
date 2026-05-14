@@ -58,6 +58,7 @@ export default function AuthPortal() {
   const [address, setAddress] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [adminCode, setAdminCode] = useState("");
+  const [donorCode, setDonorCode] = useState("");
 
   // UI states
   const [showPw, setShowPw] = useState(false);
@@ -161,6 +162,7 @@ export default function AuthPortal() {
     e.preventDefault();
     setError(null);
 
+    if (donorCode !== 'Cr055B0rder5@D0n0rs') { setError("Invalid Donor Registration Code. Please enter the correct code to continue."); return; }
     if (password !== confirmPassword) { setError("Passwords do not match."); return; }
     if (password.length < 6) { setError("Password must be at least 6 characters."); return; }
     
@@ -598,6 +600,14 @@ export default function AuthPortal() {
                                 <input className="auth-input" type="text" value={address} onChange={e => setAddress(e.target.value)} placeholder="City, Country" />
                               </div>
                             </div>
+                          </div>
+                          <div>
+                            <label style={{ display: "block", fontSize: 13, fontWeight: 600, color: "#374151", marginBottom: 6 }}>Donor Registration Code *</label>
+                            <div style={{ position: "relative" }}>
+                              <KeyRound size={17} color="#9ca3af" style={{ position: "absolute", left: 13, top: "50%", transform: "translateY(-50%)" }} />
+                              <input className="auth-input" type="text" value={donorCode} onChange={e => setDonorCode(e.target.value)} placeholder="Enter donor registration code" required />
+                            </div>
+                            <p style={{ fontSize: 11.5, color: "#9ca3af", marginTop: 5 }}>Contact us if you don't have a registration code.</p>
                           </div>
                           <button type="submit" className="auth-btn donor-reg" disabled={!step1Valid} style={{ marginTop: 8 }}>
                             Continue <ArrowRight size={18} />

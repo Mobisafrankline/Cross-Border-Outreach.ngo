@@ -1,194 +1,177 @@
-import { BookOpen, Award, Users, Globe, CheckCircle2 } from "lucide-react";
+import { BookOpen, Award, Users, Globe, CheckCircle2, Quote, ChevronRight, Heart } from "lucide-react";
 import { ImageWithFallback } from "../components/figma/ImageWithFallback";
+import { Link } from "react-router";
+import "../../styles/programs.css";
 
 export default function Education() {
   const impacts = [
-    { number: "1,200+", label: "Students Enrolled" },
-    { number: "85%", label: "Graduation Rate" },
-    { number: "24", label: "Schools Supported" },
-    { number: "150+", label: "Scholarships Awarded" }
+    { number: "1,200+", label: "Students Enrolled", icon: <Users className="w-6 h-6 text-blue-500" /> },
+    { number: "85%", label: "Graduation Rate", icon: <Award className="w-6 h-6 text-emerald-500" /> },
+    { number: "24", label: "Schools Supported", icon: <BookOpen className="w-6 h-6 text-purple-500" /> },
+    { number: "150+", label: "Scholarships Awarded", icon: <Globe className="w-6 h-6 text-orange-500" /> }
   ];
 
   const programs = [
     {
       icon: BookOpen,
       title: "Primary Education Access",
-      description: "Ensuring every child has access to quality primary education with proper resources and infrastructure."
+      description: "Ensuring every child has access to quality primary education with proper resources and infrastructure.",
+      color: "#3b82f6"
     },
     {
       icon: Award,
       title: "Scholarship Programs",
-      description: "Financial support for deserving students to pursue secondary and higher education."
+      description: "Financial support for deserving students to pursue secondary and higher education.",
+      color: "#10b981"
     },
     {
       icon: Users,
       title: "Teacher Training",
-      description: "Empowering educators with modern teaching methods and continuous professional development."
+      description: "Empowering educators with modern teaching methods and continuous professional development.",
+      color: "#8b5cf6"
     },
     {
       icon: Globe,
       title: "Digital Literacy",
-      description: "Equipping students with essential technology skills for the digital age."
+      description: "Equipping students with essential technology skills for the digital age.",
+      color: "#f97316"
     }
   ];
 
   return (
     <div className="min-h-screen">
-      {/* Hero Section */}
-      <section className="relative h-[500px] flex items-center justify-center overflow-hidden">
-        <div className="absolute inset-0">
+      {/* Hero */}
+      <section className="prog-hero">
+        <div className="prog-hero-bg">
           <ImageWithFallback
-            src="https://images.unsplash.com/photo-1574132190990-cfd62178bb1c?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxjbGFzc3Jvb20lMjB0ZWFjaGVyJTIwY2hpbGRyZW4lMjBsZWFybmluZ3xlbnwxfHx8fDE3NzE5OTY3NDl8MA&ixlib=rb-4.1.0&q=80&w=1080"
-            alt="Children learning in classroom"
+            src="https://images.unsplash.com/photo-1574132190990-cfd62178bb1c?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1920"
+            alt="Children learning"
             className="w-full h-full object-cover"
           />
-          <div className="absolute inset-0 bg-gradient-to-r from-blue-900/90 to-blue-800/70" />
+          <div className="prog-hero-overlay" />
         </div>
-        
-        <div className="relative z-10 max-w-4xl mx-auto px-6 text-center text-white">
-          <h1 className="text-5xl md:text-6xl font-bold mb-6">Education Support</h1>
-          <p className="text-xl md:text-2xl opacity-95">
+        <div className="prog-orb prog-orb-1" style={{ background: "rgba(59,130,246,0.15)" }} />
+        <div className="prog-orb prog-orb-2" style={{ background: "rgba(99,102,241,0.12)" }} />
+        <div className="prog-hero-content">
+          <div className="prog-badge">
+            <div className="prog-badge-dot" style={{ background: "#3b82f6" }} />
+            Education Program
+          </div>
+          <h1 className="prog-hero-title">Education Support</h1>
+          <p className="prog-hero-subtitle">
             Empowering the next generation through quality education and learning opportunities
           </p>
         </div>
       </section>
 
-      {/* Impact Stats */}
-      <section className="py-16 bg-white">
-        <div className="max-w-6xl mx-auto px-6">
-          
-          {/* Title & Subtitle */}
-          <div className="text-center mb-12">
-            <h2 className="text-4xl font-bold text-gray-900">Our Impact Projection</h2>
-            <p className="text-gray-600 mt-2">
-              Key achievements and metrics from our Education Support Program
+      {/* About */}
+      <section className="prog-about-section" style={{ background: "white" }}>
+        <div className="prog-about-grid">
+          <div className="prog-about-img">
+            <ImageWithFallback
+              src="https://images.unsplash.com/photo-1770843093640-c44ae557928b?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080"
+              alt="Students studying"
+            />
+          </div>
+          <div>
+            <h2 className="prog-about-title">Building Brighter Futures</h2>
+            <p className="prog-about-text">
+              Education is the cornerstone of sustainable development. Our Education Support Program
+              breaks down barriers to learning, ensuring every child has the opportunity to reach their full potential.
             </p>
-          </div>
-
-          {/* Impact Cards */}
-          <div className="grid md:grid-cols-4 gap-8">
-            {impacts.map((impact, index) => (
-              <div key={index} className="text-center">
-                <div className="text-4xl font-bold text-blue-600 mb-2">{impact.number}</div>
-                <div className="text-gray-600">{impact.label}</div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* About Program */}
-      <section className="py-20 bg-gray-50">
-        <div className="max-w-6xl mx-auto px-6">
-          <div className="grid lg:grid-cols-2 gap-12 items-center">
-            <div className="relative">
-              <ImageWithFallback
-                src="https://images.unsplash.com/photo-1770843093640-c44ae557928b?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxjaGlsZHJlbiUyMHN0dWR5aW5nJTIwZWR1Y2F0aW9uJTIwQWZyaWNhfGVufDF8fHx8MTc3MTk5NjY5Mnww&ixlib=rb-4.1.0&q=80&w=1080"
-                alt="Students studying"
-                className="rounded-xl shadow-2xl"
-              />
-            </div>
-            
-            <div>
-              <h2 className="text-4xl font-bold text-gray-900 mb-6">Building Brighter Futures</h2>
-              <p className="text-lg text-gray-600 mb-6">
-                Education is the cornerstone of sustainable development. Our Education Support Program 
-                breaks down barriers to learning, ensuring every child has the opportunity to reach their full potential.
-              </p>
-              <p className="text-lg text-gray-600 mb-8">
-                We provide comprehensive support including school supplies, infrastructure improvements, 
-                teacher training, and scholarship opportunities to create lasting educational impact.
-              </p>
-              
-              <div className="space-y-3">
-                {[
-                  "Free school supplies and textbooks",
-                  "Infrastructure development and repairs",
-                  "Qualified teacher recruitment and training",
-                  "Technology and computer labs",
-                  "After-school tutoring programs"
-                ].map((item, index) => (
-                  <div key={index} className="flex items-start gap-3">
-                    <CheckCircle2 className="w-6 h-6 text-green-500 flex-shrink-0 mt-0.5" />
-                    <span className="text-gray-700">{item}</span>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Programs Grid */}
-      <section className="py-20 bg-white">
-        <div className="max-w-6xl mx-auto px-6">
-          <div className="text-center mb-12">
-            <h2 className="text-4xl font-bold text-gray-900 mb-4">Our Education Initiatives</h2>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              Comprehensive programs designed to support students at every stage of their educational journey
+            <p className="prog-about-text">
+              We provide comprehensive support including school supplies, infrastructure improvements,
+              teacher training, and scholarship opportunities to create lasting educational impact.
             </p>
-          </div>
-
-          <div className="grid md:grid-cols-2 gap-8">
-            {programs.map((program, index) => {
-              const Icon = program.icon;
-              return (
-                <div key={index} className="bg-blue-50 rounded-xl p-8 hover:shadow-lg transition-shadow">
-                  <div className="w-14 h-14 bg-blue-600 rounded-lg flex items-center justify-center mb-4">
-                    <Icon className="w-7 h-7 text-white" />
+            <div className="prog-checklist">
+              {[
+                { text: "Free school supplies and textbooks", color: "#3b82f6" },
+                { text: "Infrastructure development and repairs", color: "#10b981" },
+                { text: "Qualified teacher recruitment and training", color: "#8b5cf6" },
+                { text: "Technology and computer labs", color: "#f97316" },
+                { text: "After-school tutoring programs", color: "#06b6d4" }
+              ].map((item, i) => (
+                <div key={i} className="prog-check-item">
+                  <div className="prog-check-icon" style={{ background: item.color + "20", color: item.color }}>
+                    <CheckCircle2 className="w-5 h-5" />
                   </div>
-                  <h3 className="text-2xl font-bold text-gray-900 mb-3">{program.title}</h3>
-                  <p className="text-gray-600">{program.description}</p>
+                  <span className="prog-check-text">{item.text}</span>
                 </div>
-              );
-            })}
+              ))}
+            </div>
           </div>
+        </div>
+      </section>
+
+      {/* Initiatives */}
+      <section className="prog-initiatives-section">
+        <div className="prog-initiatives-header">
+          <div className="prog-initiatives-label" style={{ color: "#3b82f6" }}>Our Initiatives</div>
+          <h2 className="prog-initiatives-title">Education Programs</h2>
+          <p className="prog-initiatives-subtitle">
+            Supporting students at every stage of their educational journey
+          </p>
+        </div>
+        <div className="prog-initiatives-grid">
+          {programs.map((program, index) => {
+            const Icon = program.icon;
+            return (
+              <div key={index} className="prog-initiative-card">
+                <div style={{ position: "absolute", top: 0, left: 0, width: 4, height: "100%", background: program.color, borderRadius: "4px 0 0 4px" }} />
+                <div className="prog-initiative-icon" style={{ background: program.color }}>
+                  <Icon className="w-6 h-6" />
+                </div>
+                <h3 className="prog-initiative-title">{program.title}</h3>
+                <p className="prog-initiative-desc">{program.description}</p>
+              </div>
+            );
+          })}
         </div>
       </section>
 
       {/* Success Story */}
-      <section className="py-20 bg-blue-50">
-        <div className="max-w-4xl mx-auto px-6">
-          <div className="bg-white rounded-xl p-8 md:p-12 shadow-lg">
-            <h3 className="text-3xl font-bold text-gray-900 mb-6">Success Story</h3>
-            <p className="text-lg text-gray-700 mb-4">
-              "Before Crossborders came to our village, many children couldn't attend school due to lack of 
-              resources. Today, my daughter is in her final year of secondary school with a full scholarship 
+      <section className="prog-story-section">
+        <div className="prog-story-inner">
+          <div style={{ textAlign: "center", marginBottom: 40 }}>
+            <div style={{ fontSize: 12, fontWeight: 700, letterSpacing: "0.1em", textTransform: "uppercase", color: "#93c5fd", marginBottom: 10 }}>
+              Success Story
+            </div>
+            <h2 style={{ fontSize: "clamp(1.6rem, 3vw, 2.2rem)", fontWeight: 800, color: "white" }}>
+              Education Changes Lives
+            </h2>
+          </div>
+          <div className="prog-story-card">
+            <Quote className="prog-story-quote-icon w-10 h-10" />
+            <p className="prog-story-quote">
+              "Before Crossborders came to our village, many children couldn't attend school due to lack of
+              resources. Today, my daughter is in her final year of secondary school with a full scholarship
               to university. Education has opened doors we never imagined possible."
             </p>
-            <div className="flex items-center gap-4 mt-6">
-              <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center">
-                <Users className="w-6 h-6 text-blue-600" />
-              </div>
+            <div className="prog-story-author">
+              <div className="prog-story-avatar" style={{ background: "#3b82f6" }}>SK</div>
               <div>
-                <div className="font-semibold text-gray-900">Sarah Kamau</div>
-                <div className="text-sm text-gray-600">Parent & Community Leader</div>
+                <div className="prog-story-name">Sarah Kamau</div>
+                <div className="prog-story-role">Parent & Community Leader</div>
               </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* CTA Section */}
-      <section className="py-20 bg-gradient-to-r from-blue-600 to-blue-700">
-        <div className="max-w-4xl mx-auto px-6 text-center text-white">
-          <h2 className="text-4xl font-bold mb-6">Invest in Education, Transform Lives</h2>
-          <p className="text-xl mb-8 opacity-95">
+      {/* CTA */}
+      <section className="prog-cta-section" style={{ background: "linear-gradient(135deg, #1e3a8a, #3b82f6)" }}>
+        <div className="prog-cta-inner">
+          <h2 className="prog-cta-title">Invest in Education, Transform Lives</h2>
+          <p className="prog-cta-subtitle">
             Your support can give a child the gift of education and a brighter future.
           </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <a
-              href="/donate"
-              className="px-8 py-4 bg-gradient-to-r from-orange-500 to-orange-600 text-white rounded-lg font-semibold hover:from-orange-600 hover:to-orange-700 transition-all shadow-lg"
-            >
-              Sponsor a Student
-            </a>
-            <a
-              href="/volunteer"
-              className="px-8 py-4 bg-white text-blue-600 rounded-lg font-semibold hover:bg-gray-50 transition-colors"
-            >
-              Become a Tutor
-            </a>
+          <div className="prog-cta-actions">
+            <Link to="/donate" className="prog-cta-btn-primary" style={{ color: "#1e3a8a" }}>
+              <Heart className="w-5 h-5" /> Sponsor a Student
+            </Link>
+            <Link to="/volunteer" className="prog-cta-btn-secondary">
+              Become a Tutor <ChevronRight className="w-5 h-5" />
+            </Link>
           </div>
         </div>
       </section>

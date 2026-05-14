@@ -277,8 +277,8 @@ export const galleryImages = [
   {
     id: 3,
     url: ImageSlide1,
-    alt: "crossboarders outreach team",
-    category: "healthcare"
+    alt: "Crossborders outreach team",
+    category: "outreach"
   },
   {
     id: 4,
@@ -288,9 +288,9 @@ export const galleryImages = [
   },
   {
     id: 5,
-    url: ImageSlide2,
-    alt: "Women entrepreneur",
-    category: "economic"
+    url: ImageSlide4,
+    alt: "Community outreach volunteers",
+    category: "community"
   },
   {
     id: 6,

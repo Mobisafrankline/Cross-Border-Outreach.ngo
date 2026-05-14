@@ -159,6 +159,12 @@ export default function TwoLayerNavbar() {
           href: "/economic",
           icon: <TrendingUp className="w-5 h-5" />,
           description: "Building sustainable livelihoods"
+        },
+        {
+          label: "Helping Needy Families",
+          href: "/helping-families",
+          icon: <Heart className="w-5 h-5" />,
+          description: "Supporting vulnerable families"
         }
       ]
     },

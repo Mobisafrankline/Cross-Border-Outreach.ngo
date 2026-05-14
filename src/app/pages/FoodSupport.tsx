@@ -1,166 +1,176 @@
-import { Heart, Users, Package, TrendingUp, CheckCircle2 } from "lucide-react";
+import { Heart, Users, Package, TrendingUp, CheckCircle2, Quote, ChevronRight } from "lucide-react";
 import { ImageWithFallback } from "../components/figma/ImageWithFallback";
+import { Link } from "react-router";
+import "../../styles/programs.css";
 
 export default function FoodSupport() {
   const impacts = [
-    { number: "25,000+", label: "Meals Served Monthly" },
-    { number: "500+", label: "Families Supported" },
-    { number: "12", label: "Distribution Centers" },
-    { number: "95%", label: "Nutritional Standards Met" }
+    { number: "25,000+", label: "Meals Served Monthly", icon: <Package className="w-6 h-6 text-orange-500" /> },
+    { number: "500+", label: "Families Supported", icon: <Users className="w-6 h-6 text-blue-500" /> },
+    { number: "12", label: "Distribution Centers", icon: <TrendingUp className="w-6 h-6 text-emerald-500" /> },
+    { number: "95%", label: "Nutritional Standards", icon: <Heart className="w-6 h-6 text-purple-500" /> }
   ];
 
   const programs = [
     {
       icon: Package,
       title: "Emergency Food Relief",
-      description: "Immediate assistance for families facing crisis situations with nutritious food packages."
+      description: "Immediate assistance for families facing crisis situations with nutritious food packages.",
+      color: "#f97316"
     },
     {
       icon: Users,
       title: "Community Feeding Programs",
-      description: "Hot meals served daily at community centers to ensure no one goes hungry."
+      description: "Hot meals served daily at community centers to ensure no one goes hungry.",
+      color: "#3b82f6"
     },
     {
       icon: TrendingUp,
       title: "Sustainable Agriculture",
-      description: "Training and resources to help communities grow their own food sustainably."
+      description: "Training and resources to help communities grow their own food sustainably.",
+      color: "#10b981"
     },
     {
       icon: Heart,
       title: "Child Nutrition Initiative",
-      description: "Special programs ensuring children receive balanced, nutritious meals for healthy development."
+      description: "Special programs ensuring children receive balanced, nutritious meals for healthy development.",
+      color: "#8b5cf6"
     }
   ];
 
   return (
     <div className="min-h-screen">
-      {/* Hero Section */}
-      <section className="relative h-[500px] flex items-center justify-center overflow-hidden">
-        <div className="absolute inset-0">
+      {/* Hero */}
+      <section className="prog-hero">
+        <div className="prog-hero-bg">
           <ImageWithFallback
-            src="https://images.unsplash.com/photo-1762418967948-a243e94dd789?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxzb3VwJTIwa2l0Y2hlbiUyMG1lYWwlMjBwcmVwYXJhdGlvbiUyMHZvbHVudGVlcnN8ZW58MXx8fHwxNzcxOTk2NzQ4fDA&ixlib=rb-4.1.0&q=80&w=1080"
+            src="https://images.unsplash.com/photo-1762418967948-a243e94dd789?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1920"
             alt="Food distribution"
             className="w-full h-full object-cover"
           />
-          <div className="absolute inset-0 bg-gradient-to-r from-blue-900/90 to-blue-800/70" />
+          <div className="prog-hero-overlay" />
         </div>
-        <div className="relative z-10 max-w-4xl mx-auto px-6 text-center text-white">
-          <h1 className="text-5xl md:text-6xl font-bold mb-6">Food Support Program</h1>
-          <p className="text-xl md:text-2xl opacity-95">
-            Fighting hunger and malnutrition through sustainable food security initiatives
+        <div className="prog-orb prog-orb-1" style={{ background: "rgba(249,115,22,0.15)" }} />
+        <div className="prog-orb prog-orb-2" style={{ background: "rgba(239,68,68,0.12)" }} />
+        <div className="prog-hero-content">
+          <div className="prog-badge">
+            <div className="prog-badge-dot" style={{ background: "#f97316" }} />
+            Nutrition Program
+          </div>
+          <h1 className="prog-hero-title">Food Support Program</h1>
+          <p className="prog-hero-subtitle">
+            Fighting hunger and malnutrition through sustainable food security initiatives across borders
           </p>
         </div>
       </section>
 
-      {/* Impact Stats */}
-      <section className="py-16 bg-white">
-        <div className="max-w-6xl mx-auto px-6">
-
-          {/* Title & Subtitle */}
-          <div className="text-center mb-12">
-            <h2 className="text-4xl font-bold text-gray-900">Our Impact Projection</h2>
-            <p className="text-gray-600 mt-2">
-              Key achievements and metrics from our Food Support Program
+      {/* About */}
+      <section className="prog-about-section" style={{ background: "white" }}>
+        <div className="prog-about-grid">
+          <div className="prog-about-img">
+            <ImageWithFallback
+              src="https://images.unsplash.com/photo-1710092784814-4a6f158913b8?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080"
+              alt="Food distribution volunteers"
+            />
+          </div>
+          <div>
+            <h2 className="prog-about-title">Nourishing Communities</h2>
+            <p className="prog-about-text">
+              Our Food Support Program addresses both immediate hunger needs and long-term food security.
+              We believe everyone deserves access to nutritious, culturally appropriate food.
             </p>
-          </div>
-
-          {/* Impact Cards */}
-          <div className="grid md:grid-cols-4 gap-8">
-            {impacts.map((impact, index) => (
-              <div key={index} className="text-center">
-                <div className="text-4xl font-bold text-blue-600 mb-2">{impact.number}</div>
-                <div className="text-gray-600">{impact.label}</div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* About Program */}
-      <section className="py-20 bg-gray-50">
-        <div className="max-w-6xl mx-auto px-6">
-          <div className="grid lg:grid-cols-2 gap-12 items-center">
-            <div>
-              <h2 className="text-4xl font-bold text-gray-900 mb-6">Nourishing Communities</h2>
-              <p className="text-lg text-gray-600 mb-6">
-                Our Food Support Program addresses both immediate hunger needs and long-term food security. 
-                We believe everyone deserves access to nutritious, culturally appropriate food.
-              </p>
-              <p className="text-lg text-gray-600 mb-8">
-                Through partnerships with local farmers, food banks, and community organizations, we ensure 
-                sustainable solutions that empower communities to achieve food independence.
-              </p>
-              <div className="space-y-3">
-                {[
-                  "Nutritionally balanced meal packages",
-                  "Culturally appropriate food options",
-                  "Fresh produce from local sources",
-                  "Dietary accommodations for special needs"
-                ].map((item, index) => (
-                  <div key={index} className="flex items-start gap-3">
-                    <CheckCircle2 className="w-6 h-6 text-green-500 flex-shrink-0 mt-0.5" />
-                    <span className="text-gray-700">{item}</span>
-                  </div>
-                ))}
-              </div>
-            </div>
-            <div className="relative">
-              <ImageWithFallback
-                src="https://images.unsplash.com/photo-1710092784814-4a6f158913b8?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxmb29kJTIwZGlzdHJpYnV0aW9uJTIwY2hhcml0eSUyMHZvbHVudGVlcnN8ZW58MXx8fHwxNzcxOTk2NjkzfDA&ixlib=rb-4.1.0&q=80&w=1080"
-                alt="Food distribution volunteers"
-                className="rounded-xl shadow-2xl"
-              />
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Programs Grid */}
-      <section className="py-20 bg-white">
-        <div className="max-w-6xl mx-auto px-6">
-          <div className="text-center mb-12">
-            <h2 className="text-4xl font-bold text-gray-900 mb-4">Our Initiatives</h2>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              Comprehensive food security programs designed to meet diverse community needs
+            <p className="prog-about-text">
+              Through partnerships with local farmers, food banks, and community organizations, we ensure
+              sustainable solutions that empower communities to achieve food independence.
             </p>
-          </div>
-          <div className="grid md:grid-cols-2 gap-8">
-            {programs.map((program, index) => {
-              const Icon = program.icon;
-              return (
-                <div key={index} className="bg-blue-50 rounded-xl p-8 hover:shadow-lg transition-shadow">
-                  <div className="w-14 h-14 bg-blue-600 rounded-lg flex items-center justify-center mb-4">
-                    <Icon className="w-7 h-7 text-white" />
+            <div className="prog-checklist">
+              {[
+                { text: "Nutritionally balanced meal packages", color: "#f97316" },
+                { text: "Culturally appropriate food options", color: "#3b82f6" },
+                { text: "Fresh produce from local sources", color: "#10b981" },
+                { text: "Dietary accommodations for special needs", color: "#8b5cf6" }
+              ].map((item, i) => (
+                <div key={i} className="prog-check-item">
+                  <div className="prog-check-icon" style={{ background: item.color + "20", color: item.color }}>
+                    <CheckCircle2 className="w-5 h-5" />
                   </div>
-                  <h3 className="text-2xl font-bold text-gray-900 mb-3">{program.title}</h3>
-                  <p className="text-gray-600">{program.description}</p>
+                  <span className="prog-check-text">{item.text}</span>
                 </div>
-              );
-            })}
+              ))}
+            </div>
           </div>
         </div>
       </section>
 
-      {/* CTA Section */}
-      <section className="py-20 bg-gradient-to-r from-orange-500 to-orange-600">
-        <div className="max-w-4xl mx-auto px-6 text-center text-white">
-          <h2 className="text-4xl font-bold mb-6">Help Us Feed More Families</h2>
-          <p className="text-xl mb-8 opacity-95">
+      {/* Initiatives */}
+      <section className="prog-initiatives-section">
+        <div className="prog-initiatives-header">
+          <div className="prog-initiatives-label" style={{ color: "#f97316" }}>Our Initiatives</div>
+          <h2 className="prog-initiatives-title">Comprehensive Food Security</h2>
+          <p className="prog-initiatives-subtitle">
+            Programs designed to meet diverse community nutritional needs
+          </p>
+        </div>
+        <div className="prog-initiatives-grid">
+          {programs.map((program, index) => {
+            const Icon = program.icon;
+            return (
+              <div key={index} className="prog-initiative-card" style={{ "--accent": program.color } as React.CSSProperties}>
+                <div style={{ position: "absolute", top: 0, left: 0, width: 4, height: "100%", background: program.color, borderRadius: "4px 0 0 4px" }} />
+                <div className="prog-initiative-icon" style={{ background: program.color }}>
+                  <Icon className="w-6 h-6" />
+                </div>
+                <h3 className="prog-initiative-title">{program.title}</h3>
+                <p className="prog-initiative-desc">{program.description}</p>
+              </div>
+            );
+          })}
+        </div>
+      </section>
+
+      {/* Success Story */}
+      <section className="prog-story-section">
+        <div className="prog-story-inner">
+          <div style={{ textAlign: "center", marginBottom: 40 }}>
+            <div style={{ fontSize: 12, fontWeight: 700, letterSpacing: "0.1em", textTransform: "uppercase", color: "#93c5fd", marginBottom: 10 }}>
+              Impact Story
+            </div>
+            <h2 style={{ fontSize: "clamp(1.6rem, 3vw, 2.2rem)", fontWeight: 800, color: "white" }}>
+              Lives Transformed
+            </h2>
+          </div>
+          <div className="prog-story-card">
+            <Quote className="prog-story-quote-icon w-10 h-10" />
+            <p className="prog-story-quote">
+              "Before the food support program, my family often went to bed hungry. Now, my children
+              receive nutritious meals every day and their health has improved tremendously. We are
+              forever grateful for the consistent support."
+            </p>
+            <div className="prog-story-author">
+              <div className="prog-story-avatar" style={{ background: "#f97316" }}>JN</div>
+              <div>
+                <div className="prog-story-name">Jane Njeri</div>
+                <div className="prog-story-role">Community Beneficiary</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* CTA */}
+      <section className="prog-cta-section" style={{ background: "linear-gradient(135deg, #f97316, #ef4444)" }}>
+        <div className="prog-cta-inner">
+          <h2 className="prog-cta-title">Help Us Feed More Families</h2>
+          <p className="prog-cta-subtitle">
             Your donation can provide nutritious meals to families in need. Every contribution makes a difference.
           </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <a
-              href="/donate"
-              className="px-8 py-4 bg-white text-orange-600 rounded-lg font-semibold hover:bg-gray-50 transition-colors shadow-lg"
-            >
-              Donate Now
-            </a>
-            <a
-              href="/volunteer"
-              className="px-8 py-4 bg-orange-700 text-white rounded-lg font-semibold hover:bg-orange-800 transition-colors border-2 border-white"
-            >
-              Volunteer With Us
-            </a>
+          <div className="prog-cta-actions">
+            <Link to="/donate" className="prog-cta-btn-primary" style={{ color: "#f97316" }}>
+              <Heart className="w-5 h-5" /> Donate Now
+            </Link>
+            <Link to="/volunteer" className="prog-cta-btn-secondary">
+              Volunteer With Us <ChevronRight className="w-5 h-5" />
+            </Link>
           </div>
         </div>
       </section>

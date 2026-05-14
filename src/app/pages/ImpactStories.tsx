@@ -8,6 +8,7 @@ import { ImageWithFallback } from "../components/figma/ImageWithFallback";
 import { Link } from "react-router";
 import { supabase } from "../../lib/supabase";
 import Rescue from "../../assets/3.jpeg";
+import "../../styles/impact.css";
 
 interface Story {
   id: number | string;
@@ -23,7 +24,6 @@ interface Story {
   source: "static" | "supabase";
 }
 
-// ── Static stories (always shown) ─────────────────────────────
 const staticStories: Story[] = [
   {
     id: 1,
@@ -101,7 +101,6 @@ const stats = [
   { icon: Target, label: "Active Programs", value: "8" },
 ];
 
-// ── Map Supabase row → Story ───────────────────────────────────
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 function fromSupabase(row: any): Story {
   return {
@@ -111,7 +110,9 @@ function fromSupabase(row: any): Story {
     category: row.category ?? "Impact Story",
     image: row.featured_image ?? "",
     quote: row.excerpt ?? "",
-    impact: row.excerpt ?? "",
+    impact: row.content
+      ? row.content.split("\n").filter((l: string) => l.trim()).slice(0, 1).join("").substring(0, 200) + "..."
+      : row.excerpt ?? "",
     story: row.content ?? "",
     location: undefined,
     date: row.published_at
@@ -128,7 +129,6 @@ export default function ImpactStories() {
   const [liveStories, setLiveStories] = useState<Story[]>([]);
   const [loadingStories, setLoadingStories] = useState(true);
 
-  // Fetch live stories from Supabase
   useEffect(() => {
     const fetchStories = async () => {
       try {
@@ -151,10 +151,8 @@ export default function ImpactStories() {
     fetchStories();
   }, []);
 
-  // Merge: live stories first, then static
   const allStories: Story[] = [...liveStories, ...staticStories];
 
-  // Lock body scroll when modal is open
   useEffect(() => {
     document.body.style.overflow = selectedStory ? "hidden" : "auto";
     return () => { document.body.style.overflow = "auto"; };
@@ -163,22 +161,22 @@ export default function ImpactStories() {
   return (
     <div className="min-h-screen bg-white">
 
-      {/* ── Hero Section ── */}
-      <section className="relative h-[500px] md:h-[600px] flex items-center justify-center overflow-hidden">
-        <div className="absolute inset-0">
+      {/* â”€â”€ Hero Section â”€â”€ */}
+      <section className="impact-hero">
+        <div className="impact-hero-bg">
           <ImageWithFallback src={Rescue as string} alt="Impact Stories" className="w-full h-full object-cover" />
-          <div className="absolute inset-0 bg-gradient-to-b from-blue-900/50 via-blue-900/80 to-blue-900" />
+          <div className="impact-hero-overlay" />
         </div>
 
-        <div className="relative z-10 max-w-5xl mx-auto px-6 text-center text-white">
+        <div className="impact-hero-content">
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}>
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-500/20 backdrop-blur-md border border-blue-400/30 text-blue-200 text-xs font-bold uppercase tracking-widest mb-6">
+            <div className="impact-badge">
               <Sparkles className="w-3.5 h-3.5 text-yellow-300" /> Real Impact
             </div>
-            <h1 className="text-4xl md:text-7xl font-black mb-6 tracking-tight drop-shadow-2xl">
-              Stories of <span className="text-blue-400">Transformation</span>
+            <h1 className="impact-title">
+              Stories of <span>Transformation</span>
             </h1>
-            <p className="text-lg md:text-xl text-blue-100/90 max-w-2xl mx-auto leading-relaxed font-medium mb-12">
+            <p className="impact-subtitle">
               Every statistic represents a heartbeat. Explore the remarkable journeys of resilience, hope, and change happening across communities.
             </p>
           </motion.div>
@@ -186,16 +184,16 @@ export default function ImpactStories() {
           {/* Stats Strip */}
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.2 }}
-            className="grid grid-cols-3 gap-4 max-w-3xl mx-auto">
+            className="impact-stats-grid">
             {stats.map((stat, idx) => {
               const Icon = stat.icon;
               return (
-                <div key={idx} className="bg-white/10 backdrop-blur-md border border-white/20 p-5 rounded-2xl">
-                  <div className="w-10 h-10 bg-white/20 rounded-xl flex items-center justify-center mx-auto mb-3">
+                <div key={idx} className="impact-stat-card">
+                  <div className="impact-stat-icon">
                     <Icon className="w-5 h-5 text-white" />
                   </div>
-                  <div className="text-2xl md:text-3xl font-black text-white">{stat.value}</div>
-                  <div className="text-blue-200 font-bold text-[10px] uppercase tracking-widest">{stat.label}</div>
+                  <div className="impact-stat-value">{stat.value}</div>
+                  <div className="impact-stat-label">{stat.label}</div>
                 </div>
               );
             })}
@@ -206,226 +204,220 @@ export default function ImpactStories() {
       {/* ── Stories Grid ── */}
       <section className="py-24 bg-white">
         <div className="max-w-7xl mx-auto px-6">
-          <div className="max-w-2xl mb-16">
-            <h2 className="text-3xl md:text-5xl font-black text-gray-900 mb-4 tracking-tight">
-              From the <span className="text-blue-600">Field</span>
+          <div className="text-center mb-20">
+            <div className="impact-badge mx-auto" style={{ marginBottom: '16px' }}>Voices from the Field</div>
+            <h2 className="text-4xl md:text-6xl font-black text-slate-900 mb-6 tracking-tight">
+              Real Stories. <span className="text-blue-600">Real Change.</span>
             </h2>
-            <div className="w-20 h-1.5 bg-blue-600 rounded-full mb-6" />
-            <p className="text-lg text-gray-500 leading-relaxed">
-              Hear directly from the communities we serve. These stories capture moments of breakthrough, resilience, and lasting change.
+            <p className="text-lg text-slate-500 leading-relaxed font-medium max-w-2xl mx-auto">
+              These narratives capture moments of breakthrough, resilience, and lasting change in the communities we serve.
             </p>
           </div>
 
           {loadingStories ? (
-            <div className="flex items-center justify-center py-16">
-              <Loader2 className="w-10 h-10 animate-spin text-blue-600" />
+            <div className="flex items-center justify-center py-24">
+              <Loader2 className="w-12 h-12 animate-spin text-blue-600" />
             </div>
           ) : (
-            <div className="space-y-24">
-              {allStories.map((story, index) => {
-                const isReversed = index % 2 === 1;
-                return (
-                  <motion.div key={String(story.id)}
-                    initial={{ opacity: 0, y: 40 }} whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true, margin: "-80px" }} transition={{ duration: 0.6 }}
-                    className={`flex flex-col ${isReversed ? "lg:flex-row-reverse" : "lg:flex-row"} gap-12 lg:gap-16 items-center`}>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+              {allStories.map((story, index) => (
+                <motion.div key={String(story.id)}
+                  initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, margin: "-60px" }} transition={{ duration: 0.5, delay: index * 0.1 }}
+                  className={`group relative rounded-3xl overflow-hidden cursor-pointer ${index === 0 ? "md:col-span-2 h-[500px]" : "h-[420px]"}`}
+                  onClick={() => setSelectedStory(story)}>
+                  
+                  {/* Background Image */}
+                  <ImageWithFallback src={story.image} alt={story.title}
+                    className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-slate-900 via-slate-900/50 to-transparent" />
 
-                    {/* Image Side */}
-                    <div className="w-full lg:w-1/2 relative group">
-                      <div className="relative rounded-[2.5rem] overflow-hidden shadow-2xl bg-gray-100">
-                        <div className="aspect-[4/3] w-full">
-                          <ImageWithFallback src={story.image} alt={story.title}
-                            className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
-                          <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent" />
+                  {/* Tags */}
+                  <div className="absolute top-6 left-6 flex gap-2 z-10">
+                    <span className="px-4 py-1.5 bg-blue-600 text-white rounded-full text-[10px] font-black uppercase tracking-widest shadow-lg">
+                      {story.category}
+                    </span>
+                    {story.source === "supabase" && (
+                      <span className="px-3 py-1.5 bg-emerald-500 text-white rounded-full text-[10px] font-black uppercase tracking-widest shadow-lg">New</span>
+                    )}
+                  </div>
 
-                          <div className="absolute top-6 left-6 flex gap-2">
-                            <span className="px-4 py-1.5 bg-blue-600 text-white rounded-xl text-[10px] font-black uppercase tracking-widest shadow-xl">
-                              {story.category}
-                            </span>
-                            {story.source === "supabase" && (
-                              <span className="px-3 py-1.5 bg-emerald-500 text-white rounded-xl text-[9px] font-black uppercase tracking-widest shadow-xl">
-                                New
-                              </span>
-                            )}
-                          </div>
-
-                          <div className="absolute bottom-6 left-6 right-6">
-                            {story.location && (
-                              <div className="flex items-center gap-2 text-white/80 text-sm font-medium mb-2">
-                                <MapPin className="w-4 h-4" /> {story.location}
-                              </div>
-                            )}
-                            {story.beneficiaries && (
-                              <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-white/20 backdrop-blur-md rounded-xl text-white text-xs font-bold border border-white/20">
-                                <Users className="w-3.5 h-3.5" /> {story.beneficiaries}
-                              </div>
-                            )}
-                          </div>
-                        </div>
+                  {/* Content Overlay */}
+                  <div className="absolute bottom-0 left-0 right-0 p-8 z-10">
+                    {story.date && (
+                      <div className="flex items-center gap-2 text-white/60 text-xs font-bold uppercase tracking-widest mb-3">
+                        <Calendar className="w-3.5 h-3.5" /> {story.date}
+                      </div>
+                    )}
+                    <h3 className={`font-black text-white leading-tight tracking-tight mb-4 ${index === 0 ? "text-3xl md:text-4xl" : "text-2xl"}`}>
+                      {story.title}
+                    </h3>
+                    <p className="text-white/70 text-sm leading-relaxed mb-5 line-clamp-2 max-w-xl">
+                      {story.impact}
+                    </p>
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center gap-4 text-white/60 text-xs font-bold">
+                        {story.location && (
+                          <span className="flex items-center gap-1.5"><MapPin className="w-3.5 h-3.5 text-blue-400" /> {story.location}</span>
+                        )}
+                        {story.beneficiaries && (
+                          <span className="flex items-center gap-1.5 px-2.5 py-1 bg-white/10 rounded-full border border-white/10">
+                            <Users className="w-3.5 h-3.5 text-blue-400" /> {story.beneficiaries}
+                          </span>
+                        )}
+                      </div>
+                      <div className="flex items-center gap-2 text-white text-xs font-black uppercase tracking-widest opacity-0 group-hover:opacity-100 translate-y-2 group-hover:translate-y-0 transition-all duration-300">
+                        Read Story <ArrowRight className="w-4 h-4" />
                       </div>
                     </div>
+                  </div>
 
-                    {/* Content Side */}
-                    <div className="w-full lg:w-1/2 space-y-6">
-                      {story.date && (
-                        <div className="flex items-center gap-2 text-gray-400 text-xs font-black uppercase tracking-widest">
-                          <Calendar className="w-3.5 h-3.5" /> {story.date}
-                        </div>
-                      )}
-                      <h2 className="text-3xl md:text-4xl font-black text-gray-900 leading-tight tracking-tight">
-                        {story.title}
-                      </h2>
-                      <div className="bg-gray-50 border-l-4 border-blue-600 p-6 rounded-r-2xl relative">
-                        <Quote className="absolute top-4 right-4 w-10 h-10 text-blue-100" />
-                        <p className="text-lg text-gray-700 font-medium italic leading-relaxed relative z-10">
-                          "{story.quote}"
-                        </p>
-                      </div>
-                      <p className="text-gray-500 leading-relaxed text-lg">{story.impact}</p>
-                      <button onClick={() => setSelectedStory(story)}
-                        className="inline-flex items-center gap-3 px-8 py-4 bg-gray-900 text-white font-black rounded-2xl text-xs uppercase tracking-widest hover:bg-gray-800 transition-all shadow-xl hover:-translate-y-1 transform duration-200 group">
-                        Read Full Story
-                        <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-                      </button>
-                    </div>
-                  </motion.div>
-                );
-              })}
+                  {/* Hover glow */}
+                  <div className="absolute inset-0 border-2 border-white/0 group-hover:border-white/20 rounded-3xl transition-all duration-500 pointer-events-none" />
+                </motion.div>
+              ))}
             </div>
           )}
         </div>
       </section>
 
       {/* ── CTA Section ── */}
-      <section className="py-24 bg-blue-900 text-white overflow-hidden relative">
-        <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-blue-600/20 rounded-full blur-[120px] -mr-64 -mt-64" />
-        <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-blue-400/10 rounded-full blur-[100px] -ml-64 -mb-64" />
+      <section className="py-24 bg-slate-900 text-white overflow-hidden relative">
+        <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-blue-600/20 rounded-full blur-[120px] -mr-80 -mt-80" />
+        <div className="absolute bottom-0 left-0 w-[600px] h-[600px] bg-blue-400/10 rounded-full blur-[100px] -ml-80 -mb-80" />
         <div className="max-w-4xl mx-auto px-6 text-center relative z-10">
-          <div className="w-20 h-20 bg-white/10 backdrop-blur-md border border-white/20 rounded-[2rem] flex items-center justify-center mx-auto mb-10 rotate-3">
-            <Heart className="w-10 h-10 text-white fill-white -rotate-3" />
+          <div className="w-24 h-24 bg-white/10 backdrop-blur-md border border-white/20 rounded-[2.5rem] flex items-center justify-center mx-auto mb-12 rotate-6 shadow-2xl">
+            <Heart className="w-12 h-12 text-white fill-white -rotate-6" />
           </div>
-          <h2 className="text-3xl md:text-5xl font-black mb-8 leading-tight">
-            Create the <br /> <span className="text-blue-400">Next Chapter</span>
+          <h2 className="text-4xl md:text-7xl font-black mb-8 leading-tight tracking-tight">
+            Create the Next <br /> <span className="text-blue-500">Chapter</span>
           </h2>
-          <p className="text-xl text-blue-100/80 mb-10 leading-relaxed max-w-2xl mx-auto font-medium">
+          <p className="text-2xl text-slate-300 mb-12 leading-relaxed max-w-2xl mx-auto font-medium opacity-90">
             These stories are made possible by people like you. Your donation, time, and voice help turn survival into success.
           </p>
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-            <Link to="/donate" className="w-full sm:w-auto px-10 py-5 bg-white text-blue-900 rounded-2xl font-black text-lg hover:bg-blue-50 transition-all shadow-xl inline-flex items-center justify-center gap-3">
-              Donate Now <ArrowRight className="w-5 h-5" />
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-6">
+            <Link to="/donate" className="w-full sm:w-auto px-12 py-6 bg-blue-600 text-white rounded-3xl font-black text-xl hover:bg-blue-700 transition-all shadow-2xl shadow-blue-600/40 inline-flex items-center justify-center gap-3">
+              Donate Now <ArrowRight className="w-6 h-6" />
             </Link>
-            <Link to="/volunteer" className="w-full sm:w-auto px-10 py-5 bg-blue-800 text-white border border-blue-700 rounded-2xl font-black text-lg hover:bg-blue-700 transition-all inline-flex items-center justify-center gap-3">
-              Volunteer With Us
+            <Link to="/volunteer" className="w-full sm:w-auto px-12 py-6 bg-slate-800 text-white border border-slate-700 rounded-3xl font-black text-xl hover:bg-slate-700 transition-all inline-flex items-center justify-center gap-3">
+              Volunteer
             </Link>
           </div>
         </div>
       </section>
 
-      {/* ── Full Story Modal ── */}
+      {/* â”€â”€ Full Story Modal â”€â”€ */}
       <AnimatePresence>
         {selectedStory && (
           <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
-            className="fixed inset-0 z-[100] bg-black/70 backdrop-blur-md flex items-center justify-center p-4 md:p-8"
-            onClick={() => setSelectedStory(null)}>
-            <motion.div initial={{ scale: 0.95, opacity: 0, y: 20 }} animate={{ scale: 1, opacity: 1, y: 0 }}
-              exit={{ scale: 0.95, opacity: 0, y: 20 }}
-              transition={{ type: "spring", damping: 25, stiffness: 300 }}
-              className="bg-white w-full max-w-5xl max-h-[95vh] rounded-[2rem] overflow-hidden shadow-2xl flex flex-col lg:flex-row"
+            className="fixed inset-0 z-[100] bg-slate-900/90 backdrop-blur-xl" onClick={() => setSelectedStory(null)}>
+            <motion.div initial={{ y: "100%" }} animate={{ y: 0 }}
+              exit={{ y: "100%" }}
+              transition={{ type: "spring", damping: 35, stiffness: 300 }}
+              className="absolute inset-0 bg-white overflow-y-auto"
               onClick={(e) => e.stopPropagation()}>
 
-              {/* Left: Image Column */}
-              <div className="relative w-full lg:w-2/5 h-72 lg:h-auto shrink-0 overflow-hidden bg-gray-100">
+              {/* ── Sticky Close Button ── */}
+              <button onClick={() => setSelectedStory(null)}
+                className="fixed top-6 right-6 z-50 w-12 h-12 bg-white/90 backdrop-blur-md border border-slate-200 rounded-full text-slate-600 hover:text-slate-900 flex items-center justify-center transition-all hover:scale-110 shadow-lg">
+                <X className="w-6 h-6" />
+              </button>
+
+              {/* ── Full-Width Hero Image ── */}
+              <div className="relative h-[50vh] md:h-[65vh] overflow-hidden">
                 <ImageWithFallback src={selectedStory.image} alt={selectedStory.title} className="w-full h-full object-cover" />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent lg:bg-gradient-to-r lg:from-transparent lg:to-black/20" />
-                <button onClick={() => setSelectedStory(null)}
-                  className="absolute top-6 right-6 p-2.5 bg-white/20 hover:bg-white/40 backdrop-blur-md border border-white/30 rounded-full text-white transition-all hover:rotate-90 duration-300 shadow-lg">
-                  <X className="w-5 h-5" />
-                </button>
-                <div className="absolute bottom-6 left-6 right-6 lg:bottom-8 lg:left-8">
-                  <span className="inline-block px-4 py-1.5 bg-blue-600 text-white text-[10px] font-black uppercase tracking-widest rounded-xl shadow-xl mb-3">
-                    {selectedStory.category}
-                  </span>
-                  <h2 className="text-2xl lg:text-3xl font-black text-white leading-tight drop-shadow-lg">
-                    {selectedStory.title}
-                  </h2>
-                  {selectedStory.location && (
-                    <div className="flex items-center gap-2 text-white/80 text-sm font-medium mt-2">
-                      <MapPin className="w-4 h-4" /> {selectedStory.location}
+                <div className="absolute inset-0 bg-gradient-to-t from-slate-900 via-slate-900/40 to-transparent" />
+                
+                <div className="absolute bottom-0 left-0 right-0 p-8 md:p-16">
+                  <div className="max-w-4xl mx-auto">
+                    <div className="flex flex-wrap gap-3 mb-6">
+                      <span className="px-5 py-2 bg-blue-600 text-white rounded-full text-xs font-black uppercase tracking-widest shadow-xl">
+                        {selectedStory.category}
+                      </span>
+                      {selectedStory.source === "supabase" && (
+                        <span className="px-4 py-2 bg-emerald-500 text-white rounded-full text-xs font-black uppercase tracking-widest shadow-xl">
+                          New
+                        </span>
+                      )}
                     </div>
-                  )}
+                    <h1 className="text-4xl md:text-6xl lg:text-7xl font-black text-white leading-[1.05] tracking-tight mb-6 drop-shadow-2xl">
+                      {selectedStory.title}
+                    </h1>
+                    <div className="flex flex-wrap items-center gap-6 text-white/80 text-sm font-bold">
+                      {selectedStory.date && (
+                        <span className="flex items-center gap-2"><Calendar className="w-4 h-4 text-blue-400" /> {selectedStory.date}</span>
+                      )}
+                      {selectedStory.location && (
+                        <span className="flex items-center gap-2"><MapPin className="w-4 h-4 text-blue-400" /> {selectedStory.location}</span>
+                      )}
+                      {selectedStory.beneficiaries && (
+                        <span className="flex items-center gap-2 px-3 py-1.5 bg-white/10 backdrop-blur-md rounded-full border border-white/20">
+                          <Users className="w-4 h-4 text-blue-400" /> {selectedStory.beneficiaries}
+                        </span>
+                      )}
+                    </div>
+                  </div>
                 </div>
               </div>
 
-              {/* Right: Scrollable Content */}
-              <div className="w-full lg:w-3/5 overflow-y-auto flex flex-col">
-                {/* Stats strip */}
-                <div className="bg-gray-50 border-b border-gray-100 px-8 py-5 flex flex-wrap gap-6 shrink-0">
-                  {selectedStory.date && (
-                    <div className="flex items-center gap-2">
-                      <Calendar className="w-4 h-4 text-blue-600" />
-                      <span className="text-sm font-bold text-gray-700">{selectedStory.date}</span>
-                    </div>
-                  )}
-                  {selectedStory.beneficiaries && (
-                    <div className="flex items-center gap-2">
-                      <Users className="w-4 h-4 text-blue-600" />
-                      <span className="text-sm font-bold text-gray-700">{selectedStory.beneficiaries}</span>
-                    </div>
-                  )}
-                  {selectedStory.location && (
-                    <div className="flex items-center gap-2">
-                      <MapPin className="w-4 h-4 text-blue-600" />
-                      <span className="text-sm font-bold text-gray-700">{selectedStory.location}</span>
-                    </div>
-                  )}
+              {/* ── Content Body ── */}
+              <div className="max-w-4xl mx-auto px-6 md:px-8 py-16 md:py-20">
+
+                {/* Quote Block */}
+                <div className="relative bg-gradient-to-br from-blue-50 to-slate-50 border border-blue-100 rounded-3xl p-8 md:p-12 mb-16 overflow-hidden">
+                  <Quote className="absolute -top-2 -right-2 w-32 h-32 text-blue-200/20 rotate-12" />
+                  <div className="relative z-10">
+                    <p className="text-2xl md:text-3xl font-bold text-slate-800 italic leading-relaxed mb-6">
+                      "{selectedStory.quote}"
+                    </p>
+                    <div className="w-24 h-1.5 bg-gradient-to-r from-blue-600 to-blue-400 rounded-full" />
+                  </div>
                 </div>
 
-                <div className="p-8 lg:p-10 flex-1">
-                  {/* Quote */}
-                  <div className="bg-blue-50 rounded-2xl p-6 mb-8 relative overflow-hidden">
-                    <Quote className="absolute top-4 right-4 w-16 h-16 text-blue-100" />
-                    <div className="relative z-10">
-                      <p className="text-xl text-blue-900 font-bold italic leading-relaxed mb-3">
-                        "{selectedStory.quote}"
-                      </p>
-                      <div className="w-12 h-1 bg-blue-600 rounded-full" />
-                    </div>
-                  </div>
-
-                  {/* Impact */}
-                  <div className="flex items-start gap-4 mb-8 p-5 bg-emerald-50 rounded-2xl border border-emerald-100">
-                    <div className="w-10 h-10 bg-emerald-100 rounded-xl flex items-center justify-center shrink-0">
-                      <Award className="w-5 h-5 text-emerald-600" />
+                {/* Impact Highlight */}
+                {selectedStory.impact !== selectedStory.quote && (
+                  <div className="flex gap-6 bg-emerald-50 border border-emerald-100 p-8 rounded-3xl mb-16">
+                    <div className="w-14 h-14 bg-emerald-500 rounded-2xl flex items-center justify-center text-white flex-shrink-0 shadow-lg shadow-emerald-500/30">
+                      <Award className="w-7 h-7" />
                     </div>
                     <div>
-                      <div className="text-[10px] font-black text-emerald-600 uppercase tracking-widest mb-1">Key Impact</div>
-                      <p className="text-sm text-emerald-800 font-medium leading-relaxed">{selectedStory.impact}</p>
+                      <div className="text-xs font-black text-emerald-600 uppercase tracking-widest mb-2">Core Impact</div>
+                      <p className="text-lg text-emerald-800 font-semibold leading-relaxed">{selectedStory.impact}</p>
                     </div>
                   </div>
+                )}
 
-                  {/* Full story */}
-                  <div className="mb-8">
-                    <h3 className="text-lg font-black text-gray-900 mb-4 flex items-center gap-2">
-                      <BookOpen className="w-5 h-5 text-blue-600" /> The Full Story
-                    </h3>
-                    <div className="text-gray-600 leading-relaxed space-y-5 text-[15px]">
-                      {selectedStory.story.split("\n\n").map((paragraph, i) => (
-                        paragraph.trim() ? <p key={i} dangerouslySetInnerHTML={{ __html: paragraph }} /> : null
-                      ))}
+                {/* The Full Story */}
+                <div className="mb-16">
+                  <div className="flex items-center gap-4 mb-10">
+                    <div className="w-12 h-12 bg-blue-100 rounded-2xl flex items-center justify-center">
+                      <BookOpen className="w-6 h-6 text-blue-600" />
                     </div>
+                    <h2 className="text-2xl font-black text-slate-900 uppercase tracking-tight">The Full Story</h2>
                   </div>
+                  <div className="text-lg text-slate-600 leading-[1.9] space-y-8">
+                    {selectedStory.story.split("\n\n").map((paragraph, i) => (
+                      paragraph.trim() ? (
+                        <p key={i} className={i === 0 ? "text-xl text-slate-700 font-medium first-letter:text-5xl first-letter:font-black first-letter:text-blue-600 first-letter:float-left first-letter:mr-3 first-letter:leading-none" : ""}
+                          dangerouslySetInnerHTML={{ __html: paragraph }} />
+                      ) : null
+                    ))}
+                  </div>
+                </div>
 
-                  {/* Footer actions */}
-                  <div className="pt-8 border-t border-gray-100 flex flex-col sm:flex-row items-center justify-between gap-4">
-                    <button onClick={() => { navigator.clipboard.writeText(window.location.href); }}
-                      className="flex items-center gap-2 px-5 py-3 bg-gray-50 hover:bg-gray-100 text-gray-600 rounded-xl font-bold text-xs uppercase tracking-widest transition-colors border border-gray-100">
-                      <Share2 className="w-4 h-4" /> Share Story
-                    </button>
-                    <Link to="/donate" onClick={() => setSelectedStory(null)}
-                      className="flex items-center gap-2 px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-xl font-bold text-xs uppercase tracking-widest transition-all shadow-lg shadow-blue-600/20">
-                      <Heart className="w-4 h-4" /> Support This Cause
-                    </Link>
-                  </div>
+                {/* Footer Actions */}
+                <div className="pt-10 border-t-2 border-slate-100 flex flex-col sm:flex-row items-center justify-between gap-6">
+                  <button onClick={() => {
+                    navigator.clipboard.writeText(window.location.href);
+                    alert("Link copied to clipboard!");
+                  }}
+                    className="flex items-center gap-3 px-8 py-4 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-2xl font-black text-xs uppercase tracking-widest transition-all">
+                    <Share2 className="w-5 h-5" /> Share This Story
+                  </button>
+                  <Link to="/donate" onClick={() => setSelectedStory(null)}
+                    className="flex items-center gap-3 px-10 py-5 bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white rounded-2xl font-black text-sm uppercase tracking-widest transition-all shadow-2xl shadow-blue-600/30">
+                    <Heart className="w-5 h-5 fill-white" /> Support This Cause
+                  </Link>
                 </div>
               </div>
             </motion.div>
