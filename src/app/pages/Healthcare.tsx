@@ -4,12 +4,7 @@ import { Link } from "react-router";
 import "../../styles/programs.css";
 
 export default function Healthcare() {
-  const impacts = [
-    { number: "15,000+", label: "Patients Treated", icon: <Stethoscope className="w-6 h-6 text-emerald-500" /> },
-    { number: "300+", label: "Monthly Consultations", icon: <Activity className="w-6 h-6 text-blue-500" /> },
-    { number: "8", label: "Mobile Clinics", icon: <Heart className="w-6 h-6 text-red-500" /> },
-    { number: "98%", label: "Patient Satisfaction", icon: <Shield className="w-6 h-6 text-purple-500" /> }
-  ];
+
 
   const services = [
     { icon: Stethoscope, title: "Primary Healthcare", description: "Comprehensive medical consultations, diagnosis, and treatment for common illnesses.", color: "#10b981" },
@@ -49,7 +44,7 @@ export default function Healthcare() {
                 { text: "Emergency medical response", color: "#ef4444" }
               ].map((item, i) => (
                 <div key={i} className="prog-check-item">
-                  <div className="prog-check-icon" style={{ background: item.color + "20", color: item.color }}><CheckCircle2 className="w-5 h-5" /></div>
+                  <div className="prog-check-icon" style={{ background: `${item.color}20`, color: item.color }}><CheckCircle2 className="w-5 h-5" aria-hidden="true" /></div>
                   <span className="prog-check-text">{item.text}</span>
                 </div>
               ))}

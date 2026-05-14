@@ -4,12 +4,7 @@ import { Link } from "react-router";
 import "../../styles/programs.css";
 
 export default function Economic() {
-  const impacts = [
-    { number: "800+", label: "Businesses Started", icon: <Briefcase className="w-6 h-6 text-purple-500" /> },
-    { number: "2,500+", label: "People Trained", icon: <Users className="w-6 h-6 text-blue-500" /> },
-    { number: "$1.2M", label: "Microloans Disbursed", icon: <DollarSign className="w-6 h-6 text-emerald-500" /> },
-    { number: "92%", label: "Loan Repayment Rate", icon: <TrendingUp className="w-6 h-6 text-orange-500" /> }
-  ];
+
 
   const programs = [
     { icon: Briefcase, title: "Skills Training", description: "Vocational training in trades like tailoring, carpentry, agriculture, and technology.", color: "#8b5cf6" },
@@ -52,7 +47,7 @@ export default function Economic() {
                 { text: "Market access and networking support", color: "#06b6d4" }
               ].map((item, i) => (
                 <div key={i} className="prog-check-item">
-                  <div className="prog-check-icon" style={{ background: item.color + "20", color: item.color }}><CheckCircle2 className="w-5 h-5" /></div>
+                  <div className="prog-check-icon" style={{ background: `${item.color}20`, color: item.color }}><CheckCircle2 className="w-5 h-5" aria-hidden="true" /></div>
                   <span className="prog-check-text">{item.text}</span>
                 </div>
               ))}

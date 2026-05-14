@@ -30,7 +30,15 @@ const resources = {
         healthcareDesc: "Delivering essential medical care, preventive health services, and wellness programs.",
         economic: "Economic Empowerment",
         economicDesc: "Creating sustainable livelihoods through skills training and microfinance support.",
+        helpingFamilies: "Helping Needy Families",
+        helpingFamiliesDesc: "Restoring hope and dignity to vulnerable families through comprehensive welfare support and community care.",
         learnMore: "Learn More"
+      },
+      stats: {
+        livesImpacted: "Lives Impacted",
+        partnerOrgs: "Partner Organizations",
+        corePrograms: "Core Programs",
+        countriesReached: "Countries Reached"
       },
       footer: {
         tagline: "Transforming lives across borders through compassion, dedication, and sustainable community impact.",
@@ -77,7 +85,15 @@ const resources = {
         healthcareDesc: "Brindando atención médica esencial, servicios de salud preventiva y programas de bienestar.",
         economic: "Empoderamiento Económico",
         economicDesc: "Creando medios de vida sostenibles a través de capacitación en habilidades y apoyo de microfinanzas.",
+        helpingFamilies: "Ayudando a Familias Necesitadas",
+        helpingFamiliesDesc: "Restaurando la esperanza y la dignidad de las familias vulnerables a través de apoyo integral y cuidado comunitario.",
         learnMore: "Saber Más"
+      },
+      stats: {
+        livesImpacted: "Vidas Impactadas",
+        partnerOrgs: "Organizaciones Asociadas",
+        corePrograms: "Programas Principales",
+        countriesReached: "Países Alcanzados"
       },
       footer: {
         tagline: "Transformando vidas a través de fronteras mediante compasión, dedicación e impacto comunitario sostenible.",
@@ -124,7 +140,15 @@ const resources = {
         healthcareDesc: "Fournir des soins médicaux essentiels, des services de santé préventive et des programmes de bien-être.",
         economic: "Autonomisation Économique",
         economicDesc: "Créer des moyens de subsistance durables grâce à la formation professionnelle et au soutien de la microfinance.",
+        helpingFamilies: "Aider les Familles Nécessiteuses",
+        helpingFamiliesDesc: "Restaurer l'espoir et la dignité des familles vulnérables grâce à un soutien social complet et des soins communautaires.",
         learnMore: "En Savoir Plus"
+      },
+      stats: {
+        livesImpacted: "Vies Impactées",
+        partnerOrgs: "Organisations Partenaires",
+        corePrograms: "Programmes Principaux",
+        countriesReached: "Pays Atteints"
       },
       footer: {
         tagline: "Transformer des vies au-delà des frontières grâce à la compassion, au dévouement et à l'impact communautaire durable.",
@@ -171,7 +195,15 @@ const resources = {
         healthcareDesc: "Fornecendo cuidados médicos essenciais, serviços de saúde preventiva e programas de bem-estar.",
         economic: "Empoderamento Econômico",
         economicDesc: "Criando meios de subsistência sustentáveis através de treinamento de habilidades e apoio de microfinanças.",
+        helpingFamilies: "Ajudando Famílias Necessitadas",
+        helpingFamiliesDesc: "Restaurando a esperança e a dignidade das famílias vulneráveis através de apoio social abrangente e cuidados comunitários.",
         learnMore: "Saiba Mais"
+      },
+      stats: {
+        livesImpacted: "Vidas Impactadas",
+        partnerOrgs: "Organizações Parceiras",
+        corePrograms: "Programas Principais",
+        countriesReached: "Países Alcançados"
       },
       footer: {
         tagline: "Transformando vidas além das fronteiras através da compaixão, dedicação e impacto comunitário sustentável.",

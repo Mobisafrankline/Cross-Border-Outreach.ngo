@@ -4,12 +4,7 @@ import { Link } from "react-router";
 import "../../styles/programs.css";
 
 export default function FoodSupport() {
-  const impacts = [
-    { number: "25,000+", label: "Meals Served Monthly", icon: <Package className="w-6 h-6 text-orange-500" /> },
-    { number: "500+", label: "Families Supported", icon: <Users className="w-6 h-6 text-blue-500" /> },
-    { number: "12", label: "Distribution Centers", icon: <TrendingUp className="w-6 h-6 text-emerald-500" /> },
-    { number: "95%", label: "Nutritional Standards", icon: <Heart className="w-6 h-6 text-purple-500" /> }
-  ];
+
 
   const programs = [
     {
@@ -91,8 +86,8 @@ export default function FoodSupport() {
                 { text: "Dietary accommodations for special needs", color: "#8b5cf6" }
               ].map((item, i) => (
                 <div key={i} className="prog-check-item">
-                  <div className="prog-check-icon" style={{ background: item.color + "20", color: item.color }}>
-                    <CheckCircle2 className="w-5 h-5" />
+                  <div className="prog-check-icon" style={{ background: `${item.color}20`, color: item.color }}>
+                    <CheckCircle2 className="w-5 h-5" aria-hidden="true" />
                   </div>
                   <span className="prog-check-text">{item.text}</span>
                 </div>

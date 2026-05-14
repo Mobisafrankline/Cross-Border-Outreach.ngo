@@ -64,7 +64,7 @@ export default function HelpingFamilies() {
                 { text: "Job placement and skills training", color: "#f97316" }
               ].map((item, i) => (
                 <div key={i} className="prog-check-item">
-                  <div className="prog-check-icon" style={{ background: item.color + "20", color: item.color }}><CheckCircle2 className="w-5 h-5" /></div>
+                  <div className="prog-check-icon" style={{ background: `${item.color}20`, color: item.color }}><CheckCircle2 className="w-5 h-5" aria-hidden="true" /></div>
                   <span className="prog-check-text">{item.text}</span>
                 </div>
               ))}

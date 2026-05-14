@@ -57,7 +57,7 @@ export default function Home() {
     { title: t('programs.education'), description: t('programs.educationDesc'), image: 'https://images.unsplash.com/photo-1770843093640-c44ae557928b?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080', link: '/education', color: '#3b82f6', tag: 'Education' },
     { title: t('programs.healthcare'), description: t('programs.healthcareDesc'), image: 'https://images.unsplash.com/photo-1770221797840-8f5a095ad7ae?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080', link: '/healthcare', color: '#10b981', tag: 'Healthcare' },
     { title: t('programs.economic'), description: t('programs.economicDesc'), image: 'https://images.unsplash.com/photo-1752650736246-abae155278be?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080', link: '/economic', color: '#8b5cf6', tag: 'Empowerment' },
-    { title: 'Helping Needy Families', description: 'Restoring hope and dignity to vulnerable families through comprehensive welfare support and community care.', image: 'https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080', link: '/helping-families', color: '#e11d48', tag: 'Family Welfare' },
+    { title: t('programs.helpingFamilies'), description: t('programs.helpingFamiliesDesc'), image: 'https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080', link: '/helping-families', color: '#e11d48', tag: 'Family Welfare' },
   ];
 
   const testimonials = [
@@ -106,10 +106,10 @@ export default function Home() {
       {/* â”€â”€ STATS â”€â”€ */}
       <section className="home-stats-section" ref={statsRef}>
         <div className="home-stats-grid">
-          <StatCard value={3000} suffix="+" label="Lives Impacted" icon={<Users className="w-7 h-7" />} trigger={statsVisible} />
-          <StatCard value={12} suffix="+" label="Partner Organizations" icon={<HandHeart className="w-7 h-7" />} trigger={statsVisible} />
-          <StatCard value={5} label="Core Programs" icon={<CheckCircle2 className="w-7 h-7" />} trigger={statsVisible} />
-          <StatCard value={2} label="Countries Reached" icon={<Globe2 className="w-7 h-7" />} trigger={statsVisible} />
+          <StatCard value={3000} suffix="+" label={t('stats.livesImpacted')} icon={<Users className="w-7 h-7" />} trigger={statsVisible} />
+          <StatCard value={12} suffix="+" label={t('stats.partnerOrgs')} icon={<HandHeart className="w-7 h-7" />} trigger={statsVisible} />
+          <StatCard value={5} label={t('stats.corePrograms')} icon={<CheckCircle2 className="w-7 h-7" />} trigger={statsVisible} />
+          <StatCard value={2} label={t('stats.countriesReached')} icon={<Globe2 className="w-7 h-7" />} trigger={statsVisible} />
         </div>
       </section>
 
@@ -136,14 +136,38 @@ export default function Home() {
 
       {/* â”€â”€ PROGRAMS â”€â”€ */}
       <section className="home-programs-section">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6">
           <div className="home-section-header">
             <div className="home-section-label">What We Do</div>
             <h2 className="home-section-title">Our Core Programs</h2>
-            <p className="home-section-subtitle">We create sustainable change through four core programs designed to address the most critical needs in underserved communities.</p>
+            <p className="home-section-subtitle">We create sustainable change through five core programs designed to address the most critical needs in underserved communities.</p>
           </div>
-          <div className="home-programs-grid">
-            {programs.map((program, index) => (
+
+          {/* MAIN FEATURED PROGRAM */}
+          {programs.find(p => p.link === '/helping-families') && (() => {
+            const mainProgram = programs.find(p => p.link === '/helping-families')!;
+            return (
+              <Link to={mainProgram.link} className="home-main-program-card group">
+                <div className="home-main-program-img-wrap">
+                  <ImageWithFallback src={mainProgram.image} alt={mainProgram.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
+                  <div className="home-program-img-overlay" />
+                  <div className="home-program-tag" style={{ backgroundColor: mainProgram.color }}>{mainProgram.tag}</div>
+                </div>
+                <div className="home-main-program-body">
+                  <h3 className="home-main-program-title">{mainProgram.title}</h3>
+                  <p className="home-main-program-desc">{mainProgram.description}</p>
+                  <div className="home-program-cta" style={{ color: mainProgram.color }}>
+                    {t('programs.learnMore')}<ChevronRight className="w-5 h-5 transition-transform group-hover:translate-x-1" />
+                  </div>
+                </div>
+                <div className="home-program-accent" style={{ backgroundColor: mainProgram.color }} />
+              </Link>
+            );
+          })()}
+
+          {/* 4 COLUMN GRID FOR REMAINING PROGRAMS */}
+          <div className="home-programs-4col-grid">
+            {programs.filter(p => p.link !== '/helping-families').map((program, index) => (
               <Link to={program.link} key={index} className="home-program-card group">
                 <div className="home-program-img-wrap">
                   <ImageWithFallback src={program.image} alt={program.title} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />
@@ -265,7 +289,7 @@ export default function Home() {
                   { text: 'Tax-deductible contributions', color: '#06b6d4' },
                 ].map((item, i) => (
                   <div key={i} className="home-why-item">
-                    <div className="home-why-check" style={{ backgroundColor: item.color + '20', color: item.color }}><CheckCircle2 className="w-5 h-5" /></div>
+                    <div className="home-why-check" style={{ backgroundColor: `${item.color}20`, color: item.color }}><CheckCircle2 className="w-5 h-5" aria-hidden="true" /></div>
                     <span className="home-why-item-text">{item.text}</span>
                   </div>
                 ))}

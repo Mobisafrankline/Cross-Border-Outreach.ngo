@@ -68,7 +68,7 @@ export default function NewsArticle() {
               </span>
             </div>
 
-            <h1 className="text-4xl md:text-6xl lg:text-7xl font-black text-white leading-[1.05] tracking-tight mb-6">
+            <h1 className="text-3xl md:text-4xl lg:text-5xl font-black text-white leading-[1.1] tracking-tight mb-6">
               {article.title}
             </h1>
 
