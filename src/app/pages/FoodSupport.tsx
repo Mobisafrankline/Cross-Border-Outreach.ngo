@@ -110,14 +110,19 @@ export default function FoodSupport() {
           {programs.map((program, index) => {
             const Icon = program.icon;
             return (
-              <div key={index} className="prog-initiative-card" style={{ "--accent": program.color } as React.CSSProperties}>
+              <Link 
+                key={index} 
+                to={`/initiatives/${program.title.toLowerCase().replace(/&/g, '').replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '')}`}
+                className="prog-initiative-card" 
+                style={{ "--accent": program.color, display: "block", textDecoration: "none", color: "inherit" } as React.CSSProperties}
+              >
                 <div style={{ position: "absolute", top: 0, left: 0, width: 4, height: "100%", background: program.color, borderRadius: "4px 0 0 4px" }} />
                 <div className="prog-initiative-icon" style={{ background: program.color }}>
                   <Icon className="w-6 h-6" />
                 </div>
                 <h3 className="prog-initiative-title">{program.title}</h3>
                 <p className="prog-initiative-desc">{program.description}</p>
-              </div>
+              </Link>
             );
           })}
         </div>

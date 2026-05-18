@@ -66,12 +66,17 @@ export default function Economic() {
           {programs.map((p, i) => {
             const Icon = p.icon;
             return (
-              <div key={i} className="prog-initiative-card">
+              <Link 
+                key={i} 
+                to={`/initiatives/${p.title.toLowerCase().replace(/&/g, '').replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '')}`}
+                className="prog-initiative-card"
+                style={{ "--accent": p.color, display: "block", textDecoration: "none", color: "inherit" } as React.CSSProperties}
+              >
                 <div style={{ position: "absolute", top: 0, left: 0, width: 4, height: "100%", background: p.color, borderRadius: "4px 0 0 4px" }} />
                 <div className="prog-initiative-icon" style={{ background: p.color }}><Icon className="w-6 h-6" /></div>
                 <h3 className="prog-initiative-title">{p.title}</h3>
                 <p className="prog-initiative-desc">{p.description}</p>
-              </div>
+              </Link>
             );
           })}
         </div>

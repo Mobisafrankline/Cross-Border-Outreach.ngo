@@ -21,22 +21,6 @@ const partners = [
     impact: "12+ events supported",
     website: "https://operationcompassion.org",
   },
-  {
-    name: "RCCG Peace Assembly",
-    logo: "https://rfreke.com/wp-content/uploads/2022/07/RCCG-Logo-1.png",
-    type: "Faith-Based Partner",
-    description: "RCCG Peace Assembly in Lilburn, Georgia serves as a key community partner, hosting outreach events and providing volunteer support for our Atlanta-area programs.",
-    impact: "Community outreach hub",
-    website: "#",
-  },
-  {
-    name: "Sienna Ridge Community",
-    logo: "",
-    type: "Community Partner",
-    description: "Sienna Ridge Apartment Homes has opened its doors to host our major outreach events, enabling us to directly serve families within the Atlanta community.",
-    impact: "180+ families reached",
-    website: "#",
-  },
 ];
 
 
@@ -89,11 +73,6 @@ const testimonials = [
     quote: "Cross-Borders Outreach Ministry turns donated resources into tangible community transformation. Our partnership is making a real difference.",
     name: "Operations Team",
     org: "Operation Compassion",
-  },
-  {
-    quote: "The impact we witnessed at the Spring Festival was extraordinary. Over 100 families received life-improving resources in a single day.",
-    name: "Community Lead",
-    org: "Sienna Ridge Community",
   },
 ];
 
@@ -150,7 +129,12 @@ export default function Partners() {
                 <div className="flex items-start gap-5 mb-6">
                   {/* Partner Logo */}
                   <div className="w-16 h-16 bg-gray-50 rounded-2xl flex items-center justify-center border border-gray-100 shrink-0 overflow-hidden p-2 group-hover:border-blue-200 transition-colors">
-                    {partner.logo ? (
+                    {partner.name === "Operation Compassion" ? (
+                      <div className="flex flex-col items-center justify-center leading-[1.1] text-center w-full">
+                        <span className="text-[10px] font-black text-red-600 tracking-tight uppercase">Operation</span>
+                        <span className="text-[9px] font-black text-blue-600 tracking-tight uppercase">Compassion</span>
+                      </div>
+                    ) : partner.logo ? (
                       <img src={partner.logo} alt={partner.name} className="w-full h-full object-contain" />
                     ) : (
                       <span className="text-2xl font-black text-blue-600">

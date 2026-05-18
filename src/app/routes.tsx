@@ -28,6 +28,7 @@ import Reports from "./pages/Reports";
 import Contact from "./pages/Contact";
 import Publications from "./pages/Publications";
 import AuthPortal from "./pages/AuthPortal";
+import InitiativeDetail from "./pages/InitiativeDetail";
 
 // Admin Pages
 import AdminDashboard from "./pages/admin/AdminDashboard";
@@ -57,6 +58,7 @@ export const router = createBrowserRouter([
       { path: "partner", Component: Partner },
       { path: "fundraise", Component: Fundraise },
       { path: "blog", Component: Blog },
+      { path: "initiatives/:id", Component: InitiativeDetail },
       { path: "impact", Component: ImpactStories },
       { path: "news", Component: News },
       { path: "news/:id", Component: NewsArticle },
