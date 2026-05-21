@@ -17,6 +17,7 @@ import Fundraise from "./pages/Fundraise";
 import Blog from "./pages/Blog";
 import ImpactStories from "./pages/ImpactStories";
 import News from "./pages/News";
+import CrossBorderNews from "./pages/CrossBorderNews";
 import NewsArticle from "./pages/NewsArticle";
 import Events from "./pages/Events";
 import EventDetail from "./pages/EventDetail";
@@ -73,6 +74,11 @@ export const router = createBrowserRouter([
       { path: "publications", Component: Publications },
       { path: "login", Component: AuthPortal },
     ],
+  },
+  {
+    path: "/global-news",
+    Component: CrossBorderNews,
+    errorElement: <RouteErrorBoundary />,
   },
   {
     path: "/admin",

@@ -13,6 +13,7 @@ import {
   Award,
   FileText,
   Target,
+  Globe,
   UserCircle,
   Building2,
   BarChart3,
@@ -207,6 +208,12 @@ export default function TwoLayerNavbar() {
           description: "Read our latest updates"
         },
         {
+          label: "Global News",
+          href: "/global-news",
+          icon: <Globe className="w-5 h-5" />,
+          description: "Cross-border global updates"
+        },
+        {
           label: "News",
           href: "/news",
           icon: <FileText className="w-5 h-5" />,
@@ -248,7 +255,7 @@ export default function TwoLayerNavbar() {
   // Top utility bar links
   const utilityLinks = [
     { label: "Help", href: "/contact" },
-    { label: "News", href: "/news" },
+    { label: "COB News", href: "/global-news" },
   ];
 
   // Secondary navigation links (bottom bar)
@@ -545,6 +552,14 @@ export default function TwoLayerNavbar() {
                     </AnimatePresence>
                   </div>
                 ))}
+
+                <Link
+                  to="/global-news"
+                  onClick={() => setMobileMenuOpen(false)}
+                  className={`block py-3 font-semibold border-b border-gray-100 ${location.pathname === '/global-news' ? 'text-blue-600' : 'text-gray-900'}`}
+                >
+                  Global News
+                </Link>
 
                 <Link
                   to="/news"
