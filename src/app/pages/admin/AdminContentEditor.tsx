@@ -90,11 +90,14 @@ export default function AdminContentEditor() {
         author,
         category,
         featured_image: featuredImage,
-        video_embed: videoEmbed,
         tags: tagsArray,
         status: status === "publish" ? "published" : "draft",
         published_at: status === "publish" ? new Date(publishDate).toISOString() : null,
       };
+
+      if (videoEmbed && videoEmbed.trim() !== "") {
+        payload.video_embed = videoEmbed;
+      }
 
       if (isEvent) {
         payload.event_date = eventDate;
