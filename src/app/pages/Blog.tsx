@@ -1,7 +1,13 @@
-import { Calendar, User, ArrowRight, Search, Tag } from "lucide-react";
+import { Calendar, User, ArrowRight, Search, Tag, ArrowLeft } from "lucide-react";
 import { ImageWithFallback } from "../components/figma/ImageWithFallback";
+import { useState } from "react";
+
+const serif = { fontFamily: "'Inter', -apple-system, sans-serif" };
+const bodySerif = { fontFamily: "'Inter', -apple-system, sans-serif" };
+const sans = { fontFamily: "'Inter', -apple-system, sans-serif" };
 
 export default function Blog() {
+  const [currentPage, setCurrentPage] = useState(1);
   const blogPosts = [
     {
       title: "5 Ways Your Donation Makes a Real Difference",
@@ -54,9 +60,13 @@ export default function Blog() {
   ];
 
   const categories = ["All", "Impact", "Programs", "Stories", "Healthcare", "Economic", "Volunteers"];
+  const POSTS_PER_PAGE = 4;
+  const totalPages = Math.ceil(blogPosts.length / POSTS_PER_PAGE);
+
+  const paginatedPosts = blogPosts.slice((currentPage - 1) * POSTS_PER_PAGE, currentPage * POSTS_PER_PAGE);
 
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen bg-white">
       {/* Hero Section */}
       <section className="relative h-[400px] flex items-center justify-center overflow-hidden">
         <div className="absolute inset-0">
@@ -65,27 +75,27 @@ export default function Blog() {
             alt="Blog"
             className="w-full h-full object-cover"
           />
-          <div className="absolute inset-0 bg-gradient-to-r from-blue-900/90 to-blue-800/70" />
+          <div className="absolute inset-0 bg-gradient-to-r from-slate-900/90 to-slate-800/80" />
         </div>
         
         <div className="relative z-10 max-w-4xl mx-auto px-6 text-center text-white">
-          <h1 className="text-5xl md:text-6xl font-bold mb-6">Our Blog</h1>
-          <p className="text-xl md:text-2xl opacity-95">
+          <h1 className="text-5xl md:text-6xl font-black mb-6 tracking-tight" style={serif}>Our Blog</h1>
+          <p className="text-xl md:text-2xl opacity-90 font-medium" style={bodySerif}>
             Stories, insights, and updates from the field
           </p>
         </div>
       </section>
 
       {/* Search and Filter */}
-      <section className="py-12 bg-white border-b border-gray-200">
+      <section className="py-12 bg-white border-b border-slate-200">
         <div className="max-w-6xl mx-auto px-6">
-          <div className="flex flex-col md:flex-row gap-4 items-center justify-between">
+          <div className="flex flex-col md:flex-row gap-4 items-center justify-between" style={sans}>
             <div className="relative flex-1 max-w-md w-full">
-              <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
+              <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" />
               <input
                 type="text"
                 placeholder="Search articles..."
-                className="w-full pl-12 pr-4 py-3 border-2 border-gray-200 rounded-lg focus:border-blue-500 focus:outline-none"
+                className="w-full pl-12 pr-4 py-3 border-2 border-slate-200 rounded-lg focus:border-blue-600 focus:outline-none focus:ring-4 focus:ring-blue-600/10 transition-all font-medium"
               />
             </div>
             
@@ -93,7 +103,7 @@ export default function Blog() {
               {categories.map((category) => (
                 <button
                   key={category}
-                  className="px-4 py-2 bg-blue-50 text-blue-600 rounded-lg hover:bg-blue-100 transition-colors text-sm font-medium"
+                  className="px-4 py-2 bg-slate-50 text-slate-600 rounded-lg hover:bg-slate-100 hover:text-slate-900 transition-colors text-sm font-bold uppercase tracking-widest"
                 >
                   {category}
                 </button>
@@ -104,27 +114,28 @@ export default function Blog() {
       </section>
 
       {/* Blog Posts Grid */}
-      <section className="py-20 bg-gray-50">
+      <section className="py-20 bg-slate-50">
         <div className="max-w-6xl mx-auto px-6">
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {blogPosts.map((post, index) => (
-              <article key={index} className="bg-white rounded-xl overflow-hidden shadow-md hover:shadow-xl transition-shadow group">
-                <div className="h-48 overflow-hidden">
+          <div className="grid md:grid-cols-2 lg:grid-cols-2 gap-10">
+            {paginatedPosts.map((post, index) => (
+              <article key={index} className="bg-white rounded-3xl overflow-hidden border border-slate-100 hover:shadow-2xl transition-all duration-300 group flex flex-col sm:flex-row">
+                <div className="sm:w-2/5 h-64 sm:h-auto overflow-hidden relative shrink-0">
                   <ImageWithFallback
                     src={post.image}
                     alt={post.title}
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
                   />
+                  <div className="absolute inset-0 bg-gradient-to-t from-slate-900/50 to-transparent sm:hidden" />
                 </div>
-                <div className="p-6">
-                  <div className="flex items-center gap-2 mb-3">
+                <div className="p-8 flex flex-col justify-center flex-1">
+                  <div className="flex items-center gap-2 mb-4" style={sans}>
                     <Tag className="w-4 h-4 text-blue-600" />
-                    <span className="text-sm font-semibold text-blue-600">{post.category}</span>
+                    <span className="text-xs font-black uppercase tracking-widest text-blue-600">{post.category}</span>
                   </div>
-                  <h3 className="text-xl font-bold text-gray-900 mb-3 line-clamp-2">{post.title}</h3>
-                  <p className="text-gray-600 mb-4 line-clamp-3">{post.excerpt}</p>
+                  <h3 className="text-2xl font-black text-slate-900 mb-4 line-clamp-3 leading-tight group-hover:text-blue-600 transition-colors" style={serif}>{post.title}</h3>
+                  <p className="text-slate-600 mb-6 line-clamp-2 leading-relaxed" style={bodySerif}>{post.excerpt}</p>
                   
-                  <div className="flex items-center justify-between text-sm text-gray-500 mb-4">
+                  <div className="flex flex-wrap items-center justify-between text-xs font-bold text-slate-500 mb-6 gap-y-2" style={sans}>
                     <div className="flex items-center gap-2">
                       <User className="w-4 h-4" />
                       <span>{post.author}</span>
@@ -137,45 +148,62 @@ export default function Blog() {
                   
                   <a
                     href="#"
-                    className="inline-flex items-center gap-2 text-blue-600 font-semibold hover:text-blue-700 transition-colors"
+                    className="inline-flex items-center gap-2 text-blue-600 font-black uppercase tracking-widest text-sm hover:text-blue-800 transition-colors mt-auto"
+                    style={sans}
                   >
                     Read More
-                    <ArrowRight className="w-4 h-4" />
+                    <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                   </a>
                 </div>
               </article>
             ))}
           </div>
 
-          {/* Pagination */}
-          <div className="flex justify-center items-center gap-2 mt-12">
-            <button className="px-4 py-2 bg-white border-2 border-gray-200 rounded-lg hover:border-blue-500 transition-colors">
-              Previous
+          {/* Pagination Controls */}
+          <div className="flex items-center justify-between border-t border-slate-200 py-10 mt-16" style={sans}>
+            <button
+              disabled={currentPage === 1}
+              onClick={() => setCurrentPage(p => Math.max(1, p - 1))}
+              className="flex items-center gap-2 text-slate-500 hover:text-blue-600 font-bold uppercase tracking-widest text-sm disabled:opacity-30 disabled:cursor-not-allowed transition-colors group"
+            >
+              <ArrowLeft className="w-5 h-5 group-hover:-translate-x-1 transition-transform" /> Previous
             </button>
-            <button className="px-4 py-2 bg-blue-600 text-white rounded-lg">1</button>
-            <button className="px-4 py-2 bg-white border-2 border-gray-200 rounded-lg hover:border-blue-500 transition-colors">2</button>
-            <button className="px-4 py-2 bg-white border-2 border-gray-200 rounded-lg hover:border-blue-500 transition-colors">3</button>
-            <button className="px-4 py-2 bg-white border-2 border-gray-200 rounded-lg hover:border-blue-500 transition-colors">
-              Next
+            <div className="flex gap-2">
+              {Array.from({ length: totalPages }).map((_, i) => (
+                <button
+                  key={i}
+                  onClick={() => setCurrentPage(i + 1)}
+                  className={`w-10 h-10 rounded-full font-black text-sm flex items-center justify-center transition-colors ${currentPage === i + 1 ? "bg-blue-600 text-white" : "bg-white border border-slate-200 text-slate-500 hover:bg-slate-50"}`}
+                >
+                  {i + 1}
+                </button>
+              ))}
+            </div>
+            <button
+              disabled={currentPage === totalPages}
+              onClick={() => setCurrentPage(p => Math.min(totalPages, p + 1))}
+              className="flex items-center gap-2 text-slate-500 hover:text-blue-600 font-bold uppercase tracking-widest text-sm disabled:opacity-30 disabled:cursor-not-allowed transition-colors group"
+            >
+              Next <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
             </button>
           </div>
         </div>
       </section>
 
       {/* Newsletter Signup */}
-      <section className="py-20 bg-blue-600">
+      <section className="py-24 bg-slate-900">
         <div className="max-w-4xl mx-auto px-6 text-center text-white">
-          <h2 className="text-4xl font-bold mb-4">Stay Updated</h2>
-          <p className="text-xl mb-8 opacity-95">
-            Subscribe to our blog and receive the latest stories and updates directly in your inbox
+          <h2 className="text-4xl md:text-5xl font-black mb-6 tracking-tight" style={serif}>Stay Updated</h2>
+          <p className="text-xl mb-10 text-slate-300 font-medium max-w-2xl mx-auto" style={bodySerif}>
+            Subscribe to our blog and receive the latest stories and updates directly in your inbox.
           </p>
-          <div className="flex flex-col sm:flex-row gap-4 max-w-md mx-auto">
+          <div className="flex flex-col sm:flex-row gap-4 max-w-md mx-auto" style={sans}>
             <input
               type="email"
               placeholder="Your email address"
-              className="flex-1 px-4 py-3 rounded-lg focus:outline-none text-gray-900"
+              className="flex-1 px-6 py-4 rounded-2xl focus:outline-none focus:ring-4 focus:ring-blue-500/50 text-slate-900 font-medium"
             />
-            <button className="px-6 py-3 bg-orange-500 hover:bg-orange-600 text-white rounded-lg font-semibold transition-colors">
+            <button className="px-8 py-4 bg-blue-600 hover:bg-blue-700 text-white rounded-2xl font-black uppercase tracking-widest transition-colors shadow-lg shadow-blue-600/30">
               Subscribe
             </button>
           </div>

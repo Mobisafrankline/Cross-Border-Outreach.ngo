@@ -61,7 +61,7 @@ export default function Home() {
   ];
 
   const testimonials = [
-    { quote: 'Crossborders Outreach Ministry transformed our community. My children now have access to quality education and proper nutrition.', author: 'Maria Santos', role: 'Community Member', avatar: 'MS', color: '#3b82f6' },
+    { quote: 'Cross-borders Outreach International transformed our community. My children now have access to quality education and proper nutrition.', author: 'Maria Santos', role: 'Community Member', avatar: 'MS', color: '#3b82f6' },
     { quote: "The healthcare outreach program saved my mother's life. We are forever grateful for their dedication and compassion.", author: 'James Okonkwo', role: 'Beneficiary Family', avatar: 'JO', color: '#10b981' },
     { quote: 'Through their economic empowerment program, I started my own business and now support my entire family.', author: 'Fatima Ahmed', role: 'Small Business Owner', avatar: 'FA', color: '#f97316' },
   ];
@@ -279,7 +279,7 @@ export default function Home() {
             <div className="home-why-content">
               <div className="home-section-label">Our Commitment</div>
               <h2 className="home-why-title">Why Partner With Us</h2>
-              <p className="home-why-desc">At Crossborders Outreach Ministry, we believe in transparency, sustainability, and community-driven solutions. Every dollar you contribute goes directly to creating meaningful, lasting change.</p>
+              <p className="home-why-desc">At Cross-borders Outreach International, we believe in transparency, sustainability, and community-driven solutions. Every dollar you contribute goes directly to creating meaningful, lasting change.</p>
               <div className="home-why-list">
                 {[
                   { text: '100% transparency in fund allocation', color: '#3b82f6' },

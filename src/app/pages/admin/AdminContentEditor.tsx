@@ -6,9 +6,10 @@ import { supabase } from "../../../lib/supabase";
 type ContentType = "article" | "news" | "blog" | "story" | "events";
 
 export default function AdminContentEditor() {
-  const { type } = useParams<{ type: ContentType }>();
+  const { type, id } = useParams<{ type: ContentType, id?: string }>();
   const navigate = useNavigate();
   const editorRef = useRef<HTMLDivElement>(null);
+  const isEditing = !!id;
 
   // General fields
   const [title, setTitle] = useState("");
@@ -58,6 +59,51 @@ export default function AdminContentEditor() {
 
   const [isSaving, setIsSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (!id) return;
+    const fetchArticle = async () => {
+      try {
+        const { data, error } = await supabase.from("articles").select("*").eq("id", id).single();
+        if (error) throw error;
+        if (data) {
+          setTitle(data.title || "");
+          setExcerpt(data.excerpt || "");
+          setContent(data.content || "");
+          setCategory(data.category || "");
+          setAuthor(data.author || "");
+          setFeaturedImage(data.featured_image || "");
+          setVideoEmbed(data.video_embed || "");
+          setTags(Array.isArray(data.tags) ? data.tags.join(", ") : "");
+          setSelectedType(data.type as any || "blog");
+          
+          if (data.type === "events") {
+            setEventDate(data.event_date || "");
+            setEventTime(data.event_time || "");
+            setEventLocation(data.event_location || "");
+            setEventAddress(data.event_address || "");
+            setEventCapacity(data.event_capacity ? data.event_capacity.toString() : "");
+            setTicketPrice(data.ticket_price || "Free");
+            setEventStatus(data.event_status as "upcoming" | "past" || "upcoming");
+            setOrganizer(data.organizer || "");
+            setContactEmail(data.contact_email || "");
+            setContactPhone(data.contact_phone || "");
+          } else {
+            if (data.published_at) {
+              setPublishDate(data.published_at.split('T')[0]);
+            }
+          }
+          if (editorRef.current) {
+            editorRef.current.innerHTML = data.content || "";
+          }
+        }
+      } catch (err: any) {
+        setError("Failed to load content for editing.");
+        console.error(err);
+      }
+    };
+    fetchArticle();
+  }, [id]);
 
   const handleSave = async (status: "draft" | "publish") => {
     if (!title.trim()) {
@@ -115,8 +161,13 @@ export default function AdminContentEditor() {
         payload.content = content || excerpt;
       }
 
-      const { error: saveError } = await supabase.from("articles").insert(payload);
-      if (saveError) throw saveError;
+      if (isEditing) {
+        const { error: updateError } = await supabase.from("articles").update(payload).eq("id", id);
+        if (updateError) throw updateError;
+      } else {
+        const { error: saveError } = await supabase.from("articles").insert(payload);
+        if (saveError) throw saveError;
+      }
 
       alert(`${currentType.label} saved successfully as ${status}!`);
       if (isEvent) {
@@ -145,7 +196,7 @@ export default function AdminContentEditor() {
             <div className="flex items-center gap-3">
               <span className="text-3xl">{currentType.icon}</span>
               <div>
-                <h1 className="text-2xl font-bold text-slate-900">Create {currentType.label}</h1>
+                <h1 className="text-2xl font-bold text-slate-900">{isEditing ? `Edit ${currentType.label}` : `Create ${currentType.label}`}</h1>
                 <p className="text-sm text-slate-500 font-medium">Cross-Borders Content Management</p>
               </div>
             </div>
@@ -350,8 +401,8 @@ export default function AdminContentEditor() {
               <div className="space-y-4">
                 <div>
                   <label className="block text-sm font-semibold text-gray-700 mb-2">Content Type</label>
-                  <select value={selectedType} onChange={(e) => setSelectedType(e.target.value)}
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-600 focus:border-transparent outline-none font-semibold">
+                  <select value={selectedType} onChange={(e) => setSelectedType(e.target.value)} disabled={isEditing}
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-600 focus:border-transparent outline-none font-semibold disabled:opacity-50 disabled:cursor-not-allowed">
                     <option value="blog">✍️ Blog Post</option>
                     <option value="news">📰 News</option>
                     <option value="story">⭐ Impact Story</option>

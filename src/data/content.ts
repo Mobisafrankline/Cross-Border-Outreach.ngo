@@ -21,7 +21,7 @@ export const reports = [
   pages: 39,
   date: "January 2026",
   pdfUrl: "https://docs.google.com/document/d/1zKwxqNCaWTWRgKs4IcLUf50NcdVLyjZw5NXpFzfqdLc/edit?usp=sharing",
-  description: "A comprehensive strategic overview outlining Crossborders Outreach Ministry’s operational model, program priorities, resource allocation, and projected community impact within the organization’s development framework."
+  description: "A comprehensive strategic overview outlining Cross-borders Outreach International’s operational model, program priorities, resource allocation, and projected community impact within the organization’s development framework."
 },
   {
   id: 2,
@@ -45,7 +45,7 @@ export const reports = [
   pages: 12,
   date: "2025",
   pdfUrl: "https://docs.google.com/presentation/d/1G7qjuQGANn2X8j62BsRERwgs857DfYNY/edit?usp=drive_link&ouid=106327234108443536152&rtpof=true&sd=true",
-  description: "Strategic overview of Crossborders Outreach Ministry’s mission, programs, impact goals, and partnership opportunities for donors and funding partners."
+  description: "Strategic overview of Cross-borders Outreach International’s mission, programs, impact goals, and partnership opportunities for donors and funding partners."
 }
   // {
   //   id: 4,
@@ -246,7 +246,7 @@ Mental health matters. Let us speak before we shatter, check on our children bey
     slug: "spring-festival-atlanta-outreach",
     image: "https://images.unsplash.com/photo-1567965178128-abb8d8532ae7?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MjB8fHNwcmluZyUyMGZlc3RpdmFsJTIwdXNhfGVufDB8fDB8fHww",
     content: `
-On April 12, 2026, the Cross-Borders Outreach Ministry, in a powerful demonstration of unity and generosity, hosted the Spring Festival · Festival de Primavera at Sienna Ridge Apartment Homes in Atlanta, Georgia. This vibrant, bilingual event marked a major milestone in our mission to serve the Atlanta metropolitan area, bringing together diverse communities for a day of celebration, support, and profound connection.
+On April 12, 2026, Cross-borders Outreach International, in a powerful demonstration of unity and generosity, hosted the Spring Festival · Festival de Primavera at Sienna Ridge Apartment Homes in Atlanta, Georgia. This vibrant, bilingual event marked a major milestone in our mission to serve the Atlanta metropolitan area, bringing together diverse communities for a day of celebration, support, and profound connection.
 
 In collaboration with Amazon, Operation Compassion, and over twelve other partner organizations, the festival successfully served more than 100 families. But this was more than just an event; it was a testament to what we can achieve when we unite across borders—whether they be linguistic, cultural, or geographic.
 
@@ -254,7 +254,7 @@ Attendees were blessed with significant, high-value household items designed to 
 
 The festival atmosphere was electric, filled with the sounds of laughter and live entertainment. Food trucks offered delicious meals, creating spaces where neighbors could break bread together and share their stories. Vendor booths provided additional resources and fostered engagement, bridging gaps across generations and cultures.
 
-As children played and families connected, the true spirit of Cross-Borders Outreach Ministry shone through. We believe that compassion knows no boundaries, and the Spring Festival exemplified this core value perfectly. By addressing holistic needs—providing practical resources while also cultivating joy and community spirit—we continue to plant seeds of hope that will grow into long-lasting resilience.
+As children played and families connected, the true spirit of Cross-borders Outreach International shone through. We believe that compassion knows no boundaries, and the Spring Festival exemplified this core value perfectly. By addressing holistic needs—providing practical resources while also cultivating joy and community spirit—we continue to plant seeds of hope that will grow into long-lasting resilience.
 
 We extend our deepest gratitude to our incredible partners, dedicated volunteers, and the beautiful community of Sienna Ridge for making the Spring Festival · Festival de Primavera an unforgettable success. Together, we are building stronger, more connected communities, one act of love at a time.
     `,
@@ -456,8 +456,8 @@ export const events = [
   {
     id: 3,
     title: "Visit to RCCG Peace Assembly",
-    description: "Cross-Borders Outreach Ministry visited RCCG Peace Assembly for a community outreach and engagement program.",
-    longDescription: "On March 14, 2026, Cross-Borders Outreach Ministry held an outreach visit at The Redeemed Christian Church of God (RCCG) Peace Assembly in Lilburn, Georgia. The event focused on community engagement, faith encouragement, and supporting individuals through mentorship and fellowship. Volunteers interacted with church members and visitors while sharing the mission of Cross-Borders Outreach Ministry to support vulnerable communities.",
+    description: "Cross-borders Outreach International visited RCCG Peace Assembly for a community outreach and engagement program.",
+    longDescription: "On March 14, 2026, Cross-borders Outreach International held an outreach visit at The Redeemed Christian Church of God (RCCG) Peace Assembly in Lilburn, Georgia. The event focused on community engagement, faith encouragement, and supporting individuals through mentorship and fellowship. Volunteers interacted with church members and visitors while sharing the mission of Cross-borders Outreach International to support vulnerable communities.",
     date: "March 14, 2026",
     time: "8:00 AM - 5:00 PM",
     location: "RCCG Peace Assembly",
@@ -476,7 +476,7 @@ export const events = [
     id: 4,
     title: "Easter Egg Hunt · Búsqueda de Huevos de Pascua",
     description: "A vibrant bilingual celebration bringing together the community for a full Easter experience and product distribution.",
-    longDescription: "On Monday, April 6, 2026, Cross-Borders Outreach Ministry organized an Easter Egg Hunt at Sienna Ridge Apartment Homes in Atlanta, Georgia. This event combined a traditional hunt—featuring games, prizes, face painting, and live entertainment—with the distribution of essential household items. With generous support from Amazon through Operation Compassion, over 80 families received Easter baskets, toys, hygiene products, and baby items, creating a powerful demonstration of unity and generosity.",
+    longDescription: "On Monday, April 6, 2026, Cross-borders Outreach International organized an Easter Egg Hunt at Sienna Ridge Apartment Homes in Atlanta, Georgia. This event combined a traditional hunt—featuring games, prizes, face painting, and live entertainment—with the distribution of essential household items. With generous support from Amazon through Operation Compassion, over 80 families received Easter baskets, toys, hygiene products, and baby items, creating a powerful demonstration of unity and generosity.",
     date: "April 6, 2026",
     time: "11:00 AM – 4:00 PM",
     location: "Sienna Ridge Apartment Homes",

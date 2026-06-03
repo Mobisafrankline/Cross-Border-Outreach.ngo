@@ -5,6 +5,10 @@ import { motion } from "motion/react";
 import { ImageWithFallback } from "../components/figma/ImageWithFallback";
 import { newsUpdates } from "../../data/content";
 
+const serif = { fontFamily: "'Inter', -apple-system, sans-serif" };
+const bodySerif = { fontFamily: "'Inter', -apple-system, sans-serif" };
+const sans = { fontFamily: "'Inter', -apple-system, sans-serif" };
+
 export default function News() {
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("All");
@@ -37,13 +41,13 @@ export default function News() {
 
         <div className="relative z-10 max-w-4xl mx-auto px-6 text-center text-white">
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}>
-            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-blue-500/20 backdrop-blur-md border border-blue-400/30 text-blue-200 text-xs font-bold uppercase tracking-widest mb-6">
+            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-blue-500/20 backdrop-blur-md border border-blue-400/30 text-blue-200 text-xs font-bold uppercase tracking-widest mb-6" style={sans}>
               <Sparkles className="w-3.5 h-3.5 text-yellow-300" /> Stay Informed
             </div>
-            <h1 className="text-4xl md:text-7xl font-black mb-6 tracking-tight">
+            <h1 className="text-4xl md:text-7xl font-black mb-6 tracking-tight" style={serif}>
               Latest <span className="text-blue-400">News</span>
             </h1>
-            <p className="text-lg md:text-xl text-slate-300 max-w-2xl mx-auto leading-relaxed font-medium">
+            <p className="text-lg md:text-xl text-slate-300 max-w-2xl mx-auto leading-relaxed font-medium" style={bodySerif}>
               Updates, announcements, and stories from our mission to serve communities across borders.
             </p>
           </motion.div>
@@ -53,7 +57,7 @@ export default function News() {
       {/* ── Search & Filter ── */}
       <section className="bg-white border-b border-slate-100 sticky top-0 z-30">
         <div className="max-w-7xl mx-auto px-6 py-5">
-          <div className="flex flex-col md:flex-row items-center gap-4">
+          <div className="flex flex-col md:flex-row items-center gap-4" style={sans}>
             <div className="relative flex-1 w-full">
               <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" />
               <input
@@ -103,7 +107,7 @@ export default function News() {
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-slate-900 via-slate-900/40 to-transparent" />
 
-                  <div className="absolute top-6 left-6 flex gap-2">
+                  <div className="absolute top-6 left-6 flex gap-2" style={sans}>
                     <span className="px-4 py-1.5 bg-blue-600 text-white rounded-full text-[10px] font-black uppercase tracking-widest shadow-lg">
                       {featured.category}
                     </span>
@@ -113,16 +117,16 @@ export default function News() {
                   </div>
 
                   <div className="absolute bottom-0 left-0 right-0 p-8 md:p-12">
-                    <div className="flex items-center gap-2 text-white/60 text-xs font-bold uppercase tracking-widest mb-4">
+                    <div className="flex items-center gap-2 text-white/60 text-xs font-bold uppercase tracking-widest mb-4" style={sans}>
                       <Calendar className="w-3.5 h-3.5" /> {featured.date}
                     </div>
-                    <h2 className="text-3xl md:text-5xl font-black text-white leading-tight tracking-tight mb-4 max-w-3xl">
+                    <h2 className="text-3xl md:text-5xl font-black text-white leading-tight tracking-tight mb-4 max-w-3xl" style={serif}>
                       {featured.title}
                     </h2>
-                    <p className="text-white/70 text-base leading-relaxed mb-6 max-w-2xl line-clamp-2">
+                    <p className="text-white/70 text-base leading-relaxed mb-6 max-w-2xl line-clamp-2" style={bodySerif}>
                       {featured.excerpt}
                     </p>
-                    <div className="inline-flex items-center gap-3 px-8 py-4 bg-white/10 backdrop-blur-md border border-white/20 text-white rounded-2xl text-xs font-black uppercase tracking-widest group-hover:bg-white/20 transition-all">
+                    <div className="inline-flex items-center gap-3 px-8 py-4 bg-white/10 backdrop-blur-md border border-white/20 text-white rounded-2xl text-xs font-black uppercase tracking-widest group-hover:bg-white/20 transition-all" style={sans}>
                       Read Article <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                     </div>
                   </div>
@@ -155,23 +159,23 @@ export default function News() {
                         className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
                       />
                       <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                      <div className="absolute top-4 left-4">
+                      <div className="absolute top-4 left-4" style={sans}>
                         <span className="px-3 py-1 bg-blue-600 text-white rounded-full text-[10px] font-black uppercase tracking-widest shadow-lg">
                           {item.category}
                         </span>
                       </div>
                     </div>
                     <div className="p-7 flex flex-col flex-1">
-                      <div className="flex items-center gap-2 text-slate-400 text-xs font-bold uppercase tracking-widest mb-4">
+                      <div className="flex items-center gap-2 text-slate-400 text-xs font-bold uppercase tracking-widest mb-4" style={sans}>
                         <Calendar className="w-3.5 h-3.5" /> {item.date}
                       </div>
-                      <h3 className="text-xl font-black text-slate-900 mb-3 leading-tight tracking-tight line-clamp-2 group-hover:text-blue-600 transition-colors">
+                      <h3 className="text-xl font-black text-slate-900 mb-3 leading-tight tracking-tight line-clamp-2 group-hover:text-blue-600 transition-colors" style={serif}>
                         {item.title}
                       </h3>
-                      <p className="text-slate-500 text-sm leading-relaxed mb-6 line-clamp-3 flex-1">
+                      <p className="text-slate-500 text-sm leading-relaxed mb-6 line-clamp-3 flex-1" style={bodySerif}>
                         {item.excerpt}
                       </p>
-                      <div className="inline-flex items-center gap-2 text-blue-600 text-xs font-black uppercase tracking-widest mt-auto px-5 py-3 bg-blue-50 rounded-full w-fit group-hover:bg-blue-600 group-hover:text-white transition-all duration-300">
+                      <div className="inline-flex items-center gap-2 text-blue-600 text-xs font-black uppercase tracking-widest mt-auto px-5 py-3 bg-blue-50 rounded-full w-fit group-hover:bg-blue-600 group-hover:text-white transition-all duration-300" style={sans}>
                         Read Article <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                       </div>
                     </div>
@@ -190,10 +194,10 @@ export default function News() {
             <div className="w-20 h-20 bg-slate-100 rounded-3xl flex items-center justify-center mx-auto mb-6">
               <Search className="w-8 h-8 text-slate-400" />
             </div>
-            <h3 className="text-2xl font-black text-slate-900 mb-3">No articles found</h3>
-            <p className="text-slate-500 mb-8">Try adjusting your search or filter to find what you're looking for.</p>
+            <h3 className="text-2xl font-black text-slate-900 mb-3" style={serif}>No articles found</h3>
+            <p className="text-slate-500 mb-8" style={bodySerif}>Try adjusting your search or filter to find what you're looking for.</p>
             <button onClick={() => { setSearchTerm(""); setSelectedCategory("All"); }}
-              className="px-6 py-3 bg-blue-600 text-white rounded-2xl font-bold text-sm hover:bg-blue-700 transition-all">
+              className="px-6 py-3 bg-blue-600 text-white rounded-2xl font-bold text-sm hover:bg-blue-700 transition-all" style={sans}>
               Clear Filters
             </button>
           </div>

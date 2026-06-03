@@ -98,7 +98,7 @@ export default function AdminLogin() {
           {/* Logo + label */}
           <div style={{ position:"relative", zIndex:2 }}>
             <div style={{ display:"flex", alignItems:"flex-start", justifyContent:"space-between", marginBottom:44 }}>
-              <img src="/logo.png" alt="Cross-Borders Outreach Ministry" style={{ height:68, objectFit:"contain", filter:"drop-shadow(0 4px 16px rgba(0,0,0,0.4))" }}/>
+              <img src="/logo.png" alt="Cross-borders Outreach International" style={{ height:68, objectFit:"contain", filter:"drop-shadow(0 4px 16px rgba(0,0,0,0.4))" }}/>
               <div className="al-badge">
                 <Shield size={11}/> Admin
               </div>

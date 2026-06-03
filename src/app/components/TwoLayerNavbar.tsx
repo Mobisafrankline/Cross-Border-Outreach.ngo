@@ -295,8 +295,8 @@ export default function TwoLayerNavbar() {
                 />
               </div>
               <div className="text-white truncate">
-                <div className="font-bold text-[11px] sm:text-sm leading-tight tracking-wide truncate">CrossBorders Outreach</div>
-                <div className="text-[8px] sm:text-[10px] text-blue-200 font-medium tracking-wider uppercase leading-none mt-0.5">Ministry Inc</div>
+                <div className="font-bold text-[11px] sm:text-sm leading-tight tracking-wide truncate">Cross-borders Outreach</div>
+                <div className="text-[8px] sm:text-[10px] text-blue-200 font-medium tracking-wider uppercase leading-none mt-0.5">International</div>
               </div>
             </Link>
 

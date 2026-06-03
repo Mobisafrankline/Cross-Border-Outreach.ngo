@@ -70,7 +70,7 @@ const partnershipTiers = [
 
 const testimonials = [
   {
-    quote: "Cross-Borders Outreach Ministry turns donated resources into tangible community transformation. Our partnership is making a real difference.",
+    quote: "Cross-borders Outreach International turns donated resources into tangible community transformation. Our partnership is making a real difference.",
     name: "Operations Team",
     org: "Operation Compassion",
   },

@@ -127,10 +127,10 @@ export default function Footer() {
                 </div>
                 <div>
                   <div className="font-bold text-white text-xl tracking-wide">
-                    Crossborders
+                    Cross-borders Outreach
                   </div>
                   <div className="text-sm font-medium text-blue-400">
-                    Outreach Ministry Inc
+                    International
                   </div>
                 </div>
               </Link>

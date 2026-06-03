@@ -1,6 +1,6 @@
 # Data & Assets Documentation
 
-This directory contains all centralized data for the Crossborders Outreach Ministry Inc website.
+This directory contains all centralized data for the Cross-borders Outreach International website.
 
 ## File Structure
 

@@ -82,7 +82,7 @@ export default function AdminDashboard() {
   const quickActions = [
     { label: "Upload Images", href: "/admin/gallery", icon: Image, color: "from-purple-500 to-purple-600" },
     { label: "Add Events", href: "/admin/events/new", icon: Calendar, color: "from-blue-500 to-blue-600" },
-    { label: "New & Blog", onClick: () => setIsNewContentModalOpen(true), icon: Newspaper, color: "from-emerald-500 to-emerald-600" },
+    { label: "Manage Content", href: "/admin/content", icon: Newspaper, color: "from-emerald-500 to-emerald-600" },
     { label: "Manage Jobs", href: "/admin/jobs", icon: Briefcase, color: "from-pink-500 to-pink-600" },
     { label: "Applications", href: "/admin/applications", icon: FileSignature, color: "from-teal-500 to-teal-600" },
     { label: "Manage Reports", href: "/admin/reports", icon: BarChart3, color: "from-indigo-500 to-indigo-600" },
@@ -321,11 +321,8 @@ export default function AdminDashboard() {
               <div className="space-y-2">
                 {[
                   { label: "Manage Gallery", href: "/admin/gallery", icon: Image },
+                  { label: "Manage Content", href: "/admin/content", icon: Newspaper },
                   { label: "Manage People", href: "/admin/users", icon: UserCog },
-                  { label: "Manage Jobs", href: "/admin/jobs", icon: Briefcase },
-                  { label: "Applications", href: "/admin/applications", icon: FileSignature },
-                  { label: "Add Event", href: "/admin/events/new", icon: Calendar },
-                  { label: "New News Post", href: "/admin/news/new", icon: Newspaper },
                 ].map((item) => (
                   <Link
                     key={item.href}

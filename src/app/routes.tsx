@@ -36,6 +36,7 @@ import AdminLayout from "./components/portal/AdminLayout";
 import AdminDashboard from "./pages/admin/AdminDashboard";
 import AdminGallery from "./pages/admin/AdminGallery";
 import AdminContentEditor from "./pages/admin/AdminContentEditor";
+import AdminContentManager from "./pages/admin/AdminContentManager";
 import AdminUsers from "./pages/admin/AdminUsers";
 import AdminReports from "./pages/admin/AdminReports";
 import AdminJobs from "./pages/admin/AdminJobs";
@@ -109,6 +110,8 @@ export const router = createBrowserRouter([
         children: [
           { path: "dashboard", Component: AdminDashboard },
           { path: "gallery", Component: AdminGallery },
+          { path: "content", Component: AdminContentManager },
+          { path: "content/:id/edit", Component: AdminContentEditor },
           { path: ":type/new", Component: AdminContentEditor },
           { path: "users", Component: AdminUsers },
           { path: "reports", Component: AdminReports },

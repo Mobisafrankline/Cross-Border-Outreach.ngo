@@ -103,7 +103,7 @@ export default function DonorLogin() {
           {/* Logo */}
           <div style={{ position:"relative", zIndex:2 }}>
             <div style={{ marginBottom:44 }}>
-              <img src="/logo.png" alt="Cross-Borders Outreach Ministry" style={{ height:72, objectFit:"contain", filter:"drop-shadow(0 4px 16px rgba(0,0,0,0.3))" }} />
+              <img src="/logo.png" alt="Cross-borders Outreach International" style={{ height:72, objectFit:"contain", filter:"drop-shadow(0 4px 16px rgba(0,0,0,0.3))" }} />
             </div>
 
             <h2 style={{ fontSize:32, fontWeight:800, lineHeight:1.25, marginBottom:14 }}>
