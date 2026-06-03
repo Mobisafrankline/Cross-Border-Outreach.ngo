@@ -17,7 +17,7 @@ import Fundraise from "./pages/Fundraise";
 import Blog from "./pages/Blog";
 import ImpactStories from "./pages/ImpactStories";
 import News from "./pages/News";
-import { COBNewsLayout, COBNewsHome, COBNewsSignUp, COBNewsLogin } from "./pages/cob-news";
+import { COBNewsLayout, COBNewsHome, COBNewsSignUp, COBNewsLogin, COBNewsArticle } from "./pages/cob-news";
 import NewsArticle from "./pages/NewsArticle";
 import Events from "./pages/Events";
 import EventDetail from "./pages/EventDetail";
@@ -91,6 +91,7 @@ export const router = createBrowserRouter([
       { index: true, Component: COBNewsHome },
       { path: "sign-up", Component: COBNewsSignUp },
       { path: "login", Component: COBNewsLogin },
+      { path: "article/:id", Component: COBNewsArticle },
     ],
   },
   {

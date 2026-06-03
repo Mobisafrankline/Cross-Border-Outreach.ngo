@@ -60,6 +60,7 @@ export type Article = {
   author: string;
   category: string;
   featured_image?: string;
+  video_embed?: string; // e.g. iframe HTML or URL
   tags: string[];
   status: 'draft' | 'published';
   published_at?: string;

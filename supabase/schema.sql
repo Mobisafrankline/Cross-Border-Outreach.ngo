@@ -97,6 +97,7 @@ CREATE TABLE IF NOT EXISTS articles (
   author         TEXT,
   category       TEXT,
   featured_image TEXT,
+  video_embed    TEXT,
   tags           TEXT[] DEFAULT '{}',
   status         TEXT DEFAULT 'draft' CHECK (status IN ('draft','published')),
   published_at   TIMESTAMPTZ,

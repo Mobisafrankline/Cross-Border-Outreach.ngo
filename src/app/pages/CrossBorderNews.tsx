@@ -185,7 +185,7 @@ export default function CrossBorderNews() {
   return (
     <div className="min-h-screen bg-slate-50 text-slate-900 font-sans selection:bg-blue-500/30">
 
-      {/* ── COB News Branded Header ── */}
+      {/* ── CBNN News Branded Header ── */}
       <header className="sticky top-0 z-50 bg-gradient-to-r from-blue-900 via-blue-800 to-indigo-900 shadow-lg">
         <div className="max-w-[1600px] mx-auto px-4 md:px-6">
           <div className="flex items-center justify-between h-14">
@@ -205,7 +205,7 @@ export default function CrossBorderNews() {
                   <Globe className="w-4 h-4 text-blue-300" />
                 </div>
                 <div>
-                  <div className="text-white font-extrabold text-sm tracking-tight leading-none">COB News</div>
+                  <div className="text-white font-extrabold text-sm tracking-tight leading-none">CBNN News</div>
                   <div className="text-[9px] text-blue-300 font-semibold tracking-widest uppercase leading-none mt-0.5">CrossBorders Outreach</div>
                 </div>
               </div>
@@ -217,7 +217,7 @@ export default function CrossBorderNews() {
                 <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-blue-400 group-focus-within:text-white transition-colors" />
                 <input
                   type="text"
-                  placeholder="Search COB News..."
+                  placeholder="Search CBNN News..."
                   className="bg-white/10 border border-white/10 focus:bg-white/20 focus:border-blue-400 rounded-full pl-9 pr-4 py-1.5 text-sm text-white outline-none w-48 focus:w-64 transition-all placeholder:text-blue-300/60"
                 />
               </div>
@@ -268,7 +268,7 @@ export default function CrossBorderNews() {
               className="fixed top-0 right-0 bottom-0 w-full max-w-xs bg-white z-50 shadow-2xl md:hidden overflow-y-auto"
             >
               <div className="p-4 bg-blue-900 flex items-center justify-between">
-                <span className="text-white font-bold text-lg">COB News</span>
+                <span className="text-white font-bold text-lg">CBNN News</span>
                 <button onClick={() => setMobileNavOpen(false)} className="p-2 text-white hover:bg-white/10 rounded-lg">
                   <X className="w-5 h-5" />
                 </button>

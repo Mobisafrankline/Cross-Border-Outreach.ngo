@@ -1,6 +1,6 @@
 import { useState, useRef } from "react";
 import { useParams, useNavigate } from "react-router";
-import { Save, X, Image, Calendar, Tag, User, Loader2, AlertCircle, Bold, Italic, Underline, Heading1, Heading2, Quote, Link as LinkIcon, List, ImagePlus, MapPin, Clock, Phone, Mail, Users, DollarSign } from "lucide-react";
+import { Save, X, Image, Calendar, Tag, User, Loader2, AlertCircle, Bold, Italic, Underline, Heading1, Heading2, Quote, Link as LinkIcon, List, ImagePlus, MapPin, Clock, Phone, Mail, Users, DollarSign, Video } from "lucide-react";
 import { supabase } from "../../../lib/supabase";
 
 type ContentType = "article" | "news" | "blog" | "story" | "events";
@@ -17,6 +17,7 @@ export default function AdminContentEditor() {
   const [category, setCategory] = useState("");
   const [author, setAuthor] = useState("");
   const [featuredImage, setFeaturedImage] = useState("");
+  const [videoEmbed, setVideoEmbed] = useState("");
   const [tags, setTags] = useState("");
   const [publishDate, setPublishDate] = useState(new Date().toISOString().split('T')[0]);
 
@@ -89,6 +90,7 @@ export default function AdminContentEditor() {
         author,
         category,
         featured_image: featuredImage,
+        video_embed: videoEmbed,
         tags: tagsArray,
         status: status === "publish" ? "published" : "draft",
         published_at: status === "publish" ? new Date(publishDate).toISOString() : null,
@@ -179,6 +181,26 @@ export default function AdminContentEditor() {
               <input type="text" value={title} onChange={(e) => setTitle(e.target.value)}
                 className="w-full px-4 py-3 text-2xl font-bold border-0 focus:ring-0 outline-none"
                 placeholder={`Enter ${currentType.label.toLowerCase()} title...`} />
+              
+              {!isEvent && (
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-6 border-t border-gray-100 pt-6">
+                  <div>
+                    <label className="block text-sm font-semibold text-gray-700 mb-2">
+                      <User className="w-4 h-4 inline mr-1" /> Author Name
+                    </label>
+                    <input type="text" value={author} onChange={(e) => setAuthor(e.target.value)}
+                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-600 focus:border-transparent outline-none"
+                      placeholder="e.g. Sarah Jenkins" />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-semibold text-gray-700 mb-2">
+                      <Calendar className="w-4 h-4 inline mr-1" /> Publish Date
+                    </label>
+                    <input type="date" value={publishDate} onChange={(e) => setPublishDate(e.target.value)}
+                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-600 focus:border-transparent outline-none" />
+                  </div>
+                </div>
+              )}
             </div>
 
             {/* Event-specific fields */}
@@ -306,6 +328,7 @@ export default function AdminContentEditor() {
                   <button onClick={() => document.execCommand('insertUnorderedList')} className="p-2 hover:bg-blue-50 hover:text-blue-600 rounded-lg text-gray-600 transition-colors" title="Bullet List"><List className="w-4 h-4" /></button>
                   <button onClick={() => { const url = prompt('Enter link URL:'); if (url) document.execCommand('createLink', false, url); }} className="p-2 hover:bg-blue-50 hover:text-blue-600 rounded-lg text-gray-600 transition-colors" title="Insert Link"><LinkIcon className="w-4 h-4" /></button>
                   <button onClick={() => { const url = prompt('Enter image URL:'); if (url) document.execCommand('insertImage', false, url); }} className="p-2 hover:bg-blue-50 hover:text-blue-600 rounded-lg text-gray-600 transition-colors" title="Insert Image"><ImagePlus className="w-4 h-4" /></button>
+                  <button onClick={() => { const embed = prompt('Paste your video embed code (iframe) from YouTube, Vimeo, etc:'); if (embed) document.execCommand('insertHTML', false, `<div class="aspect-w-16 aspect-h-9 my-4 rounded-xl overflow-hidden shadow-lg border border-slate-200">${embed}</div><br/>`); }} className="p-2 hover:bg-blue-50 hover:text-blue-600 rounded-lg text-gray-600 transition-colors" title="Embed Video"><Video className="w-4 h-4" /></button>
                 </div>
                 <div ref={editorRef}
                   className="w-full flex-1 px-6 py-6 min-h-[400px] outline-none text-gray-800 bg-white prose max-w-none focus:ring-inset focus:ring-2 focus:ring-blue-100 transition-all overflow-y-auto"
@@ -332,24 +355,6 @@ export default function AdminContentEditor() {
                     <option value="events">📅 Event</option>
                   </select>
                 </div>
-                <div>
-                  <label className="block text-sm font-semibold text-gray-700 mb-2">
-                    <Calendar className="w-4 h-4 inline mr-1" />
-                    {isEvent ? "Publish / Created Date" : "Publish Date"}
-                  </label>
-                  <input type="date" value={publishDate} onChange={(e) => setPublishDate(e.target.value)}
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-600 focus:border-transparent outline-none" />
-                </div>
-                {!isEvent && (
-                  <div>
-                    <label className="block text-sm font-semibold text-gray-700 mb-2">
-                      <User className="w-4 h-4 inline mr-1" /> Author
-                    </label>
-                    <input type="text" value={author} onChange={(e) => setAuthor(e.target.value)}
-                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-600 focus:border-transparent outline-none"
-                      placeholder="Author name..." />
-                  </div>
-                )}
               </div>
             </div>
 
@@ -380,7 +385,7 @@ export default function AdminContentEditor() {
                     <option value="events">Events</option>
                     <option value="partnerships">Partnerships</option>
                     <option value="announcements">Announcements</option>
-                    <option value="cob-news">COB News</option>
+                    <option value="cbnn-news">CBNN News</option>
                   </>
                 )}
               </select>
@@ -433,6 +438,19 @@ export default function AdminContentEditor() {
                   </button>
                 </div>
               )}
+            </div>
+
+            {/* Video Embed */}
+            <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+              <h3 className="font-bold text-gray-900 mb-4">
+                <Video className="w-4 h-4 inline mr-1" /> Video Embed (Optional)
+              </h3>
+              <p className="text-xs text-gray-600 mb-2">
+                Paste an iframe embed code (YouTube, Vimeo, Cloudflare Stream). This will appear on the article page.
+              </p>
+              <textarea value={videoEmbed} onChange={(e) => setVideoEmbed(e.target.value)}
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-600 focus:border-transparent outline-none resize-y"
+                rows={3} placeholder='<iframe src="..." ...></iframe>' />
             </div>
 
             {/* Tags */}

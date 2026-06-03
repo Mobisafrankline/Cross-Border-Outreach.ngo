@@ -76,7 +76,7 @@ export default function COBNewsLogin() {
               <Globe className="w-7 h-7 text-white group-hover:text-blue-600 transition-colors" />
             </div>
             <div>
-              <div className="text-white font-black text-2xl tracking-tight leading-none">COB News</div>
+              <div className="text-white font-black text-2xl tracking-tight leading-none">CBNN News</div>
               <div className="text-[10px] text-blue-200 font-bold tracking-widest uppercase leading-none mt-1.5">Cross-Borders Outreach</div>
             </div>
           </motion.div>

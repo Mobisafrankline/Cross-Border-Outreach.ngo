@@ -252,10 +252,9 @@ export default function TwoLayerNavbar() {
     }
   ];
 
-  // Top utility bar links
   const utilityLinks = [
     { label: "Help", href: "/contact" },
-    { label: "COB News", href: "/global-news" },
+    { label: "CBNN News", href: "/global-news" },
   ];
 
   // Secondary navigation links (bottom bar)
