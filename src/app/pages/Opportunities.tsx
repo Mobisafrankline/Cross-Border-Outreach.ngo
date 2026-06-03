@@ -1,55 +1,81 @@
 import { 
-  Heart, 
-  Clock, 
-  MapPin, 
-  CheckCircle2, 
-  Users, 
-  Target, 
   MessageSquare, 
   Rocket,
   ArrowRight,
   ShieldCheck,
   Star,
-  ChevronRight
+  Target,
+  CheckCircle2
 } from "lucide-react";
 import { ImageWithFallback } from "../components/figma/ImageWithFallback";
 import { motion } from "motion/react";
+import { useState, useEffect } from "react";
+import { getActiveJobs, createApplication, Job } from "../../lib/supabase";
 
-export default function Volunteer() {
-  const opportunities = [
-    {
-      title: "Food Distribution Lead",
-      location: "Local Community Hubs",
-      time: "4-8 hours/week",
-      description: "Manage logistics and distribution of nutritious meals to families in crisis.",
-      category: "Field Work",
-      color: "bg-emerald-50 text-emerald-700 border-emerald-100"
-    },
-    {
-      title: "Education Mentor",
-      location: "Learning Centers",
-      time: "2-6 hours/week",
-      description: "Provide academic support and mentorship to students from underserved backgrounds.",
-      category: "Education",
-      color: "bg-blue-50 text-blue-700 border-blue-100"
-    },
-    {
-      title: "Health Outreach Assist",
-      location: "Mobile Clinics",
-      time: "8+ hours/week",
-      description: "Support medical professionals during community health screenings and consultations.",
-      category: "Healthcare",
-      color: "bg-rose-50 text-rose-700 border-rose-100"
-    },
-    {
-      title: "Digital Advocate",
-      location: "Remote",
-      time: "Flexible",
-      description: "Help amplify our mission through creative storytelling and social media engagement.",
-      category: "Remote",
-      color: "bg-indigo-50 text-indigo-700 border-indigo-100"
+export default function Opportunities() {
+  const [appType, setAppType] = useState("volunteer");
+  const [jobs, setJobs] = useState<Job[]>([]);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
+  const [formData, setFormData] = useState({
+    firstName: '',
+    lastName: '',
+    email: '',
+    interest: 'Food Distribution',
+    jobId: '',
+    availability: 'Weekends',
+    about: ''
+  });
+
+  useEffect(() => {
+    const fetchJobs = async () => {
+      const { data } = await getActiveJobs();
+      if (data) {
+        setJobs(data);
+        if (data.length > 0) {
+          setFormData(prev => ({ ...prev, jobId: data[0].id }));
+        }
+      }
+    };
+    fetchJobs();
+  }, []);
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+    setSubmitStatus('idle');
+
+    const jobTitle = jobs.find(j => j.id === formData.jobId)?.title || '';
+
+    const { error } = await createApplication({
+      type: appType as 'volunteer' | 'job',
+      job_id: appType === 'job' && formData.jobId ? formData.jobId : null,
+      first_name: formData.firstName,
+      last_name: formData.lastName,
+      email: formData.email,
+      interest_or_position: appType === 'volunteer' ? formData.interest : jobTitle,
+      availability: formData.availability,
+      about: formData.about
+    });
+
+    setIsSubmitting(false);
+    if (error) {
+      console.error(error);
+      setSubmitStatus('error');
+    } else {
+      setSubmitStatus('success');
+      setFormData({
+        firstName: '',
+        lastName: '',
+        email: '',
+        interest: 'Food Distribution',
+        jobId: jobs.length > 0 ? jobs[0].id : '',
+        availability: 'Weekends',
+        about: ''
+      });
+      setTimeout(() => setSubmitStatus('idle'), 5000);
     }
-  ];
+  };
 
   const journeySteps = [
     {
@@ -146,51 +172,6 @@ export default function Volunteer() {
         </div>
       </section>
 
-      {/* Opportunities Grid */}
-      <section id="opportunities" className="py-24 bg-white">
-        <div className="max-w-7xl mx-auto px-6">
-          <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-16">
-            <div>
-              <h2 className="text-4xl md:text-5xl font-black text-slate-900 mb-4">Current Openings</h2>
-              <p className="text-slate-500 text-lg">Immediate needs where you can start helping today.</p>
-            </div>
-            <div className="flex items-center gap-2 text-blue-600 font-bold">
-              <Users className="w-5 h-5" />
-              <span>12 positions available</span>
-            </div>
-          </div>
-
-          <div className="grid md:grid-cols-2 gap-8">
-            {opportunities.map((opp, i) => (
-              <motion.div 
-                key={i}
-                whileHover={{ y: -5 }}
-                className="bg-white rounded-3xl p-8 border border-slate-100 shadow-xl shadow-slate-900/5 hover:shadow-blue-900/10 transition-all flex flex-col h-full"
-              >
-                <div className="flex items-center justify-between mb-6">
-                  <span className={`px-4 py-1.5 rounded-full text-xs font-black uppercase tracking-widest border ${opp.color}`}>
-                    {opp.category}
-                  </span>
-                  <div className="flex items-center gap-2 text-slate-400 text-sm font-medium">
-                    <Clock className="w-4 h-4" />
-                    {opp.time}
-                  </div>
-                </div>
-                <h3 className="text-2xl font-black text-slate-900 mb-4">{opp.title}</h3>
-                <div className="flex items-center gap-2 text-slate-500 mb-6 text-sm font-medium">
-                  <MapPin className="w-4 h-4 text-blue-600" />
-                  {opp.location}
-                </div>
-                <p className="text-slate-600 leading-relaxed mb-8 flex-1">{opp.description}</p>
-                <a href="#apply" className="w-full py-4 bg-slate-900 text-white rounded-2xl font-bold hover:bg-slate-800 transition-all text-center flex items-center justify-center gap-2">
-                  Apply for this role <ChevronRight className="w-4 h-4" />
-                </a>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
-
       {/* Application Form */}
       <section id="apply" className="py-24 bg-blue-900 relative overflow-hidden">
         <div className="absolute top-0 right-0 w-1/2 h-full bg-blue-800/20 -skew-x-12 transform translate-x-1/2" />
@@ -220,37 +201,104 @@ export default function Volunteer() {
             </div>
 
             <div className="lg:col-span-7">
-              <div className="bg-white rounded-[2.5rem] shadow-2xl p-8 md:p-12">
-                <form className="space-y-6">
+              <div className="bg-white rounded-[2.5rem] shadow-2xl p-8 md:p-12 relative">
+                {submitStatus === 'success' && (
+                  <div className="absolute top-0 left-0 w-full p-4 bg-emerald-500 text-white text-center font-bold rounded-t-[2.5rem]">
+                    Application submitted successfully! We'll be in touch soon.
+                  </div>
+                )}
+                {submitStatus === 'error' && (
+                  <div className="absolute top-0 left-0 w-full p-4 bg-red-500 text-white text-center font-bold rounded-t-[2.5rem]">
+                    Failed to submit application. Please try again.
+                  </div>
+                )}
+                <form className={`space-y-6 ${submitStatus !== 'idle' ? 'mt-8' : ''}`} onSubmit={handleSubmit}>
                   <div className="grid md:grid-cols-2 gap-6">
                     <div className="space-y-2">
                       <label className="text-sm font-bold text-slate-700 ml-1">First Name</label>
-                      <input type="text" className="w-full px-6 py-4 bg-slate-50 border-2 border-transparent focus:border-blue-600 rounded-2xl focus:outline-none transition-all font-medium" />
+                      <input 
+                        required
+                        type="text" 
+                        value={formData.firstName}
+                        onChange={(e) => setFormData({...formData, firstName: e.target.value})}
+                        className="w-full px-6 py-4 bg-slate-50 border-2 border-transparent focus:border-blue-600 rounded-2xl focus:outline-none transition-all font-medium" 
+                      />
                     </div>
                     <div className="space-y-2">
                       <label className="text-sm font-bold text-slate-700 ml-1">Last Name</label>
-                      <input type="text" className="w-full px-6 py-4 bg-slate-50 border-2 border-transparent focus:border-blue-600 rounded-2xl focus:outline-none transition-all font-medium" />
+                      <input 
+                        required
+                        type="text" 
+                        value={formData.lastName}
+                        onChange={(e) => setFormData({...formData, lastName: e.target.value})}
+                        className="w-full px-6 py-4 bg-slate-50 border-2 border-transparent focus:border-blue-600 rounded-2xl focus:outline-none transition-all font-medium" 
+                      />
                     </div>
                   </div>
 
                   <div className="space-y-2">
                     <label className="text-sm font-bold text-slate-700 ml-1">Email Address</label>
-                    <input type="email" className="w-full px-6 py-4 bg-slate-50 border-2 border-transparent focus:border-blue-600 rounded-2xl focus:outline-none transition-all font-medium" />
+                    <input 
+                      required
+                      type="email" 
+                      value={formData.email}
+                      onChange={(e) => setFormData({...formData, email: e.target.value})}
+                      className="w-full px-6 py-4 bg-slate-50 border-2 border-transparent focus:border-blue-600 rounded-2xl focus:outline-none transition-all font-medium" 
+                    />
+                  </div>
+
+                  <div className="space-y-2">
+                    <label className="text-sm font-bold text-slate-700 ml-1">Application Type</label>
+                    <select 
+                      value={appType}
+                      onChange={(e) => setAppType(e.target.value)}
+                      className="w-full px-6 py-4 bg-slate-50 border-2 border-transparent focus:border-blue-600 rounded-2xl focus:outline-none transition-all font-medium appearance-none"
+                    >
+                      <option value="volunteer">Volunteer (Always Open)</option>
+                      <option value="job">Job Opening</option>
+                    </select>
                   </div>
 
                   <div className="grid md:grid-cols-2 gap-6">
                     <div className="space-y-2">
-                      <label className="text-sm font-bold text-slate-700 ml-1">Primary Interest</label>
-                      <select className="w-full px-6 py-4 bg-slate-50 border-2 border-transparent focus:border-blue-600 rounded-2xl focus:outline-none transition-all font-medium appearance-none">
-                        <option>Food Distribution</option>
-                        <option>Education & Tutoring</option>
-                        <option>Healthcare Support</option>
-                        <option>Digital Advocacy</option>
-                      </select>
+                      <label className="text-sm font-bold text-slate-700 ml-1">
+                        {appType === 'volunteer' ? 'Primary Interest' : 'Position Applied For'}
+                      </label>
+                      {appType === 'volunteer' ? (
+                        <select 
+                          value={formData.interest}
+                          onChange={(e) => setFormData({...formData, interest: e.target.value})}
+                          className="w-full px-6 py-4 bg-slate-50 border-2 border-transparent focus:border-blue-600 rounded-2xl focus:outline-none transition-all font-medium appearance-none"
+                        >
+                          <option>Food Distribution</option>
+                          <option>Education & Tutoring</option>
+                          <option>Healthcare Support</option>
+                          <option>Digital Advocacy</option>
+                        </select>
+                      ) : (
+                        <select 
+                          required
+                          value={formData.jobId}
+                          onChange={(e) => setFormData({...formData, jobId: e.target.value})}
+                          className="w-full px-6 py-4 bg-slate-50 border-2 border-transparent focus:border-blue-600 rounded-2xl focus:outline-none transition-all font-medium appearance-none"
+                        >
+                          {jobs.length === 0 ? (
+                            <option value="">No open jobs at the moment</option>
+                          ) : (
+                            jobs.map(job => (
+                              <option key={job.id} value={job.id}>{job.title}</option>
+                            ))
+                          )}
+                        </select>
+                      )}
                     </div>
                     <div className="space-y-2">
                       <label className="text-sm font-bold text-slate-700 ml-1">Availability</label>
-                      <select className="w-full px-6 py-4 bg-slate-50 border-2 border-transparent focus:border-blue-600 rounded-2xl focus:outline-none transition-all font-medium appearance-none">
+                      <select 
+                        value={formData.availability}
+                        onChange={(e) => setFormData({...formData, availability: e.target.value})}
+                        className="w-full px-6 py-4 bg-slate-50 border-2 border-transparent focus:border-blue-600 rounded-2xl focus:outline-none transition-all font-medium appearance-none"
+                      >
                         <option>Weekends</option>
                         <option>Weekdays (Evenings)</option>
                         <option>Full-time / Flexible</option>
@@ -259,12 +307,24 @@ export default function Volunteer() {
                   </div>
 
                   <div className="space-y-2">
-                    <label className="text-sm font-bold text-slate-700 ml-1">About You</label>
-                    <textarea rows={4} className="w-full px-6 py-4 bg-slate-50 border-2 border-transparent focus:border-blue-600 rounded-2xl focus:outline-none transition-all font-medium resize-none" placeholder="Tell us about your background and why you want to join..." />
+                    <label className="text-sm font-bold text-slate-700 ml-1">
+                      {appType === 'job' ? 'About You & Resume/LinkedIn Link' : 'About You'}
+                    </label>
+                    <textarea 
+                      rows={4} 
+                      value={formData.about}
+                      onChange={(e) => setFormData({...formData, about: e.target.value})}
+                      className="w-full px-6 py-4 bg-slate-50 border-2 border-transparent focus:border-blue-600 rounded-2xl focus:outline-none transition-all font-medium resize-none" 
+                      placeholder="Tell us about your background and why you want to join..." 
+                    />
                   </div>
 
-                  <button type="submit" className="w-full py-5 bg-blue-600 text-white rounded-2xl font-black text-lg hover:bg-blue-700 transition-all shadow-xl shadow-blue-600/20 transform active:scale-95">
-                    Submit Application
+                  <button 
+                    type="submit" 
+                    disabled={isSubmitting || (appType === 'job' && jobs.length === 0)}
+                    className="w-full py-5 bg-blue-600 text-white rounded-2xl font-black text-lg hover:bg-blue-700 transition-all shadow-xl shadow-blue-600/20 transform active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed"
+                  >
+                    {isSubmitting ? 'Submitting...' : 'Submit Application'}
                   </button>
                 </form>
               </div>

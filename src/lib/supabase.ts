@@ -365,3 +365,88 @@ export const verifyReportAccessCode = async (reportId: string, code: string) => 
     .single();
   return { data, error };
 };
+
+// ======================= Jobs & Applications =======================
+
+export interface Job {
+  id: string;
+  title: string;
+  location: string;
+  type: string;
+  description?: string;
+  requirements?: string;
+  is_active: boolean;
+  created_at?: string;
+}
+
+export const getActiveJobs = async () => {
+  const { data, error } = await supabase
+    .from('jobs')
+    .select('*')
+    .eq('is_active', true)
+    .order('created_at', { ascending: false });
+  return { data, error };
+};
+
+export const createApplication = async (application: {
+  type: 'volunteer' | 'job';
+  job_id?: string | null;
+  first_name: string;
+  last_name: string;
+  email: string;
+  interest_or_position?: string;
+  availability?: string;
+  about?: string;
+}) => {
+  const { data, error } = await supabase
+    .from('applications')
+    .insert(application);
+  return { data, error };
+};
+
+export const getAllJobs = async () => {
+  const { data, error } = await supabase
+    .from('jobs')
+    .select('*')
+    .order('created_at', { ascending: false });
+  return { data, error };
+};
+
+export const createJob = async (job: Omit<Job, 'id' | 'created_at'>) => {
+  const { data, error } = await supabase
+    .from('jobs')
+    .insert(job);
+  return { data, error };
+};
+
+export const updateJob = async (id: string, updates: Partial<Job>) => {
+  const { data, error } = await supabase
+    .from('jobs')
+    .update(updates)
+    .eq('id', id);
+  return { data, error };
+};
+
+export const deleteJob = async (id: string) => {
+  const { error } = await supabase
+    .from('jobs')
+    .delete()
+    .eq('id', id);
+  return { error };
+};
+
+export const getAllApplications = async () => {
+  const { data, error } = await supabase
+    .from('applications')
+    .select('*, jobs(title)')
+    .order('created_at', { ascending: false });
+  return { data, error };
+};
+
+export const updateApplicationStatus = async (id: string, status: string) => {
+  const { error } = await supabase
+    .from('applications')
+    .update({ status })
+    .eq('id', id);
+  return { error };
+};

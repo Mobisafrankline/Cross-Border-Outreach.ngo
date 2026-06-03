@@ -46,7 +46,7 @@ function fromSupabase(row: any): EventItem {
     capacity: row.event_capacity ?? 0,
     registered: row.event_registered ?? 0,
     image: row.featured_image ?? "",
-    organizer: row.organizer ?? "Cross-Borders Outreach Ministry Inc.",
+    organizer: row.organizer ?? "Cross-borders Outreach international",
     contactEmail: row.contact_email ?? "",
     contactPhone: row.contact_phone ?? "",
     source: "supabase",
@@ -276,7 +276,7 @@ export default function Events() {
             <Link to="/partner" className="inline-flex items-center gap-3 px-10 py-5 bg-gray-900 text-white rounded-2xl font-black text-lg hover:bg-gray-800 transition-all shadow-2xl hover:-translate-y-1 transform">
               Become a Partner <ArrowRight className="w-5 h-5" />
             </Link>
-            <Link to="/volunteer" className="inline-flex items-center gap-3 px-10 py-5 bg-white text-gray-900 border border-gray-200 rounded-2xl font-black text-lg hover:bg-gray-50 transition-all shadow-sm">
+            <Link to="/opportunities" className="inline-flex items-center gap-3 px-10 py-5 bg-white text-gray-900 border border-gray-200 rounded-2xl font-black text-lg hover:bg-gray-50 transition-all shadow-sm">
               <Users className="w-5 h-5" /> Join as Volunteer
             </Link>
           </div>

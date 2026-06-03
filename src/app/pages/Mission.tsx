@@ -244,7 +244,7 @@ export default function Mission() {
             <Link to="/donate" className="inline-flex items-center justify-center px-8 py-4 bg-blue-600 text-white rounded-2xl font-black text-lg hover:bg-blue-700 transition-colors shadow-xl shadow-blue-600/20">
               Support Our Mission
             </Link>
-            <Link to="/volunteer" className="inline-flex items-center justify-center px-8 py-4 bg-slate-100 text-slate-700 rounded-2xl font-black text-lg hover:bg-slate-200 transition-colors border border-slate-200">
+            <Link to="/opportunities" className="inline-flex items-center justify-center px-8 py-4 bg-slate-100 text-slate-700 rounded-2xl font-black text-lg hover:bg-slate-200 transition-colors border border-slate-200">
               Become a Volunteer <ArrowRight className="w-5 h-5 ml-2" />
             </Link>
           </div>

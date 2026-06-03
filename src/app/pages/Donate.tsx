@@ -181,7 +181,7 @@ export default function Donate() {
                         <div className="text-sm text-blue-100 mb-1">SWIFT / BIC Code</div>
                         <div className="text-lg font-bold font-mono">SCBLUS33XXX</div>
                         <div className="text-sm text-blue-100 mt-4 mb-1">Account Holder</div>
-                        <div className="text-lg font-bold uppercase">Crossborders Outreach Ministry Inc</div>
+                        <div className="text-lg font-bold uppercase">Cross-borders Outreach international</div>
                       </div>
                     </div>
                     <div className="mt-8 pt-6 border-t border-white/10 flex items-center gap-3">
@@ -380,7 +380,7 @@ export default function Donate() {
             <span className="text-blue-400">Join our volunteer team.</span>
           </h2>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <a href="/volunteer" className="px-8 py-4 bg-blue-600 text-white rounded-xl font-bold hover:bg-blue-700 transition-all shadow-xl shadow-blue-500/20 flex items-center justify-center gap-2">
+            <a href="/opportunities" className="px-8 py-4 bg-blue-600 text-white rounded-xl font-bold hover:bg-blue-700 transition-all shadow-xl shadow-blue-500/20 flex items-center justify-center gap-2">
               Explore Opportunities <ArrowRight className="w-5 h-5" />
             </a>
             <a href="/fundraise" className="px-8 py-4 bg-white text-slate-900 rounded-xl font-bold hover:bg-slate-50 transition-all flex items-center justify-center gap-2">

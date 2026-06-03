@@ -28,7 +28,7 @@ export default function AdminContentEditor() {
   const [eventCapacity, setEventCapacity] = useState("");
   const [ticketPrice, setTicketPrice] = useState("Free");
   const [eventStatus, setEventStatus] = useState<"upcoming" | "past">("upcoming");
-  const [organizer, setOrganizer] = useState("Cross-Borders Outreach Ministry Inc.");
+  const [organizer, setOrganizer] = useState("Cross-borders Outreach international");
   const [contactEmail, setContactEmail] = useState("info@cross-bordersoutreach.org");
   const [contactPhone, setContactPhone] = useState("+1 (404) 641-9248");
 
@@ -132,29 +132,29 @@ export default function AdminContentEditor() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      {/* Header */}
-      <div className="bg-white border-b border-gray-200 sticky top-0 z-10">
+    <div className="flex-1 bg-slate-50 text-slate-900 pb-12">
+      {/* Sticky toolbar */}
+      <div className="bg-white border-b border-slate-200 sticky top-0 z-10">
         <div className="max-w-7xl mx-auto px-6 py-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
               <span className="text-3xl">{currentType.icon}</span>
               <div>
-                <h1 className="text-2xl font-bold text-gray-900">Create {currentType.label}</h1>
-                <p className="text-sm text-gray-600">Cross-Borders Content Management</p>
+                <h1 className="text-2xl font-bold text-slate-900">Create {currentType.label}</h1>
+                <p className="text-sm text-slate-500 font-medium">Cross-Borders Content Management</p>
               </div>
             </div>
             <div className="flex items-center gap-3">
               <button onClick={() => navigate("/admin/dashboard")} disabled={isSaving}
-                className="px-4 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-lg font-semibold transition-colors flex items-center gap-2 disabled:opacity-50">
+                className="px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-xl font-bold transition-colors flex items-center gap-2 disabled:opacity-50">
                 <X className="w-4 h-4" /> Cancel
               </button>
               <button onClick={() => handleSave("draft")} disabled={isSaving}
-                className="px-4 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-lg font-semibold transition-colors flex items-center gap-2 disabled:opacity-50">
+                className="px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-xl font-bold transition-colors flex items-center gap-2 disabled:opacity-50">
                 {isSaving && <Loader2 className="w-4 h-4 animate-spin" />} Save Draft
               </button>
               <button onClick={() => handleSave("publish")} disabled={isSaving}
-                className="px-6 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-semibold transition-colors flex items-center gap-2 disabled:opacity-50">
+                className="px-6 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-xl font-bold transition-colors flex items-center gap-2 disabled:opacity-50">
                 {isSaving ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
                 Publish
               </button>
@@ -380,6 +380,7 @@ export default function AdminContentEditor() {
                     <option value="events">Events</option>
                     <option value="partnerships">Partnerships</option>
                     <option value="announcements">Announcements</option>
+                    <option value="cob-news">COB News</option>
                   </>
                 )}
               </select>

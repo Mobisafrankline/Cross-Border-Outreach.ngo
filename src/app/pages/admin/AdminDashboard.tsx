@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router";
+import { Link } from "react-router";
 import {
-  LayoutDashboard, Image, FileText, Users, Newspaper,
+  Image, FileText, Users, Newspaper,
   BookOpen, Award, TrendingUp, DollarSign, Calendar,
-  BarChart3, LogOut, Loader2, AlertCircle, RefreshCw, UserCog, X, ChevronRight
+  BarChart3, Loader2, AlertCircle, RefreshCw, UserCog, X, ChevronRight, Briefcase, FileSignature
 } from "lucide-react";
 import { useAuth } from "../../../lib/AuthContext";
-import { getAllDonors, signOut, supabase } from "../../../lib/supabase";
+import { supabase } from "../../../lib/supabase";
 import type { Donor } from "../../../lib/supabase";
 
 interface DashboardStats {
@@ -16,13 +16,6 @@ interface DashboardStats {
   publishedArticles: number;
 }
 
-interface RecentActivity {
-  action: string;
-  user: string;
-  time: string;
-  type: string;
-}
-
 interface AdminProfile {
   first_name: string;
   last_name: string;
@@ -30,7 +23,6 @@ interface AdminProfile {
 
 export default function AdminDashboard() {
   const { user, loading: authLoading } = useAuth();
-  const navigate = useNavigate();
 
   const [stats, setStats] = useState<DashboardStats>({
     totalDonors: 0,
@@ -87,17 +79,12 @@ export default function AdminDashboard() {
     if (!authLoading && user) loadData();
   }, [user, authLoading]);
 
-  const handleSignOut = async () => {
-    await signOut();
-    navigate("/admin/login");
-  };
-
   const quickActions = [
     { label: "Upload Images", href: "/admin/gallery", icon: Image, color: "from-purple-500 to-purple-600" },
     { label: "Add Events", href: "/admin/events/new", icon: Calendar, color: "from-blue-500 to-blue-600" },
-    { label: "New & Blog", onClick: () => setIsNewContentModalOpen(true), icon: Newspaper, color: "from-green-500 to-green-600" },
-    { label: "Add Story", href: "/admin/stories/new", icon: Award, color: "from-pink-500 to-pink-600" },
-    { label: "Manage People", href: "/admin/users", icon: UserCog, color: "from-teal-500 to-teal-600" },
+    { label: "New & Blog", onClick: () => setIsNewContentModalOpen(true), icon: Newspaper, color: "from-emerald-500 to-emerald-600" },
+    { label: "Manage Jobs", href: "/admin/jobs", icon: Briefcase, color: "from-pink-500 to-pink-600" },
+    { label: "Applications", href: "/admin/applications", icon: FileSignature, color: "from-teal-500 to-teal-600" },
     { label: "Manage Reports", href: "/admin/reports", icon: BarChart3, color: "from-indigo-500 to-indigo-600" },
   ];
 
@@ -112,7 +99,7 @@ export default function AdminDashboard() {
       label: "Total Donations",
       value: `$${stats.totalDonations.toLocaleString()}`,
       icon: DollarSign,
-      color: "bg-green-500",
+      color: "bg-emerald-500",
     },
     {
       label: "Gallery Images",
@@ -130,64 +117,44 @@ export default function AdminDashboard() {
 
   if (authLoading || dataLoading) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+      <div className="flex-1 h-full bg-slate-50 flex items-center justify-center min-h-[60vh]">
         <div className="text-center">
           <Loader2 className="w-10 h-10 text-blue-600 animate-spin mx-auto mb-3" />
-          <p className="text-gray-500 font-medium">Loading admin dashboard…</p>
+          <p className="text-slate-500 font-medium">Loading admin dashboard…</p>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      {/* Header */}
-      <div className="bg-white border-b border-gray-200">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 py-6">
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-            <div className="flex items-center gap-3">
-              <LayoutDashboard className="w-8 h-8 text-blue-600 shrink-0" />
-              <div>
-                <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">Admin Dashboard</h1>
-                <p className="text-gray-600 text-sm break-all">
-                  Signed in as <span className="font-semibold text-blue-600">
-                    {adminProfile ? `${adminProfile.first_name} ${adminProfile.last_name}` : user?.email}
-                  </span>
-                </p>
-              </div>
-            </div>
-            <div className="flex items-center gap-3 w-full sm:w-auto">
-              <button
-                onClick={loadData}
-                className="flex-1 sm:flex-none flex justify-center items-center gap-2 px-4 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-lg font-semibold text-sm transition-colors"
-              >
-                <RefreshCw className="w-4 h-4" />
-                Refresh
-              </button>
-              <button
-                onClick={handleSignOut}
-                className="flex-1 sm:flex-none flex justify-center items-center gap-2 px-4 py-2 bg-red-50 hover:bg-red-100 text-red-600 rounded-lg font-semibold text-sm transition-colors"
-              >
-                <LogOut className="w-4 h-4 shrink-0" />
-                Sign Out
-              </button>
-            </div>
-          </div>
+    <div className="flex-1 bg-slate-50 pb-12">
+      
+      {/* Title & Actions Row */}
+      <div className="max-w-7xl mx-auto px-6 pt-8 pb-4">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
+           <div>
+             <h1 className="text-3xl font-bold text-slate-900">Welcome back, {adminProfile?.first_name || 'Admin'}</h1>
+             <p className="text-slate-500 font-medium mt-1">Here's what's happening with Cross Border Outreach today.</p>
+           </div>
+           <button
+             onClick={loadData}
+             className="flex items-center justify-center gap-2 px-4 py-2 bg-white border border-slate-200 hover:bg-slate-50 hover:border-slate-300 text-slate-700 rounded-lg font-semibold text-sm transition-all shadow-sm"
+           >
+             <RefreshCw className="w-4 h-4" />
+             Refresh Data
+           </button>
         </div>
-      </div>
-
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 py-8">
 
         {/* Error Banner */}
         {error && (
-          <div className="flex items-start gap-3 p-4 mb-6 bg-red-50 border border-red-200 rounded-xl">
+          <div className="flex items-start gap-3 p-4 mb-6 bg-red-50/50 border border-red-200 rounded-xl">
             <AlertCircle className="w-5 h-5 text-red-500 flex-shrink-0 mt-0.5" />
             <div className="flex-1">
-              <p className="text-sm text-red-700">{error}</p>
+              <p className="text-sm text-red-700 font-medium">{error}</p>
             </div>
             <button
               onClick={loadData}
-              className="text-red-600 hover:text-red-700 text-sm font-semibold underline"
+              className="text-red-600 hover:text-red-700 text-sm font-bold"
             >
               Retry
             </button>
@@ -199,30 +166,31 @@ export default function AdminDashboard() {
           {statCards.map((stat) => (
             <div
               key={stat.label}
-              className="bg-white rounded-xl shadow-sm p-6 border border-gray-200 hover:shadow-md transition-shadow"
+              className="bg-white rounded-2xl shadow-sm border border-slate-100 p-6 hover:shadow-md transition-shadow relative overflow-hidden group"
             >
-              <div className="flex items-start justify-between mb-4">
-                <div className={`${stat.color} w-12 h-12 rounded-lg flex items-center justify-center`}>
+              <div className={`absolute top-0 right-0 w-32 h-32 opacity-5 rounded-bl-full ${stat.color} transition-transform group-hover:scale-110`}></div>
+              <div className="flex items-start justify-between mb-4 relative">
+                <div className={`${stat.color} w-12 h-12 rounded-xl flex items-center justify-center shadow-sm`}>
                   <stat.icon className="w-6 h-6 text-white" />
                 </div>
               </div>
-              <div className="text-3xl font-bold text-gray-900 mb-1">{stat.value}</div>
-              <div className="text-sm text-gray-600">{stat.label}</div>
+              <div className="text-3xl font-bold text-slate-900 mb-1 relative">{stat.value}</div>
+              <div className="text-sm font-medium text-slate-500 relative">{stat.label}</div>
             </div>
           ))}
         </div>
 
         {/* Quick Actions */}
         <div className="mb-8">
-          <h2 className="text-xl font-bold text-gray-900 mb-4">Quick Actions</h2>
+          <h2 className="text-xl font-bold text-slate-900 mb-4">Quick Actions</h2>
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
             {quickActions.map((action) => {
               const ActionContent = (
                 <div
-                  className={`bg-gradient-to-br ${action.color} rounded-xl p-6 text-white hover:shadow-lg transition-all transform hover:-translate-y-1 h-full flex flex-col items-center justify-center`}
+                  className={`bg-gradient-to-br ${action.color} rounded-2xl p-6 text-white hover:shadow-lg transition-all transform hover:-translate-y-1 h-full flex flex-col items-center justify-center`}
                 >
-                  <action.icon className="w-8 h-8 mb-3 mx-auto" />
-                  <div className="text-sm font-semibold text-center">{action.label}</div>
+                  <action.icon className="w-8 h-8 mb-3 mx-auto opacity-90" />
+                  <div className="text-sm font-bold text-center leading-tight">{action.label}</div>
                 </div>
               );
 
@@ -246,52 +214,56 @@ export default function AdminDashboard() {
         <div className="grid lg:grid-cols-3 gap-8">
           {/* Recent Donors */}
           <div className="lg:col-span-2">
-            <div className="bg-white rounded-xl shadow-sm border border-gray-200">
-              <div className="p-6 border-b border-gray-200 flex items-center justify-between">
-                <h2 className="text-xl font-bold text-gray-900">Recent Donors</h2>
+            <div className="bg-white rounded-2xl shadow-sm border border-slate-100">
+              <div className="p-6 border-b border-slate-100 flex items-center justify-between">
+                <h2 className="text-xl font-bold text-slate-900 flex items-center gap-2">
+                  <Users className="w-5 h-5 text-blue-600" /> Recent Donors
+                </h2>
                 <Link
-                  to="/admin/donors"
-                  className="text-sm text-blue-600 hover:text-blue-700 font-semibold"
+                  to="/admin/users"
+                  className="text-sm text-blue-600 hover:text-blue-700 font-bold bg-blue-50 px-3 py-1.5 rounded-lg transition-colors"
                 >
-                  View All →
+                  View All
                 </Link>
               </div>
 
               {recentDonors.length === 0 ? (
                 <div className="p-12 text-center">
-                  <Users className="w-12 h-12 text-gray-300 mx-auto mb-3" />
-                  <p className="text-gray-500 font-medium">No donors yet</p>
-                  <p className="text-gray-400 text-sm mt-1">
+                  <div className="w-16 h-16 bg-slate-50 rounded-2xl flex items-center justify-center mx-auto mb-4">
+                    <Users className="w-8 h-8 text-slate-300" />
+                  </div>
+                  <p className="text-slate-600 font-bold mb-1">No donors yet</p>
+                  <p className="text-slate-400 text-sm">
                     Donor records will appear here once people register.
                   </p>
                 </div>
               ) : (
-                <div className="divide-y divide-gray-200">
+                <div className="divide-y divide-slate-100">
                   {recentDonors.map((donor) => (
-                    <div key={donor.id} className="p-4 sm:p-6 hover:bg-gray-50 transition-colors">
+                    <div key={donor.id} className="p-4 sm:p-6 hover:bg-slate-50/50 transition-colors group">
                       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-                        <div className="flex items-center gap-3">
-                          <div className="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center shrink-0">
-                            <span className="text-sm font-bold text-blue-600">
+                        <div className="flex items-center gap-4">
+                          <div className="w-12 h-12 bg-blue-50 rounded-full flex items-center justify-center shrink-0 border border-blue-100">
+                            <span className="text-base font-bold text-blue-600">
                               {donor.first_name[0]}{donor.last_name[0]}
                             </span>
                           </div>
                           <div>
-                            <div className="font-semibold text-gray-900 break-words">
+                            <div className="font-bold text-slate-900 break-words group-hover:text-blue-600 transition-colors">
                               {donor.first_name} {donor.last_name}
                             </div>
-                            <div className="text-sm text-gray-500 break-all">{donor.email}</div>
+                            <div className="text-sm font-medium text-slate-500 break-all">{donor.email}</div>
                           </div>
                         </div>
                         <div className="text-left sm:text-right">
-                          <div className="font-semibold text-gray-900">
+                          <div className="font-bold text-slate-900 text-lg">
                             ${(donor.total_donated ?? 0).toLocaleString()}
                           </div>
                           <span
-                            className={`inline-flex px-2 py-0.5 text-xs font-semibold rounded-full ${
+                            className={`inline-flex px-2.5 py-1 text-[11px] uppercase tracking-wide font-bold rounded-full mt-1 ${
                               donor.status === "active"
-                                ? "bg-green-100 text-green-700"
-                                : "bg-gray-100 text-gray-600"
+                                ? "bg-emerald-100 text-emerald-700"
+                                : "bg-slate-100 text-slate-600"
                             }`}
                           >
                             {donor.status}
@@ -308,16 +280,16 @@ export default function AdminDashboard() {
           {/* Side Widgets */}
           <div className="space-y-6">
             {/* Summary Card */}
-            <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
-              <h3 className="text-lg font-bold text-gray-900 mb-4 flex items-center gap-2">
-                <TrendingUp className="w-5 h-5 text-blue-600" />
-                Overview
+            <div className="bg-white rounded-2xl shadow-sm border border-slate-100 p-6">
+              <h3 className="text-lg font-bold text-slate-900 mb-6 flex items-center gap-2">
+                <TrendingUp className="w-5 h-5 text-indigo-500" />
+                Performance Overview
               </h3>
-              <div className="space-y-4">
-                <div>
+              <div className="space-y-5">
+                <div className="bg-slate-50 rounded-xl p-4 border border-slate-100">
                   <div className="flex justify-between text-sm mb-1">
-                    <span className="text-gray-600">Avg. Donation</span>
-                    <span className="font-semibold text-gray-900">
+                    <span className="text-slate-600 font-medium">Avg. Donation</span>
+                    <span className="font-bold text-slate-900">
                       $
                       {stats.totalDonors > 0
                         ? Math.round(stats.totalDonations / stats.totalDonors).toLocaleString()
@@ -325,41 +297,43 @@ export default function AdminDashboard() {
                     </span>
                   </div>
                 </div>
-                <div>
+                <div className="bg-slate-50 rounded-xl p-4 border border-slate-100">
                   <div className="flex justify-between text-sm mb-1">
-                    <span className="text-gray-600">Content Published</span>
-                    <span className="font-semibold text-gray-900">{stats.publishedArticles}</span>
+                    <span className="text-slate-600 font-medium">Content Published</span>
+                    <span className="font-bold text-slate-900">{stats.publishedArticles}</span>
                   </div>
                 </div>
-                <div>
+                <div className="bg-slate-50 rounded-xl p-4 border border-slate-100">
                   <div className="flex justify-between text-sm mb-1">
-                    <span className="text-gray-600">Gallery Images</span>
-                    <span className="font-semibold text-gray-900">{stats.galleryImages}</span>
+                    <span className="text-slate-600 font-medium">Gallery Images</span>
+                    <span className="font-bold text-slate-900">{stats.galleryImages}</span>
                   </div>
                 </div>
               </div>
             </div>
 
             {/* Navigation Links */}
-            <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
-              <h3 className="text-lg font-bold text-gray-900 mb-4 flex items-center gap-2">
+            <div className="bg-white rounded-2xl shadow-sm border border-slate-100 p-6">
+              <h3 className="text-lg font-bold text-slate-900 mb-4 flex items-center gap-2">
                 <BarChart3 className="w-5 h-5 text-blue-600" />
-                Admin Tools
+                Quick Links
               </h3>
               <div className="space-y-2">
                 {[
                   { label: "Manage Gallery", href: "/admin/gallery", icon: Image },
                   { label: "Manage People", href: "/admin/users", icon: UserCog },
+                  { label: "Manage Jobs", href: "/admin/jobs", icon: Briefcase },
+                  { label: "Applications", href: "/admin/applications", icon: FileSignature },
                   { label: "Add Event", href: "/admin/events/new", icon: Calendar },
                   { label: "New News Post", href: "/admin/news/new", icon: Newspaper },
                 ].map((item) => (
                   <Link
                     key={item.href}
                     to={item.href}
-                    className="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-blue-50 text-gray-700 hover:text-blue-700 transition-colors"
+                    className="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-slate-50 text-slate-700 hover:text-blue-700 font-medium transition-colors border border-transparent hover:border-slate-200"
                   >
-                    <item.icon className="w-4 h-4" />
-                    <span className="text-sm font-medium">{item.label}</span>
+                    <item.icon className="w-4 h-4 text-slate-400 group-hover:text-blue-600" />
+                    <span className="text-sm">{item.label}</span>
                   </Link>
                 ))}
               </div>
@@ -371,14 +345,14 @@ export default function AdminDashboard() {
       {/* New Content Selection Modal */}
       {isNewContentModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
-          <div className="absolute inset-0 bg-gray-900/60 backdrop-blur-sm" onClick={() => setIsNewContentModalOpen(false)}></div>
+          <div className="absolute inset-0 bg-slate-900/60 backdrop-blur-sm" onClick={() => setIsNewContentModalOpen(false)}></div>
           <div className="relative bg-white rounded-3xl shadow-2xl w-full max-w-lg p-8 animate-in zoom-in-95 duration-200">
             <div className="flex items-center justify-between mb-8">
               <div>
-                <h3 className="text-2xl font-bold text-gray-900">New Content</h3>
-                <p className="text-gray-500">What would you like to post today?</p>
+                <h3 className="text-2xl font-bold text-slate-900">New Content</h3>
+                <p className="text-slate-500 font-medium mt-1">What would you like to post today?</p>
               </div>
-              <button onClick={() => setIsNewContentModalOpen(false)} className="p-2 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-full transition-colors">
+              <button onClick={() => setIsNewContentModalOpen(false)} className="p-2 text-slate-400 hover:text-slate-600 hover:bg-slate-100 rounded-full transition-colors">
                 <X className="w-6 h-6" />
               </button>
             </div>
@@ -387,44 +361,44 @@ export default function AdminDashboard() {
               <Link
                 to="/admin/news/new"
                 onClick={() => setIsNewContentModalOpen(false)}
-                className="group p-6 rounded-2xl border-2 border-gray-100 hover:border-green-500 hover:bg-green-50 transition-all text-center"
+                className="group p-6 rounded-2xl border-2 border-slate-100 hover:border-emerald-500 hover:bg-emerald-50 transition-all text-center"
               >
-                <div className="w-14 h-14 bg-green-100 text-green-600 rounded-xl flex items-center justify-center mx-auto mb-4 group-hover:bg-green-600 group-hover:text-white transition-colors">
+                <div className="w-14 h-14 bg-emerald-100 text-emerald-600 rounded-xl flex items-center justify-center mx-auto mb-4 group-hover:bg-emerald-600 group-hover:text-white transition-colors">
                   <Newspaper className="w-8 h-8" />
                 </div>
-                <h4 className="font-bold text-gray-900">Post News</h4>
-                <p className="text-xs text-gray-500 mt-1">Updates & announcements</p>
+                <h4 className="font-bold text-slate-900">Post News</h4>
+                <p className="text-xs font-medium text-slate-500 mt-1">Updates & announcements</p>
               </Link>
 
               <Link
                 to="/admin/blog/new"
                 onClick={() => setIsNewContentModalOpen(false)}
-                className="group p-6 rounded-2xl border-2 border-gray-100 hover:border-orange-500 hover:bg-orange-50 transition-all text-center"
+                className="group p-6 rounded-2xl border-2 border-slate-100 hover:border-orange-500 hover:bg-orange-50 transition-all text-center"
               >
                 <div className="w-14 h-14 bg-orange-100 text-orange-600 rounded-xl flex items-center justify-center mx-auto mb-4 group-hover:bg-orange-600 group-hover:text-white transition-colors">
                   <BookOpen className="w-8 h-8" />
                 </div>
-                <h4 className="font-bold text-gray-900">Write Blog</h4>
-                <p className="text-xs text-gray-500 mt-1">Articles & perspectives</p>
+                <h4 className="font-bold text-slate-900">Write Blog</h4>
+                <p className="text-xs font-medium text-slate-500 mt-1">Articles & perspectives</p>
               </Link>
             </div>
 
-            <div className="mt-8 pt-8 border-t border-gray-100">
+            <div className="mt-8 pt-8 border-t border-slate-100">
               <Link
                 to="/admin/stories/new"
                 onClick={() => setIsNewContentModalOpen(false)}
-                className="flex items-center justify-between p-4 rounded-xl bg-gray-50 hover:bg-pink-50 border border-gray-100 hover:border-pink-200 group transition-all"
+                className="flex items-center justify-between p-4 rounded-xl bg-slate-50 hover:bg-pink-50 border border-slate-100 hover:border-pink-200 group transition-all"
               >
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 bg-pink-100 text-pink-600 rounded-lg flex items-center justify-center">
+                <div className="flex items-center gap-4">
+                  <div className="w-12 h-12 bg-pink-100 text-pink-600 rounded-xl flex items-center justify-center">
                     <Award className="w-6 h-6" />
                   </div>
                   <div>
-                    <h5 className="font-bold text-sm text-gray-900">Impact Story</h5>
-                    <p className="text-xs text-gray-500">Share a success story</p>
+                    <h5 className="font-bold text-slate-900">Impact Story</h5>
+                    <p className="text-sm font-medium text-slate-500">Share a success story</p>
                   </div>
                 </div>
-                <ChevronRight className="w-5 h-5 text-gray-400 group-hover:text-pink-600 transition-colors" />
+                <ChevronRight className="w-5 h-5 text-slate-400 group-hover:text-pink-600 transition-colors" />
               </Link>
             </div>
           </div>

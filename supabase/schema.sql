@@ -233,3 +233,46 @@ $$;
 -- Create these manually in Supabase Dashboard → Storage → New Bucket:
 --   Name: images    | Public: true   (gallery uploads)
 --   Name: receipts  | Public: false  (donation receipts)
+
+-- ── 8. Jobs ───────────────────────────────────────────────────
+CREATE TABLE IF NOT EXISTS jobs (
+  id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+  title TEXT NOT NULL,
+  location TEXT NOT NULL,
+  type TEXT NOT NULL,
+  description TEXT,
+  requirements TEXT,
+  is_active BOOLEAN DEFAULT true,
+  created_at TIMESTAMPTZ DEFAULT NOW()
+);
+
+ALTER TABLE jobs ENABLE ROW LEVEL SECURITY;
+DROP POLICY IF EXISTS "Anyone can view active jobs" ON jobs;
+DROP POLICY IF EXISTS "Admins can manage jobs" ON jobs;
+
+CREATE POLICY "Anyone can view active jobs" ON jobs FOR SELECT USING (is_active = true);
+CREATE POLICY "Admins can manage jobs" ON jobs FOR ALL USING (auth.role() = 'authenticated');
+
+-- ── 9. Applications ───────────────────────────────────────────
+CREATE TABLE IF NOT EXISTS applications (
+  id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+  type TEXT NOT NULL CHECK (type IN ('volunteer', 'job')),
+  job_id UUID REFERENCES jobs(id) ON DELETE SET NULL,
+  first_name TEXT NOT NULL,
+  last_name TEXT NOT NULL,
+  email TEXT NOT NULL,
+  interest_or_position TEXT,
+  availability TEXT,
+  about TEXT,
+  status TEXT DEFAULT 'pending' CHECK (status IN ('pending', 'reviewed', 'accepted', 'rejected')),
+  created_at TIMESTAMPTZ DEFAULT NOW()
+);
+
+ALTER TABLE applications ENABLE ROW LEVEL SECURITY;
+DROP POLICY IF EXISTS "Anyone can insert applications" ON applications;
+DROP POLICY IF EXISTS "Admins can view applications" ON applications;
+DROP POLICY IF EXISTS "Admins can update applications" ON applications;
+
+CREATE POLICY "Anyone can insert applications" ON applications FOR INSERT WITH CHECK (true);
+CREATE POLICY "Admins can view applications" ON applications FOR SELECT USING (auth.role() = 'authenticated');
+CREATE POLICY "Admins can update applications" ON applications FOR UPDATE USING (auth.role() = 'authenticated');

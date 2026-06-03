@@ -47,7 +47,7 @@ function fromSupabase(row: any): EventItem {
     capacity: row.event_capacity ?? 0,
     registered: row.event_registered ?? 0,
     image: row.featured_image ?? "",
-    organizer: row.organizer ?? "Cross-Borders Outreach Ministry Inc.",
+    organizer: row.organizer ?? "Cross-borders Outreach international",
     contactEmail: row.contact_email ?? "",
     contactPhone: row.contact_phone ?? "",
   };

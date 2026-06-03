@@ -220,7 +220,7 @@ export default function DonorLogin() {
             </Link>
 
             <p style={{ marginTop:28, textAlign:"center", fontSize:12, color:"#9ca3af" }}>
-              © {new Date().getFullYear()} Cross-Borders Outreach Ministry Inc. All rights reserved.
+              © {new Date().getFullYear()} Cross-borders Outreach international All rights reserved.
             </p>
           </div>
         </div>

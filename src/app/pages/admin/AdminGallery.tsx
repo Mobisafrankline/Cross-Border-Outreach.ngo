@@ -173,46 +173,43 @@ export default function AdminGallery() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      {/* Header */}
-      <div className="bg-white border-b border-gray-200">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 py-6">
-          <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
-            <div className="flex items-center gap-3">
-              <ImageIcon className="w-8 h-8 text-blue-600" />
-              <div>
-                <h1 className="text-3xl font-bold text-gray-900">Gallery Management</h1>
-                <p className="text-gray-600">Upload images and manage event archives</p>
-              </div>
+    <div className="flex-1 bg-slate-50 text-slate-900 pb-12">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 pt-8 pb-4">
+        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+          <div className="flex items-center gap-3">
+            <ImageIcon className="w-8 h-8 text-blue-600" />
+            <div>
+              <h1 className="text-3xl font-bold text-slate-900">Gallery Management</h1>
+              <p className="text-slate-500 font-medium">Upload images and manage event archives</p>
             </div>
-            <button
-              onClick={() => activeTab === "images" ? setUploadModalOpen(true) : setUploadArchiveOpen(true)}
-              className="flex items-center gap-2 px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-semibold transition-colors"
-            >
-              {activeTab === "images" ? <Upload className="w-5 h-5" /> : <Plus className="w-5 h-5" />}
-              {activeTab === "images" ? "Upload Images" : "Add Archive Link"}
-            </button>
           </div>
-          
-          {/* Tabs */}
-          <div className="flex space-x-6 mt-6 border-b border-gray-200">
-            <button
-              onClick={() => setActiveTab("images")}
-              className={`pb-3 px-1 text-sm font-semibold transition-colors border-b-2 ${
-                activeTab === "images" ? "border-blue-600 text-blue-600" : "border-transparent text-gray-500 hover:text-gray-700"
-              }`}
-            >
-              Gallery Images
-            </button>
-            <button
-              onClick={() => setActiveTab("archives")}
-              className={`pb-3 px-1 text-sm font-semibold transition-colors border-b-2 ${
-                activeTab === "archives" ? "border-blue-600 text-blue-600" : "border-transparent text-gray-500 hover:text-gray-700"
-              }`}
-            >
-              Event Archives (Google Drive)
-            </button>
-          </div>
+          <button
+            onClick={() => activeTab === "images" ? setUploadModalOpen(true) : setUploadArchiveOpen(true)}
+            className="flex items-center gap-2 px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-xl font-bold transition-all shadow-sm"
+          >
+            {activeTab === "images" ? <Upload className="w-5 h-5" /> : <Plus className="w-5 h-5" />}
+            {activeTab === "images" ? "Upload Images" : "Add Archive Link"}
+          </button>
+        </div>
+        
+        {/* Tabs */}
+        <div className="flex space-x-6 mt-6 border-b border-slate-200">
+          <button
+            onClick={() => setActiveTab("images")}
+            className={`pb-3 px-1 text-sm font-bold transition-colors border-b-2 -mb-[1px] ${
+              activeTab === "images" ? "border-blue-600 text-blue-600" : "border-transparent text-slate-500 hover:text-slate-900"
+            }`}
+          >
+            Gallery Images
+          </button>
+          <button
+            onClick={() => setActiveTab("archives")}
+            className={`pb-3 px-1 text-sm font-bold transition-colors border-b-2 -mb-[1px] ${
+              activeTab === "archives" ? "border-blue-600 text-blue-600" : "border-transparent text-slate-500 hover:text-slate-900"
+            }`}
+          >
+            Event Archives (Google Drive)
+          </button>
         </div>
       </div>
 

@@ -105,7 +105,7 @@ export default function Healthcare() {
           <p className="prog-cta-subtitle">Your donation provides essential medical care to those who need it most.</p>
           <div className="prog-cta-actions">
             <Link to="/donate" className="prog-cta-btn-primary" style={{ color: "#059669" }}><Heart className="w-5 h-5" /> Make a Donation</Link>
-            <Link to="/volunteer" className="prog-cta-btn-secondary">Join Our Medical Team <ChevronRight className="w-5 h-5" /></Link>
+            <Link to="/opportunities" className="prog-cta-btn-secondary">Join Our Medical Team <ChevronRight className="w-5 h-5" /></Link>
           </div>
         </div>
       </section>

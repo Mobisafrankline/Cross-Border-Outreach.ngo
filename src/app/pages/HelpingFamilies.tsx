@@ -122,7 +122,7 @@ export default function HelpingFamilies() {
           <p className="prog-cta-subtitle">Your generosity can provide shelter, food, and hope to a family in desperate need.</p>
           <div className="prog-cta-actions">
             <Link to="/donate" className="prog-cta-btn-primary" style={{ color: "#be123c" }}><Heart className="w-5 h-5" /> Support a Family</Link>
-            <Link to="/volunteer" className="prog-cta-btn-secondary">Volunteer With Us <ChevronRight className="w-5 h-5" /></Link>
+            <Link to="/opportunities" className="prog-cta-btn-secondary">Volunteer With Us <ChevronRight className="w-5 h-5" /></Link>
           </div>
         </div>
       </section>

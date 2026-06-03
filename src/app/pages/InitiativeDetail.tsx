@@ -146,7 +146,7 @@ export default function InitiativeDetail() {
                     Donate Now
                   </Link>
                   <Link 
-                    to="/volunteer" 
+                    to="/opportunities" 
                     className="flex items-center justify-center w-full px-6 py-4 rounded-xl bg-white border-2 text-gray-700 font-medium hover:bg-gray-50 transition-colors"
                     style={{ borderColor: `${initiative.color}30` }}
                   >

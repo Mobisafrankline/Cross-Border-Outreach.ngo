@@ -11,13 +11,13 @@ import Healthcare from "./pages/Healthcare";
 import Economic from "./pages/Economic";
 import HelpingFamilies from "./pages/HelpingFamilies";
 import Donate from "./pages/Donate";
-import Volunteer from "./pages/Volunteer";
+import Opportunities from "./pages/Opportunities";
 import Partner from "./pages/Partner";
 import Fundraise from "./pages/Fundraise";
 import Blog from "./pages/Blog";
 import ImpactStories from "./pages/ImpactStories";
 import News from "./pages/News";
-import CrossBorderNews from "./pages/CrossBorderNews";
+import { COBNewsLayout, COBNewsHome, COBNewsSignUp, COBNewsLogin } from "./pages/cob-news";
 import NewsArticle from "./pages/NewsArticle";
 import Events from "./pages/Events";
 import EventDetail from "./pages/EventDetail";
@@ -32,15 +32,23 @@ import AuthPortal from "./pages/AuthPortal";
 import InitiativeDetail from "./pages/InitiativeDetail";
 
 // Admin Pages
+import AdminLayout from "./components/portal/AdminLayout";
 import AdminDashboard from "./pages/admin/AdminDashboard";
 import AdminGallery from "./pages/admin/AdminGallery";
 import AdminContentEditor from "./pages/admin/AdminContentEditor";
 import AdminUsers from "./pages/admin/AdminUsers";
 import AdminReports from "./pages/admin/AdminReports";
+import AdminJobs from "./pages/admin/AdminJobs";
+import AdminApplications from "./pages/admin/AdminApplications";
+import AdminNewsChannel from "./pages/admin/AdminNewsChannel";
 
 // Donor Pages
+import DonorLayout from "./components/portal/DonorLayout";
 import DonorDashboard from "./pages/donor/DonorDashboard";
 import DonorProfile from "./pages/donor/DonorProfile";
+
+// Shared Portal Pages
+import ProfileSettings from "./pages/portal/ProfileSettings";
 
 export const router = createBrowserRouter([
   {
@@ -55,7 +63,7 @@ export const router = createBrowserRouter([
       { path: "economic", Component: Economic },
       { path: "helping-families", Component: HelpingFamilies },
       { path: "donate", Component: Donate },
-      { path: "volunteer", Component: Volunteer },
+      { path: "opportunities", Component: Opportunities },
       { path: "partner", Component: Partner },
       { path: "fundraise", Component: Fundraise },
       { path: "blog", Component: Blog },
@@ -77,8 +85,13 @@ export const router = createBrowserRouter([
   },
   {
     path: "/global-news",
-    Component: CrossBorderNews,
+    Component: COBNewsLayout,
     errorElement: <RouteErrorBoundary />,
+    children: [
+      { index: true, Component: COBNewsHome },
+      { path: "sign-up", Component: COBNewsSignUp },
+      { path: "login", Component: COBNewsLogin },
+    ],
   },
   {
     path: "/admin",
@@ -86,44 +99,23 @@ export const router = createBrowserRouter([
     children: [
       { path: "login", element: <Navigate to="/login?type=admin" replace /> },
       {
-        path: "dashboard",
+        // All protected admin routes wrapped in AdminLayout
         element: (
           <ProtectedRoute redirectTo="/admin/login">
-            <AdminDashboard />
+            <AdminLayout />
           </ProtectedRoute>
         ),
-      },
-      {
-        path: "gallery",
-        element: (
-          <ProtectedRoute redirectTo="/admin/login">
-            <AdminGallery />
-          </ProtectedRoute>
-        ),
-      },
-      {
-        path: ":type/new",
-        element: (
-          <ProtectedRoute redirectTo="/admin/login">
-            <AdminContentEditor />
-          </ProtectedRoute>
-        ),
-      },
-      {
-        path: "users",
-        element: (
-          <ProtectedRoute redirectTo="/admin/login">
-            <AdminUsers />
-          </ProtectedRoute>
-        ),
-      },
-      {
-        path: "reports",
-        element: (
-          <ProtectedRoute redirectTo="/admin/login">
-            <AdminReports />
-          </ProtectedRoute>
-        ),
+        children: [
+          { path: "dashboard", Component: AdminDashboard },
+          { path: "gallery", Component: AdminGallery },
+          { path: ":type/new", Component: AdminContentEditor },
+          { path: "users", Component: AdminUsers },
+          { path: "reports", Component: AdminReports },
+          { path: "jobs", Component: AdminJobs },
+          { path: "applications", Component: AdminApplications },
+          { path: "news-channel", Component: AdminNewsChannel },
+          { path: "profile", Component: ProfileSettings },
+        ],
       },
     ],
   },
@@ -134,20 +126,17 @@ export const router = createBrowserRouter([
       { path: "login", element: <Navigate to="/login?type=donor" replace /> },
       { path: "register", element: <Navigate to="/login?type=donor&mode=register" replace /> },
       {
-        path: "dashboard",
+        // All protected donor routes wrapped in DonorLayout
         element: (
           <ProtectedRoute redirectTo="/donor/login">
-            <DonorDashboard />
+            <DonorLayout />
           </ProtectedRoute>
         ),
-      },
-      {
-        path: "profile",
-        element: (
-          <ProtectedRoute redirectTo="/donor/login">
-            <DonorProfile />
-          </ProtectedRoute>
-        ),
+        children: [
+          { path: "dashboard", Component: DonorDashboard },
+          { path: "profile", Component: ProfileSettings },
+          { path: "profile-legacy", Component: DonorProfile },
+        ],
       },
     ],
   },

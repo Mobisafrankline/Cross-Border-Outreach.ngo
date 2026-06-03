@@ -168,7 +168,7 @@ export default function FoodSupport() {
             <Link to="/donate" className="prog-cta-btn-primary" style={{ color: "#f97316" }}>
               <Heart className="w-5 h-5" /> Donate Now
             </Link>
-            <Link to="/volunteer" className="prog-cta-btn-secondary">
+            <Link to="/opportunities" className="prog-cta-btn-secondary">
               Volunteer With Us <ChevronRight className="w-5 h-5" />
             </Link>
           </div>

@@ -622,7 +622,7 @@ export default function Gallery() {
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <a
-                href="/volunteer"
+                href="/opportunities"
                 className="px-8 py-3.5 rounded-xl font-bold text-blue-700 bg-white border border-blue-200 shadow-sm hover:bg-blue-50 hover:border-blue-300 transition-all text-center"
               >
                 Volunteer With Us

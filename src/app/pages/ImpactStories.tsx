@@ -299,7 +299,7 @@ export default function ImpactStories() {
             <Link to="/donate" className="w-full sm:w-auto px-12 py-6 bg-blue-600 text-white rounded-3xl font-black text-xl hover:bg-blue-700 transition-all shadow-2xl shadow-blue-600/40 inline-flex items-center justify-center gap-3">
               Donate Now <ArrowRight className="w-6 h-6" />
             </Link>
-            <Link to="/volunteer" className="w-full sm:w-auto px-12 py-6 bg-slate-800 text-white border border-slate-700 rounded-3xl font-black text-xl hover:bg-slate-700 transition-all inline-flex items-center justify-center gap-3">
+            <Link to="/opportunities" className="w-full sm:w-auto px-12 py-6 bg-slate-800 text-white border border-slate-700 rounded-3xl font-black text-xl hover:bg-slate-700 transition-all inline-flex items-center justify-center gap-3">
               Volunteer
             </Link>
           </div>

@@ -125,26 +125,23 @@ export default function AdminReports() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      {/* Header */}
-      <div className="bg-white border-b border-gray-200">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 py-6">
-          <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
-            <div className="flex items-center gap-3">
-              <FileText className="w-8 h-8 text-blue-600" />
-              <div>
-                <h1 className="text-3xl font-bold text-gray-900">Reports Management</h1>
-                <p className="text-gray-600">Upload and manage organization reports</p>
-              </div>
+    <div className="flex-1 bg-slate-50 text-slate-900 pb-12">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 pt-8 pb-4">
+        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+          <div className="flex items-center gap-3">
+            <FileText className="w-8 h-8 text-blue-600" />
+            <div>
+              <h1 className="text-3xl font-bold text-slate-900">Reports Management</h1>
+              <p className="text-slate-500 font-medium">Upload and manage organization reports</p>
             </div>
-            <button
-              onClick={() => { resetForm(); setModalOpen(true); }}
-              className="flex items-center gap-2 px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-semibold transition-colors"
-            >
-              <Plus className="w-5 h-5" />
-              Add Report
-            </button>
           </div>
+          <button
+            onClick={() => { resetForm(); setModalOpen(true); }}
+            className="flex items-center gap-2 px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-xl font-bold transition-all shadow-sm"
+          >
+            <Plus className="w-5 h-5" />
+            Add Report
+          </button>
         </div>
       </div>
 

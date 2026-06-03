@@ -169,7 +169,7 @@ export default function Education() {
             <Link to="/donate" className="prog-cta-btn-primary" style={{ color: "#1e3a8a" }}>
               <Heart className="w-5 h-5" /> Sponsor a Student
             </Link>
-            <Link to="/volunteer" className="prog-cta-btn-secondary">
+            <Link to="/opportunities" className="prog-cta-btn-secondary">
               Become a Tutor <ChevronRight className="w-5 h-5" />
             </Link>
           </div>

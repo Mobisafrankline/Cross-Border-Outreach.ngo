@@ -449,7 +449,7 @@ export const events = [
     capacity: 200,
     registered: 200,
     image: ImageSlide4,
-    organizer: "Crossborders Outreach Ministry Inc",
+    organizer: "Cross-borders Outreach international",
     contactEmail: "volunteer@crossborders.org",
     contactPhone: "+1 (234) 567-8903"
   },
@@ -468,7 +468,7 @@ export const events = [
     capacity: 100,
     registered: 100,
     image: "https://s3-media0.fl.yelpcdn.com/bphoto/7F5PCKyicmVX_ZLjw0uM0g/348s.jpg",
-    organizer: "Cross-Borders Outreach Ministry Inc",
+    organizer: "Cross-borders Outreach international",
     contactEmail: "info@cross-bordersoutreach.org",
     contactPhone: "+1 (404) 641-9248"
   },
@@ -487,7 +487,7 @@ export const events = [
     capacity: 80,
     registered: 80,
     image: "/images/easter-egg-hunt.jpg",
-    organizer: "Cross-Borders Outreach Ministry Inc.",
+    organizer: "Cross-borders Outreach international",
     contactEmail: "info@cross-bordersoutreach.org",
     contactPhone: "+1 (404) 641-9248"
   },
@@ -506,7 +506,7 @@ export const events = [
     capacity: 100,
     registered: 100,
     image: "https://images.unsplash.com/photo-1567965178128-abb8d8532ae7?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MjB8fHNwcmluZyUyMGZlc3RpdmFsJTIwdXNhfGVufDB8fDB8fHww",
-    organizer: "Cross-Borders Outreach Ministry Inc.",
+    organizer: "Cross-borders Outreach international",
     contactEmail: "info@cross-bordersoutreach.org",
     contactPhone: "+1 (404) 641-9248"
   }

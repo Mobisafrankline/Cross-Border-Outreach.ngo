@@ -816,7 +816,7 @@ export default function AuthPortal() {
             )}
 
             <p style={{ marginTop: 40, textAlign: "center", fontSize: 13, color: "#9ca3af" }}>
-              © {new Date().getFullYear()} Cross-Borders Outreach Ministry Inc.<br/>All rights reserved.
+              © {new Date().getFullYear()} Cross-borders Outreach international<br/>All rights reserved.
             </p>
           </div>
         </div>

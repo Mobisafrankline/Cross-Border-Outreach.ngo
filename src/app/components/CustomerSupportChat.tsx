@@ -10,7 +10,7 @@ interface Message {
 }
 
 const SYSTEM_PROMPT = `
-You are a deeply empathetic, professional, and helpful customer support assistant for Cross-Borders Outreach Ministry Inc, a registered 501(c)(3) non-profit organization.
+You are a deeply empathetic, professional, and helpful customer support assistant for Cross-borders Outreach international, a registered 501(c)(3) non-profit organization.
 Your tone should be warm, encouraging, and highly respectful.
 
 Here is the key organizational knowledge you must use to answer questions:

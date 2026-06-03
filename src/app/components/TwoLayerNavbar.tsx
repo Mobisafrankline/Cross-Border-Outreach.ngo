@@ -179,12 +179,6 @@ export default function TwoLayerNavbar() {
           description: "Make a financial contribution"
         },
         {
-          label: "Volunteer",
-          href: "/volunteer",
-          icon: <Users className="w-5 h-5" />,
-          description: "Give your time and skills"
-        },
-        {
           label: "Partner with Us",
           href: "/partner",
           icon: <Handshake className="w-5 h-5" />,
@@ -247,6 +241,12 @@ export default function TwoLayerNavbar() {
           href: "/partners",
           icon: <Building2 className="w-5 h-5" />,
           description: "Organizations we work with"
+        },
+        {
+          label: "Opportunities",
+          href: "/opportunities",
+          icon: <Users className="w-5 h-5" />,
+          description: "Give your time and skills"
         }
       ]
     }

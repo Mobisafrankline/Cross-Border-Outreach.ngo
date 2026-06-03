@@ -297,47 +297,23 @@ export default function DonorDashboard() {
 
 
   return (
-    <div className="min-h-screen bg-gray-50 text-gray-900 pb-20">
+    <div className="flex-1 bg-slate-50 text-slate-900 pb-20">
       
-      {/* ── HEADER ── */}
-      <div className="bg-white border-b border-gray-200">
-        <div className="max-w-7xl mx-auto px-6 py-6">
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-            <div className="flex items-center gap-3">
-              <div className="w-12 h-12 bg-blue-50 text-blue-600 rounded-xl flex items-center justify-center">
-                <LayoutDashboard className="w-7 h-7" />
-              </div>
-              <div>
-                <h1 className="text-3xl font-bold text-gray-900">Donor Dashboard</h1>
-                <p className="text-blue-600 font-medium text-sm">
-                  Signed in as <span className="underline">{user?.email}</span>
-                </p>
-              </div>
-            </div>
-            
-            <div className="flex items-center gap-3">
-              <button
-                onClick={() => window.location.reload()}
-                className="flex items-center gap-2 px-4 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-lg font-semibold text-sm transition-colors"
-              >
-                <RefreshCw className="w-4 h-4" />
-                Refresh
-              </button>
-              <button
-                onClick={handleSignOut}
-                className="flex items-center gap-2 px-4 py-2 bg-red-50 hover:bg-red-100 text-red-600 rounded-lg font-semibold text-sm transition-colors"
-              >
-                <LogOut className="w-4 h-4" />
-                Sign Out
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 py-8">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 pt-8 pb-4">
         
-        {/* Tier Alert */}
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
+           <div>
+             <h1 className="text-3xl font-bold text-slate-900">Welcome back, {firstName}</h1>
+             <p className="text-slate-500 font-medium mt-1">Here is your impact portfolio and recent activity.</p>
+           </div>
+           <button
+             onClick={() => window.location.reload()}
+             className="flex items-center justify-center gap-2 px-4 py-2 bg-white border border-slate-200 hover:bg-slate-50 hover:border-slate-300 text-slate-700 rounded-xl font-bold text-sm transition-all shadow-sm"
+           >
+             <RefreshCw className="w-4 h-4" />
+             Refresh Data
+           </button>
+        </div>
         {nextTier && (
           <div className="mb-8 bg-blue-50 border border-blue-200 rounded-xl p-4 flex items-center justify-between">
             <div className="flex items-center gap-3">

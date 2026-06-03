@@ -61,7 +61,7 @@ export default function Footer() {
     { label: "Mission & Vision", href: "/mission" },
     { label: "Impact Stories", href: "/impact" },
     { label: "Annual Reports", href: "/reports" },
-    { label: "Volunteer", href: "/volunteer" },
+    { label: "Opportunities", href: "/opportunities" },
     { label: "Partner With Us", href: "/partner" },
   ];
 
@@ -101,7 +101,7 @@ export default function Footer() {
                 Donate Now
               </Link>
               <Link 
-                to="/volunteer" 
+                to="/opportunities" 
                 className="px-8 py-4 bg-white/10 text-white font-bold rounded-xl border border-white/20 hover:bg-white/20 hover:-translate-y-1 transition-all duration-300 flex items-center justify-center gap-2 group"
               >
                 Get Involved
@@ -233,7 +233,7 @@ export default function Footer() {
         <div className="border-t border-white/10 bg-black/20">
           <div className="max-w-7xl mx-auto px-6 py-6 flex flex-col md:flex-row justify-between items-center gap-4">
             <p className="text-slate-500 text-sm font-medium text-center md:text-left">
-              &copy; {currentYear} Crossborders Outreach Ministry Inc. All rights reserved.
+              &copy; {currentYear} Cross-borders Outreach international All rights reserved.
             </p>
             <div className="flex flex-wrap justify-center gap-6">
               <Link to="/privacy" className="text-sm font-medium text-slate-500 hover:text-white transition-colors">Privacy Policy</Link>

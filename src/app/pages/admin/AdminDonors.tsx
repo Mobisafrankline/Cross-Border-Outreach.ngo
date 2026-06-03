@@ -55,35 +55,32 @@ export default function AdminDonors() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+      <div className="flex-1 bg-slate-50 flex items-center justify-center min-h-[60vh]">
         <Loader2 className="w-10 h-10 text-blue-600 animate-spin" />
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      {/* Header */}
-      <div className="bg-white border-b border-gray-200">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 py-6">
-          <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
-            <div className="flex items-center gap-3">
-              <Users className="w-8 h-8 text-blue-600" />
-              <div>
-                <h1 className="text-3xl font-bold text-gray-900">Donor Management</h1>
-                <p className="text-gray-600">Manage and track donor information</p>
-              </div>
+    <div className="flex-1 bg-slate-50 text-slate-900 pb-12">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 pt-8 pb-4">
+        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+          <div className="flex items-center gap-3">
+            <Users className="w-8 h-8 text-blue-600" />
+            <div>
+              <h1 className="text-3xl font-bold text-slate-900">Donor Management</h1>
+              <p className="text-slate-500 font-medium">Manage and track donor information</p>
             </div>
-            <div className="flex gap-3">
-              <button className="flex items-center gap-2 px-4 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-lg font-semibold transition-colors">
-                <Download className="w-4 h-4" />
-                Export
-              </button>
-              <button className="flex items-center gap-2 px-6 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-semibold transition-colors">
-                <Plus className="w-4 h-4" />
-                Add Donor
-              </button>
-            </div>
+          </div>
+          <div className="flex gap-3">
+            <button className="flex items-center gap-2 px-4 py-2 bg-white hover:bg-slate-50 text-slate-700 border border-slate-200 rounded-xl font-bold transition-all shadow-sm">
+              <Download className="w-4 h-4" />
+              Export
+            </button>
+            <button className="flex items-center gap-2 px-6 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-xl font-bold transition-colors shadow-sm">
+              <Plus className="w-4 h-4" />
+              Add Donor
+            </button>
           </div>
         </div>
       </div>

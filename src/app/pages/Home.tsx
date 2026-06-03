@@ -96,7 +96,7 @@ export default function Home() {
           <p className="home-hero-subtitle">{t('home.heroSubtitle')}</p>
           <div className="home-hero-actions">
             <Link to="/donate" className="home-btn-primary"><Heart className="w-5 h-5 fill-white" />{t('nav.donateNow')}</Link>
-            <Link to="/volunteer" className="home-btn-secondary">{t('home.getInvolved')}<ArrowRight className="w-5 h-5" /></Link>
+            <Link to="/opportunities" className="home-btn-secondary">{t('home.getInvolved')}<ArrowRight className="w-5 h-5" /></Link>
 
           </div>
           <div className="home-scroll-hint"><div className="home-scroll-dot" /></div>
@@ -336,7 +336,7 @@ export default function Home() {
           <p className="home-final-cta-sub">Join our global community of donors, volunteers, and partners working to create lasting change across borders.</p>
           <div className="home-final-cta-actions">
             <Link to="/donate" className="home-final-btn-donate"><Heart className="w-5 h-5 fill-white" />Donate Today</Link>
-            <Link to="/volunteer" className="home-final-btn-volunteer">Volunteer With Us</Link>
+            <Link to="/opportunities" className="home-final-btn-volunteer">Volunteer With Us</Link>
             <Link to="/contact" className="home-final-btn-contact">Contact Us</Link>
           </div>
         </div>

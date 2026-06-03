@@ -16,7 +16,7 @@ const resources = {
       },
       home: {
         heroTitle: "Transforming Lives Through Compassion",
-        heroSubtitle: "Join Crossborders Outreach Ministry Inc in making a lasting impact on communities through sustainable humanitarian programs.",
+        heroSubtitle: "Join Cross-borders Outreach international in making a lasting impact on communities through sustainable humanitarian programs.",
         getInvolved: "Get Involved",
         latestNews: "Latest News",
         viewAllNews: "View All News"
@@ -71,7 +71,7 @@ const resources = {
       },
       home: {
         heroTitle: "Transformando Vidas a Través de la Compasión",
-        heroSubtitle: "Únete a Crossborders Outreach Ministry Inc para crear un impacto duradero en las comunidades a través de programas humanitarios sostenibles.",
+        heroSubtitle: "Únete a Cross-borders Outreach international para crear un impacto duradero en las comunidades a través de programas humanitarios sostenibles.",
         getInvolved: "Participa",
         latestNews: "Últimas Noticias",
         viewAllNews: "Ver Todas las Noticias"
@@ -126,7 +126,7 @@ const resources = {
       },
       home: {
         heroTitle: "Transformer des Vies par la Compassion",
-        heroSubtitle: "Rejoignez Crossborders Outreach Ministry Inc pour créer un impact durable dans les communautés grâce à des programmes humanitaires durables.",
+        heroSubtitle: "Rejoignez Cross-borders Outreach international pour créer un impact durable dans les communautés grâce à des programmes humanitaires durables.",
         getInvolved: "S'impliquer",
         latestNews: "Dernières Nouvelles",
         viewAllNews: "Voir Toutes les Nouvelles"
@@ -181,7 +181,7 @@ const resources = {
       },
       home: {
         heroTitle: "Transformando Vidas Através da Compaixão",
-        heroSubtitle: "Junte-se ao Crossborders Outreach Ministry Inc para criar um impacto duradouro nas comunidades através de programas humanitários sustentáveis.",
+        heroSubtitle: "Junte-se ao Cross-borders Outreach international para criar um impacto duradouro nas comunidades através de programas humanitários sustentáveis.",
         getInvolved: "Participe",
         latestNews: "Últimas Notícias",
         viewAllNews: "Ver Todas as Notícias"
