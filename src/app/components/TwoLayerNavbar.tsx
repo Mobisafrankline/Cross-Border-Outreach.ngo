@@ -276,7 +276,7 @@ export default function TwoLayerNavbar() {
       className="fixed top-0 left-0 right-0 z-50 shadow-md"
     >
       {/* ═══ TOP BAR — Dark navy utility strip ═══ */}
-      <div className="relative z-20 bg-blue-800">
+      <div className="relative z-20" style={{ background: 'linear-gradient(135deg, #1e3a8a 0%, #1e40af 40%, #1d4ed8 100%)' }}>
         <div
           className="max-w-7xl mx-auto px-4 sm:px-6"
           style={{
@@ -332,10 +332,10 @@ export default function TwoLayerNavbar() {
               <div className="hidden md:block w-px h-4 bg-white/20 mx-1" />
 
               {/* Donate CTA - always visible */}
-              <Link
-                to="/donate"
-                className="flex px-3 sm:px-4 py-1.5 bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600 text-white rounded font-bold transition-all duration-200 shadow hover:shadow-lg hover:scale-[1.02] active:scale-95 text-xs whitespace-nowrap items-center gap-1.5"
-              >
+                <Link
+                  to="/donate"
+                  className="flex px-3 sm:px-4 py-1.5 bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600 text-white rounded-lg font-bold transition-all duration-200 hover:shadow-lg hover:shadow-orange-500/25 hover:scale-[1.02] active:scale-95 text-xs whitespace-nowrap items-center gap-1.5"
+                >
                 <Heart className="w-3 h-3 hidden sm:block" />
                 Donate
               </Link>
@@ -356,7 +356,7 @@ export default function TwoLayerNavbar() {
       </div>
 
       {/* ═══ BOTTOM BAR — White main navigation ═══ */}
-      <div className="hidden lg:block relative z-10 bg-white border-b border-slate-200">
+      <div className="hidden lg:block relative z-10 bg-white border-b border-slate-200" style={{ boxShadow: '0 4px 20px rgba(0,0,0,0.04)' }}>
         <div
           className="max-w-7xl mx-auto px-4 sm:px-6"
           style={{
@@ -404,13 +404,13 @@ export default function TwoLayerNavbar() {
                             transition={{ duration: 0.15, ease: "easeOut" }}
                             className="absolute top-full left-0 pt-1 z-50"
                           >
-                            <div className="w-80 bg-white rounded-xl shadow-2xl border border-gray-100 py-2 overflow-hidden">
+                            <div className="w-[320px] bg-white rounded-2xl shadow-2xl border border-gray-100/80 py-2.5 overflow-hidden" style={{ boxShadow: '0 20px 60px rgba(0,0,0,0.12), 0 4px 20px rgba(0,0,0,0.06)' }}>
                               {menuGroup.dropdown.map((subItem) => (
                                 <Link
                                   key={subItem.href}
                                   to={subItem.href}
                                   onClick={() => setActiveDropdown(null)}
-                                  className={`flex items-start gap-3 px-4 py-3 hover:bg-blue-50 transition-colors duration-150 group ${location.pathname === subItem.href ? 'bg-blue-50/80' : ''}`}
+                                  className={`flex items-start gap-3.5 px-4 py-3.5 hover:bg-blue-50/60 transition-all duration-150 group relative ${location.pathname === subItem.href ? 'bg-blue-50/80' : ''}`}
                                 >
                                   <div className={`w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0 transition-colors duration-150 ${location.pathname === subItem.href
                                     ? 'bg-blue-600 text-white'
@@ -485,7 +485,7 @@ export default function TwoLayerNavbar() {
               className="fixed top-0 right-0 bottom-0 w-full max-w-sm bg-white z-50 shadow-2xl lg:hidden overflow-y-auto"
               style={{ paddingBottom: 'env(safe-area-inset-bottom)' }}
             >
-              <div className="p-4 border-b border-gray-200 bg-blue-800">
+              <div className="p-4 border-b border-gray-200" style={{ background: 'linear-gradient(135deg, #1e3a8a 0%, #1e40af 40%, #1d4ed8 100%)' }}>
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-2">
                     <img src="/logo.png" alt="Logo" className="w-8 h-8 object-contain" />

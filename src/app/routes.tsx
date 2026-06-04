@@ -42,6 +42,7 @@ import AdminReports from "./pages/admin/AdminReports";
 import AdminJobs from "./pages/admin/AdminJobs";
 import AdminApplications from "./pages/admin/AdminApplications";
 import AdminNewsChannel from "./pages/admin/AdminNewsChannel";
+import AdminEvents from "./pages/admin/AdminEvents";
 
 // Donor Pages
 import DonorLayout from "./components/portal/DonorLayout";
@@ -112,6 +113,7 @@ export const router = createBrowserRouter([
           { path: "gallery", Component: AdminGallery },
           { path: "content", Component: AdminContentManager },
           { path: "content/:id/edit", Component: AdminContentEditor },
+          { path: "events", Component: AdminEvents },
           { path: ":type/new", Component: AdminContentEditor },
           { path: "users", Component: AdminUsers },
           { path: "reports", Component: AdminReports },

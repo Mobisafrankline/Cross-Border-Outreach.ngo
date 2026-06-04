@@ -5,7 +5,8 @@ import {
 import { Link } from "react-router";
 import { ImageWithFallback } from "../components/figma/ImageWithFallback";
 import Slider from "react-slick";
-import { newsUpdates, galleryImages, events } from "../../data/content";
+import { supabase } from "../../lib/supabase";
+import { galleryImages, newsUpdates, events } from "../../data/content";
 import { useTranslation } from "react-i18next";
 import "../../styles/carousel.css";
 import "../../styles/home.css";
@@ -42,6 +43,57 @@ export default function Home() {
   const { t } = useTranslation();
   const statsRef = useRef<HTMLDivElement>(null);
   const [statsVisible, setStatsVisible] = useState(false);
+  const [recentEvents, setRecentEvents] = useState<any[]>([]);
+  const [latestNews, setLatestNews] = useState<any[]>([]);
+
+  useEffect(() => {
+    const fetchHomeContent = async () => {
+      try {
+        const { data: eventsData } = await supabase
+          .from("articles")
+          .select("*")
+          .eq("type", "events")
+          .eq("status", "published")
+          .order("event_date", { ascending: false })
+          .limit(3);
+        
+        let combinedEvents = [];
+        if (eventsData && eventsData.length > 0) {
+          combinedEvents = [...eventsData];
+        }
+        
+        if (combinedEvents.length < 3) {
+          const needed = 3 - combinedEvents.length;
+          combinedEvents = [...combinedEvents, ...events.slice(0, needed)];
+        }
+        setRecentEvents(combinedEvents);
+
+        const { data: newsData } = await supabase
+          .from("articles")
+          .select("*")
+          .in("type", ["news", "global-news"])
+          .eq("status", "published")
+          .order("published_at", { ascending: false })
+          .limit(3);
+        
+        let combinedNews = [];
+        if (newsData && newsData.length > 0) {
+          combinedNews = [...newsData];
+        }
+        
+        // Pad with static news if we have fewer than 3
+        if (combinedNews.length < 3) {
+          const needed = 3 - combinedNews.length;
+          combinedNews = [...combinedNews, ...newsUpdates.slice(0, needed)];
+        }
+        setLatestNews(combinedNews);
+      } catch (err) {
+        console.error("Error fetching home content:", err);
+      }
+    };
+
+    fetchHomeContent();
+  }, []);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -66,8 +118,6 @@ export default function Home() {
     { quote: 'Through their economic empowerment program, I started my own business and now support my entire family.', author: 'Fatima Ahmed', role: 'Small Business Owner', avatar: 'FA', color: '#f97316' },
   ];
 
-  const recentEvents = events.slice(0, 3);
-
   const carouselSettings = {
     dots: true, infinite: true, speed: 600, slidesToShow: 3,
     slidesToScroll: 1, autoplay: true, autoplaySpeed: 3500, arrows: false,
@@ -76,8 +126,6 @@ export default function Home() {
       { breakpoint: 768, settings: { slidesToShow: 1, slidesToScroll: 1 } },
     ],
   };
-
-  const latestNews = newsUpdates.slice(0, 3);
 
   return (
     <div className="min-h-screen">
@@ -211,27 +259,31 @@ export default function Home() {
             <Link to="/events" className="home-view-all-link">View All Events <ChevronRight className="w-4 h-4" /></Link>
           </div>
           <div className="home-events-grid">
-            {recentEvents.map((event) => (
-              <Link to={`/events/${event.id}`} key={event.id} className="home-event-card group">
-                <div className="home-event-img-wrap">
-                  <ImageWithFallback src={typeof event.image === 'string' ? event.image : ''} alt={event.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
-                  <div className="home-event-status">{event.status === 'past' ? 'Past Event' : 'Upcoming'}</div>
-                </div>
-                <div className="home-event-body">
-                  <div className="home-event-meta">
-                    <span className="home-event-category">{event.category}</span>
-                    <span className="home-event-price">{event.ticketPrice}</span>
+            {recentEvents.map((event) => {
+              const eventDate = event.event_date ? new Date(event.event_date) : new Date(event.date || Date.now());
+              const isPast = eventDate < new Date();
+              return (
+                <Link to={event.type ? `/events/${event.id}` : `/events/${event.id}`} key={event.id} className="home-event-card group">
+                  <div className="home-event-img-wrap">
+                    <ImageWithFallback src={event.featured_image || event.image || ''} alt={event.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
+                    <div className="home-event-status">{isPast ? 'Past Event' : 'Upcoming'}</div>
                   </div>
-                  <h3 className="home-event-title">{event.title}</h3>
-                  <div className="home-event-info">
-                    <span><Calendar className="w-4 h-4" />{event.date}</span>
-                    <span><MapPin className="w-4 h-4" />{event.location}</span>
+                  <div className="home-event-body">
+                    <div className="home-event-meta">
+                      <span className="home-event-category">{event.category || 'General'}</span>
+                      {event.ticketPrice && <span className="home-event-price">{event.ticketPrice}</span>}
+                    </div>
+                    <h3 className="home-event-title">{event.title}</h3>
+                    <div className="home-event-info">
+                      <span><Calendar className="w-4 h-4" />{event.event_date ? eventDate.toLocaleDateString() : event.date || 'TBD'}</span>
+                      <span><MapPin className="w-4 h-4" />{event.event_location || event.location || 'TBD'}</span>
+                    </div>
+                    <p className="home-event-desc">{event.excerpt || event.description || (event.content ? event.content.substring(0, 100) + '...' : '')}</p>
+                    <div className="home-event-cta">View Details<ChevronRight className="w-4 h-4 transition-transform group-hover:translate-x-1" /></div>
                   </div>
-                  <p className="home-event-desc">{event.description}</p>
-                  <div className="home-event-cta">View Details<ChevronRight className="w-4 h-4 transition-transform group-hover:translate-x-1" /></div>
-                </div>
-              </Link>
-            ))}
+                </Link>
+              );
+            })}
           </div>
         </div>
       </section>
@@ -250,14 +302,14 @@ export default function Home() {
             {latestNews.map((item) => (
               <article key={item.id} className="home-news-card group">
                 <div className="home-news-img-wrap">
-                  <ImageWithFallback src={typeof item.image === 'string' ? item.image : ''} alt={item.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
-                  <div className="home-news-category-badge">{item.category}</div>
+                  <ImageWithFallback src={item.featured_image || item.image || ''} alt={item.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
+                  <div className="home-news-category-badge">{item.category || 'News'}</div>
                 </div>
                 <div className="home-news-body">
-                  <div className="home-news-date"><Calendar className="w-3.5 h-3.5" />{item.date}</div>
+                  <div className="home-news-date"><Calendar className="w-3.5 h-3.5" />{item.published_at ? new Date(item.published_at).toLocaleDateString() : item.date || 'Recent'}</div>
                   <h3 className="home-news-title">{item.title}</h3>
-                  <p className="home-news-excerpt">{item.excerpt}</p>
-                  <Link to={`/news/${item.id}`} className="home-news-read-more">Read Article<ChevronRight className="w-4 h-4 transition-transform group-hover:translate-x-1" /></Link>
+                  <p className="home-news-excerpt">{item.excerpt || item.content?.substring(0, 100) + '...'}</p>
+                  <Link to={item.type ? `/${item.type}/${item.id}` : `/news/${item.id}`} className="home-news-read-more">Read Article<ChevronRight className="w-4 h-4 transition-transform group-hover:translate-x-1" /></Link>
                 </div>
               </article>
             ))}

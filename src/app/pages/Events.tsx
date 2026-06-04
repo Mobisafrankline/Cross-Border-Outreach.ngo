@@ -93,10 +93,17 @@ export default function Events() {
   // Merge: Supabase events first (newest), then static
   const staticMapped = staticEvents.map(fromStatic);
   const allEvents: EventItem[] = [...liveEvents, ...staticMapped];
-  const displayEvents = [
-    ...allEvents.filter(e => e.status === "upcoming"),
-    ...allEvents.filter(e => e.status === "past"),
-  ];
+  
+  const sortByDate = (a: EventItem, b: EventItem) => {
+    const dateA = a.date && a.date !== "TBD" ? new Date(a.date).getTime() : Number.MAX_SAFE_INTEGER;
+    const dateB = b.date && b.date !== "TBD" ? new Date(b.date).getTime() : Number.MAX_SAFE_INTEGER;
+    return dateA - dateB;
+  };
+
+  const upcomingEvents = allEvents.filter(e => e.status === "upcoming").sort(sortByDate);
+  const pastEvents = allEvents.filter(e => e.status === "past").sort((a, b) => sortByDate(b, a));
+
+  const displayEvents = [...upcomingEvents, ...pastEvents];
 
   const EVENTS_PER_PAGE = 6;
   const totalPages = Math.ceil(displayEvents.length / EVENTS_PER_PAGE);

@@ -1,6 +1,6 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { useParams, useNavigate } from "react-router";
-import { Save, X, Image, Calendar, Tag, User, Loader2, AlertCircle, Bold, Italic, Underline, Heading1, Heading2, Quote, Link as LinkIcon, List, ImagePlus, MapPin, Clock, Phone, Mail, Users, DollarSign, Video } from "lucide-react";
+import { Save, X, Image, Calendar, Tag, User, Loader2, AlertCircle, Bold, Italic, Underline, Heading1, Heading2, Quote, Link as LinkIcon, List, ImagePlus, MapPin, Clock, Phone, Mail, Users, DollarSign, Video, AlignLeft, AlignCenter, AlignRight, AlignJustify, Strikethrough, Code, Superscript, Subscript, Undo, Redo, Eraser, ListOrdered } from "lucide-react";
 import { supabase } from "../../../lib/supabase";
 
 type ContentType = "article" | "news" | "blog" | "story" | "events";
@@ -187,30 +187,80 @@ export default function AdminContentEditor() {
     }
   };
 
+  const handleFormat = (e: React.MouseEvent, command: string, value?: string) => {
+    e.preventDefault(); // Prevent losing focus from the editor
+    
+    if (!editorRef.current) return;
+    
+    if (document.activeElement !== editorRef.current) {
+      editorRef.current.focus();
+    }
+    
+    if (['createLink', 'insertImage', 'insertHTML'].includes(command)) {
+      const selection = window.getSelection();
+      let range: Range | null = null;
+      if (selection && selection.rangeCount > 0) {
+        range = selection.getRangeAt(0);
+      }
+      
+      let promptText = '';
+      if (command === 'createLink') promptText = 'Enter link URL:';
+      if (command === 'insertImage') promptText = 'Enter image URL:';
+      if (command === 'insertHTML') promptText = 'Paste your video embed code (iframe) from YouTube, Vimeo, etc:';
+      
+      const val = prompt(promptText);
+      
+      if (selection && range) {
+        selection.removeAllRanges();
+        selection.addRange(range);
+      }
+      
+      if (val) {
+        if (command === 'insertHTML') {
+          document.execCommand(command, false, `<div class="aspect-w-16 aspect-h-9 my-4 rounded-xl overflow-hidden shadow-lg border border-slate-200">${val}</div><br/>`);
+        } else {
+          document.execCommand(command, false, val);
+        }
+      }
+    } else {
+      document.execCommand(command, false, value);
+    }
+    
+    setContent(editorRef.current.innerHTML);
+  };
+
+  const ToolbarButton = ({ command, value, title, icon: Icon }: { command: string, value?: string, title: string, icon: any }) => (
+    <button type="button" onMouseDown={(e) => handleFormat(e, command, value)} className="p-2 hover:bg-blue-50 hover:text-blue-600 rounded-lg text-gray-600 transition-colors" title={title}>
+      <Icon className="w-4 h-4" />
+    </button>
+  );
+
+  const ToolbarSeparator = () => <div className="w-px h-6 bg-gray-200 mx-1" />;
+
   return (
     <div className="flex-1 bg-slate-50 text-slate-900 pb-12">
       {/* Sticky toolbar */}
       <div className="bg-white border-b border-slate-200 sticky top-0 z-10">
-        <div className="max-w-7xl mx-auto px-6 py-4">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-3">
-              <span className="text-3xl">{currentType.icon}</span>
-              <div>
-                <h1 className="text-2xl font-bold text-slate-900">{isEditing ? `Edit ${currentType.label}` : `Create ${currentType.label}`}</h1>
-                <p className="text-sm text-slate-500 font-medium">Cross-Borders Content Management</p>
+        <div className="max-w-7xl mx-auto px-3 sm:px-6 py-3 sm:py-4">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+            <div className="flex items-center gap-2 sm:gap-3 min-w-0">
+              <span className="text-2xl sm:text-3xl">{currentType.icon}</span>
+              <div className="min-w-0">
+                <h1 className="text-lg sm:text-2xl font-bold text-slate-900 truncate">{isEditing ? `Edit ${currentType.label}` : `Create ${currentType.label}`}</h1>
+                <p className="text-xs sm:text-sm text-slate-500 font-medium hidden sm:block">Cross-Borders Content Management</p>
               </div>
             </div>
-            <div className="flex items-center gap-3">
+            <div className="flex items-center gap-2 sm:gap-3 flex-shrink-0">
               <button onClick={() => navigate("/admin/dashboard")} disabled={isSaving}
-                className="px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-xl font-bold transition-colors flex items-center gap-2 disabled:opacity-50">
-                <X className="w-4 h-4" /> Cancel
+                className="px-3 sm:px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-xl font-bold transition-colors flex items-center gap-1.5 sm:gap-2 disabled:opacity-50 text-sm">
+                <X className="w-4 h-4" /> <span className="hidden sm:inline">Cancel</span>
               </button>
               <button onClick={() => handleSave("draft")} disabled={isSaving}
-                className="px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-xl font-bold transition-colors flex items-center gap-2 disabled:opacity-50">
-                {isSaving && <Loader2 className="w-4 h-4 animate-spin" />} Save Draft
+                className="px-3 sm:px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-xl font-bold transition-colors flex items-center gap-1.5 sm:gap-2 disabled:opacity-50 text-sm">
+                {isSaving && <Loader2 className="w-4 h-4 animate-spin" />} <span className="hidden sm:inline">Save</span> Draft
               </button>
               <button onClick={() => handleSave("publish")} disabled={isSaving}
-                className="px-6 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-xl font-bold transition-colors flex items-center gap-2 disabled:opacity-50">
+                className="px-4 sm:px-6 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-xl font-bold transition-colors flex items-center gap-1.5 sm:gap-2 disabled:opacity-50 text-sm">
                 {isSaving ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
                 Publish
               </button>
@@ -371,18 +421,38 @@ export default function AdminContentEditor() {
               </div>
               <div className="flex-1 flex flex-col">
                 <div className="bg-white border-b border-gray-200 p-2 flex gap-1 flex-wrap items-center">
-                  <button onClick={() => document.execCommand('bold')} className="p-2 hover:bg-blue-50 hover:text-blue-600 rounded-lg text-gray-600 transition-colors" title="Bold"><Bold className="w-4 h-4" /></button>
-                  <button onClick={() => document.execCommand('italic')} className="p-2 hover:bg-blue-50 hover:text-blue-600 rounded-lg text-gray-600 transition-colors" title="Italic"><Italic className="w-4 h-4" /></button>
-                  <button onClick={() => document.execCommand('underline')} className="p-2 hover:bg-blue-50 hover:text-blue-600 rounded-lg text-gray-600 transition-colors" title="Underline"><Underline className="w-4 h-4" /></button>
-                  <div className="w-px h-6 bg-gray-200 mx-1" />
-                  <button onClick={() => document.execCommand('formatBlock', false, 'H1')} className="p-2 hover:bg-blue-50 hover:text-blue-600 rounded-lg text-gray-600 transition-colors" title="Heading 1"><Heading1 className="w-4 h-4" /></button>
-                  <button onClick={() => document.execCommand('formatBlock', false, 'H2')} className="p-2 hover:bg-blue-50 hover:text-blue-600 rounded-lg text-gray-600 transition-colors" title="Heading 2"><Heading2 className="w-4 h-4" /></button>
-                  <button onClick={() => document.execCommand('formatBlock', false, 'BLOCKQUOTE')} className="p-2 hover:bg-blue-50 hover:text-blue-600 rounded-lg text-gray-600 transition-colors" title="Quote"><Quote className="w-4 h-4" /></button>
-                  <div className="w-px h-6 bg-gray-200 mx-1" />
-                  <button onClick={() => document.execCommand('insertUnorderedList')} className="p-2 hover:bg-blue-50 hover:text-blue-600 rounded-lg text-gray-600 transition-colors" title="Bullet List"><List className="w-4 h-4" /></button>
-                  <button onClick={() => { const url = prompt('Enter link URL:'); if (url) document.execCommand('createLink', false, url); }} className="p-2 hover:bg-blue-50 hover:text-blue-600 rounded-lg text-gray-600 transition-colors" title="Insert Link"><LinkIcon className="w-4 h-4" /></button>
-                  <button onClick={() => { const url = prompt('Enter image URL:'); if (url) document.execCommand('insertImage', false, url); }} className="p-2 hover:bg-blue-50 hover:text-blue-600 rounded-lg text-gray-600 transition-colors" title="Insert Image"><ImagePlus className="w-4 h-4" /></button>
-                  <button onClick={() => { const embed = prompt('Paste your video embed code (iframe) from YouTube, Vimeo, etc:'); if (embed) document.execCommand('insertHTML', false, `<div class="aspect-w-16 aspect-h-9 my-4 rounded-xl overflow-hidden shadow-lg border border-slate-200">${embed}</div><br/>`); }} className="p-2 hover:bg-blue-50 hover:text-blue-600 rounded-lg text-gray-600 transition-colors" title="Embed Video"><Video className="w-4 h-4" /></button>
+                  <ToolbarButton command="undo" title="Undo" icon={Undo} />
+                  <ToolbarButton command="redo" title="Redo" icon={Redo} />
+                  <ToolbarSeparator />
+                  
+                  <ToolbarButton command="bold" title="Bold" icon={Bold} />
+                  <ToolbarButton command="italic" title="Italic" icon={Italic} />
+                  <ToolbarButton command="underline" title="Underline" icon={Underline} />
+                  <ToolbarButton command="strikethrough" title="Strikethrough" icon={Strikethrough} />
+                  <ToolbarButton command="superscript" title="Superscript" icon={Superscript} />
+                  <ToolbarButton command="subscript" title="Subscript" icon={Subscript} />
+                  <ToolbarButton command="formatBlock" value="PRE" title="Code Block" icon={Code} />
+                  <ToolbarButton command="removeFormat" title="Clear Formatting" icon={Eraser} />
+                  <ToolbarSeparator />
+                  
+                  <ToolbarButton command="formatBlock" value="H1" title="Heading 1" icon={Heading1} />
+                  <ToolbarButton command="formatBlock" value="H2" title="Heading 2" icon={Heading2} />
+                  <ToolbarButton command="formatBlock" value="BLOCKQUOTE" title="Quote" icon={Quote} />
+                  <ToolbarSeparator />
+                  
+                  <ToolbarButton command="justifyLeft" title="Align Left" icon={AlignLeft} />
+                  <ToolbarButton command="justifyCenter" title="Align Center" icon={AlignCenter} />
+                  <ToolbarButton command="justifyRight" title="Align Right" icon={AlignRight} />
+                  <ToolbarButton command="justifyFull" title="Justify" icon={AlignJustify} />
+                  <ToolbarSeparator />
+                  
+                  <ToolbarButton command="insertUnorderedList" title="Bullet List" icon={List} />
+                  <ToolbarButton command="insertOrderedList" title="Numbered List" icon={ListOrdered} />
+                  <ToolbarSeparator />
+                  
+                  <ToolbarButton command="createLink" title="Insert Link" icon={LinkIcon} />
+                  <ToolbarButton command="insertImage" title="Insert Image" icon={ImagePlus} />
+                  <ToolbarButton command="insertHTML" title="Embed Video" icon={Video} />
                 </div>
                 <div ref={editorRef}
                   className="w-full flex-1 px-6 py-6 min-h-[400px] outline-none text-gray-800 bg-white prose max-w-none focus:ring-inset focus:ring-2 focus:ring-blue-100 transition-all overflow-y-auto"
