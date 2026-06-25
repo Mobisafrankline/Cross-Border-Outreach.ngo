@@ -183,7 +183,7 @@ export default function Home() {
             {galleryImages.map((image) => (
               <div key={image.id} className="px-2 sm:px-3">
                 <div className="home-carousel-item group">
-                  <ImageWithFallback src={image.url} alt={image.alt} className="w-full h-full object-cover transition-all duration-700 group-hover:scale-110" />
+                  <ImageWithFallback src={image.url} alt={image.alt} loading="lazy" decoding="async" className="w-full h-full object-cover transition-all duration-700 group-hover:scale-110" />
                   <div className="home-carousel-overlay-premium" />
                 </div>
               </div>
@@ -233,7 +233,7 @@ export default function Home() {
             {programs.filter(p => p.link !== '/helping-families').map((program, index) => (
               <Link to={program.link} key={index} className="home-program-card group">
                 <div className="home-program-img-wrap">
-                  <ImageWithFallback src={program.image} alt={program.title} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />
+                  <ImageWithFallback src={program.image} alt={program.title} loading="lazy" decoding="async" className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />
                   <div className="home-program-img-overlay" />
                   <div className="home-program-tag" style={{ backgroundColor: program.color }}>{program.tag}</div>
                 </div>
@@ -249,7 +249,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* â”€â”€ CTA BANNER â”€â”€ */}
+      {/* ── CTA BANNER ── */}
       <section className="home-cta-banner">
         <div className="home-cta-inner">
           <div className="home-cta-text">
@@ -263,7 +263,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* â”€â”€ EVENTS â”€â”€ */}
+      {/* ── EVENTS ── */}
       <section className="home-events-section">
         <div className="max-w-6xl mx-auto px-4 sm:px-6">
           <div className="home-section-header-row">
@@ -280,7 +280,7 @@ export default function Home() {
               return (
                 <Link to={event.type === 'events' ? `/events/sb-${event.id}` : `/events/${event.id}`} key={event.id} className="home-event-card group">
                   <div className="home-event-img-wrap">
-                    <ImageWithFallback src={event.featured_image || event.image || ''} alt={event.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
+                    <ImageWithFallback src={event.featured_image || event.image || ''} alt={event.title} loading="lazy" decoding="async" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
                     <div className="home-event-status">{isPast ? 'Past Event' : 'Upcoming'}</div>
                   </div>
                   <div className="home-event-body">
@@ -320,7 +320,7 @@ export default function Home() {
               {recentNews.map((newsItem) => (
                 <div key={newsItem.id} className="bg-white rounded-2xl overflow-hidden shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-slate-100 flex flex-col h-full group hover:-translate-y-1 transition-all duration-300">
                   <div className="relative h-56 w-full overflow-hidden">
-                    <ImageWithFallback src={newsItem.image} alt={newsItem.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
+                    <ImageWithFallback src={newsItem.image} alt={newsItem.title} loading="lazy" decoding="async" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
                     <div className="absolute top-4 left-4">
                       <span className="px-3 py-1 bg-blue-500 text-white text-[10px] font-black uppercase tracking-widest rounded-md shadow-sm">
                         {newsItem.category}
@@ -351,14 +351,14 @@ export default function Home() {
         </section>
       )}
 
-      {/* â”€â”€ WHY PARTNER â”€â”€ */}
+      {/* ── WHY PARTNER ── */}
       <section className="home-why-section">
         <div className="max-w-6xl mx-auto px-4 sm:px-6">
           <div className="home-why-grid">
             <div className="home-why-image-wrap">
-              <ImageWithFallback src="https://images.unsplash.com/photo-1585984968562-1443b72fb0dc?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080" alt="Our team" className="home-why-image" />
+              <ImageWithFallback src="https://images.unsplash.com/photo-1585984968562-1443b72fb0dc?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080" alt="Our team" loading="lazy" decoding="async" className="home-why-image" />
               <div className="home-why-float-card">
-                <div className="home-why-float-icon">âœ“</div>
+                <div className="home-why-float-icon">✓</div>
                 <div><div className="home-why-float-num">100%</div><div className="home-why-float-text">Transparent</div></div>
               </div>
             </div>

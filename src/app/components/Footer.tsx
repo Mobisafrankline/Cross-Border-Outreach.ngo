@@ -1,5 +1,6 @@
 import { Link } from "react-router";
 import { Mail, Phone, Heart, ArrowRight } from "lucide-react";
+import NewsletterSignup from "./NewsletterSignup";
 
 // Social Icons SVGs to ensure perfect rendering across all versions
 const FacebookIcon = () => (
@@ -48,13 +49,13 @@ export default function Footer() {
   const currentYear = new Date().getFullYear();
 
   const socialLinks = [
-    { name: "Facebook", icon: <FacebookIcon />, href: "https://www.facebook.com/profile.php?id=61582215896020", color: "hover:bg-[#1877F2]" },
-    { name: "Instagram", icon: <InstagramIcon />, href: "https://www.instagram.com/crossbordersoutreach/", color: "hover:bg-[#E4405F]" },
-    { name: "LinkedIn", icon: <LinkedinIcon />, href: "https://www.linkedin.com/company/crossborders-outreach", color: "hover:bg-[#0A66C2]" },
-    { name: "Medium", icon: <MediumIcon />, href: "https://medium.com/@crossbordersoutreach", color: "hover:bg-[#000000]" },
-    { name: "X", icon: <XIcon />, href: "https://x.com/CrossbordersO", color: "hover:bg-[#000000]" },
-    { name: "TikTok", icon: <TiktokIcon />, href: "#", color: "hover:bg-[#000000]" },
-    { name: "YouTube", icon: <YoutubeIcon />, href: "https://www.youtube.com/@crossbordersoutreach", color: "hover:bg-[#FF0000]" },
+    { name: "Facebook", icon: <FacebookIcon />, href: "https://www.facebook.com/profile.php?id=61582215896020", color: "hover:bg-[#1877F2]", label: "Visit our Facebook page" },
+    { name: "Instagram", icon: <InstagramIcon />, href: "https://www.instagram.com/crossbordersoutreach/", color: "hover:bg-[#E4405F]", label: "Visit our Instagram page" },
+    { name: "LinkedIn", icon: <LinkedinIcon />, href: "https://www.linkedin.com/company/crossborders-outreach", color: "hover:bg-[#0A66C2]", label: "Visit our LinkedIn page" },
+    { name: "Medium", icon: <MediumIcon />, href: "https://medium.com/@crossbordersoutreach", color: "hover:bg-[#000000]", label: "Read our articles on Medium" },
+    { name: "X", icon: <XIcon />, href: "https://x.com/CrossbordersO", color: "hover:bg-[#000000]", label: "Follow us on X" },
+    { name: "TikTok", icon: <TiktokIcon />, href: "#", color: "hover:bg-[#000000]", label: "Watch our TikTok videos" },
+    { name: "YouTube", icon: <YoutubeIcon />, href: "https://www.youtube.com/@crossbordersoutreach", color: "hover:bg-[#FF0000]", label: "Watch our YouTube channel" },
   ];
 
   const quickLinks = [
@@ -81,34 +82,7 @@ export default function Footer() {
       </div>
 
       <div className="relative z-10">
-        {/* CTA Banner Area */}
-        <div className="max-w-7xl mx-auto px-6 mb-16">
-          <div className="bg-gradient-to-br from-blue-900/50 to-slate-900/50 border border-white/10 rounded-3xl p-8 md:p-12 flex flex-col md:flex-row items-center justify-between gap-8 backdrop-blur-sm shadow-2xl">
-            <div className="max-w-2xl text-center md:text-left">
-              <h2 className="text-3xl md:text-4xl font-bold text-white mb-4 leading-tight">
-                Ready to make a lasting impact?
-              </h2>
-              <p className="text-blue-100/80 text-lg">
-                Join our mission today. Your contribution, whether time or resources, helps build stronger communities worldwide.
-              </p>
-            </div>
-            <div className="flex flex-col sm:flex-row gap-4 shrink-0 w-full md:w-auto">
-              <Link 
-                to="/donate" 
-                className="px-8 py-4 bg-gradient-to-r from-orange-500 to-red-500 text-white font-bold rounded-xl shadow-lg hover:shadow-orange-500/25 hover:-translate-y-1 transition-all duration-300 flex items-center justify-center gap-2 group"
-              >
-                <Heart className="w-5 h-5 group-hover:scale-110 transition-transform" />
-                Donate Now
-              </Link>
-              <Link 
-                to="/opportunities" 
-                className="px-8 py-4 bg-white/10 text-white font-bold rounded-xl border border-white/20 hover:bg-white/20 hover:-translate-y-1 transition-all duration-300 flex items-center justify-center gap-2 group"
-              >
-                Get Involved
-                <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-              </Link>
-            </div>
-          </div>
+        <div className="max-w-7xl mx-auto px-6 mb-16">          <NewsletterSignup />
         </div>
 
         {/* Main Footer Content */}
@@ -146,7 +120,7 @@ export default function Footer() {
                     href={social.href}
                     target="_blank"
                     rel="noopener noreferrer"
-                    aria-label={`Follow us on ${social.name}`}
+                    aria-label={social.label}
                     className={`w-10 h-10 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-slate-300 transition-all duration-300 ${social.color} hover:text-white hover:-translate-y-1 hover:shadow-lg`}
                   >
                     {social.icon}
@@ -232,9 +206,14 @@ export default function Footer() {
         {/* Bottom Bar */}
         <div className="border-t border-white/10 bg-black/20">
           <div className="max-w-7xl mx-auto px-6 py-6 flex flex-col md:flex-row justify-between items-center gap-4">
-            <p className="text-slate-500 text-sm font-medium text-center md:text-left">
-              &copy; {currentYear} Cross-borders Outreach international All rights reserved.
-            </p>
+            <div className="flex flex-col items-center md:items-start gap-1">
+              <p className="text-slate-500 text-sm font-medium text-center md:text-left">
+                &copy; {currentYear} Cross-borders Outreach international All rights reserved.
+              </p>
+              <p className="text-slate-600 text-xs font-semibold tracking-wider text-center md:text-left">
+                DESIGNED BY MOBISA FROM MOBIVIC SOLUTIONS
+              </p>
+            </div>
             <div className="flex flex-wrap justify-center gap-6">
               <Link to="/privacy" className="text-sm font-medium text-slate-500 hover:text-white transition-colors">Privacy Policy</Link>
               <Link to="/terms" className="text-sm font-medium text-slate-500 hover:text-white transition-colors">Terms of Service</Link>
