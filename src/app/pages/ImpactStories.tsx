@@ -1,14 +1,11 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "motion/react";
-import {
-  Heart, Users, Quote, ArrowRight, X, Sparkles, Globe, Target,
-  Award, MapPin, Calendar, Share2, BookOpen, Loader2
-} from "lucide-react";
-import { ImageWithFallback } from "../components/figma/ImageWithFallback";
+import { ArrowRight, MapPin, Share2, Calendar, Award, Heart, Loader2 } from "lucide-react";
 import { Link } from "react-router";
 import { supabase } from "../../lib/supabase";
 import Rescue from "../../assets/3.jpeg";
-import "../../styles/impact.css";
+import MagazineLayout, { MagazineArticle } from "../components/MagazineLayout";
+import { ImageWithFallback } from "../components/figma/ImageWithFallback";
 
 interface Story {
   id: number | string;
@@ -22,6 +19,7 @@ interface Story {
   date?: string;
   beneficiaries?: string;
   source: "static" | "supabase";
+  author?: string;
 }
 
 const staticStories: Story[] = [
@@ -37,10 +35,9 @@ const staticStories: Story[] = [
     date: "February 28, 2026",
     beneficiaries: "200+ Children",
     story: `On 28th February 2026, the Crossborder Outreach team visited Murang'a Rescue Centre to support vulnerable children through the donation of learning materials and basic logistical support.
-
-The visit brought joy, encouragement, and hope to the children. For many, receiving simple items like exercise books and pens meant a chance to learn with confidence.
-
-Through shared activities, conversations, and laughter, the team reminded the children that they are valued, supported, and not alone. By investing in these young minds, we are planting the seeds for a stronger, more educated community. Every child deserves the tools to write their own future, and this outreach is just the beginning of our commitment to accessible education for all.`
+    
+The visit brought joy, encouragement, and hope to the children. For many, receiving simple items like exercise books and pens meant a chance to learn with confidence.`,
+    author: "Frankline Mobisa"
   },
   {
     id: 2,
@@ -53,11 +50,8 @@ Through shared activities, conversations, and laughter, the team reminded the ch
     location: "Atlanta, GA",
     date: "April 6, 2026",
     beneficiaries: "80+ Families",
-    story: `On behalf of Cross-borders Outreach International, we shared the impact from our community outreach event held at Sienna Ridge Apartment Homes in Atlanta. Thanks to incredible logistical support from Operation Compassion and generous donations from Amazon, we provided essential resources and joy to over 80 families.
-
-The event was a vibrant bilingual celebration featuring a full Easter egg hunt, games, and live entertainment. We distributed hundreds of Easter baskets, toys, candy, hygiene products, and household essentials.
-
-The Amazon-donated products reaching these families represented more than just physical goods; they provided dignity and solidarity. One single mother noted that every bit of support makes a massive difference for her family. These events not only meet immediate physical needs but also empower our youth volunteers and foster deep connections within the multicultural Atlanta community.`
+    story: `On behalf of Cross-borders Outreach International, we shared the impact from our community outreach event held at Sienna Ridge Apartment Homes in Atlanta.`,
+    author: "Ministry Team"
   },
   {
     id: 3,
@@ -70,11 +64,8 @@ The Amazon-donated products reaching these families represented more than just p
     location: "Atlanta, GA",
     date: "April 12, 2026",
     beneficiaries: "100 Families",
-    story: `Following our Easter event, we hosted the Spring Festival at Sienna Ridge Apartment Homes in Atlanta. This was a large-scale community festival supported by over 12 partner organizations coming together to serve the community.
-
-During this event, we distributed high-value household items including humidifiers, air purifiers, kitchen appliances, heaters, and baby supplies to 100 families. The impact of these donations goes far beyond the items themselves.
-
-A senior resident shared that the event reminded them that "people still care about one another". Your role in facilitating the connection between Amazon and our ministry is invaluable. We are already looking ahead to future outreach opportunities and look forward to our continued work together to build a stronger, more compassionate community.`
+    story: `Following our Easter event, we hosted the Spring Festival at Sienna Ridge Apartment Homes in Atlanta. This was a large-scale community festival supported by over 12 partner organizations coming together to serve the community.`,
+    author: "Ministry Team"
   },
   {
     id: 4,
@@ -87,30 +78,16 @@ A senior resident shared that the event reminded them that "people still care ab
     location: "Rural Kenya",
     date: "2025",
     beneficiaries: "350+ Patients",
-    story: `When our mobile health clinic reached Grace's village, she had been battling a chronic infection that had left her bedridden for months. The nearest hospital was a two-day journey away, an impossible distance for her family.
-
-Our medical team provided immediate diagnosis and a comprehensive treatment plan, completely free of charge. Within weeks, Grace's health was fully restored.
-
-Today, Grace is not just a survivor; she is a cornerstone of our outreach efforts in her region. She volunteers as a community health advocate, helping direct our mobile clinics to the most vulnerable families and proving that healed individuals go on to heal communities.`
+    story: `When our mobile health clinic reached Grace's village, she had been battling a chronic infection that had left her bedridden for months.`,
+    author: "Dr. Michael"
   }
 ];
-
-const stats = [
-  { icon: Users, label: "Lives Touched", value: "3,000+" },
-  { icon: Globe, label: "Communities", value: "42" },
-  { icon: Target, label: "Active Programs", value: "8" },
-];
-
-const serif = { fontFamily: "'Playfair Display', Georgia, serif" };
-const bodySerif = { fontFamily: "'Source Serif 4', Georgia, serif" };
-const sans = { fontFamily: "'Inter', sans-serif" };
 
 const stripHtml = (html: string) => {
   if (!html) return "";
   return html.replace(/<[^>]*>?/gm, '');
 };
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 function fromSupabase(row: any): Story {
   return {
     id: `sb-${row.id}`,
@@ -119,28 +96,21 @@ function fromSupabase(row: any): Story {
     category: row.category ?? "Impact Story",
     image: row.featured_image ?? "",
     quote: row.excerpt ?? "",
-    impact: row.content
-      ? stripHtml(row.content).substring(0, 200) + "..."
-      : row.excerpt ?? "",
+    impact: row.content ? stripHtml(row.content).substring(0, 200) + "..." : row.excerpt ?? "",
     story: row.content ?? "",
-    location: undefined,
-    date: row.published_at
-      ? new Date(row.published_at).toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" })
-      : row.created_at
-      ? new Date(row.created_at).toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" })
-      : undefined,
-    beneficiaries: row.tags?.length ? row.tags.join(", ") : undefined,
+    date: row.published_at ? new Date(row.published_at).toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" }) : undefined,
+    author: row.author || "Staff"
   };
 }
 
 export default function ImpactStories() {
   const [selectedStory, setSelectedStory] = useState<Story | null>(null);
-  const [liveStories, setLiveStories] = useState<Story[]>([]);
-  const [loadingStories, setLoadingStories] = useState(true);
-  const [currentPage, setCurrentPage] = useState(1);
+  const [allStories, setAllStories] = useState<Story[]>(staticStories);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchStories = async () => {
+      setLoading(true);
       try {
         const { data, error } = await supabase
           .from("articles")
@@ -150,21 +120,16 @@ export default function ImpactStories() {
           .order("created_at", { ascending: false });
 
         if (!error && data) {
-          setLiveStories(data.map(fromSupabase));
+          setAllStories([...data.map(fromSupabase), ...staticStories]);
         }
       } catch (e) {
         console.error("Failed to fetch stories:", e);
       } finally {
-        setLoadingStories(false);
+        setLoading(false);
       }
     };
     fetchStories();
   }, []);
-
-  const allStories: Story[] = [...liveStories, ...staticStories];
-  const STORIES_PER_PAGE = 3;
-  const totalPages = Math.ceil(allStories.length / STORIES_PER_PAGE);
-  const paginatedStories = allStories.slice((currentPage - 1) * STORIES_PER_PAGE, currentPage * STORIES_PER_PAGE);
 
   useEffect(() => {
     document.body.style.overflow = selectedStory ? "hidden" : "auto";
@@ -179,188 +144,32 @@ export default function ImpactStories() {
     if (currentIndex < allStories.length - 1) setSelectedStory(allStories[currentIndex + 1]);
   };
 
+  const magazineArticles: MagazineArticle[] = allStories.map(story => ({
+    id: story.id,
+    title: story.title,
+    excerpt: story.impact || story.quote || '',
+    category: story.category,
+    date: story.date || 'Recent',
+    author: story.author || 'Staff',
+    image: story.image,
+    onClick: () => setSelectedStory(story)
+  }));
+
+  const categories = ["All", "Education Support", "Community Outreach", "Healthcare"];
+
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-[#f8f9fa]">
+        <Loader2 className="w-12 h-12 text-blue-600 animate-spin" />
+      </div>
+    );
+  }
+
   return (
-    <div className="min-h-screen bg-white">
+    <>
+      <MagazineLayout categories={categories} articles={magazineArticles} />
 
-      {/* ── Hero Section ── */}
-      <section className="impact-hero">
-        <div className="impact-hero-bg">
-          <ImageWithFallback src={Rescue as string} alt="Impact Stories" className="w-full h-full object-cover" />
-          <div className="impact-hero-overlay" />
-        </div>
-
-        <div className="impact-hero-content">
-          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}>
-            <div className="impact-badge" style={sans}>
-              <Sparkles className="w-3.5 h-3.5 text-yellow-300" /> Real Impact
-            </div>
-            <h1 className="impact-title" style={serif}>
-              Stories of <span>Transformation</span>
-            </h1>
-            <p className="impact-subtitle" style={bodySerif}>
-              Every statistic represents a heartbeat. Explore the remarkable journeys of resilience, hope, and change happening across communities.
-            </p>
-          </motion.div>
-
-          {/* Stats Strip */}
-          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-            className="impact-stats-grid">
-            {stats.map((stat, idx) => {
-              const Icon = stat.icon;
-              return (
-                <div key={idx} className="impact-stat-card">
-                  <div className="impact-stat-icon">
-                    <Icon className="w-5 h-5 text-white" />
-                  </div>
-                  <div className="impact-stat-value" style={serif}>{stat.value}</div>
-                  <div className="impact-stat-label" style={sans}>{stat.label}</div>
-                </div>
-              );
-            })}
-          </motion.div>
-        </div>
-      </section>
-
-      {/* ── Stories Grid ── */}
-      <section className="py-24 bg-white">
-        <div className="max-w-7xl mx-auto px-6">
-          <div className="text-center mb-20">
-            <div className="impact-badge mx-auto" style={{ marginBottom: '16px', ...sans }}>Voices from the Field</div>
-            <h2 className="text-4xl md:text-6xl font-black text-slate-900 mb-6 tracking-tight" style={serif}>
-              Real Stories. <span className="text-blue-600">Real Change.</span>
-            </h2>
-            <p className="text-lg text-slate-500 leading-relaxed font-medium max-w-2xl mx-auto" style={bodySerif}>
-              These narratives capture moments of breakthrough, resilience, and lasting change in the communities we serve.
-            </p>
-          </div>
-
-          {loadingStories ? (
-            <div className="flex items-center justify-center py-24">
-              <Loader2 className="w-12 h-12 animate-spin text-blue-600" />
-            </div>
-          ) : (
-            <>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                {paginatedStories.map((story, index) => (
-                  <motion.div key={String(story.id)}
-                    initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true, margin: "-60px" }} transition={{ duration: 0.5, delay: index * 0.1 }}
-                    className={`group relative rounded-3xl overflow-hidden cursor-pointer ${index === 0 && currentPage === 1 ? "md:col-span-2 h-[500px]" : "h-[420px]"}`}
-                    onClick={() => setSelectedStory(story)}>
-                    
-                    {/* Background Image */}
-                    <ImageWithFallback src={story.image} alt={story.title}
-                      className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
-                    <div className="absolute inset-0 bg-gradient-to-t from-slate-900 via-slate-900/50 to-transparent" />
-
-                    {/* Tags */}
-                    <div className="absolute top-6 left-6 flex gap-2 z-10">
-                      <span className="px-4 py-1.5 bg-blue-600 text-white rounded-full text-[10px] font-black uppercase tracking-widest shadow-lg" style={sans}>
-                        {story.category}
-                      </span>
-                      {story.source === "supabase" && (
-                        <span className="px-3 py-1.5 bg-emerald-500 text-white rounded-full text-[10px] font-black uppercase tracking-widest shadow-lg" style={sans}>New</span>
-                      )}
-                    </div>
-
-                    {/* Content Overlay */}
-                    <div className="absolute bottom-0 left-0 right-0 p-8 z-10">
-                      {story.date && (
-                        <div className="flex items-center gap-2 text-white/60 text-xs font-bold uppercase tracking-widest mb-3" style={sans}>
-                          <Calendar className="w-3.5 h-3.5" /> {story.date}
-                        </div>
-                      )}
-                      <h3 className={`font-black text-white leading-tight tracking-tight mb-4 ${index === 0 && currentPage === 1 ? "text-3xl md:text-4xl" : "text-2xl"}`} style={serif}>
-                        {story.title}
-                      </h3>
-                      <p className="text-white/70 text-sm leading-relaxed mb-5 line-clamp-2 max-w-xl" style={bodySerif}>
-                        {story.impact}
-                      </p>
-                      <div className="flex items-center justify-between">
-                        <div className="flex items-center gap-4 text-white/60 text-xs font-bold" style={sans}>
-                          {story.location && (
-                            <span className="flex items-center gap-1.5"><MapPin className="w-3.5 h-3.5 text-blue-400" /> {story.location}</span>
-                          )}
-                          {story.beneficiaries && (
-                            <span className="flex items-center gap-1.5 px-2.5 py-1 bg-white/10 rounded-full border border-white/10">
-                              <Users className="w-3.5 h-3.5 text-blue-400" /> {story.beneficiaries}
-                            </span>
-                          )}
-                        </div>
-                        <div className="flex items-center gap-2 text-white text-xs font-black uppercase tracking-widest opacity-0 group-hover:opacity-100 translate-y-2 group-hover:translate-y-0 transition-all duration-300" style={sans}>
-                          Read Story <ArrowRight className="w-4 h-4" />
-                        </div>
-                      </div>
-                    </div>
-
-                    {/* Hover glow */}
-                    <div className="absolute inset-0 border-2 border-white/0 group-hover:border-white/20 rounded-3xl transition-all duration-500 pointer-events-none" />
-                  </motion.div>
-                ))}
-              </div>
-
-              {/* Pagination Controls */}
-              {totalPages > 1 && (
-                <div className="flex items-center justify-between border-t border-slate-200 py-10 mt-16" style={sans}>
-                  <button
-                    disabled={currentPage === 1}
-                    onClick={() => setCurrentPage(p => Math.max(1, p - 1))}
-                    className="flex items-center gap-2 text-slate-500 hover:text-blue-600 font-bold uppercase tracking-widest text-sm disabled:opacity-30 disabled:cursor-not-allowed transition-colors group"
-                  >
-                    <ArrowRight className="w-5 h-5 rotate-180 group-hover:-translate-x-1 transition-transform" /> Previous
-                  </button>
-                  <div className="flex gap-2">
-                    {Array.from({ length: totalPages }).map((_, i) => (
-                      <button
-                        key={i}
-                        onClick={() => setCurrentPage(i + 1)}
-                        className={`w-10 h-10 rounded-full font-black text-sm flex items-center justify-center transition-colors ${currentPage === i + 1 ? "bg-blue-600 text-white shadow-md shadow-blue-600/30" : "bg-white border border-slate-200 text-slate-500 hover:bg-slate-50"}`}
-                      >
-                        {i + 1}
-                      </button>
-                    ))}
-                  </div>
-                  <button
-                    disabled={currentPage === totalPages}
-                    onClick={() => setCurrentPage(p => Math.min(totalPages, p + 1))}
-                    className="flex items-center gap-2 text-slate-500 hover:text-blue-600 font-bold uppercase tracking-widest text-sm disabled:opacity-30 disabled:cursor-not-allowed transition-colors group"
-                  >
-                    Next <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-                  </button>
-                </div>
-              )}
-            </>
-          )}
-        </div>
-      </section>
-
-      {/* ── CTA Section ── */}
-      <section className="py-24 bg-slate-900 text-white overflow-hidden relative">
-        <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-blue-600/20 rounded-full blur-[120px] -mr-80 -mt-80" />
-        <div className="absolute bottom-0 left-0 w-[600px] h-[600px] bg-blue-400/10 rounded-full blur-[100px] -ml-80 -mb-80" />
-        <div className="max-w-4xl mx-auto px-6 text-center relative z-10">
-          <div className="w-24 h-24 bg-white/10 backdrop-blur-md border border-white/20 rounded-[2.5rem] flex items-center justify-center mx-auto mb-12 rotate-6 shadow-2xl">
-            <Heart className="w-12 h-12 text-white fill-white -rotate-6" />
-          </div>
-          <h2 className="text-4xl md:text-7xl font-black mb-8 leading-tight tracking-tight" style={serif}>
-            Create the Next <br /> <span className="text-blue-500">Chapter</span>
-          </h2>
-          <p className="text-2xl text-slate-300 mb-12 leading-relaxed max-w-2xl mx-auto font-medium opacity-90" style={bodySerif}>
-            These stories are made possible by people like you. Your donation, time, and voice help turn survival into success.
-          </p>
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-6" style={sans}>
-            <Link to="/donate" className="w-full sm:w-auto px-12 py-6 bg-blue-600 text-white rounded-3xl font-black text-xl hover:bg-blue-700 transition-all shadow-2xl shadow-blue-600/40 inline-flex items-center justify-center gap-3">
-              Donate Now <ArrowRight className="w-6 h-6" />
-            </Link>
-            <Link to="/opportunities" className="w-full sm:w-auto px-12 py-6 bg-slate-800 text-white border border-slate-700 rounded-3xl font-black text-xl hover:bg-slate-700 transition-all inline-flex items-center justify-center gap-3">
-              Volunteer
-            </Link>
-          </div>
-        </div>
-      </section>
-
-      {/* ── Story Article View (newspaper style) ── */}
+      {/* Story Modal View */}
       <AnimatePresence>
         {selectedStory && (
           <motion.div
@@ -383,17 +192,11 @@ export default function ImpactStories() {
             </div>
 
             <div className="max-w-[800px] mx-auto px-4 md:px-6 py-10 md:py-14">
-
               {/* Category & Date */}
               <div className="flex items-center gap-4 mb-6">
                 <span className="px-3 py-1 bg-red-700 text-white text-[10px] font-bold uppercase tracking-widest">
                   {selectedStory.category}
                 </span>
-                {selectedStory.source === "supabase" && (
-                  <span className="px-3 py-1 bg-emerald-600 text-white text-[10px] font-bold uppercase tracking-widest">
-                    New
-                  </span>
-                )}
                 {selectedStory.date && (
                   <span className="text-sm text-slate-500 flex items-center gap-1.5">
                     <Calendar className="w-3.5 h-3.5" />
@@ -403,19 +206,13 @@ export default function ImpactStories() {
               </div>
 
               {/* Headline */}
-              <h1
-                className="text-4xl md:text-5xl lg:text-6xl text-slate-900 leading-[1.05] tracking-tight mb-6"
-                style={{ fontWeight: 900, fontFamily: "'Playfair Display', Georgia, serif" }}
-              >
+              <h1 className="text-4xl md:text-5xl lg:text-6xl text-slate-900 leading-[1.05] tracking-tight mb-6" style={{ fontWeight: 900, fontFamily: "'Playfair Display', Georgia, serif" }}>
                 {selectedStory.title}
               </h1>
 
               {/* Lead / Excerpt */}
               {selectedStory.quote && (
-                <p
-                  className="text-xl md:text-2xl text-slate-500 leading-relaxed mb-8"
-                  style={{ fontStyle: "italic", fontFamily: "'Source Serif 4', Georgia, serif" }}
-                >
+                <p className="text-xl md:text-2xl text-slate-500 leading-relaxed mb-8" style={{ fontStyle: "italic", fontFamily: "'Source Serif 4', Georgia, serif" }}>
                   {selectedStory.quote}
                 </p>
               )}
@@ -518,7 +315,6 @@ export default function ImpactStories() {
           </motion.div>
         )}
       </AnimatePresence>
-
-    </div>
+    </>
   );
 }

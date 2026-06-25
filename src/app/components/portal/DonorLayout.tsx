@@ -53,7 +53,7 @@ export default function DonorLayout() {
     {
       title: "Explore",
       items: [
-        { label: "CBNN News Channel", href: "/global-news", icon: Newspaper, external: true },
+
         { label: "Contact Us", href: "/contact", icon: MessageSquare },
       ]
     }

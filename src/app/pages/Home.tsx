@@ -6,7 +6,7 @@ import { Link } from "react-router";
 import { ImageWithFallback } from "../components/figma/ImageWithFallback";
 import Slider from "react-slick";
 import { supabase } from "../../lib/supabase";
-import { galleryImages, newsUpdates, events } from "../../data/content";
+import { galleryImages, events } from "../../data/content";
 import { useTranslation } from "react-i18next";
 import "../../styles/carousel.css";
 import "../../styles/home.css";
@@ -44,8 +44,7 @@ export default function Home() {
   const statsRef = useRef<HTMLDivElement>(null);
   const [statsVisible, setStatsVisible] = useState(false);
   const [recentEvents, setRecentEvents] = useState<any[]>([]);
-  const [latestNews, setLatestNews] = useState<any[]>([]);
-
+  const [recentNews, setRecentNews] = useState<any[]>([]);
   useEffect(() => {
     const fetchHomeContent = async () => {
       try {
@@ -53,41 +52,57 @@ export default function Home() {
           .from("articles")
           .select("*")
           .eq("type", "events")
-          .eq("status", "published")
-          .order("event_date", { ascending: false })
-          .limit(3);
+          .eq("status", "published");
         
-        let combinedEvents = [];
-        if (eventsData && eventsData.length > 0) {
-          combinedEvents = [...eventsData];
-        }
+        const now = new Date();
         
-        if (combinedEvents.length < 3) {
-          const needed = 3 - combinedEvents.length;
-          combinedEvents = [...combinedEvents, ...events.slice(0, needed)];
-        }
-        setRecentEvents(combinedEvents);
+        const mappedSupabaseEvents = (eventsData || []).map(d => {
+          const eventDate = d.event_date ? new Date(d.event_date) : new Date();
+          return {
+            ...d,
+            computedDate: eventDate.getTime(),
+            computedStatus: eventDate < now ? "past" : "upcoming"
+          };
+        });
 
-        const { data: newsData } = await supabase
+        const mappedStaticEvents = events.map(e => {
+          const eventDate = e.date && e.date !== "TBD" ? new Date(e.date) : new Date();
+          return {
+            ...e,
+            computedDate: eventDate.getTime(),
+            computedStatus: eventDate < now ? "past" : "upcoming"
+          };
+        });
+
+        const allEvents = [...mappedSupabaseEvents, ...mappedStaticEvents];
+        
+        const upcoming = allEvents.filter(e => e.computedStatus === "upcoming").sort((a, b) => a.computedDate - b.computedDate);
+        const past = allEvents.filter(e => e.computedStatus === "past").sort((a, b) => b.computedDate - a.computedDate);
+        
+        const sortedEvents = [...upcoming, ...past].slice(0, 3);
+        setRecentEvents(sortedEvents);
+
+        // Fetch News
+        const { data: newsData, error: newsError } = await supabase
           .from("articles")
           .select("*")
-          .in("type", ["news", "global-news"])
+          .eq("type", "news")
           .eq("status", "published")
           .order("published_at", { ascending: false })
           .limit(3);
-        
+
         let combinedNews = [];
-        if (newsData && newsData.length > 0) {
-          combinedNews = [...newsData];
+        if (!newsError && newsData && newsData.length > 0) {
+          combinedNews = newsData.map(d => ({
+            id: d.id,
+            title: d.title,
+            excerpt: d.excerpt || d.content?.substring(0, 100) + '...' || '',
+            category: d.category || 'Announcement',
+            date: d.published_at ? new Date(d.published_at).toLocaleDateString() : 'Recent',
+            image: d.featured_image || d.image || "https://images.unsplash.com/photo-1497366216548-37526070297c?w=800&q=80",
+          }));
         }
-        
-        // Pad with static news if we have fewer than 3
-        if (combinedNews.length < 3) {
-          const needed = 3 - combinedNews.length;
-          combinedNews = [...combinedNews, ...newsUpdates.slice(0, needed)];
-        }
-        setLatestNews(combinedNews);
-      } catch (err) {
+        setRecentNews(combinedNews);      } catch (err) {
         console.error("Error fetching home content:", err);
       }
     };
@@ -154,10 +169,10 @@ export default function Home() {
       {/* â”€â”€ STATS â”€â”€ */}
       <section className="home-stats-section" ref={statsRef}>
         <div className="home-stats-grid">
-          <StatCard value={3000} suffix="+" label={t('stats.livesImpacted')} icon={<Users className="w-7 h-7" />} trigger={statsVisible} />
-          <StatCard value={12} suffix="+" label={t('stats.partnerOrgs')} icon={<HandHeart className="w-7 h-7" />} trigger={statsVisible} />
-          <StatCard value={5} label={t('stats.corePrograms')} icon={<CheckCircle2 className="w-7 h-7" />} trigger={statsVisible} />
-          <StatCard value={2} label={t('stats.countriesReached')} icon={<Globe2 className="w-7 h-7" />} trigger={statsVisible} />
+          <StatCard value={3000} suffix="+" label={t('stats.livesImpacted')} icon={<Users className="w-6 h-6" />} trigger={statsVisible} />
+          <StatCard value={12} suffix="+" label={t('stats.partnerOrgs')} icon={<HandHeart className="w-6 h-6" />} trigger={statsVisible} />
+          <StatCard value={5} label={t('stats.corePrograms')} icon={<CheckCircle2 className="w-6 h-6" />} trigger={statsVisible} />
+          <StatCard value={2} label={t('stats.countriesReached')} icon={<Globe2 className="w-6 h-6" />} trigger={statsVisible} />
         </div>
       </section>
 
@@ -263,7 +278,7 @@ export default function Home() {
               const eventDate = event.event_date ? new Date(event.event_date) : new Date(event.date || Date.now());
               const isPast = eventDate < new Date();
               return (
-                <Link to={event.type ? `/events/${event.id}` : `/events/${event.id}`} key={event.id} className="home-event-card group">
+                <Link to={event.type === 'events' ? `/events/sb-${event.id}` : `/events/${event.id}`} key={event.id} className="home-event-card group">
                   <div className="home-event-img-wrap">
                     <ImageWithFallback src={event.featured_image || event.image || ''} alt={event.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
                     <div className="home-event-status">{isPast ? 'Past Event' : 'Upcoming'}</div>
@@ -288,34 +303,53 @@ export default function Home() {
         </div>
       </section>
 
-      {/* â”€â”€ NEWS â”€â”€ */}
-      <section className="home-news-section">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6">
-          <div className="home-section-header-row">
-            <div>
-              <div className="home-section-label">Stay Informed</div>
-              <h2 className="home-section-title-left">{t('home.latestNews')}</h2>
+      {/* ── LATEST NEWS ── */}
+      {recentNews.length > 0 && (
+        <section className="bg-[#f8f9fa] py-20 border-t border-gray-100">
+          <div className="max-w-6xl mx-auto px-4 sm:px-6">
+            <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-4">
+              <div>
+                <div className="text-[10px] font-black text-blue-600 uppercase tracking-widest mb-3">Stay Informed</div>
+                <h2 className="text-4xl md:text-5xl font-black text-slate-900 tracking-tight" style={{ fontFamily: "'Playfair Display', Georgia, serif" }}>Latest News</h2>
+              </div>
+              <Link to="/company-news" className="inline-flex items-center gap-2 text-sm font-bold text-blue-600 hover:text-blue-800 transition-colors">
+                View All News <ChevronRight className="w-4 h-4" />
+              </Link>
             </div>
-            <Link to="/news" className="home-view-all-link">{t('home.viewAllNews')}<ChevronRight className="w-4 h-4" /></Link>
-          </div>
-          <div className="home-news-grid">
-            {latestNews.map((item) => (
-              <article key={item.id} className="home-news-card group">
-                <div className="home-news-img-wrap">
-                  <ImageWithFallback src={item.featured_image || item.image || ''} alt={item.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
-                  <div className="home-news-category-badge">{item.category || 'News'}</div>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+              {recentNews.map((newsItem) => (
+                <div key={newsItem.id} className="bg-white rounded-2xl overflow-hidden shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-slate-100 flex flex-col h-full group hover:-translate-y-1 transition-all duration-300">
+                  <div className="relative h-56 w-full overflow-hidden">
+                    <ImageWithFallback src={newsItem.image} alt={newsItem.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
+                    <div className="absolute top-4 left-4">
+                      <span className="px-3 py-1 bg-blue-500 text-white text-[10px] font-black uppercase tracking-widest rounded-md shadow-sm">
+                        {newsItem.category}
+                      </span>
+                    </div>
+                  </div>
+                  <div className="p-6 md:p-8 flex flex-col flex-1">
+                    <div className="flex items-center gap-2 text-slate-400 text-xs font-semibold mb-4">
+                      <Calendar className="w-3.5 h-3.5" />
+                      {newsItem.date}
+                    </div>
+                    <h3 className="text-xl font-bold text-slate-900 leading-snug mb-3 group-hover:text-blue-600 transition-colors" style={{ fontFamily: "'Playfair Display', Georgia, serif" }}>
+                      {newsItem.title}
+                    </h3>
+                    <p className="text-sm text-slate-500 leading-relaxed line-clamp-3 mb-6 flex-1">
+                      {newsItem.excerpt}
+                    </p>
+                    <div className="mt-auto pt-2">
+                      <Link to={`/company-news/${newsItem.id}`} className="inline-flex items-center gap-1.5 px-4 py-2 bg-blue-50 hover:bg-blue-100 text-blue-600 text-xs font-bold uppercase tracking-widest rounded-full transition-colors">
+                        Read Article <ChevronRight className="w-3.5 h-3.5" />
+                      </Link>
+                    </div>
+                  </div>
                 </div>
-                <div className="home-news-body">
-                  <div className="home-news-date"><Calendar className="w-3.5 h-3.5" />{item.published_at ? new Date(item.published_at).toLocaleDateString() : item.date || 'Recent'}</div>
-                  <h3 className="home-news-title">{item.title}</h3>
-                  <p className="home-news-excerpt">{item.excerpt || item.content?.substring(0, 100) + '...'}</p>
-                  <Link to={item.type ? `/${item.type}/${item.id}` : `/news/${item.id}`} className="home-news-read-more">Read Article<ChevronRight className="w-4 h-4 transition-transform group-hover:translate-x-1" /></Link>
-                </div>
-              </article>
-            ))}
+              ))}
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
+      )}
 
       {/* â”€â”€ WHY PARTNER â”€â”€ */}
       <section className="home-why-section">
@@ -360,22 +394,26 @@ export default function Home() {
             <h2 className="home-section-title" style={{ color: 'white' }}>Stories of Transformation</h2>
             <p className="home-section-subtitle" style={{ color: '#bfdbfe' }}>Hear from communities whose lives have been transformed through our programs.</p>
           </div>
-          <div className="home-testimonials-grid">
-            {testimonials.map((item, index) => (
-              <div key={index} className="home-testimonial-card">
-                <Quote className="w-10 h-10 mb-4" style={{ color: item.color, opacity: 0.8 }} />
-                <p className="home-testimonial-quote">"{item.quote}"</p>
-                <div className="home-testimonial-author">
-                  <div className="home-testimonial-avatar" style={{ backgroundColor: item.color }}>{item.avatar}</div>
-                  <div><div className="home-testimonial-name">{item.author}</div><div className="home-testimonial-role">{item.role}</div></div>
+          <div className="-mx-2 sm:-mx-3 pb-8">
+            <Slider {...carouselSettings}>
+              {testimonials.map((item, index) => (
+                <div key={index} className="px-2 sm:px-3">
+                  <div className="home-testimonial-card h-full flex flex-col">
+                    <Quote className="w-10 h-10 mb-4 flex-shrink-0" style={{ color: item.color, opacity: 0.8 }} />
+                    <p className="home-testimonial-quote flex-1">"{item.quote}"</p>
+                    <div className="home-testimonial-author mt-auto pt-2">
+                      <div className="home-testimonial-avatar" style={{ backgroundColor: item.color }}>{item.avatar}</div>
+                      <div><div className="home-testimonial-name">{item.author}</div><div className="home-testimonial-role">{item.role}</div></div>
+                    </div>
+                    <div className="mt-6 pt-6 border-t border-white/10">
+                      <Link to="/impact-stories" className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-widest px-5 py-2.5 rounded-full transition-all duration-300 hover:translate-x-1" style={{ color: item.color, background: item.color + '15' }}>
+                        Read Full Story <ArrowRight className="w-3.5 h-3.5" />
+                      </Link>
+                    </div>
+                  </div>
                 </div>
-                <div className="mt-6 pt-6 border-t border-white/10">
-                  <Link to="/impact-stories" className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-widest px-5 py-2.5 rounded-full transition-all duration-300 hover:translate-x-1" style={{ color: item.color, background: item.color + '15' }}>
-                    Read Full Story <ArrowRight className="w-3.5 h-3.5" />
-                  </Link>
-                </div>
-              </div>
-            ))}
+              ))}
+            </Slider>
           </div>
         </div>
       </section>

@@ -474,7 +474,7 @@ export default function AdminContentEditor() {
                   <select value={selectedType} onChange={(e) => setSelectedType(e.target.value)} disabled={isEditing}
                     className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-600 focus:border-transparent outline-none font-semibold disabled:opacity-50 disabled:cursor-not-allowed">
                     <option value="blog">✍️ Blog Post</option>
-                    <option value="news">📰 News</option>
+                    <option value="news">📰 Company News</option>
                     <option value="story">⭐ Impact Story</option>
                     <option value="events">📅 Event</option>
                   </select>
@@ -509,7 +509,8 @@ export default function AdminContentEditor() {
                     <option value="events">Events</option>
                     <option value="partnerships">Partnerships</option>
                     <option value="announcements">Announcements</option>
-                    <option value="cbnn-news">CBNN News</option>
+                    <option value="press">Press Release</option>
+                    <option value="updates">Company Updates</option>
                   </>
                 )}
               </select>

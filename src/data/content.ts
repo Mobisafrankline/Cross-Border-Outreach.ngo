@@ -1,5 +1,4 @@
 //local images 
-import news1 from "../assets/news1.jpeg";
 import ImageSlide1 from "../assets/ImageSlide1.jpeg";
 import ImageSlide2 from "../assets/ImageSlide2.jpeg";
 import ImageSlide3 from "../assets/ImageSlide3.jpeg";
@@ -161,105 +160,7 @@ export const publications = [
   }
 ];
 
-// News/Updates Data
-export const newsUpdates = [
-  {
-    id: 1,
-    title: "Visit to Murang’a Rescue Centre: A Cross-Border Outreach of Love and Hope",
-    excerpt: "On February 28, 2026, Crossborder Outreach crossed borders to support children at Murang’a Rescue Centre through learning materials, logistical support, and a message of hope.",
-    date: "February 28, 2026",
-    category: "Outreach",
-    slug: "visit-to-muranga-rescue-centre-cross-border-outreach",
-    image: news1,
-    content: `
-On 28th February 2026, the Cross-border Outreach team embarked on a meaningful journey to Murang’a Rescue Centre, driven by one mission — to share love, hope, and practical support with children in need. The visit represented more than a charitable activity; it was a powerful reminder that compassion knows no borders.
-
-The outreach team crossed geographical boundaries to ensure that vulnerable children felt seen, valued, and supported. Through the donation of learning materials and provision of basic logistical support, the initiative aimed to strengthen both the educational environment and the emotional wellbeing of the children living at the centre.
-
-Upon arrival, the team was welcomed with excitement and curiosity. What began as a simple visit quickly turned into moments of laughter, storytelling, and meaningful human connection. Children eagerly participated in activities, proudly receiving books, pens, and other learning supplies that will support their academic journeys.
-
-Education remains one of the strongest tools for breaking cycles of vulnerability. By equipping the children with essential learning materials, the outreach sought to inspire confidence, encourage curiosity, and empower young minds to dream beyond their current circumstances. For many of the children, these resources symbolized opportunity — proof that their future matters.
-
-Beyond the donations, the most impactful moments came through personal interaction. Volunteers spent time listening to the children’s stories, playing games, and offering encouragement. These shared experiences created a sense of belonging and reassurance that they are not forgotten.
-
-Caregivers and administrators at Murang’a Rescue Centre expressed deep appreciation for the visit, noting that such engagements bring renewed hope not only to the children but also to those who dedicate their lives to caring for them. The presence of visitors who traveled across borders reinforced an important message: kindness can travel any distance.
-
-This outreach reflects Crossborder Outreach’s continued commitment to building bridges between communities and uplifting lives through compassion-driven action. Every visit strengthens the belief that sustainable change begins with connection, empathy, and collective responsibility.
-
-As the organization looks ahead, the mission remains clear — to continue reaching underserved communities, supporting education, and ensuring that every child grows up knowing they are loved, supported, and capable of achieving their dreams.
-
-The visit to Murang’a Rescue Centre stands as a testament to what is possible when people come together with a shared purpose: creating hope where it is needed most.
-    `,
-  },
-  {
-    id: 2,
-    title: "Nairobi Floods: A Call for Compassion and Community Action",
-    excerpt: "Heavy rains caused severe flooding across Nairobi, highlighting the urgent need for support and resilience.",
-    date: "March 6, 2026",
-    category: "Disaster Response",
-    slug: "nairobi-floods-compassion-community-action",
-    image: NairobiFloods,
-    content: `
-Heavy rainfall that struck Nairobi on the evening of March 6, 2026 left a trail of destruction across the city. Flash floods submerged roads, swept vehicles away, and forced families to flee their homes in search of safety.
-
-Several major roads were affected, including Uhuru Highway, Mombasa Road, Thika Superhighway, Jogoo Road, Lunga Lunga Road, Enterprise Road, and Lang’ata Road. Stranded passengers formed human chains to reach safety, while emergency responders including Kenya Red Cross and Kenya Defence Forces intervened.
-
-Floodwaters entered houses and businesses across multiple estates including Pipeline, Embakasi, Mukuru Kwa Njenga, Reuben, Viwandani, Kibra, Mathare, Huruma, Baba Dogo, South B, South C, Nairobi West, Umoja, Ruai, Roysambu, Githurai, Kahawa West, and Westlands.
-
-The flooding highlighted deeper structural problems: blocked drainage systems, clogged sewers, and poorly maintained infrastructure, leaving low-income communities particularly vulnerable while affluent areas experienced fewer disruptions.
-
-Cross Borders Outreach Mission mobilized to provide relief, support affected families, raise awareness about disaster preparedness, and promote unity and resilience during the crisis. The organization emphasized that true outreach is not only about crossing borders, but also standing together when it matters most.
-
-The Kenya Meteorological Department has warned that heavy rains may continue, emphasizing the need for preparedness and community cooperation.
-    `,
-    externalUrl: "https://crossbordersoutreach.medium.com/nairobi-floods-a-call-for-compassion-and-community-action-8eed618d8307",
-    sourceName: "Medium"
-  },
-  {
-    id: 3,
-    title: "Beyond Grades: Why Mental Health Must Be Part of the Cross Border Outreach Mission",
-    excerpt: "Supporting students’ mental health is as crucial as providing educational opportunities.",
-    date: "March 5, 2026",
-    category: "Mental Health",
-    slug: "beyond-grades-mental-health-cross-border-outreach",
-    image: BeyondGrades,
-    content: `
-University life can be overwhelming, especially for students pursuing demanding courses like medicine. Pressure to perform, fear of disappointing parents, loneliness, and constant comparison build silently, leading to stress, anxiety, or depression.
-
-Mental health challenges do not discriminate. Many students suffer in silence, attending classes and submitting assignments while battling internal struggles alone.
-
-Cross Border Outreach Mission recognizes that outreach must also address mental health. Through mentorship, counseling programs, youth support groups, and community awareness, the mission creates safe spaces where young people feel heard and supported.
-
-Parents and communities are encouraged to check on emotional wellbeing, not just academic progress. Supporting students’ mental health can prevent crises, restore broken dreams, and build resilient communities where vulnerability is met with care.
-
-Mental health matters. Let us speak before we shatter, check on our children beyond grades, and ensure every student has the support they need to thrive.
-    `,
-    externalUrl: "https://crossbordersoutreach.medium.com/beyond-grades-why-mental-health-must-be-part-of-the-cross-border-outreach-mission",
-    sourceName: "Medium"
-  },
-  {
-    id: 4,
-    title: "Spring Festival · Festival de Primavera: A Celebration of Community and Compassion in Atlanta",
-    excerpt: "Over 100 families received high-value household items during a large-scale community festival at Sienna Ridge Apartment Homes.",
-    date: "April 14, 2026",
-    category: "Community Outreach",
-    slug: "spring-festival-atlanta-outreach",
-    image: "https://images.unsplash.com/photo-1567965178128-abb8d8532ae7?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MjB8fHNwcmluZyUyMGZlc3RpdmFsJTIwdXNhfGVufDB8fDB8fHww",
-    content: `
-On April 12, 2026, Cross-borders Outreach International, in a powerful demonstration of unity and generosity, hosted the Spring Festival · Festival de Primavera at Sienna Ridge Apartment Homes in Atlanta, Georgia. This vibrant, bilingual event marked a major milestone in our mission to serve the Atlanta metropolitan area, bringing together diverse communities for a day of celebration, support, and profound connection.
-
-In collaboration with Amazon, Operation Compassion, and over twelve other partner organizations, the festival successfully served more than 100 families. But this was more than just an event; it was a testament to what we can achieve when we unite across borders—whether they be linguistic, cultural, or geographic.
-
-Attendees were blessed with significant, high-value household items designed to improve their daily lives and well-being. From humidifiers and air purifiers to essential kitchen appliances, these resources provided tangible relief and comfort to families navigating challenging times. The impact of these gifts extends far beyond their material value, offering a sense of dignity and reminding the community that they are seen, valued, and supported.
-
-The festival atmosphere was electric, filled with the sounds of laughter and live entertainment. Food trucks offered delicious meals, creating spaces where neighbors could break bread together and share their stories. Vendor booths provided additional resources and fostered engagement, bridging gaps across generations and cultures.
-
-As children played and families connected, the true spirit of Cross-borders Outreach International shone through. We believe that compassion knows no boundaries, and the Spring Festival exemplified this core value perfectly. By addressing holistic needs—providing practical resources while also cultivating joy and community spirit—we continue to plant seeds of hope that will grow into long-lasting resilience.
-
-We extend our deepest gratitude to our incredible partners, dedicated volunteers, and the beautiful community of Sienna Ridge for making the Spring Festival · Festival de Primavera an unforgettable success. Together, we are building stronger, more connected communities, one act of love at a time.
-    `,
-  }
-];
+// News Updates removed
 // Gallery Images
 export const galleryImages = [
     {

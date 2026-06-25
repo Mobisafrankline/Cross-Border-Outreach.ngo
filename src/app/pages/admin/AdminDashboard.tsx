@@ -473,13 +473,13 @@ export default function AdminDashboard() {
                 <Link
                   to="/admin/news/new"
                   onClick={() => setIsNewContentModalOpen(false)}
-                  className="group p-6 rounded-2xl border-2 border-slate-100 hover:border-emerald-500 hover:bg-emerald-50 transition-all text-center"
+                  className="group p-6 rounded-2xl border-2 border-slate-100 hover:border-blue-500 hover:bg-blue-50 transition-all text-center"
                 >
-                  <div className="w-14 h-14 bg-emerald-100 text-emerald-600 rounded-xl flex items-center justify-center mx-auto mb-4 group-hover:bg-emerald-600 group-hover:text-white transition-colors">
+                  <div className="w-14 h-14 bg-blue-100 text-blue-600 rounded-xl flex items-center justify-center mx-auto mb-4 group-hover:bg-blue-600 group-hover:text-white transition-colors">
                     <Newspaper className="w-8 h-8" />
                   </div>
-                  <h4 className="font-bold text-slate-900">Post News</h4>
-                  <p className="text-xs font-medium text-slate-500 mt-1">Updates & announcements</p>
+                  <h4 className="font-bold text-slate-900">Company News</h4>
+                  <p className="text-xs font-medium text-slate-500 mt-1">Official announcements</p>
                 </Link>
 
                 <Link

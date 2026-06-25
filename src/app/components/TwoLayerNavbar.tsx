@@ -202,17 +202,12 @@ export default function TwoLayerNavbar() {
           description: "Read our latest updates"
         },
         {
-          label: "Global News",
-          href: "/global-news",
-          icon: <Globe className="w-5 h-5" />,
-          description: "Cross-border global updates"
-        },
-        {
-          label: "News",
-          href: "/news",
+          label: "Company News",
+          href: "/company-news",
           icon: <FileText className="w-5 h-5" />,
-          description: "Latest announcements"
+          description: "Official company announcements"
         },
+
         {
           label: "Publications",
           href: "/publications",
@@ -253,8 +248,7 @@ export default function TwoLayerNavbar() {
   ];
 
   const utilityLinks = [
-    { label: "Help", href: "/contact" },
-    { label: "CBNN News", href: "/global-news" },
+    { label: "Help", href: "/contact" }
   ];
 
   // Secondary navigation links (bottom bar)
@@ -553,27 +547,27 @@ export default function TwoLayerNavbar() {
                 ))}
 
                 <Link
-                  to="/global-news"
-                  onClick={() => setMobileMenuOpen(false)}
-                  className={`block py-3 font-semibold border-b border-gray-100 ${location.pathname === '/global-news' ? 'text-blue-600' : 'text-gray-900'}`}
-                >
-                  Global News
-                </Link>
-
-                <Link
-                  to="/news"
-                  onClick={() => setMobileMenuOpen(false)}
-                  className={`block py-3 font-semibold border-b border-gray-100 ${location.pathname === '/news' ? 'text-blue-600' : 'text-gray-900'}`}
-                >
-                  News
-                </Link>
-
-                <Link
                   to="/events"
                   onClick={() => setMobileMenuOpen(false)}
                   className={`block py-3 font-semibold border-b border-gray-100 ${location.pathname === '/events' ? 'text-blue-600' : 'text-gray-900'}`}
                 >
                   Events
+                </Link>
+
+                <Link
+                  to="/blog"
+                  onClick={() => setMobileMenuOpen(false)}
+                  className={`block py-3 font-semibold border-b border-gray-100 ${location.pathname === '/blog' ? 'text-blue-600' : 'text-gray-900'}`}
+                >
+                  Blog
+                </Link>
+
+                <Link
+                  to="/company-news"
+                  onClick={() => setMobileMenuOpen(false)}
+                  className={`block py-3 font-semibold border-b border-gray-100 ${location.pathname === '/company-news' ? 'text-blue-600' : 'text-gray-900'}`}
+                >
+                  Company News
                 </Link>
 
                 <Link

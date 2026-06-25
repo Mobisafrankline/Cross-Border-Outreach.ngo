@@ -58,8 +58,8 @@ export default function AdminLayout() {
     {
       title: "Content",
       items: [
-        { label: "News Channel", href: "/admin/news-channel", icon: Newspaper },
-        { label: "Content Editor", href: "/admin/news/new", icon: PenTool },
+
+        { label: "Content Editor", href: "/admin/blog/new", icon: PenTool },
         { label: "Events", href: "/admin/events", icon: Calendar },
         { label: "Gallery", href: "/admin/gallery", icon: Image },
       ]

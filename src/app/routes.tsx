@@ -16,9 +16,8 @@ import Partner from "./pages/Partner";
 import Fundraise from "./pages/Fundraise";
 import Blog from "./pages/Blog";
 import ImpactStories from "./pages/ImpactStories";
-import News from "./pages/News";
-import { COBNewsLayout, COBNewsHome, COBNewsSignUp, COBNewsLogin, COBNewsArticle } from "./pages/cob-news";
-import NewsArticle from "./pages/NewsArticle";
+import CompanyNews from "./pages/CompanyNews";
+import CompanyNewsArticle from "./pages/CompanyNewsArticle";
 import Events from "./pages/Events";
 import EventDetail from "./pages/EventDetail";
 import Gallery from "./pages/Gallery";
@@ -41,7 +40,6 @@ import AdminUsers from "./pages/admin/AdminUsers";
 import AdminReports from "./pages/admin/AdminReports";
 import AdminJobs from "./pages/admin/AdminJobs";
 import AdminApplications from "./pages/admin/AdminApplications";
-import AdminNewsChannel from "./pages/admin/AdminNewsChannel";
 import AdminEvents from "./pages/admin/AdminEvents";
 
 // Donor Pages
@@ -71,8 +69,9 @@ export const router = createBrowserRouter([
       { path: "blog", Component: Blog },
       { path: "initiatives/:id", Component: InitiativeDetail },
       { path: "impact", Component: ImpactStories },
-      { path: "news", Component: News },
-      { path: "news/:id", Component: NewsArticle },
+      { path: "company-news", Component: CompanyNews },
+      { path: "company-news/:id", Component: CompanyNewsArticle },
+
       { path: "events", Component: Events },
       { path: "events/:id", Component: EventDetail },
       { path: "gallery", Component: Gallery },
@@ -85,17 +84,7 @@ export const router = createBrowserRouter([
       { path: "login", Component: AuthPortal },
     ],
   },
-  {
-    path: "/global-news",
-    Component: COBNewsLayout,
-    errorElement: <RouteErrorBoundary />,
-    children: [
-      { index: true, Component: COBNewsHome },
-      { path: "sign-up", Component: COBNewsSignUp },
-      { path: "login", Component: COBNewsLogin },
-      { path: "article/:id", Component: COBNewsArticle },
-    ],
-  },
+
   {
     path: "/admin",
     errorElement: <RouteErrorBoundary />,
@@ -119,7 +108,7 @@ export const router = createBrowserRouter([
           { path: "reports", Component: AdminReports },
           { path: "jobs", Component: AdminJobs },
           { path: "applications", Component: AdminApplications },
-          { path: "news-channel", Component: AdminNewsChannel },
+
           { path: "profile", Component: ProfileSettings },
         ],
       },

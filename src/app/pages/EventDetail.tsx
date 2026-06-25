@@ -67,18 +67,23 @@ export default function EventDetail() {
     const resolve = async () => {
       if (!id) { setNotFound(true); setLoading(false); return; }
 
-      // ── Supabase event (id starts with "sb-") ──────────────
-      if (id.startsWith("sb-")) {
-        const uuid = id.replace("sb-", "");
+      // ── Supabase event (UUID) ──────────────
+      const cleanedId = id.replace("sb-", "");
+      const isUUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(cleanedId);
+      
+      if (isUUID) {
         const { data, error } = await supabase
           .from("articles")
           .select("*")
-          .eq("id", uuid)
-          .eq("type", "events")
+          .eq("id", cleanedId)
           .single();
 
-        if (error || !data) { setNotFound(true); }
-        else { setEvent(fromSupabase(data)); }
+        if (error || !data) { 
+          console.error("Supabase Error fetching event:", error);
+          setNotFound(true); 
+        } else { 
+          setEvent(fromSupabase(data)); 
+        }
         setLoading(false);
         return;
       }
