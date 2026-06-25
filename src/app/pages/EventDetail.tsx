@@ -5,6 +5,7 @@ import {
   CalendarDays, Map as MapIcon, Info, Sparkles, Loader2
 } from "lucide-react";
 import { ImageWithFallback } from "../components/figma/ImageWithFallback";
+import DOMPurify from "dompurify";
 import { events as staticEvents } from "../../data/content";
 import { supabase } from "../../lib/supabase";
 import { useEffect, useState } from "react";
@@ -234,7 +235,7 @@ export default function EventDetail() {
                 </h2>
                 <div className="text-slate-600 leading-relaxed space-y-6 text-xl">
                   {(event.longDescription || event.description).split("\n").map((para, i) =>
-                    para.trim() ? <p key={i} dangerouslySetInnerHTML={{ __html: para }} /> : null
+                    para.trim() ? <p key={i} dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(para) }} /> : null
                   )}
                 </div>
               </div>

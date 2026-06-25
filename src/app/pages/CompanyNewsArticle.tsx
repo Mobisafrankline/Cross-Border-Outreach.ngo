@@ -3,6 +3,7 @@ import { ArrowLeft, Calendar, Share2, Tag, Loader2, Info } from "lucide-react";
 import { useEffect, useState } from "react";
 import { supabase } from "../../lib/supabase";
 import { ImageWithFallback } from "../components/figma/ImageWithFallback";
+import DOMPurify from "dompurify";
 
 const serif = { fontFamily: "'Inter', -apple-system, sans-serif" };
 const bodySerif = { fontFamily: "'Inter', -apple-system, sans-serif" };
@@ -113,7 +114,7 @@ export default function CompanyNewsArticle() {
         <div className="prose prose-slate prose-lg md:prose-xl max-w-none prose-headings:font-black prose-a:text-blue-600 hover:prose-a:text-blue-800" style={bodySerif}>
           {(article.content || article.excerpt || '').split('\n').map((paragraph: string, idx: number) => {
             if (!paragraph.trim()) return null;
-            return <p key={idx} dangerouslySetInnerHTML={{ __html: paragraph }} />;
+            return <p key={idx} dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(paragraph) }} />;
           })}
         </div>
       </article>

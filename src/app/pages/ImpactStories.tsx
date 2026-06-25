@@ -6,6 +6,7 @@ import { supabase } from "../../lib/supabase";
 import Rescue from "../../assets/3.jpeg";
 import MagazineLayout, { MagazineArticle } from "../components/MagazineLayout";
 import { ImageWithFallback } from "../components/figma/ImageWithFallback";
+import DOMPurify from "dompurify";
 
 interface Story {
   id: number | string;
@@ -273,7 +274,7 @@ export default function ImpactStories() {
               <div
                 className="prose prose-lg md:prose-xl max-w-none text-slate-700 leading-[1.85] prose-headings:font-black prose-headings:text-slate-900 prose-a:text-blue-600 hover:prose-a:underline prose-img:rounded-lg prose-p:mb-6 prose-blockquote:border-blue-700"
                 style={{ fontFamily: "'Source Serif 4', Georgia, serif" }}
-                dangerouslySetInnerHTML={{ __html: selectedStory.story }}
+                dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(selectedStory.story) }}
               />
 
               {/* Pagination Controls */}
