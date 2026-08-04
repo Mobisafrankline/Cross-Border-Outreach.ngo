@@ -193,14 +193,26 @@ export const galleryImages = [
     alt: "Community outreach volunteers",
     category: "community"
   },
-  {
+    {
     id: 6,
+    url: "/Spring Festival.jpeg",
+    alt: "Spring Festival Community Support",
+    category: "community"
+  },
+  {
+    id: 7,
+    url: "/Easter Egg.jpeg",
+    alt: "Easter Egg Hunt Outreach",
+    category: "outreach"
+  },
+  {
+    id: 8,
     url: "https://images.unsplash.com/photo-1585984968562-1443b72fb0dc?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxkaXZlcnNlJTIwdGVhbSUyMGNvbGxhYm9yYXRpb24lMjBub25wcm9maXR8ZW58MXx8fHwxNzcxOTI1NzQwfDA&ixlib=rb-4.1.0&q=80&w=1080",
     alt: "Team collaboration",
     category: "community"
   },
   {
-    id: 7,
+    id: 9,
     url: ImageSlide4,
     alt: "Volunteers community service",
     category: "community"

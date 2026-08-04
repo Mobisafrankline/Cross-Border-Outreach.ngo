@@ -258,7 +258,7 @@ export default function Home() {
       <section className="home-stats-section" ref={statsRef}>
         <div className="max-w-5xl mx-auto px-4 sm:px-6 relative z-10">
           <div className="home-stats-grid">
-            <StatCard value={3000} suffix="+" label={t('stats.livesImpacted')} icon={<Users className="w-6 h-6" />} trigger={statsVisible} />
+            <StatCard value={8455} suffix="+" label={t('stats.livesImpacted')} icon={<Users className="w-6 h-6" />} trigger={statsVisible} />
             <StatCard value={12} suffix="+" label={t('stats.partnerOrgs')} icon={<HandHeart className="w-6 h-6" />} trigger={statsVisible} />
             <StatCard value={5} label={t('stats.corePrograms')} icon={<CheckCircle2 className="w-6 h-6" />} trigger={statsVisible} />
             <StatCard value={2} label={t('stats.countriesReached')} icon={<Globe2 className="w-6 h-6" />} trigger={statsVisible} />
