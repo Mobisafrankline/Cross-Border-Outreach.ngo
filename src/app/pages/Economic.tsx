@@ -24,7 +24,7 @@ export default function Economic() {
         <div className="prog-orb prog-orb-2" style={{ background: "rgba(249,115,22,0.12)" }} />
         <div className="prog-hero-content">
           <div className="prog-badge"><div className="prog-badge-dot" style={{ background: "#8b5cf6" }} />Empowerment Program</div>
-          <h1 className="prog-hero-title">Economic Empowerment</h1>
+          <h1 className="prog-hero-title font-playfair">Economic Empowerment</h1>
           <p className="prog-hero-subtitle">Creating sustainable livelihoods and breaking the cycle of poverty</p>
         </div>
       </section>
@@ -35,7 +35,7 @@ export default function Economic() {
             <ImageWithFallback src="https://images.unsplash.com/photo-1752650736246-abae155278be?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080" alt="Woman entrepreneur" />
           </div>
           <div>
-            <h2 className="prog-about-title">Building Economic Independence</h2>
+            <h2 className="prog-about-title font-playfair">Building Economic Independence</h2>
             <p className="prog-about-text">Our Economic Empowerment Program equips individuals with the skills, resources, and support needed to create sustainable income and achieve financial independence.</p>
             <p className="prog-about-text">We believe in empowering people to lift themselves out of poverty through entrepreneurship, skills development, and access to capital.</p>
             <div className="prog-checklist">
@@ -59,7 +59,7 @@ export default function Economic() {
       <section className="prog-initiatives-section">
         <div className="prog-initiatives-header">
           <div className="prog-initiatives-label" style={{ color: "#8b5cf6" }}>Our Programs</div>
-          <h2 className="prog-initiatives-title">Economic Empowerment Initiatives</h2>
+          <h2 className="prog-initiatives-title font-playfair">Economic Empowerment Initiatives</h2>
           <p className="prog-initiatives-subtitle">Comprehensive programs designed to create lasting economic change</p>
         </div>
         <div className="prog-initiatives-grid">
@@ -74,7 +74,7 @@ export default function Economic() {
               >
                 <div style={{ position: "absolute", top: 0, left: 0, width: 4, height: "100%", background: p.color, borderRadius: "4px 0 0 4px" }} />
                 <div className="prog-initiative-icon" style={{ background: p.color }}><Icon className="w-6 h-6" /></div>
-                <h3 className="prog-initiative-title">{p.title}</h3>
+                <h3 className="prog-initiative-title font-playfair">{p.title}</h3>
                 <p className="prog-initiative-desc">{p.description}</p>
               </Link>
             );
@@ -101,7 +101,7 @@ export default function Economic() {
 
       <section className="prog-cta-section" style={{ background: "linear-gradient(135deg, #7c3aed, #8b5cf6)" }}>
         <div className="prog-cta-inner">
-          <h2 className="prog-cta-title">Invest in Entrepreneurship</h2>
+          <h2 className="prog-cta-title font-playfair">Invest in Entrepreneurship</h2>
           <p className="prog-cta-subtitle">Your support can help someone start a business and transform their community.</p>
           <div className="prog-cta-actions">
             <Link to="/donate" className="prog-cta-btn-primary" style={{ color: "#7c3aed" }}><Heart className="w-5 h-5" /> Fund a Microloan</Link>

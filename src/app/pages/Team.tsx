@@ -22,8 +22,8 @@ export default function Team() {
         </div>
 
         <div className="relative z-10 max-w-4xl mx-auto px-6 text-center text-white">
-          <h1 className="text-5xl md:text-6xl font-bold mb-6">Our Team</h1>
-          <p className="text-xl md:text-2xl opacity-95">
+          <h1 className="text-5xl md:text-6xl font-bold mb-6 font-playfair">Our Team</h1>
+          <p className="text-xl md:text-2xl opacity-95 font-source-serif">
             Dedicated professionals committed to creating change
           </p>
         </div>
@@ -32,10 +32,10 @@ export default function Team() {
       <section className="py-20 bg-white">
         <div className="max-w-6xl mx-auto px-6">
           <div className="text-center mb-12">
-            <h2 className="text-4xl font-bold text-gray-900 mb-4">
+            <h2 className="text-4xl font-bold text-gray-900 mb-4 font-playfair">
               Leadership Team
             </h2>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+            <p className="text-xl text-gray-600 max-w-3xl mx-auto font-source-serif">
               Our experienced leaders bring expertise in humanitarian work,
               development, and community empowerment.
             </p>
@@ -54,7 +54,7 @@ export default function Team() {
                 </div>
 
                 <div className="p-6">
-                  <h3 className="text-xl font-bold text-gray-900 mb-1">
+                  <h3 className="text-xl font-bold text-gray-900 mb-1 font-playfair">
                     {member.name}
                   </h3>
                   <p className="text-blue-600 mb-4">{member.role}</p>
@@ -84,10 +84,10 @@ export default function Team() {
       <section className="py-20 bg-blue-50">
         <div className="max-w-4xl mx-auto px-6 text-center">
           <Users className="w-16 h-16 text-blue-600 mx-auto mb-6" />
-          <h2 className="text-4xl font-bold text-gray-900 mb-6">
+          <h2 className="text-4xl font-bold text-gray-900 mb-6 font-playfair">
             Join Our Team
           </h2>
-          <p className="text-xl text-gray-600 mb-8">
+          <p className="text-xl text-gray-600 mb-8 font-source-serif">
             We're always looking for passionate individuals who want to make a
             difference. Explore career opportunities and join our mission.
           </p>

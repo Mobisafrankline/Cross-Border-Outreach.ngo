@@ -110,7 +110,7 @@ export default function Opportunities() {
             alt="Volunteers working together"
             className="w-full h-full object-cover scale-110"
           />
-          <div className="absolute inset-0 bg-gradient-to-b from-slate-900/40 via-slate-900/60 to-slate-900/90" />
+          <div className="absolute inset-0 bg-slate-900/90" />
         </div>
         
         <div className="relative z-10 max-w-5xl mx-auto px-6 text-center text-white">
@@ -123,18 +123,18 @@ export default function Opportunities() {
               <Star className="w-4 h-4 text-orange-400 fill-orange-400" />
               <span className="text-sm font-bold tracking-widest uppercase">Join the Movement</span>
             </div>
-            <h1 className="text-5xl md:text-7xl font-black mb-8 leading-tight tracking-tight">
+            <h1 className="text-5xl md:text-7xl font-black mb-8 leading-tight tracking-tight font-playfair">
               Change Starts <br/>
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-emerald-400 italic">With You.</span>
+              <span className="text-transparent bg-clip-text bg-blue-900 italic">With You.</span>
             </h1>
-            <p className="text-xl md:text-2xl opacity-90 max-w-2xl mx-auto leading-relaxed mb-10 font-medium">
+            <p className="text-xl md:text-2xl opacity-90 max-w-2xl mx-auto leading-relaxed mb-10 font-medium font-source-serif">
               Give your time, share your skills, and become a catalyst for sustainable change in communities worldwide.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <a href="#apply" className="px-8 py-4 bg-white text-slate-900 rounded-2xl font-bold hover:bg-blue-50 transition-all shadow-xl flex items-center justify-center gap-2">
+              <a href="#apply" className="px-8 py-4 bg-white text-slate-900 rounded-3xl font-bold hover:bg-blue-50 transition-all shadow-xl flex items-center justify-center gap-2">
                 Apply to Volunteer <ArrowRight className="w-5 h-5" />
               </a>
-              <a href="#opportunities" className="px-8 py-4 bg-white/10 backdrop-blur-md border border-white/20 text-white rounded-2xl font-bold hover:bg-white/20 transition-all flex items-center justify-center gap-2">
+              <a href="#opportunities" className="px-8 py-4 bg-white/10 backdrop-blur-md border border-white/20 text-white rounded-3xl font-bold hover:bg-white/20 transition-all flex items-center justify-center gap-2">
                 View Roles
               </a>
             </div>
@@ -146,8 +146,8 @@ export default function Opportunities() {
       <section className="py-24 bg-slate-50 overflow-hidden">
         <div className="max-w-7xl mx-auto px-6">
           <div className="text-center mb-20">
-            <h2 className="text-4xl md:text-5xl font-black text-slate-900 mb-6">Your Volunteer Journey</h2>
-            <p className="text-slate-500 text-lg max-w-2xl mx-auto">
+            <h2 className="text-4xl md:text-5xl font-black text-slate-900 mb-6 font-playfair">Your Volunteer Journey</h2>
+            <p className="text-slate-500 text-lg max-w-2xl mx-auto font-source-serif">
               We've designed a simple, supportive process to get you from application to making a real impact.
             </p>
           </div>
@@ -164,8 +164,8 @@ export default function Opportunities() {
                 <div className="absolute -top-4 -left-4 w-10 h-10 bg-blue-600 text-white rounded-full flex items-center justify-center font-black shadow-lg">
                   {i + 1}
                 </div>
-                <h3 className="text-xl font-black text-slate-900 mb-3">{step.title}</h3>
-                <p className="text-slate-500 leading-relaxed text-sm">{step.desc}</p>
+                <h3 className="text-xl font-black text-slate-900 mb-3 font-playfair">{step.title}</h3>
+                <p className="text-slate-500 leading-relaxed text-sm font-source-serif">{step.desc}</p>
               </div>
             ))}
           </div>
@@ -178,8 +178,8 @@ export default function Opportunities() {
         <div className="max-w-7xl mx-auto px-6 relative z-10">
           <div className="grid lg:grid-cols-12 gap-16 items-center">
             <div className="lg:col-span-5 text-white">
-              <h2 className="text-4xl md:text-6xl font-black mb-8 leading-tight">Ready to join <br/>the family?</h2>
-              <p className="text-xl text-blue-100 mb-10 leading-relaxed opacity-90">
+              <h2 className="text-4xl md:text-6xl font-black mb-8 leading-tight font-playfair">Ready to join <br/>the family?</h2>
+              <p className="text-xl text-blue-100 mb-10 leading-relaxed opacity-90 font-source-serif">
                 Complete the application and our volunteer coordinator will reach out to schedule an introductory call.
               </p>
               
@@ -201,7 +201,7 @@ export default function Opportunities() {
             </div>
 
             <div className="lg:col-span-7">
-              <div className="bg-white rounded-[2.5rem] shadow-2xl p-8 md:p-12 relative">
+              <div className="bg-white rounded-3xl shadow-2xl p-8 md:p-12 relative">
                 {submitStatus === 'success' && (
                   <div className="absolute top-0 left-0 w-full p-4 bg-emerald-500 text-white text-center font-bold rounded-t-[2.5rem]">
                     Application submitted successfully! We'll be in touch soon.
@@ -221,7 +221,7 @@ export default function Opportunities() {
                         type="text" 
                         value={formData.firstName}
                         onChange={(e) => setFormData({...formData, firstName: e.target.value})}
-                        className="w-full px-6 py-4 bg-slate-50 border-2 border-transparent focus:border-blue-600 rounded-2xl focus:outline-none transition-all font-medium" 
+                        className="w-full px-6 py-4 bg-slate-50 border-2 border-transparent focus:border-blue-600 rounded-3xl focus:outline-none transition-all font-medium" 
                       />
                     </div>
                     <div className="space-y-2">
@@ -231,7 +231,7 @@ export default function Opportunities() {
                         type="text" 
                         value={formData.lastName}
                         onChange={(e) => setFormData({...formData, lastName: e.target.value})}
-                        className="w-full px-6 py-4 bg-slate-50 border-2 border-transparent focus:border-blue-600 rounded-2xl focus:outline-none transition-all font-medium" 
+                        className="w-full px-6 py-4 bg-slate-50 border-2 border-transparent focus:border-blue-600 rounded-3xl focus:outline-none transition-all font-medium" 
                       />
                     </div>
                   </div>
@@ -243,7 +243,7 @@ export default function Opportunities() {
                       type="email" 
                       value={formData.email}
                       onChange={(e) => setFormData({...formData, email: e.target.value})}
-                      className="w-full px-6 py-4 bg-slate-50 border-2 border-transparent focus:border-blue-600 rounded-2xl focus:outline-none transition-all font-medium" 
+                      className="w-full px-6 py-4 bg-slate-50 border-2 border-transparent focus:border-blue-600 rounded-3xl focus:outline-none transition-all font-medium" 
                     />
                   </div>
 
@@ -252,7 +252,7 @@ export default function Opportunities() {
                     <select 
                       value={appType}
                       onChange={(e) => setAppType(e.target.value)}
-                      className="w-full px-6 py-4 bg-slate-50 border-2 border-transparent focus:border-blue-600 rounded-2xl focus:outline-none transition-all font-medium appearance-none"
+                      className="w-full px-6 py-4 bg-slate-50 border-2 border-transparent focus:border-blue-600 rounded-3xl focus:outline-none transition-all font-medium appearance-none"
                     >
                       <option value="volunteer">Volunteer (Always Open)</option>
                       <option value="job">Job Opening</option>
@@ -268,7 +268,7 @@ export default function Opportunities() {
                         <select 
                           value={formData.interest}
                           onChange={(e) => setFormData({...formData, interest: e.target.value})}
-                          className="w-full px-6 py-4 bg-slate-50 border-2 border-transparent focus:border-blue-600 rounded-2xl focus:outline-none transition-all font-medium appearance-none"
+                          className="w-full px-6 py-4 bg-slate-50 border-2 border-transparent focus:border-blue-600 rounded-3xl focus:outline-none transition-all font-medium appearance-none"
                         >
                           <option>Food Distribution</option>
                           <option>Education & Tutoring</option>
@@ -280,7 +280,7 @@ export default function Opportunities() {
                           required
                           value={formData.jobId}
                           onChange={(e) => setFormData({...formData, jobId: e.target.value})}
-                          className="w-full px-6 py-4 bg-slate-50 border-2 border-transparent focus:border-blue-600 rounded-2xl focus:outline-none transition-all font-medium appearance-none"
+                          className="w-full px-6 py-4 bg-slate-50 border-2 border-transparent focus:border-blue-600 rounded-3xl focus:outline-none transition-all font-medium appearance-none"
                         >
                           {jobs.length === 0 ? (
                             <option value="">No open jobs at the moment</option>
@@ -297,7 +297,7 @@ export default function Opportunities() {
                       <select 
                         value={formData.availability}
                         onChange={(e) => setFormData({...formData, availability: e.target.value})}
-                        className="w-full px-6 py-4 bg-slate-50 border-2 border-transparent focus:border-blue-600 rounded-2xl focus:outline-none transition-all font-medium appearance-none"
+                        className="w-full px-6 py-4 bg-slate-50 border-2 border-transparent focus:border-blue-600 rounded-3xl focus:outline-none transition-all font-medium appearance-none"
                       >
                         <option>Weekends</option>
                         <option>Weekdays (Evenings)</option>
@@ -314,7 +314,7 @@ export default function Opportunities() {
                       rows={4} 
                       value={formData.about}
                       onChange={(e) => setFormData({...formData, about: e.target.value})}
-                      className="w-full px-6 py-4 bg-slate-50 border-2 border-transparent focus:border-blue-600 rounded-2xl focus:outline-none transition-all font-medium resize-none" 
+                      className="w-full px-6 py-4 bg-slate-50 border-2 border-transparent focus:border-blue-600 rounded-3xl focus:outline-none transition-all font-medium resize-none" 
                       placeholder="Tell us about your background and why you want to join..." 
                     />
                   </div>
@@ -322,7 +322,7 @@ export default function Opportunities() {
                   <button 
                     type="submit" 
                     disabled={isSubmitting || (appType === 'job' && jobs.length === 0)}
-                    className="w-full py-5 bg-blue-600 text-white rounded-2xl font-black text-lg hover:bg-blue-700 transition-all shadow-xl shadow-blue-600/20 transform active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed"
+                    className="w-full py-5 bg-blue-600 text-white rounded-3xl font-black text-lg hover:bg-blue-700 transition-all shadow-xl shadow-blue-600/20 transform active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed"
                   >
                     {isSubmitting ? 'Submitting...' : 'Submit Application'}
                   </button>

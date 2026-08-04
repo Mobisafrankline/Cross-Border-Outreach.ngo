@@ -52,7 +52,7 @@ export default function Education() {
             <div className="prog-badge-dot" style={{ background: "#3b82f6" }} />
             Education Program
           </div>
-          <h1 className="prog-hero-title">Education Support</h1>
+          <h1 className="prog-hero-title font-playfair">Education Support</h1>
           <p className="prog-hero-subtitle">
             Empowering the next generation through quality education and learning opportunities
           </p>
@@ -69,7 +69,7 @@ export default function Education() {
             />
           </div>
           <div>
-            <h2 className="prog-about-title">Building Brighter Futures</h2>
+            <h2 className="prog-about-title font-playfair">Building Brighter Futures</h2>
             <p className="prog-about-text">
               Education is the cornerstone of sustainable development. Our Education Support Program
               breaks down barriers to learning, ensuring every child has the opportunity to reach their full potential.
@@ -102,7 +102,7 @@ export default function Education() {
       <section className="prog-initiatives-section">
         <div className="prog-initiatives-header">
           <div className="prog-initiatives-label" style={{ color: "#3b82f6" }}>Our Initiatives</div>
-          <h2 className="prog-initiatives-title">Education Programs</h2>
+          <h2 className="prog-initiatives-title font-playfair">Education Programs</h2>
           <p className="prog-initiatives-subtitle">
             Supporting students at every stage of their educational journey
           </p>
@@ -121,7 +121,7 @@ export default function Education() {
                 <div className="prog-initiative-icon" style={{ background: program.color }}>
                   <Icon className="w-6 h-6" />
                 </div>
-                <h3 className="prog-initiative-title">{program.title}</h3>
+                <h3 className="prog-initiative-title font-playfair">{program.title}</h3>
                 <p className="prog-initiative-desc">{program.description}</p>
               </Link>
             );
@@ -161,7 +161,7 @@ export default function Education() {
       {/* CTA */}
       <section className="prog-cta-section" style={{ background: "linear-gradient(135deg, #1e3a8a, #3b82f6)" }}>
         <div className="prog-cta-inner">
-          <h2 className="prog-cta-title">Invest in Education, Transform Lives</h2>
+          <h2 className="prog-cta-title font-playfair">Invest in Education, Transform Lives</h2>
           <p className="prog-cta-subtitle">
             Your support can give a child the gift of education and a brighter future.
           </p>

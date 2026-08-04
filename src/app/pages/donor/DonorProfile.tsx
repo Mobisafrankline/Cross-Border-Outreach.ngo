@@ -140,7 +140,7 @@ export default function DonorProfile() {
           <div className="flex items-center gap-3">
             <User className="w-8 h-8 text-blue-600" />
             <div>
-              <h1 className="text-3xl font-bold text-gray-900">Profile Settings</h1>
+              <h1 className="text-3xl font-bold text-gray-900 font-playfair">Profile Settings</h1>
               <p className="text-gray-600">Manage your account information and preferences</p>
             </div>
           </div>
@@ -151,7 +151,7 @@ export default function DonorProfile() {
         <div className="space-y-8">
           {/* Personal Information */}
           <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-8">
-            <h2 className="text-xl font-bold text-gray-900 mb-6">Personal Information</h2>
+            <h2 className="text-xl font-bold text-gray-900 mb-6 font-playfair">Personal Information</h2>
             <form onSubmit={handleSave} className="space-y-6">
               {/* Name Fields */}
               <div className="grid md:grid-cols-2 gap-6">
@@ -253,7 +253,7 @@ export default function DonorProfile() {
 
           {/* Notification Preferences */}
           <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-8">
-            <h2 className="text-xl font-bold text-gray-900 mb-6">Notification Preferences</h2>
+            <h2 className="text-xl font-bold text-gray-900 mb-6 font-playfair">Notification Preferences</h2>
             <div className="space-y-4">
               <label className="flex items-center justify-between cursor-pointer p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors">
                 <div>
@@ -298,7 +298,7 @@ export default function DonorProfile() {
 
           {/* Change Password */}
           <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-8">
-            <h2 className="text-xl font-bold text-gray-900 mb-6">Change Password</h2>
+            <h2 className="text-xl font-bold text-gray-900 mb-6 font-playfair">Change Password</h2>
             <form className="space-y-6">
               <div>
                 <label className="block text-sm font-semibold text-gray-700 mb-2">
@@ -361,7 +361,7 @@ export default function DonorProfile() {
 
           {/* Danger Zone */}
           <div className="bg-red-50 border-2 border-red-200 rounded-xl p-8">
-            <h2 className="text-xl font-bold text-red-900 mb-2">Danger Zone</h2>
+            <h2 className="text-xl font-bold text-red-900 mb-2 font-playfair">Danger Zone</h2>
             <p className="text-red-700 mb-4">
               Once you delete your account, there is no going back. Please be certain.
             </p>

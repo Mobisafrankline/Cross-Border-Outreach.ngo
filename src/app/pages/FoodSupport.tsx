@@ -52,7 +52,7 @@ export default function FoodSupport() {
             <div className="prog-badge-dot" style={{ background: "#f97316" }} />
             Nutrition Program
           </div>
-          <h1 className="prog-hero-title">Food Support Program</h1>
+          <h1 className="prog-hero-title font-playfair">Food Support Program</h1>
           <p className="prog-hero-subtitle">
             Fighting hunger and malnutrition through sustainable food security initiatives across borders
           </p>
@@ -69,7 +69,7 @@ export default function FoodSupport() {
             />
           </div>
           <div>
-            <h2 className="prog-about-title">Nourishing Communities</h2>
+            <h2 className="prog-about-title font-playfair">Nourishing Communities</h2>
             <p className="prog-about-text">
               Our Food Support Program addresses both immediate hunger needs and long-term food security.
               We believe everyone deserves access to nutritious, culturally appropriate food.
@@ -101,7 +101,7 @@ export default function FoodSupport() {
       <section className="prog-initiatives-section">
         <div className="prog-initiatives-header">
           <div className="prog-initiatives-label" style={{ color: "#f97316" }}>Our Initiatives</div>
-          <h2 className="prog-initiatives-title">Comprehensive Food Security</h2>
+          <h2 className="prog-initiatives-title font-playfair">Comprehensive Food Security</h2>
           <p className="prog-initiatives-subtitle">
             Programs designed to meet diverse community nutritional needs
           </p>
@@ -120,7 +120,7 @@ export default function FoodSupport() {
                 <div className="prog-initiative-icon" style={{ background: program.color }}>
                   <Icon className="w-6 h-6" />
                 </div>
-                <h3 className="prog-initiative-title">{program.title}</h3>
+                <h3 className="prog-initiative-title font-playfair">{program.title}</h3>
                 <p className="prog-initiative-desc">{program.description}</p>
               </Link>
             );
@@ -160,7 +160,7 @@ export default function FoodSupport() {
       {/* CTA */}
       <section className="prog-cta-section" style={{ background: "linear-gradient(135deg, #f97316, #ef4444)" }}>
         <div className="prog-cta-inner">
-          <h2 className="prog-cta-title">Help Us Feed More Families</h2>
+          <h2 className="prog-cta-title font-playfair">Help Us Feed More Families</h2>
           <p className="prog-cta-subtitle">
             Your donation can provide nutritious meals to families in need. Every contribution makes a difference.
           </p>

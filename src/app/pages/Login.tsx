@@ -5,12 +5,12 @@ export default function Login() {
     <div className="min-h-screen bg-gray-50">
       <section className="py-20">
         <div className="max-w-md mx-auto px-6">
-          <div className="bg-white rounded-2xl shadow-xl p-8 md:p-12">
+          <div className="bg-white rounded-3xl shadow-xl p-8 md:p-12">
             <div className="text-center mb-8">
               <div className="w-16 h-16 bg-blue-600 rounded-full flex items-center justify-center mx-auto mb-4">
                 <User className="w-8 h-8 text-white" />
               </div>
-              <h1 className="text-3xl font-bold text-gray-900 mb-2">Member Login</h1>
+              <h1 className="text-3xl font-bold text-gray-900 mb-2 font-playfair">Member Login</h1>
               <p className="text-gray-600">
                 Access your donor portal and account information
               </p>
@@ -57,7 +57,7 @@ export default function Login() {
 
               <button
                 type="submit"
-                className="w-full py-4 bg-gradient-to-r from-blue-600 to-blue-700 text-white rounded-lg font-bold text-lg hover:from-blue-700 hover:to-blue-800 transition-all shadow-lg hover:shadow-xl transform hover:-translate-y-0.5"
+                className="w-full py-4 bg-blue-900 text-white rounded-lg font-bold text-lg hover:from-blue-700 hover:to-blue-800 transition-all shadow-lg hover:shadow-xl transform hover:-translate-y-0.5"
               >
                 Sign In
               </button>

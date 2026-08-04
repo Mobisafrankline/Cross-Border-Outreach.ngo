@@ -29,7 +29,7 @@ export default function HelpingFamilies() {
         <div className="prog-orb prog-orb-2" style={{ background: "rgba(236,72,153,0.12)" }} />
         <div className="prog-hero-content">
           <div className="prog-badge"><div className="prog-badge-dot" style={{ background: "#e11d48" }} />Family Welfare</div>
-          <h1 className="prog-hero-title">Helping Needy Families</h1>
+          <h1 className="prog-hero-title font-playfair">Helping Needy Families</h1>
           <p className="prog-hero-subtitle">Restoring hope and dignity to vulnerable families through comprehensive welfare support and community care</p>
         </div>
       </section>
@@ -52,7 +52,7 @@ export default function HelpingFamilies() {
             <ImageWithFallback src="https://images.unsplash.com/photo-1469571486292-0ba58a3f068b?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080" alt="Family receiving support" />
           </div>
           <div>
-            <h2 className="prog-about-title">Supporting Families in Need</h2>
+            <h2 className="prog-about-title font-playfair">Supporting Families in Need</h2>
             <p className="prog-about-text">Our Helping Needy Families program provides holistic support to vulnerable households facing poverty, displacement, or crisis. We address immediate needs while building long-term resilience.</p>
             <p className="prog-about-text">From emergency assistance to sustainable empowerment, we walk alongside families through their most difficult moments and help them rebuild with dignity.</p>
             <div className="prog-checklist">
@@ -76,7 +76,7 @@ export default function HelpingFamilies() {
       <section className="prog-initiatives-section">
         <div className="prog-initiatives-header">
           <div className="prog-initiatives-label" style={{ color: "#e11d48" }}>Our Initiatives</div>
-          <h2 className="prog-initiatives-title">Family Support Programs</h2>
+          <h2 className="prog-initiatives-title font-playfair">Family Support Programs</h2>
           <p className="prog-initiatives-subtitle">Comprehensive care designed to lift families out of crisis and into stability</p>
         </div>
         <div className="prog-initiatives-grid">
@@ -91,7 +91,7 @@ export default function HelpingFamilies() {
               >
                 <div style={{ position: "absolute", top: 0, left: 0, width: 4, height: "100%", background: p.color, borderRadius: "4px 0 0 4px" }} />
                 <div className="prog-initiative-icon" style={{ background: p.color }}><Icon className="w-6 h-6" /></div>
-                <h3 className="prog-initiative-title">{p.title}</h3>
+                <h3 className="prog-initiative-title font-playfair">{p.title}</h3>
                 <p className="prog-initiative-desc">{p.description}</p>
               </Link>
             );
@@ -118,7 +118,7 @@ export default function HelpingFamilies() {
 
       <section className="prog-cta-section" style={{ background: "linear-gradient(135deg, #be123c, #e11d48)" }}>
         <div className="prog-cta-inner">
-          <h2 className="prog-cta-title">Help a Family Today</h2>
+          <h2 className="prog-cta-title font-playfair">Help a Family Today</h2>
           <p className="prog-cta-subtitle">Your generosity can provide shelter, food, and hope to a family in desperate need.</p>
           <div className="prog-cta-actions">
             <Link to="/donate" className="prog-cta-btn-primary" style={{ color: "#be123c" }}><Heart className="w-5 h-5" /> Support a Family</Link>

@@ -131,7 +131,7 @@ export default function AdminReports() {
           <div className="flex items-center gap-3">
             <FileText className="w-8 h-8 text-blue-600" />
             <div>
-              <h1 className="text-3xl font-bold text-slate-900">Reports Management</h1>
+              <h1 className="text-3xl font-bold text-slate-900 font-playfair">Reports Management</h1>
               <p className="text-slate-500 font-medium">Upload and manage organization reports</p>
             </div>
           </div>
@@ -204,7 +204,7 @@ export default function AdminReports() {
                   </div>
                   <div className="min-w-0">
                     <div className="flex items-center gap-2 flex-wrap mb-1">
-                      <h3 className="font-bold text-gray-900 truncate">{report.title}</h3>
+                      <h3 className="font-bold text-gray-900 truncate font-playfair">{report.title}</h3>
                       <span className={`px-2 py-0.5 rounded-full text-xs font-semibold capitalize ${getCategoryColor(report.category)}`}>
                         {report.category}
                       </span>
@@ -248,7 +248,7 @@ export default function AdminReports() {
         ) : (
           <div className="text-center py-16">
             <FileText className="w-16 h-16 text-gray-300 mx-auto mb-4" />
-            <h3 className="text-xl font-semibold text-gray-900 mb-2">No reports found</h3>
+            <h3 className="text-xl font-semibold text-gray-900 mb-2 font-playfair">No reports found</h3>
             <p className="text-gray-600">Upload a report to get started</p>
           </div>
         )}
@@ -257,9 +257,9 @@ export default function AdminReports() {
       {/* Add Report Modal */}
       {modalOpen && (
         <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-6">
-          <div className="bg-white rounded-2xl max-w-lg w-full max-h-[90vh] overflow-y-auto">
+          <div className="bg-white rounded-3xl max-w-lg w-full max-h-[90vh] overflow-y-auto">
             <div className="p-6 border-b border-gray-200 flex items-center justify-between">
-              <h2 className="text-2xl font-bold text-gray-900">Add Report</h2>
+              <h2 className="text-2xl font-bold text-gray-900 font-playfair">Add Report</h2>
               <button
                 onClick={() => setModalOpen(false)}
                 className="w-10 h-10 bg-gray-100 hover:bg-gray-200 rounded-lg flex items-center justify-center transition-colors"

@@ -24,7 +24,7 @@ export default function Healthcare() {
         <div className="prog-orb prog-orb-2" style={{ background: "rgba(59,130,246,0.12)" }} />
         <div className="prog-hero-content">
           <div className="prog-badge"><div className="prog-badge-dot" style={{ background: "#10b981" }} />Healthcare Program</div>
-          <h1 className="prog-hero-title">Healthcare Outreach</h1>
+          <h1 className="prog-hero-title font-playfair">Healthcare Outreach</h1>
           <p className="prog-hero-subtitle">Delivering essential medical care and wellness programs to underserved communities</p>
         </div>
       </section>
@@ -32,7 +32,7 @@ export default function Healthcare() {
       <section className="prog-about-section" style={{ background: "white" }}>
         <div className="prog-about-grid">
           <div>
-            <h2 className="prog-about-title">Accessible Healthcare for All</h2>
+            <h2 className="prog-about-title font-playfair">Accessible Healthcare for All</h2>
             <p className="prog-about-text">Our Healthcare Outreach Program brings quality medical services to communities with limited access to healthcare facilities. We believe health is a fundamental human right.</p>
             <p className="prog-about-text">Through mobile clinics, community health workers, and partnerships with local medical professionals, we provide comprehensive healthcare services where they're needed most.</p>
             <div className="prog-checklist">
@@ -59,7 +59,7 @@ export default function Healthcare() {
       <section className="prog-initiatives-section">
         <div className="prog-initiatives-header">
           <div className="prog-initiatives-label" style={{ color: "#10b981" }}>Our Services</div>
-          <h2 className="prog-initiatives-title">Healthcare Services</h2>
+          <h2 className="prog-initiatives-title font-playfair">Healthcare Services</h2>
           <p className="prog-initiatives-subtitle">Comprehensive medical care addressing diverse community health needs</p>
         </div>
         <div className="prog-initiatives-grid">
@@ -74,7 +74,7 @@ export default function Healthcare() {
               >
                 <div style={{ position: "absolute", top: 0, left: 0, width: 4, height: "100%", background: s.color, borderRadius: "4px 0 0 4px" }} />
                 <div className="prog-initiative-icon" style={{ background: s.color }}><Icon className="w-6 h-6" /></div>
-                <h3 className="prog-initiative-title">{s.title}</h3>
+                <h3 className="prog-initiative-title font-playfair">{s.title}</h3>
                 <p className="prog-initiative-desc">{s.description}</p>
               </Link>
             );
@@ -101,7 +101,7 @@ export default function Healthcare() {
 
       <section className="prog-cta-section" style={{ background: "linear-gradient(135deg, #059669, #10b981)" }}>
         <div className="prog-cta-inner">
-          <h2 className="prog-cta-title">Support Life-Saving Healthcare</h2>
+          <h2 className="prog-cta-title font-playfair">Support Life-Saving Healthcare</h2>
           <p className="prog-cta-subtitle">Your donation provides essential medical care to those who need it most.</p>
           <div className="prog-cta-actions">
             <Link to="/donate" className="prog-cta-btn-primary" style={{ color: "#059669" }}><Heart className="w-5 h-5" /> Make a Donation</Link>

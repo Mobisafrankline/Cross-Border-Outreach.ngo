@@ -96,10 +96,10 @@ export default function Partners() {
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-500/20 backdrop-blur-md border border-blue-400/30 text-blue-200 text-xs font-bold uppercase tracking-widest mb-6">
               <Handshake className="w-3.5 h-3.5" /> Our Alliance
             </div>
-            <h1 className="text-4xl md:text-7xl font-black mb-6 tracking-tight drop-shadow-2xl">
+            <h1 className="text-4xl md:text-7xl font-black mb-6 tracking-tight drop-shadow-2xl font-playfair">
               Partners in <span className="text-blue-400">Impact</span>
             </h1>
-            <p className="text-lg md:text-xl text-blue-100/90 max-w-2xl mx-auto leading-relaxed font-medium mb-12">
+            <p className="text-lg md:text-xl text-blue-100/90 max-w-2xl mx-auto leading-relaxed font-medium mb-12 font-source-serif">
               Together with organizations across the globe, we are building bridges of hope, resources, and lasting change for communities in need.
             </p>
           </motion.div>
@@ -110,11 +110,11 @@ export default function Partners() {
       <section className="py-24 bg-white">
         <div className="max-w-7xl mx-auto px-6">
           <div className="max-w-2xl mb-16">
-            <h2 className="text-3xl md:text-5xl font-black text-gray-900 mb-4 tracking-tight">
+            <h2 className="text-3xl md:text-5xl font-black text-gray-900 mb-4 tracking-tight font-playfair">
               Our <span className="text-blue-600">Partners</span>
             </h2>
             <div className="w-20 h-1.5 bg-blue-600 rounded-full mb-6" />
-            <p className="text-lg text-gray-500 leading-relaxed">
+            <p className="text-lg text-gray-500 leading-relaxed font-source-serif">
               We are proud to collaborate with organizations that share our vision for a more compassionate and connected world.
             </p>
           </div>
@@ -128,7 +128,7 @@ export default function Partners() {
 
                 <div className="flex items-start gap-5 mb-6">
                   {/* Partner Logo */}
-                  <div className="w-16 h-16 bg-gray-50 rounded-2xl flex items-center justify-center border border-gray-100 shrink-0 overflow-hidden p-2 group-hover:border-blue-200 transition-colors">
+                  <div className="w-16 h-16 bg-gray-50 rounded-3xl flex items-center justify-center border border-gray-100 shrink-0 overflow-hidden p-2 group-hover:border-blue-200 transition-colors">
                     {partner.name === "Operation Compassion" ? (
                       <div className="flex flex-col items-center justify-center leading-[1.1] text-center w-full">
                         <span className="text-[10px] font-black text-red-600 tracking-tight uppercase">Operation</span>
@@ -144,7 +144,7 @@ export default function Partners() {
                   </div>
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center gap-3 mb-1">
-                      <h3 className="text-xl font-black text-gray-900 truncate">{partner.name}</h3>
+                      <h3 className="text-xl font-black text-gray-900 truncate font-playfair">{partner.name}</h3>
                       {partner.website !== "#" && (
                         <a href={partner.website} target="_blank" rel="noopener noreferrer"
                           className="text-gray-300 hover:text-blue-600 transition-colors shrink-0">
@@ -158,7 +158,7 @@ export default function Partners() {
                   </div>
                 </div>
 
-                <p className="text-gray-500 leading-relaxed text-sm mb-6 flex-1">
+                <p className="text-gray-500 leading-relaxed text-sm mb-6 flex-1 font-source-serif">
                   {partner.description}
                 </p>
 
@@ -181,7 +181,7 @@ export default function Partners() {
       <section className="py-24 bg-gray-50">
         <div className="max-w-7xl mx-auto px-6">
           <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-5xl font-black text-gray-900 mb-4 tracking-tight">
+            <h2 className="text-3xl md:text-5xl font-black text-gray-900 mb-4 tracking-tight font-playfair">
               What Our Partners <span className="text-blue-600">Say</span>
             </h2>
             <div className="w-20 h-1.5 bg-blue-600 rounded-full mb-6 mx-auto" />
@@ -196,7 +196,7 @@ export default function Partners() {
                 <div className="absolute top-6 right-6 text-blue-100">
                   <svg width="48" height="48" viewBox="0 0 24 24" fill="currentColor"><path d="M6 17h3l2-4V7H5v6h3zm8 0h3l2-4V7h-6v6h3z"/></svg>
                 </div>
-                <p className="text-gray-700 text-lg font-medium italic leading-relaxed mb-8 relative z-10">
+                <p className="text-gray-700 text-lg font-medium italic leading-relaxed mb-8 relative z-10 font-source-serif">
                   "{t.quote}"
                 </p>
                 <div className="flex items-center gap-3">
@@ -218,11 +218,11 @@ export default function Partners() {
       <section className="py-24 bg-white">
         <div className="max-w-7xl mx-auto px-6">
           <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-5xl font-black text-gray-900 mb-4 tracking-tight">
+            <h2 className="text-3xl md:text-5xl font-black text-gray-900 mb-4 tracking-tight font-playfair">
               Partnership <span className="text-blue-600">Tiers</span>
             </h2>
             <div className="w-20 h-1.5 bg-blue-600 rounded-full mb-6 mx-auto" />
-            <p className="text-lg text-gray-500 max-w-2xl mx-auto leading-relaxed">
+            <p className="text-lg text-gray-500 max-w-2xl mx-auto leading-relaxed font-source-serif">
               Choose the partnership level that aligns with your organization's goals and capacity for impact.
             </p>
           </div>
@@ -234,7 +234,7 @@ export default function Partners() {
                 <motion.div key={idx}
                   initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }} transition={{ duration: 0.5, delay: idx * 0.1 }}
-                  className={`relative bg-white rounded-[2.5rem] border ${tier.popular ? 'border-blue-200 shadow-2xl scale-[1.02]' : 'border-gray-100 hover:border-blue-100'} p-8 flex flex-col transition-all duration-300 hover:shadow-xl`}>
+                  className={`relative bg-white rounded-3xl border ${tier.popular ? 'border-blue-200 shadow-2xl scale-[1.02]' : 'border-gray-100 hover:border-blue-100'} p-8 flex flex-col transition-all duration-300 hover:shadow-xl`}>
 
                   {tier.popular && (
                     <div className="absolute -top-4 left-1/2 -translate-x-1/2 px-5 py-1.5 bg-blue-600 text-white text-[10px] font-black uppercase tracking-widest rounded-full shadow-lg">
@@ -242,11 +242,11 @@ export default function Partners() {
                     </div>
                   )}
 
-                  <div className={`w-16 h-16 rounded-2xl bg-gradient-to-br ${tier.color} flex items-center justify-center mb-6 shadow-xl ${tier.shadowColor}`}>
+                  <div className={`w-16 h-16 rounded-3xl bg-gradient-to-br ${tier.color} flex items-center justify-center mb-6 shadow-xl ${tier.shadowColor}`}>
                     <Icon className="w-8 h-8 text-white" />
                   </div>
 
-                  <h3 className="text-2xl font-black text-gray-900 mb-6">{tier.tier}</h3>
+                  <h3 className="text-2xl font-black text-gray-900 mb-6 font-playfair">{tier.tier}</h3>
 
                   <ul className="space-y-3 mb-8 flex-1">
                     {tier.benefits.map((b, i) => (
@@ -262,7 +262,7 @@ export default function Partners() {
                   </ul>
 
                   <Link to="/partner"
-                    className={`w-full py-4 rounded-2xl font-black text-sm uppercase tracking-widest text-center transition-all ${
+                    className={`w-full py-4 rounded-3xl font-black text-sm uppercase tracking-widest text-center transition-all ${
                       tier.popular
                         ? 'bg-blue-600 text-white shadow-xl shadow-blue-600/20 hover:bg-blue-700 hover:-translate-y-1'
                         : 'bg-gray-50 text-gray-700 border border-gray-100 hover:bg-blue-50 hover:text-blue-600 hover:border-blue-100'
@@ -286,20 +286,20 @@ export default function Partners() {
             <Sparkles className="w-10 h-10 text-white -rotate-3" />
           </div>
 
-          <h2 className="text-3xl md:text-5xl font-black mb-8 leading-tight">
+          <h2 className="text-3xl md:text-5xl font-black mb-8 leading-tight font-playfair">
             Ready to Build <br />
             <span className="text-blue-400">Something Greater?</span>
           </h2>
-          <p className="text-xl text-blue-100/80 mb-10 leading-relaxed max-w-2xl mx-auto font-medium">
+          <p className="text-xl text-blue-100/80 mb-10 leading-relaxed max-w-2xl mx-auto font-medium font-source-serif">
             Whether you're a corporation, foundation, or community organization, let's create a partnership that transforms lives.
           </p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
             <Link to="/partner"
-              className="w-full sm:w-auto inline-flex items-center justify-center gap-3 px-10 py-5 bg-white text-blue-900 rounded-2xl font-black text-lg hover:bg-blue-50 transition-all shadow-xl">
+              className="w-full sm:w-auto inline-flex items-center justify-center gap-3 px-10 py-5 bg-white text-blue-900 rounded-3xl font-black text-lg hover:bg-blue-50 transition-all shadow-xl">
               Become a Partner <ArrowRight className="w-5 h-5" />
             </Link>
             <Link to="/contact"
-              className="w-full sm:w-auto inline-flex items-center justify-center gap-3 px-10 py-5 bg-blue-800 text-white border border-blue-700 rounded-2xl font-black text-lg hover:bg-blue-700 transition-all">
+              className="w-full sm:w-auto inline-flex items-center justify-center gap-3 px-10 py-5 bg-blue-800 text-white border border-blue-700 rounded-3xl font-black text-lg hover:bg-blue-700 transition-all">
               Contact Our Team
             </Link>
           </div>

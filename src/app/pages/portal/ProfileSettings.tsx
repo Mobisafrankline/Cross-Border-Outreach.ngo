@@ -138,11 +138,11 @@ export default function ProfileSettings() {
       <div className="bg-white border-b border-slate-200">
         <div className="max-w-4xl mx-auto px-6 py-8">
           <div className="flex items-center gap-4">
-            <div className={`w-14 h-14 rounded-2xl flex items-center justify-center ${userRole === 'admin' ? 'bg-indigo-50 text-indigo-600' : 'bg-blue-50 text-blue-600'}`}>
+            <div className={`w-14 h-14 rounded-3xl flex items-center justify-center ${userRole === 'admin' ? 'bg-indigo-50 text-indigo-600' : 'bg-blue-50 text-blue-600'}`}>
               {userRole === 'admin' ? <ShieldCheck className="w-7 h-7" /> : <Heart className="w-7 h-7" />}
             </div>
             <div>
-              <h1 className="text-3xl font-bold text-slate-900">Profile Settings</h1>
+              <h1 className="text-3xl font-bold text-slate-900 font-playfair">Profile Settings</h1>
               <p className="text-slate-500 font-medium mt-1">Manage your {userRole} account information and preferences</p>
             </div>
           </div>
@@ -152,8 +152,8 @@ export default function ProfileSettings() {
       <div className="max-w-4xl mx-auto px-6 py-8">
         <div className="space-y-8">
           {/* Personal Information */}
-          <div className="bg-white rounded-2xl shadow-sm border border-slate-200 p-8">
-            <h2 className="text-xl font-bold text-slate-900 mb-6 flex items-center gap-2">
+          <div className="bg-white rounded-3xl shadow-sm border border-slate-200 p-8">
+            <h2 className="text-xl font-bold text-slate-900 mb-6 flex items-center gap-2 font-playfair">
               <User className="w-5 h-5 text-blue-600" /> Personal Information
             </h2>
             <form onSubmit={handleSave} className="space-y-6">
@@ -243,8 +243,8 @@ export default function ProfileSettings() {
           </div>
 
           {/* Notification Preferences */}
-          <div className="bg-white rounded-2xl shadow-sm border border-slate-200 p-8">
-            <h2 className="text-xl font-bold text-slate-900 mb-6 flex items-center gap-2">
+          <div className="bg-white rounded-3xl shadow-sm border border-slate-200 p-8">
+            <h2 className="text-xl font-bold text-slate-900 mb-6 flex items-center gap-2 font-playfair">
               <Mail className="w-5 h-5 text-blue-600" /> Notification Preferences
             </h2>
             <div className="space-y-4">
@@ -290,8 +290,8 @@ export default function ProfileSettings() {
           </div>
 
           {/* Change Password */}
-          <div className="bg-white rounded-2xl shadow-sm border border-slate-200 p-8">
-            <h2 className="text-xl font-bold text-slate-900 mb-6 flex items-center gap-2">
+          <div className="bg-white rounded-3xl shadow-sm border border-slate-200 p-8">
+            <h2 className="text-xl font-bold text-slate-900 mb-6 flex items-center gap-2 font-playfair">
               <Lock className="w-5 h-5 text-blue-600" /> Change Password
             </h2>
             <form className="space-y-6">
@@ -351,8 +351,8 @@ export default function ProfileSettings() {
           </div>
 
           {/* Danger Zone */}
-          <div className="bg-red-50/50 border-2 border-red-100 rounded-2xl p-8">
-            <h2 className="text-xl font-bold text-red-700 mb-2">Danger Zone</h2>
+          <div className="bg-red-50/50 border-2 border-red-100 rounded-3xl p-8">
+            <h2 className="text-xl font-bold text-red-700 mb-2 font-playfair">Danger Zone</h2>
             <p className="text-red-600/80 font-medium mb-6">
               Once you delete your account, there is no going back. All of your data will be permanently removed.
             </p>

@@ -212,16 +212,16 @@ export default function AdminDonorsTab() {
       {filteredDonors.length === 0 && (
         <div className="text-center py-12">
           <Users className="w-16 h-16 text-gray-300 mx-auto mb-4" />
-          <h3 className="text-xl font-semibold text-gray-900 mb-2">No donors found</h3>
+          <h3 className="text-xl font-semibold text-gray-900 mb-2 font-playfair">No donors found</h3>
           <p className="text-gray-600">Try adjusting your search or filters</p>
         </div>
       )}
 
       {selectedDonor && (
         <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-6" onClick={() => setSelectedDonor(null)}>
-          <div className="bg-white rounded-2xl max-w-2xl w-full" onClick={(e) => e.stopPropagation()}>
+          <div className="bg-white rounded-3xl max-w-2xl w-full" onClick={(e) => e.stopPropagation()}>
             <div className="p-6 border-b border-gray-200 flex items-center justify-between">
-              <h2 className="text-2xl font-bold text-gray-900">Donor Details</h2>
+              <h2 className="text-2xl font-bold text-gray-900 font-playfair">Donor Details</h2>
               <button
                 onClick={() => setSelectedDonor(null)}
                 className="w-10 h-10 bg-gray-100 hover:bg-gray-200 rounded-lg flex items-center justify-center transition-colors"
@@ -239,7 +239,7 @@ export default function AdminDonorsTab() {
                   </span>
                 </div>
                 <div>
-                  <h3 className="text-2xl font-bold text-gray-900">{selectedDonor.first_name} {selectedDonor.last_name}</h3>
+                  <h3 className="text-2xl font-bold text-gray-900 font-playfair">{selectedDonor.first_name} {selectedDonor.last_name}</h3>
                   <p className="text-gray-600">Member since {new Date(selectedDonor.created_at).toLocaleDateString()}</p>
                 </div>
               </div>

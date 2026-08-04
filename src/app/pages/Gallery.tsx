@@ -202,10 +202,10 @@ export default function Gallery() {
               <Camera className="w-4 h-4" />
               Visual Stories of Impact
             </span>
-            <h1 className="text-5xl md:text-7xl font-extrabold mb-5 leading-tight text-white drop-shadow-sm">
+            <h1 className="text-5xl md:text-7xl font-extrabold mb-5 leading-tight text-white drop-shadow-sm font-playfair">
               Our Gallery
             </h1>
-            <p className="text-lg md:text-xl max-w-2xl mx-auto leading-relaxed text-blue-100">
+            <p className="text-lg md:text-xl max-w-2xl mx-auto leading-relaxed text-blue-100 font-source-serif">
               Explore powerful imagery capturing hope, transformation, and community impact across borders.
             </p>
           </motion.div>
@@ -220,7 +220,7 @@ export default function Gallery() {
             {stats.map((stat, i) => {
               const Icon = stat.icon;
               return (
-                <div key={i} className="rounded-2xl p-4 text-center bg-white/10 border border-white/20 backdrop-blur-md shadow-lg">
+                <div key={i} className="rounded-3xl p-4 text-center bg-white/10 border border-white/20 backdrop-blur-md shadow-lg">
                   <Icon className="w-6 h-6 mx-auto mb-2 text-blue-200" />
                   <div className="text-3xl font-bold text-white">{stat.value}</div>
                   <div className="text-sm mt-0.5 text-blue-100 font-medium">{stat.label}</div>
@@ -369,7 +369,7 @@ export default function Gallery() {
                 animate={{ opacity: 1, scale: 1, y: 0 }}
                 exit={{ opacity: 0, scale: 0.9, y: -10 }}
                 transition={{ duration: 0.4, delay: Math.min(index * 0.05, 0.4) }}
-                className={`group relative overflow-hidden rounded-2xl cursor-pointer bg-slate-200 shadow-sm border border-slate-200 ${viewMode === "grid" ? "aspect-square" : "break-inside-avoid"}`}
+                className={`group relative overflow-hidden rounded-3xl cursor-pointer bg-slate-200 shadow-sm border border-slate-200 ${viewMode === "grid" ? "aspect-square" : "break-inside-avoid"}`}
                 onClick={() => setSelectedImage(image.id)}
                 whileHover={{ y: -6, boxShadow: "0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)" }}
               >
@@ -406,7 +406,7 @@ export default function Gallery() {
             <div className="w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-5 bg-slate-100 text-slate-400">
               <ImageIcon className="w-10 h-10" />
             </div>
-            <h3 className="text-2xl font-bold text-slate-800 mb-2">No photos found</h3>
+            <h3 className="text-2xl font-bold text-slate-800 mb-2 font-playfair">No photos found</h3>
             <p className="text-slate-500 mb-6 max-w-md mx-auto">Try selecting a different category or adjusting your search term to find what you're looking for.</p>
             <button
               onClick={() => { setSelectedCategory("all"); setSearchQuery(""); }}
@@ -555,8 +555,8 @@ export default function Gallery() {
                 <path d="M21.13 28.73h44.07l-22.02 38.12H-1l22.13-38.12z" fill="#ffba00"/>
               </svg>
             </div>
-            <h3 className="text-3xl md:text-4xl font-bold text-slate-900 mb-4">Event Photo Archives</h3>
-            <p className="text-lg text-slate-600 max-w-2xl mx-auto">
+            <h3 className="text-3xl md:text-4xl font-bold text-slate-900 mb-4 font-playfair">Event Photo Archives</h3>
+            <p className="text-lg text-slate-600 max-w-2xl mx-auto font-source-serif">
               Browse and download high-resolution photos from our specific past events and programs in our public Google Drive folders.
             </p>
           </div>
@@ -568,7 +568,7 @@ export default function Gallery() {
           ) : eventArchives.length > 0 ? (
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
               {eventArchives.map((archive) => (
-                <div key={archive.id} className="bg-white rounded-2xl p-6 border border-slate-200 shadow-sm hover:shadow-md transition-all group flex flex-col h-full">
+                <div key={archive.id} className="bg-white rounded-3xl p-6 border border-slate-200 shadow-sm hover:shadow-md transition-all group flex flex-col h-full">
                   <div className="flex items-start gap-4 mb-4">
                     <div className="w-12 h-12 shrink-0 bg-blue-50 text-blue-600 rounded-xl flex items-center justify-center group-hover:bg-blue-600 group-hover:text-white transition-colors">
                       <Folder className="w-6 h-6" />
@@ -616,8 +616,8 @@ export default function Gallery() {
             <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-white shadow-sm mb-6 text-blue-600">
               <Heart className="w-8 h-8 fill-blue-600/20" />
             </div>
-            <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-4 tracking-tight">Be Part of Our Story</h2>
-            <p className="text-lg text-slate-600 mb-8 max-w-2xl mx-auto">
+            <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-4 tracking-tight font-playfair">Be Part of Our Story</h2>
+            <p className="text-lg text-slate-600 mb-8 max-w-2xl mx-auto font-source-serif">
               Every photo represents a life touched, a community strengthened, and a future brightened. Join our mission and help us create more stories worth telling.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">

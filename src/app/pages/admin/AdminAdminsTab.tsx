@@ -175,7 +175,7 @@ export default function AdminAdminsTab() {
       {filteredUsers.length === 0 && !loading && (
         <div className="text-center py-16 bg-white rounded-xl border border-gray-200 mt-6">
           <Shield className="w-16 h-16 text-gray-300 mx-auto mb-4" />
-          <h3 className="text-xl font-semibold text-gray-900 mb-2">No users found</h3>
+          <h3 className="text-xl font-semibold text-gray-900 mb-2 font-playfair">No users found</h3>
           <p className="text-gray-500">Try adjusting your search criteria</p>
         </div>
       )}

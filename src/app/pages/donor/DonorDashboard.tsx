@@ -282,11 +282,11 @@ export default function DonorDashboard() {
     return (
       <div className="min-h-screen bg-slate-50 flex items-center justify-center p-6">
         <div className="max-w-md w-full bg-white rounded-3xl shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-slate-100 p-8 text-center">
-          <div className="w-16 h-16 bg-red-50 rounded-2xl flex items-center justify-center mx-auto mb-6">
+          <div className="w-16 h-16 bg-red-50 rounded-3xl flex items-center justify-center mx-auto mb-6">
             <AlertCircle className="w-8 h-8 text-red-500" />
           </div>
-          <h2 className="text-2xl font-bold text-slate-900 mb-3">Connection Error</h2>
-          <p className="text-slate-600 mb-8 text-sm leading-relaxed">{error}</p>
+          <h2 className="text-2xl font-bold text-slate-900 mb-3 font-playfair">Connection Error</h2>
+          <p className="text-slate-600 mb-8 text-sm leading-relaxed font-source-serif">{error}</p>
           <button onClick={() => window.location.reload()} className="w-full py-3.5 bg-slate-900 text-white rounded-xl font-semibold hover:bg-slate-800 transition-colors shadow-lg shadow-slate-900/20">
             Refresh Page
           </button>
@@ -303,7 +303,7 @@ export default function DonorDashboard() {
         
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
            <div>
-             <h1 className="text-3xl font-bold text-slate-900">Welcome back, {firstName}</h1>
+             <h1 className="text-3xl font-bold text-slate-900 font-playfair">Welcome back, {firstName}</h1>
              <p className="text-slate-500 font-medium mt-1">Here is your impact portfolio and recent activity.</p>
            </div>
            <button
@@ -340,7 +340,7 @@ export default function DonorDashboard() {
             { label: "Impact Score", value: (Math.round(totalDonated * 0.15) + 100).toLocaleString(), icon: Activity, color: "bg-purple-500" },
             { label: "Account Tier", value: currentTier.name, icon: Award, color: "bg-orange-500" },
           ].map((stat, i) => (
-            <div key={i} className="bg-white rounded-2xl shadow-sm p-6 border border-gray-100">
+            <div key={i} className="bg-white rounded-3xl shadow-sm p-6 border border-gray-100">
               <div className="flex items-center gap-4 mb-4">
                 <div className={`${stat.color} w-10 h-10 rounded-lg flex items-center justify-center text-white`}>
                   <stat.icon className="w-6 h-6" />
@@ -354,7 +354,7 @@ export default function DonorDashboard() {
 
         {/* Quick Actions */}
         <div className="mb-8">
-          <h2 className="text-xl font-bold text-gray-900 mb-4">Quick Actions</h2>
+          <h2 className="text-xl font-bold text-gray-900 mb-4 font-playfair">Quick Actions</h2>
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
             {[
               { label: "New Donation", onClick: () => setIsDonateModalOpen(true), icon: Heart, color: "bg-blue-600" },
@@ -371,7 +371,7 @@ export default function DonorDashboard() {
               { label: "Suggest Project", href: "/contact", icon: Star, color: "bg-pink-600" },
             ].map((action, i) => {
               const ActionContent = (
-                <div className={`${action.color} rounded-2xl p-6 text-white text-center hover:shadow-lg transition-all transform hover:-translate-y-1 h-full flex flex-col items-center justify-center`}>
+                <div className={`${action.color} rounded-3xl p-6 text-white text-center hover:shadow-lg transition-all transform hover:-translate-y-1 h-full flex flex-col items-center justify-center`}>
                   <action.icon className="w-8 h-8 mb-3" />
                   <div className="text-sm font-bold">{action.label}</div>
                 </div>
@@ -396,7 +396,7 @@ export default function DonorDashboard() {
             
             {/* Real-world Impact Visuals */}
             <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-200">
-              <h2 className="text-xl font-bold text-gray-900 mb-6 flex items-center gap-2">
+              <h2 className="text-xl font-bold text-gray-900 mb-6 flex items-center gap-2 font-playfair">
                 <Map className="w-5 h-5 text-blue-600" /> Real-World Impact
               </h2>
               <div className="grid sm:grid-cols-2 gap-4">
@@ -420,7 +420,7 @@ export default function DonorDashboard() {
             <div className="bg-white rounded-xl shadow-sm border border-gray-200">
               <div className="p-6 border-b border-gray-200 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                 <div>
-                  <h2 className="text-xl font-bold text-gray-900">Transaction History</h2>
+                  <h2 className="text-xl font-bold text-gray-900 font-playfair">Transaction History</h2>
                   <p className="text-sm text-gray-500 mt-1">Your recent contributions</p>
                 </div>
                 <button onClick={generateAnnualReceipt} className="flex items-center justify-center gap-2 px-4 py-2 bg-gray-50 hover:bg-gray-100 text-gray-700 rounded-lg font-semibold transition-colors text-sm border border-gray-200">
@@ -434,7 +434,7 @@ export default function DonorDashboard() {
                   <div className="w-16 h-16 bg-gray-50 rounded-full flex items-center justify-center mx-auto mb-4">
                     <Gift className="w-8 h-8 text-gray-300" />
                   </div>
-                  <p className="text-gray-900 font-semibold text-lg mb-1">Your journey starts here</p>
+                  <p className="text-gray-900 font-semibold text-lg mb-1 font-source-serif">Your journey starts here</p>
                   <p className="text-gray-500 text-sm mb-6 max-w-sm mx-auto">Make your first donation today and start tracking your global impact immediately.</p>
                   <button onClick={() => setIsDonateModalOpen(true)} className="inline-flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg font-semibold hover:bg-blue-700 transition-colors">
                     <Heart className="w-4 h-4" /> Give Now
@@ -496,7 +496,7 @@ export default function DonorDashboard() {
             {/* ── Event Archives Section ── */}
             <div className="bg-white rounded-xl shadow-sm border border-gray-200">
               <div className="p-6 border-b border-gray-200">
-                <h2 className="text-xl font-bold text-gray-900 flex items-center gap-2">
+                <h2 className="text-xl font-bold text-gray-900 flex items-center gap-2 font-playfair">
                   <Folder className="w-5 h-5 text-blue-600" /> Event Photo Archives
                 </h2>
                 <p className="text-sm text-gray-500 mt-1">Exclusive access to high-resolution photos from our past events and programs.</p>
@@ -537,7 +537,7 @@ export default function DonorDashboard() {
             {/* ── Organization Reports Section ── */}
             <div id="org-reports" className="bg-white rounded-xl shadow-sm border border-gray-200">
               <div className="p-6 border-b border-gray-200">
-                <h2 className="text-xl font-bold text-gray-900 flex items-center gap-2">
+                <h2 className="text-xl font-bold text-gray-900 flex items-center gap-2 font-playfair">
                   <FileText className="w-5 h-5 text-blue-600" /> Organization Reports
                 </h2>
                 <p className="text-sm text-gray-500 mt-1">Full access to all published reports including financials.</p>
@@ -578,7 +578,7 @@ export default function DonorDashboard() {
             {/* ── Impact Gallery Section ── */}
             <div id="impact-gallery" className="bg-white rounded-xl shadow-sm border border-gray-200">
               <div className="p-6 border-b border-gray-200">
-                <h2 className="text-xl font-bold text-gray-900 flex items-center gap-2">
+                <h2 className="text-xl font-bold text-gray-900 flex items-center gap-2 font-playfair">
                   <Eye className="w-5 h-5 text-blue-600" /> Impact Gallery
                 </h2>
                 <p className="text-sm text-gray-500 mt-1">See the direct results of your generosity in the field.</p>
@@ -622,7 +622,7 @@ export default function DonorDashboard() {
             
             {/* Portfolio of Impact (Analytics) */}
             <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
-              <h3 className="text-lg font-bold text-gray-900 mb-6 flex items-center gap-2">
+              <h3 className="text-lg font-bold text-gray-900 mb-6 flex items-center gap-2 font-playfair">
                 <PieChart className="w-5 h-5 text-purple-600" /> Portfolio of Impact
               </h3>
               
@@ -650,7 +650,7 @@ export default function DonorDashboard() {
 
             {/* Project Updates */}
             <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
-              <h3 className="text-lg font-bold text-gray-900 mb-6 flex items-center gap-2">
+              <h3 className="text-lg font-bold text-gray-900 mb-6 flex items-center gap-2 font-playfair">
                 <TrendingUp className="w-5 h-5 text-orange-500" /> Latest Updates
               </h3>
               <div className="space-y-4">
@@ -675,7 +675,7 @@ export default function DonorDashboard() {
 
             {/* Quick Actions */}
             <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
-              <h3 className="text-lg font-bold text-gray-900 mb-4 flex items-center gap-2">
+              <h3 className="text-lg font-bold text-gray-900 mb-4 flex items-center gap-2 font-playfair">
                 <BarChart3 className="w-5 h-5 text-blue-600" />
                 Manage Account
               </h3>
@@ -704,7 +704,7 @@ export default function DonorDashboard() {
           <div className="relative bg-white rounded-3xl shadow-2xl w-full max-w-4xl my-auto overflow-hidden flex flex-col max-h-[90vh]">
             {/* Modal Header */}
             <div className="flex-shrink-0 bg-white border-b border-gray-200 px-6 py-5 flex items-center justify-between">
-              <h2 className="text-xl font-bold text-gray-900 flex items-center gap-2">
+              <h2 className="text-xl font-bold text-gray-900 flex items-center gap-2 font-playfair">
                 <Heart className="w-5 h-5 text-blue-600" /> New Contribution
               </h2>
               <button onClick={() => setIsDonateModalOpen(false)} className="p-2 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-full transition-colors">
@@ -769,7 +769,7 @@ export default function DonorDashboard() {
 
                 {/* Payment Form Column */}
                 <div className="md:col-span-7">
-                  <div className="bg-white border border-gray-200 rounded-2xl p-6 sm:p-8 shadow-sm h-full">
+                  <div className="bg-white border border-gray-200 rounded-3xl p-6 sm:p-8 shadow-sm h-full">
                     {(donateAmount > 0 || Number(customAmount) > 0) ? (
                       isStripeConfigured() ? (
                         <Elements stripe={getStripe()}>
@@ -797,7 +797,7 @@ export default function DonorDashboard() {
                         </div>
                       )
                     ) : (
-                      <div className="text-center py-20 flex flex-col items-center justify-center h-[calc(100%-3rem)] bg-slate-50/50 rounded-2xl border border-slate-100 border-dashed">
+                      <div className="text-center py-20 flex flex-col items-center justify-center h-[calc(100%-3rem)] bg-slate-50/50 rounded-3xl border border-slate-100 border-dashed">
                         <div className="w-20 h-20 bg-white rounded-full flex items-center justify-center shadow-sm mb-4">
                           <DollarSign className="w-8 h-8 text-slate-300" />
                         </div>

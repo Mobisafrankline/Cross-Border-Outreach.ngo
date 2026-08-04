@@ -82,8 +82,8 @@ export default function DonateStripe() {
             <Heart className="w-5 h-5 fill-white" />
             <span className="font-semibold">Secure Donation</span>
           </div>
-          <h1 className="text-5xl md:text-6xl font-bold mb-4">Make a Donation</h1>
-          <p className="text-xl md:text-2xl opacity-95">
+          <h1 className="text-5xl md:text-6xl font-bold mb-4 font-playfair">Make a Donation</h1>
+          <p className="text-xl md:text-2xl opacity-95 font-source-serif">
             Your generosity transforms lives and creates lasting impact
           </p>
         </div>
@@ -98,7 +98,7 @@ export default function DonateStripe() {
               <div className="bg-white rounded-xl shadow-lg p-8">
                 {/* Step 1: Donation Type */}
                 <div className="mb-8">
-                  <h2 className="text-2xl font-bold text-gray-900 mb-4">Choose Donation Type</h2>
+                  <h2 className="text-2xl font-bold text-gray-900 mb-4 font-playfair">Choose Donation Type</h2>
                   <div className="grid grid-cols-2 gap-4">
                     <button
                       onClick={() => setDonationType("one-time")}
@@ -127,7 +127,7 @@ export default function DonateStripe() {
 
                 {/* Step 2: Amount */}
                 <div className="mb-8">
-                  <h2 className="text-2xl font-bold text-gray-900 mb-4">Select Amount</h2>
+                  <h2 className="text-2xl font-bold text-gray-900 mb-4 font-playfair">Select Amount</h2>
                   <div className="grid grid-cols-3 gap-3 mb-4">
                     {predefinedAmounts.map((amount) => (
                       <button
@@ -169,7 +169,7 @@ export default function DonateStripe() {
 
                 {/* Step 3: Program Selection */}
                 <div className="mb-8">
-                  <h2 className="text-2xl font-bold text-gray-900 mb-4">Choose Program</h2>
+                  <h2 className="text-2xl font-bold text-gray-900 mb-4 font-playfair">Choose Program</h2>
                   <div className="space-y-3">
                     {programs.map((program) => (
                       <button
@@ -190,7 +190,7 @@ export default function DonateStripe() {
 
                 {/* Step 4: Payment Method */}
                 <div className="mb-8">
-                  <h2 className="text-2xl font-bold text-gray-900 mb-4">Payment Method</h2>
+                  <h2 className="text-2xl font-bold text-gray-900 mb-4 font-playfair">Payment Method</h2>
                   <div className="grid md:grid-cols-2 gap-3">
                     {paymentMethods.map((method) => (
                       <button
@@ -232,8 +232,8 @@ export default function DonateStripe() {
 
             {/* Right Column - Summary */}
             <div className="lg:col-span-1">
-              <div className="bg-gradient-to-br from-blue-600 to-blue-700 rounded-xl p-8 text-white sticky top-40">
-                <h3 className="text-2xl font-bold mb-6">Donation Summary</h3>
+              <div className="bg-blue-900 rounded-xl p-8 text-white sticky top-40">
+                <h3 className="text-2xl font-bold mb-6 font-playfair">Donation Summary</h3>
                 
                 <div className="space-y-4 mb-6">
                   <div className="flex justify-between py-3 border-b border-blue-400/30">

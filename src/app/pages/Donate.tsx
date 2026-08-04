@@ -56,11 +56,11 @@ export default function Donate() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
           >
-            <h1 className="text-4xl md:text-6xl font-extrabold mb-6 tracking-tight">
+            <h1 className="text-4xl md:text-6xl font-extrabold mb-6 tracking-tight font-playfair">
               Empower Change Through <br/>
               <span className="text-orange-400 italic">Generosity</span>
             </h1>
-            <p className="text-xl text-blue-100 max-w-2xl mx-auto leading-relaxed">
+            <p className="text-xl text-blue-100 max-w-2xl mx-auto leading-relaxed font-source-serif">
               Your contribution directly funds life-saving programs in vulnerable communities. 
               Join thousands of donors in making a global impact.
             </p>
@@ -80,16 +80,16 @@ export default function Donate() {
               className="bg-white rounded-3xl shadow-xl shadow-blue-900/5 p-8 border border-slate-100"
             >
               <div className="flex items-center gap-4 mb-6">
-                <div className="w-12 h-12 bg-orange-100 rounded-2xl flex items-center justify-center">
+                <div className="w-12 h-12 bg-orange-100 rounded-3xl flex items-center justify-center">
                   <Heart className="w-6 h-6 text-orange-500 fill-current" />
                 </div>
                 <div>
-                  <h3 className="text-xl font-bold text-slate-900">The Power of Your Gift</h3>
+                  <h3 className="text-xl font-bold text-slate-900 font-playfair">The Power of Your Gift</h3>
                   <p className="text-slate-500 text-sm">See how your contribution transforms lives</p>
                 </div>
               </div>
 
-              <div className="bg-slate-50 rounded-2xl p-6 border border-slate-100 relative overflow-hidden group">
+              <div className="bg-slate-50 rounded-3xl p-6 border border-slate-100 relative overflow-hidden group">
                 <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
                   <Globe className="w-24 h-24 text-blue-600" />
                 </div>
@@ -126,14 +126,14 @@ export default function Donate() {
 
             {/* Other Ways to Give */}
             <div className="space-y-4">
-              <h3 className="text-xl font-bold text-slate-900 px-2 flex items-center gap-2">
+              <h3 className="text-xl font-bold text-slate-900 px-2 flex items-center gap-2 font-playfair">
                 <Gift className="w-5 h-5 text-blue-600" />
                 Other Ways to Give
               </h3>
               <div className="grid md:grid-cols-2 gap-4">
                 <button 
                   onClick={() => setPaymentMethod("bank")}
-                  className={`flex items-start gap-4 p-5 rounded-2xl border-2 transition-all text-left ${paymentMethod === "bank" ? "border-blue-600 bg-white shadow-lg" : "border-transparent bg-white hover:border-slate-200"}`}
+                  className={`flex items-start gap-4 p-5 rounded-3xl border-2 transition-all text-left ${paymentMethod === "bank" ? "border-blue-600 bg-white shadow-lg" : "border-transparent bg-white hover:border-slate-200"}`}
                 >
                   <div className={`w-10 h-10 rounded-xl flex items-center justify-center shrink-0 ${paymentMethod === "bank" ? "bg-blue-600 text-white" : "bg-slate-100 text-slate-600"}`}>
                     <Building2 className="w-5 h-5" />
@@ -145,7 +145,7 @@ export default function Donate() {
                 </button>
                 <button 
                   onClick={() => setPaymentMethod("crypto")}
-                  className={`flex items-start gap-4 p-5 rounded-2xl border-2 transition-all text-left ${paymentMethod === "crypto" ? "border-blue-600 bg-white shadow-lg" : "border-transparent bg-white hover:border-slate-200"}`}
+                  className={`flex items-start gap-4 p-5 rounded-3xl border-2 transition-all text-left ${paymentMethod === "crypto" ? "border-blue-600 bg-white shadow-lg" : "border-transparent bg-white hover:border-slate-200"}`}
                 >
                   <div className={`w-10 h-10 rounded-xl flex items-center justify-center shrink-0 ${paymentMethod === "crypto" ? "bg-blue-600 text-white" : "bg-slate-100 text-slate-600"}`}>
                     <Bitcoin className="w-5 h-5" />
@@ -164,7 +164,7 @@ export default function Donate() {
                     initial={{ opacity: 0, height: 0 }}
                     animate={{ opacity: 1, height: "auto" }}
                     exit={{ opacity: 0, height: 0 }}
-                    className="bg-blue-600 text-white rounded-2xl p-8 overflow-hidden"
+                    className="bg-blue-600 text-white rounded-3xl p-8 overflow-hidden"
                   >
                     <div className="flex items-center gap-2 mb-6 opacity-80">
                       <Lock className="w-4 h-4" />
@@ -201,7 +201,7 @@ export default function Donate() {
                     initial={{ opacity: 0, height: 0 }}
                     animate={{ opacity: 1, height: "auto" }}
                     exit={{ opacity: 0, height: 0 }}
-                    className="bg-slate-900 text-white rounded-2xl p-8 overflow-hidden"
+                    className="bg-slate-900 text-white rounded-3xl p-8 overflow-hidden"
                   >
                     <div className="flex items-center gap-2 mb-6 opacity-60">
                       <Smartphone className="w-4 h-4" />
@@ -234,13 +234,13 @@ export default function Donate() {
               animate={{ opacity: 1, scale: 1 }}
               className="bg-white rounded-[2rem] shadow-2xl shadow-blue-900/10 border border-slate-100 p-8 sm:p-10"
             >
-              <h2 className="text-2xl font-black text-slate-900 mb-8 flex items-center gap-3">
+              <h2 className="text-2xl font-black text-slate-900 mb-8 flex items-center gap-3 font-playfair">
                 <CreditCard className="w-6 h-6 text-blue-600" />
                 Secure Checkout
               </h2>
 
               {/* Frequency */}
-              <div className="flex p-1 bg-slate-100 rounded-2xl mb-8">
+              <div className="flex p-1 bg-slate-100 rounded-3xl mb-8">
                 <button 
                   onClick={() => setDonationType("one-time")}
                   className={`flex-1 py-3 rounded-xl text-sm font-bold transition-all ${donationType === "one-time" ? "bg-white text-blue-600 shadow-sm" : "text-slate-500 hover:text-slate-700"}`}
@@ -263,7 +263,7 @@ export default function Donate() {
                     <button
                       key={amount}
                       onClick={() => { setSelectedAmount(amount); setCustomAmount(""); }}
-                      className={`py-4 rounded-2xl font-bold text-lg border-2 transition-all ${
+                      className={`py-4 rounded-3xl font-bold text-lg border-2 transition-all ${
                         selectedAmount === amount 
                           ? "border-blue-600 bg-blue-50 text-blue-600" 
                           : "border-slate-100 bg-slate-50 text-slate-600 hover:border-slate-200"
@@ -282,7 +282,7 @@ export default function Donate() {
                     placeholder="Enter custom amount"
                     value={customAmount}
                     onChange={(e) => { setCustomAmount(e.target.value); if(e.target.value) setSelectedAmount(null); }}
-                    className={`w-full bg-slate-50 pl-12 pr-6 py-5 rounded-2xl border-2 font-bold text-xl text-slate-900 transition-all focus:outline-none ${!selectedAmount && customAmount ? "border-blue-600 bg-white" : "border-slate-100 focus:border-blue-300"}`}
+                    className={`w-full bg-slate-50 pl-12 pr-6 py-5 rounded-3xl border-2 font-bold text-xl text-slate-900 transition-all focus:outline-none ${!selectedAmount && customAmount ? "border-blue-600 bg-white" : "border-slate-100 focus:border-blue-300"}`}
                   />
                 </div>
               </div>
@@ -303,7 +303,7 @@ export default function Donate() {
                       />
                     </Elements>
                   ) : (
-                    <div className="bg-slate-50 rounded-2xl p-6 border border-slate-100 text-center">
+                    <div className="bg-slate-50 rounded-3xl p-6 border border-slate-100 text-center">
                       <AlertCircle className="w-10 h-10 text-slate-400 mx-auto mb-3" />
                       <p className="text-sm text-slate-600 mb-4 font-medium">
                         Secure credit card payments are currently being configured.
@@ -317,7 +317,7 @@ export default function Donate() {
                     </div>
                   )
                 ) : (
-                  <div className="bg-slate-50 rounded-2xl p-10 text-center border-2 border-dashed border-slate-200">
+                  <div className="bg-slate-50 rounded-3xl p-10 text-center border-2 border-dashed border-slate-200">
                     <p className="text-slate-400 font-bold uppercase tracking-widest text-xs">Select an amount above</p>
                   </div>
                 )}
@@ -337,7 +337,7 @@ export default function Donate() {
       <section className="bg-white py-24 border-t border-slate-100">
         <div className="max-w-7xl mx-auto px-4 sm:px-6">
           <div className="text-center mb-16">
-            <h2 className="text-3xl font-black text-slate-900 mb-4">Why Trust Us?</h2>
+            <h2 className="text-3xl font-black text-slate-900 mb-4 font-playfair">Why Trust Us?</h2>
             <p className="text-slate-600 max-w-2xl mx-auto">
               We are committed to the highest standards of financial accountability and transparency.
             </p>
@@ -361,11 +361,11 @@ export default function Donate() {
               }
             ].map((item, i) => (
               <div key={i} className="text-center group">
-                <div className="w-16 h-16 bg-blue-50 text-blue-600 rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform">
+                <div className="w-16 h-16 bg-blue-50 text-blue-600 rounded-3xl flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform">
                   <item.icon className="w-8 h-8" />
                 </div>
-                <h3 className="text-xl font-bold text-slate-900 mb-3">{item.title}</h3>
-                <p className="text-slate-600 leading-relaxed">{item.desc}</p>
+                <h3 className="text-xl font-bold text-slate-900 mb-3 font-playfair">{item.title}</h3>
+                <p className="text-slate-600 leading-relaxed font-source-serif">{item.desc}</p>
               </div>
             ))}
           </div>
@@ -375,7 +375,7 @@ export default function Donate() {
       {/* Bottom CTA */}
       <section className="bg-slate-900 py-20 overflow-hidden relative">
         <div className="max-w-4xl mx-auto px-4 text-center relative z-10">
-          <h2 className="text-3xl md:text-5xl font-black text-white mb-8">
+          <h2 className="text-3xl md:text-5xl font-black text-white mb-8 font-playfair">
             Can't give right now? <br/>
             <span className="text-blue-400">Join our volunteer team.</span>
           </h2>

@@ -58,7 +58,7 @@ export default function AdminEvents() {
         <div className="max-w-7xl mx-auto px-6 py-8">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
             <div>
-              <h1 className="text-3xl font-bold text-slate-900">Manage Events</h1>
+              <h1 className="text-3xl font-bold text-slate-900 font-playfair">Manage Events</h1>
               <p className="text-slate-500 font-medium mt-1">View, edit, or delete upcoming and past events.</p>
             </div>
             <Link
@@ -84,11 +84,11 @@ export default function AdminEvents() {
             <Loader2 className="w-10 h-10 text-blue-600 animate-spin" />
           </div>
         ) : (
-          <div className="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
+          <div className="bg-white rounded-3xl shadow-sm border border-slate-200 overflow-hidden">
             {events.length === 0 ? (
               <div className="p-12 text-center text-slate-500">
                 <Calendar className="w-12 h-12 mx-auto mb-4 opacity-50" />
-                <p className="font-bold text-lg">No events found</p>
+                <p className="font-bold text-lg font-source-serif">No events found</p>
                 <p>Start by adding a new event.</p>
               </div>
             ) : (

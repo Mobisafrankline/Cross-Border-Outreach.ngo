@@ -76,7 +76,7 @@ export default function AdminJobs() {
       <div className="max-w-7xl mx-auto">
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-8">
           <div>
-            <h1 className="text-3xl font-black text-slate-900 flex items-center gap-3">
+            <h1 className="text-3xl font-black text-slate-900 flex items-center gap-3 font-playfair">
               <Briefcase className="w-8 h-8 text-blue-600" />
               Manage Jobs
             </h1>
@@ -98,7 +98,7 @@ export default function AdminJobs() {
             <Loader2 className="w-10 h-10 animate-spin text-blue-600" />
           </div>
         ) : (
-          <div className="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
+          <div className="bg-white rounded-3xl shadow-sm border border-slate-200 overflow-hidden">
             <table className="w-full text-left border-collapse">
               <thead>
                 <tr className="bg-slate-50 border-b border-slate-200">
@@ -152,7 +152,7 @@ export default function AdminJobs() {
           <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/50 backdrop-blur-sm overflow-y-auto">
             <div className="bg-white rounded-3xl shadow-xl w-full max-w-2xl overflow-hidden my-8">
               <div className="p-6 border-b border-slate-100 flex justify-between items-center bg-slate-50">
-                <h2 className="text-2xl font-bold text-slate-900">{editingJob ? "Edit Job" : "Post New Job"}</h2>
+                <h2 className="text-2xl font-bold text-slate-900 font-playfair">{editingJob ? "Edit Job" : "Post New Job"}</h2>
                 <button onClick={() => setIsModalOpen(false)} className="text-slate-400 hover:text-slate-600 p-2"><XCircle className="w-6 h-6" /></button>
               </div>
               <form onSubmit={handleSubmit} className="p-6 space-y-6">

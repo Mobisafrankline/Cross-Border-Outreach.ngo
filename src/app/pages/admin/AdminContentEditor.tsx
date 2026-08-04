@@ -246,7 +246,7 @@ export default function AdminContentEditor() {
             <div className="flex items-center gap-2 sm:gap-3 min-w-0">
               <span className="text-2xl sm:text-3xl">{currentType.icon}</span>
               <div className="min-w-0">
-                <h1 className="text-lg sm:text-2xl font-bold text-slate-900 truncate">{isEditing ? `Edit ${currentType.label}` : `Create ${currentType.label}`}</h1>
+                <h1 className="text-lg sm:text-2xl font-bold text-slate-900 truncate font-playfair">{isEditing ? `Edit ${currentType.label}` : `Create ${currentType.label}`}</h1>
                 <p className="text-xs sm:text-sm text-slate-500 font-medium hidden sm:block">Cross-Borders Content Management</p>
               </div>
             </div>
@@ -310,7 +310,7 @@ export default function AdminContentEditor() {
             {/* Event-specific fields */}
             {isEvent && (
               <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6 space-y-4">
-                <h3 className="font-bold text-gray-900 flex items-center gap-2">
+                <h3 className="font-bold text-gray-900 flex items-center gap-2 font-playfair">
                   <Calendar className="w-4 h-4 text-blue-600" /> Event Details
                 </h3>
 
@@ -467,7 +467,7 @@ export default function AdminContentEditor() {
           <div className="space-y-6">
             {/* Publish Settings */}
             <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
-              <h3 className="font-bold text-gray-900 mb-4">Publish Settings</h3>
+              <h3 className="font-bold text-gray-900 mb-4 font-playfair">Publish Settings</h3>
               <div className="space-y-4">
                 <div>
                   <label className="block text-sm font-semibold text-gray-700 mb-2">Content Type</label>
@@ -484,7 +484,7 @@ export default function AdminContentEditor() {
 
             {/* Category */}
             <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
-              <h3 className="font-bold text-gray-900 mb-4">
+              <h3 className="font-bold text-gray-900 mb-4 font-playfair">
                 <Tag className="w-4 h-4 inline mr-1" /> Category
               </h3>
               <select value={category} onChange={(e) => setCategory(e.target.value)}
@@ -518,7 +518,7 @@ export default function AdminContentEditor() {
 
             {/* Featured Image */}
             <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
-              <h3 className="font-bold text-gray-900 mb-4">
+              <h3 className="font-bold text-gray-900 mb-4 font-playfair">
                 <Image className="w-4 h-4 inline mr-1" /> Featured Image
               </h3>
               <input type="file" accept="image/*" className="hidden" id="featured-image-upload"
@@ -567,7 +567,7 @@ export default function AdminContentEditor() {
 
             {/* Video Embed */}
             <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
-              <h3 className="font-bold text-gray-900 mb-4">
+              <h3 className="font-bold text-gray-900 mb-4 font-playfair">
                 <Video className="w-4 h-4 inline mr-1" /> Video Embed (Optional)
               </h3>
               <p className="text-xs text-gray-600 mb-2">
@@ -580,7 +580,7 @@ export default function AdminContentEditor() {
 
             {/* Tags */}
             <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
-              <h3 className="font-bold text-gray-900 mb-4">Tags</h3>
+              <h3 className="font-bold text-gray-900 mb-4 font-playfair">Tags</h3>
               <input type="text" value={tags} onChange={(e) => setTags(e.target.value)}
                 className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-600 focus:border-transparent outline-none"
                 placeholder="Enter tags (comma separated)..." />

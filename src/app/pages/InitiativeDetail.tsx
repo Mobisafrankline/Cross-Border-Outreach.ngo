@@ -59,7 +59,7 @@ export default function InitiativeDetail() {
             {initiative.category}
           </div>
           
-          <h1 className="prog-hero-title">{initiative.title}</h1>
+          <h1 className="prog-hero-title font-playfair">{initiative.title}</h1>
           <p className="prog-hero-subtitle max-w-3xl">
             {initiative.description}
           </p>
@@ -68,7 +68,7 @@ export default function InitiativeDetail() {
 
       {/* Content */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 -mt-20 relative z-10">
-        <div className="bg-white rounded-2xl shadow-xl overflow-hidden border border-gray-100">
+        <div className="bg-white rounded-3xl shadow-xl overflow-hidden border border-gray-100">
           <div className="grid grid-cols-1 lg:grid-cols-3 divide-y lg:divide-y-0 lg:divide-x divide-gray-100">
             
             {/* Main Details */}
@@ -77,22 +77,22 @@ export default function InitiativeDetail() {
                 <div className="p-4 rounded-xl" style={{ background: `${initiative.color}15`, color: initiative.color }}>
                   <Icon className="w-8 h-8" />
                 </div>
-                <h2 className="text-3xl font-bold text-gray-900">About the Initiative</h2>
+                <h2 className="text-3xl font-bold text-gray-900 font-playfair">About the Initiative</h2>
               </div>
               
               <div className="prose prose-lg text-gray-600 max-w-none">
-                <p className="lead text-xl text-gray-800 font-medium mb-6">
+                <p className="lead text-xl text-gray-800 font-medium mb-6 font-source-serif">
                   {initiative.description}
                 </p>
-                <p className="leading-relaxed">
+                <p className="leading-relaxed font-source-serif">
                   {initiative.longDescription}
                 </p>
                 
                 {hasGuidelines && (
-                  <div className="mt-12 bg-gray-50 rounded-2xl p-8 border border-gray-100">
+                  <div className="mt-12 bg-gray-50 rounded-3xl p-8 border border-gray-100">
                     <div className="flex items-center space-x-3 mb-6">
                       <ListChecks className="w-6 h-6" style={{ color: initiative.color }} />
-                      <h3 className="text-xl font-bold text-gray-900 m-0">Eligibility & Guidelines</h3>
+                      <h3 className="text-xl font-bold text-gray-900 m-0 font-playfair">Eligibility & Guidelines</h3>
                     </div>
                     <ul className="space-y-4 m-0 p-0 list-none">
                       {initiative.guidelines?.map((item: string, i: number) => (
@@ -107,7 +107,7 @@ export default function InitiativeDetail() {
                   </div>
                 )}
                 
-                <h3 className="text-xl font-bold text-gray-900 mt-10 mb-6">Key Focus Areas</h3>
+                <h3 className="text-xl font-bold text-gray-900 mt-10 mb-6 font-playfair">Key Focus Areas</h3>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   {[
                     "Community outreach and engagement",
@@ -132,7 +132,7 @@ export default function InitiativeDetail() {
                 <div className="w-16 h-16 rounded-full mx-auto flex items-center justify-center mb-6" style={{ background: `${initiative.color}15`, color: initiative.color }}>
                   <Heart className="w-8 h-8" />
                 </div>
-                <h3 className="text-2xl font-bold text-gray-900 mb-4">Support This Cause</h3>
+                <h3 className="text-2xl font-bold text-gray-900 mb-4 font-playfair">Support This Cause</h3>
                 <p className="text-gray-600 mb-8">
                   Your contribution directly funds the {initiative.title} initiative, helping us reach more people in need.
                 </p>

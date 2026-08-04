@@ -132,10 +132,10 @@ export default function Reports() {
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-500/20 backdrop-blur-md border border-blue-400/30 text-blue-200 text-xs font-bold uppercase tracking-widest mb-6">
               <Shield className="w-3.5 h-3.5" /> Accountability
             </div>
-            <h1 className="text-4xl md:text-7xl font-black mb-6 tracking-tight drop-shadow-2xl">
+            <h1 className="text-4xl md:text-7xl font-black mb-6 tracking-tight drop-shadow-2xl font-playfair">
               Reports & <span className="text-blue-400">Transparency</span>
             </h1>
-            <p className="text-lg md:text-xl text-blue-100/90 max-w-2xl mx-auto leading-relaxed font-medium">
+            <p className="text-lg md:text-xl text-blue-100/90 max-w-2xl mx-auto leading-relaxed font-medium font-source-serif">
               Our commitment to accountability. Download comprehensive reports detailing our impact, finances, and operations.
             </p>
           </motion.div>
@@ -148,11 +148,11 @@ export default function Reports() {
 
           {/* Section Header */}
           <div className="max-w-2xl mb-16">
-            <h2 className="text-3xl md:text-5xl font-black text-gray-900 mb-4 tracking-tight">
+            <h2 className="text-3xl md:text-5xl font-black text-gray-900 mb-4 tracking-tight font-playfair">
               Organization <span className="text-blue-600">Reports</span>
             </h2>
             <div className="w-20 h-1.5 bg-blue-600 rounded-full mb-6"></div>
-            <p className="text-lg text-gray-500 leading-relaxed">
+            <p className="text-lg text-gray-500 leading-relaxed font-source-serif">
               Download our comprehensive reports detailing our impact, finances, and operations across all programs.
             </p>
           </div>
@@ -165,7 +165,7 @@ export default function Reports() {
                 <button
                   key={key}
                   onClick={() => setActiveCategory(key as ReportCategory)}
-                  className={`flex items-center gap-2 px-5 py-3 rounded-2xl font-bold text-xs uppercase tracking-widest transition-all ${activeCategory === key
+                  className={`flex items-center gap-2 px-5 py-3 rounded-3xl font-bold text-xs uppercase tracking-widest transition-all ${activeCategory === key
                       ? "bg-blue-600 text-white shadow-xl shadow-blue-600/20"
                       : "bg-gray-50 text-gray-500 hover:bg-gray-100 border border-gray-100"
                     }`}
@@ -197,13 +197,13 @@ export default function Reports() {
                 >
                   <div className="p-8">
                     <div className="flex items-start gap-5">
-                      <div className={`w-14 h-14 ${getCategoryIconBg(report.category)} rounded-2xl flex items-center justify-center flex-shrink-0 shadow-lg`}>
+                      <div className={`w-14 h-14 ${getCategoryIconBg(report.category)} rounded-3xl flex items-center justify-center flex-shrink-0 shadow-lg`}>
                         {getCategoryIcon(report.category)}
                       </div>
 
                       <div className="flex-1 min-w-0">
                         <div className="flex items-center gap-2 flex-wrap mb-2">
-                          <h3 className="text-lg font-black text-gray-900 group-hover:text-blue-600 transition-colors line-clamp-1">
+                          <h3 className="text-lg font-black text-gray-900 group-hover:text-blue-600 transition-colors line-clamp-1 font-playfair">
                             {report.title}
                           </h3>
                           {report.category === "financial" && report.access_code && (
@@ -234,7 +234,7 @@ export default function Reports() {
                         </div>
 
                         {report.description && (
-                          <p className="text-sm text-gray-500 line-clamp-2 italic leading-relaxed">
+                          <p className="text-sm text-gray-500 line-clamp-2 italic leading-relaxed font-source-serif">
                             {report.description}
                           </p>
                         )}
@@ -244,7 +244,7 @@ export default function Reports() {
                     <div className="mt-6 pt-6 border-t border-gray-50">
                       <button
                         onClick={() => handleReportClick(report)}
-                        className={`w-full px-6 py-4 rounded-2xl flex items-center justify-center gap-3 font-black text-[10px] uppercase tracking-widest transition-all ${report.category === "financial" && report.access_code
+                        className={`w-full px-6 py-4 rounded-3xl flex items-center justify-center gap-3 font-black text-[10px] uppercase tracking-widest transition-all ${report.category === "financial" && report.access_code
                             ? "bg-rose-50 text-rose-600 hover:bg-rose-100 border border-rose-100"
                             : "bg-gray-50 text-gray-700 hover:bg-blue-50 hover:text-blue-600 border border-gray-100"
                           }`}
@@ -267,11 +267,11 @@ export default function Reports() {
               ))}
             </div>
           ) : (
-            <div className="text-center py-24 bg-gray-50 rounded-[3rem] border-2 border-dashed border-gray-200">
+            <div className="text-center py-24 bg-gray-50 rounded-3xl border-2 border-dashed border-gray-200">
               <div className="w-20 h-20 bg-gray-100 text-gray-300 rounded-full flex items-center justify-center mx-auto mb-6">
                 <FileText className="w-10 h-10" />
               </div>
-              <h3 className="text-2xl font-bold text-gray-800 mb-2">No reports available</h3>
+              <h3 className="text-2xl font-bold text-gray-800 mb-2 font-playfair">No reports available</h3>
               <p className="text-gray-500 max-w-md mx-auto">
                 {activeCategory === "all"
                   ? "Reports will appear here once they are published."
@@ -287,11 +287,11 @@ export default function Reports() {
       <section className="py-24 bg-gray-50">
         <div className="max-w-5xl mx-auto px-6">
           <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-5xl font-black text-gray-900 mb-4 tracking-tight">
+            <h2 className="text-3xl md:text-5xl font-black text-gray-900 mb-4 tracking-tight font-playfair">
               Financial <span className="text-blue-600">Transparency</span>
             </h2>
             <div className="w-20 h-1.5 bg-blue-600 rounded-full mx-auto mb-6"></div>
-            <p className="text-lg text-gray-500 max-w-2xl mx-auto">
+            <p className="text-lg text-gray-500 max-w-2xl mx-auto font-source-serif">
               Every dollar contributed is maximized for impact. We maintain one of the highest program efficiency ratings in the sector.
             </p>
           </div>
@@ -301,9 +301,9 @@ export default function Reports() {
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              className="bg-white rounded-[2.5rem] p-10 text-center border border-gray-100 shadow-xl hover:shadow-2xl transition-all"
+              className="bg-white rounded-3xl p-10 text-center border border-gray-100 shadow-xl hover:shadow-2xl transition-all"
             >
-              <div className="w-16 h-16 bg-blue-50 text-blue-600 rounded-2xl flex items-center justify-center mx-auto mb-6">
+              <div className="w-16 h-16 bg-blue-50 text-blue-600 rounded-3xl flex items-center justify-center mx-auto mb-6">
                 <Heart className="w-8 h-8" />
               </div>
               <div className="text-5xl font-black text-blue-600 mb-3">85%</div>
@@ -316,9 +316,9 @@ export default function Reports() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: 0.1 }}
-              className="bg-white rounded-[2.5rem] p-10 text-center border border-gray-100 shadow-xl hover:shadow-2xl transition-all"
+              className="bg-white rounded-3xl p-10 text-center border border-gray-100 shadow-xl hover:shadow-2xl transition-all"
             >
-              <div className="w-16 h-16 bg-emerald-50 text-emerald-600 rounded-2xl flex items-center justify-center mx-auto mb-6">
+              <div className="w-16 h-16 bg-emerald-50 text-emerald-600 rounded-3xl flex items-center justify-center mx-auto mb-6">
                 <Users className="w-8 h-8" />
               </div>
               <div className="text-5xl font-black text-emerald-600 mb-3">10%</div>
@@ -331,9 +331,9 @@ export default function Reports() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: 0.2 }}
-              className="bg-white rounded-[2.5rem] p-10 text-center border border-gray-100 shadow-xl hover:shadow-2xl transition-all"
+              className="bg-white rounded-3xl p-10 text-center border border-gray-100 shadow-xl hover:shadow-2xl transition-all"
             >
-              <div className="w-16 h-16 bg-violet-50 text-violet-600 rounded-2xl flex items-center justify-center mx-auto mb-6">
+              <div className="w-16 h-16 bg-violet-50 text-violet-600 rounded-3xl flex items-center justify-center mx-auto mb-6">
                 <BarChart3 className="w-8 h-8" />
               </div>
               <div className="text-5xl font-black text-violet-600 mb-3">5%</div>
@@ -350,19 +350,19 @@ export default function Reports() {
         <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-blue-400/10 rounded-full blur-[100px] -ml-64 -mb-64" />
 
         <div className="max-w-4xl mx-auto px-6 text-center relative z-10">
-          <h2 className="text-3xl md:text-5xl font-black mb-8 leading-tight">
+          <h2 className="text-3xl md:text-5xl font-black mb-8 leading-tight font-playfair">
             Questions About <br/>
             <span className="text-blue-400">Our Reports?</span>
           </h2>
-          <p className="text-xl text-blue-100/80 mb-10 leading-relaxed max-w-2xl mx-auto font-medium">
+          <p className="text-xl text-blue-100/80 mb-10 leading-relaxed max-w-2xl mx-auto font-medium font-source-serif">
             We believe in full transparency. Reach out to us for any questions regarding our financials or program impact.
           </p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-            <Link to="/contact" className="w-full sm:w-auto px-10 py-5 bg-white text-blue-900 rounded-2xl font-black text-lg hover:bg-blue-50 transition-all shadow-xl inline-flex items-center justify-center gap-3">
+            <Link to="/contact" className="w-full sm:w-auto px-10 py-5 bg-white text-blue-900 rounded-3xl font-black text-lg hover:bg-blue-50 transition-all shadow-xl inline-flex items-center justify-center gap-3">
               Contact Us
               <ArrowRight className="w-5 h-5" />
             </Link>
-            <Link to="/donate" className="w-full sm:w-auto px-10 py-5 bg-blue-800 text-white border border-blue-700 rounded-2xl font-black text-lg hover:bg-blue-700 transition-all inline-flex items-center justify-center gap-3">
+            <Link to="/donate" className="w-full sm:w-auto px-10 py-5 bg-blue-800 text-white border border-blue-700 rounded-3xl font-black text-lg hover:bg-blue-700 transition-all inline-flex items-center justify-center gap-3">
               Support Our Mission
             </Link>
           </div>
@@ -379,11 +379,11 @@ export default function Reports() {
           >
             <div className="p-6 border-b border-gray-100 flex items-center justify-between">
               <div className="flex items-center gap-3">
-                <div className="w-12 h-12 bg-rose-50 rounded-2xl flex items-center justify-center">
+                <div className="w-12 h-12 bg-rose-50 rounded-3xl flex items-center justify-center">
                   <Lock className="w-6 h-6 text-rose-600" />
                 </div>
                 <div>
-                  <h2 className="text-lg font-black text-gray-900">Access Code Required</h2>
+                  <h2 className="text-lg font-black text-gray-900 font-playfair">Access Code Required</h2>
                   <p className="text-sm text-gray-400">This financial report is protected</p>
                 </div>
               </div>
@@ -412,7 +412,7 @@ export default function Reports() {
                 value={accessCode}
                 onChange={(e) => setAccessCode(e.target.value)}
                 onKeyDown={(e) => e.key === "Enter" && handleVerifyCode()}
-                className="w-full px-4 py-4 border border-gray-200 rounded-2xl focus:ring-2 focus:ring-rose-500 focus:border-transparent outline-none text-center text-lg font-mono tracking-widest bg-gray-50"
+                className="w-full px-4 py-4 border border-gray-200 rounded-3xl focus:ring-2 focus:ring-rose-500 focus:border-transparent outline-none text-center text-lg font-mono tracking-widest bg-gray-50"
                 placeholder="Enter code..."
                 autoFocus
               />
@@ -420,14 +420,14 @@ export default function Reports() {
               <div className="flex gap-3 mt-6">
                 <button
                   onClick={() => { setCodeModalOpen(false); setSelectedReport(null); }}
-                  className="flex-1 px-4 py-4 bg-gray-50 hover:bg-gray-100 text-gray-700 rounded-2xl font-black text-xs uppercase tracking-widest transition-colors border border-gray-100"
+                  className="flex-1 px-4 py-4 bg-gray-50 hover:bg-gray-100 text-gray-700 rounded-3xl font-black text-xs uppercase tracking-widest transition-colors border border-gray-100"
                 >
                   Cancel
                 </button>
                 <button
                   onClick={handleVerifyCode}
                   disabled={verifying}
-                  className="flex-1 px-4 py-4 bg-rose-600 hover:bg-rose-700 text-white rounded-2xl font-black text-xs uppercase tracking-widest transition-colors flex items-center justify-center gap-2 disabled:opacity-50 shadow-xl shadow-rose-600/20"
+                  className="flex-1 px-4 py-4 bg-rose-600 hover:bg-rose-700 text-white rounded-3xl font-black text-xs uppercase tracking-widest transition-colors flex items-center justify-center gap-2 disabled:opacity-50 shadow-xl shadow-rose-600/20"
                 >
                   {verifying ? <Loader2 className="w-5 h-5 animate-spin" /> : "Verify & Open"}
                 </button>

@@ -136,11 +136,11 @@ export default function EventDetail() {
         <div className="w-24 h-24 bg-rose-100 text-rose-600 rounded-3xl flex items-center justify-center mb-6">
           <Info className="w-12 h-12" />
         </div>
-        <h1 className="text-3xl font-bold text-slate-900 mb-4">Event Not Found</h1>
+        <h1 className="text-3xl font-bold text-slate-900 mb-4 font-playfair">Event Not Found</h1>
         <p className="text-slate-600 mb-8 text-center max-w-md">
           The event you are looking for might have been moved or is no longer available.
         </p>
-        <Link to="/events" className="px-8 py-3 bg-blue-600 text-white rounded-2xl font-bold shadow-lg hover:bg-blue-700 transition-all">
+        <Link to="/events" className="px-8 py-3 bg-blue-600 text-white rounded-3xl font-bold shadow-lg hover:bg-blue-700 transition-all">
           Back to Events
         </Link>
       </div>
@@ -204,7 +204,7 @@ export default function EventDetail() {
                   </span>
                 )}
               </div>
-              <h1 className="text-4xl md:text-7xl font-black text-white mb-6 leading-tight tracking-tight drop-shadow-2xl max-w-4xl">
+              <h1 className="text-4xl md:text-7xl font-black text-white mb-6 leading-[1.1] tracking-tight drop-shadow-2xl max-w-4xl font-playfair">
                 {event.title}
               </h1>
               <div className="flex flex-wrap items-center gap-6 text-white/90 text-sm md:text-lg font-medium">
@@ -230,10 +230,10 @@ export default function EventDetail() {
             {/* Left: Description */}
             <div className="lg:col-span-8">
               <div className="prose prose-slate prose-lg max-w-none">
-                <h2 className="text-3xl font-black text-slate-900 mb-8 flex items-center gap-3">
+                <h2 className="text-3xl md:text-4xl font-black text-slate-900 mb-8 flex items-center gap-4 font-playfair">
                   <span className="w-2 h-10 bg-blue-600 rounded-full" /> About the Event
                 </h2>
-                <div className="text-slate-600 leading-relaxed space-y-6 text-xl">
+                <div className="text-slate-600 leading-loose space-y-6 text-xl font-source-serif">
                   {(event.longDescription || event.description).split("\n").map((para, i) =>
                     para.trim() ? <p key={i} dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(para) }} /> : null
                   )}
@@ -242,8 +242,8 @@ export default function EventDetail() {
 
               {/* Impact Highlights */}
               <div className="mt-16 pt-16 border-t border-slate-100">
-                <h3 className="text-2xl font-black text-slate-900 mb-8 flex items-center gap-3">
-                  <Sparkles className="w-6 h-6 text-blue-600" /> Impact Highlights
+                <h3 className="text-2xl md:text-3xl font-black text-slate-900 mb-8 flex items-center gap-3 font-playfair">
+                  <Sparkles className="w-8 h-8 text-blue-600" /> Impact Highlights
                 </h3>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div className="bg-slate-50 rounded-3xl p-8 border border-slate-100">
@@ -264,8 +264,8 @@ export default function EventDetail() {
 
             {/* Right: Sidebar */}
             <div className="lg:col-span-4 space-y-8">
-              <div className="bg-white rounded-[2.5rem] border border-gray-100 shadow-2xl p-8 sticky top-24">
-                <div className="text-center mb-8">
+              <div className="bg-white rounded-3xl border border-slate-900/5 shadow-[0_8px_30px_rgba(15,23,42,0.06)] p-8 sticky top-24">
+                <div className="text-center mb-10">
                   <div className="text-sm font-black text-gray-400 uppercase tracking-widest mb-2">Ticket Price</div>
                   <div className="text-5xl font-black text-blue-600">{event.ticketPrice || "Free"}</div>
                 </div>
@@ -273,7 +273,7 @@ export default function EventDetail() {
                 <div className="space-y-6 mb-10">
                   {event.time && (
                     <div className="flex items-start gap-4">
-                      <div className="w-12 h-12 bg-blue-50 rounded-2xl flex items-center justify-center text-blue-600 shrink-0">
+                      <div className="w-12 h-12 bg-blue-50 rounded-3xl flex items-center justify-center text-blue-600 shrink-0">
                         <Clock className="w-6 h-6" />
                       </div>
                       <div>
@@ -284,7 +284,7 @@ export default function EventDetail() {
                   )}
                   {event.address && (
                     <div className="flex items-start gap-4">
-                      <div className="w-12 h-12 bg-blue-50 rounded-2xl flex items-center justify-center text-blue-600 shrink-0">
+                      <div className="w-12 h-12 bg-blue-50 rounded-3xl flex items-center justify-center text-blue-600 shrink-0">
                         <MapIcon className="w-6 h-6" />
                       </div>
                       <div>
@@ -295,7 +295,7 @@ export default function EventDetail() {
                   )}
                   {event.capacity > 0 && (
                     <div className="flex items-start gap-4">
-                      <div className="w-12 h-12 bg-blue-50 rounded-2xl flex items-center justify-center text-blue-600 shrink-0">
+                      <div className="w-12 h-12 bg-blue-50 rounded-3xl flex items-center justify-center text-blue-600 shrink-0">
                         <Users className="w-6 h-6" />
                       </div>
                       <div className="flex-1">
@@ -313,11 +313,11 @@ export default function EventDetail() {
                 </div>
 
                 {isUpcoming ? (
-                  <button className="w-full py-5 bg-blue-600 text-white rounded-2xl font-black text-lg shadow-xl shadow-blue-600/30 hover:bg-blue-700 hover:-translate-y-1 transition-all active:scale-95 flex items-center justify-center gap-3">
+                  <button className="w-full py-5 bg-blue-600 text-white rounded-3xl font-black text-lg shadow-xl shadow-blue-600/30 hover:bg-blue-700 hover:-translate-y-1 transition-all active:scale-95 flex items-center justify-center gap-3">
                     Register Now <ExternalLink className="w-5 h-5" />
                   </button>
                 ) : (
-                  <div className="w-full py-5 bg-slate-100 text-slate-400 rounded-2xl font-black text-lg flex items-center justify-center gap-3 cursor-not-allowed grayscale">
+                  <div className="w-full py-5 bg-slate-100 text-slate-400 rounded-3xl font-black text-lg flex items-center justify-center gap-3 cursor-not-allowed grayscale">
                     <CheckCircle className="w-5 h-5" /> Event Completed
                   </div>
                 )}
@@ -336,14 +336,14 @@ export default function EventDetail() {
                   <div className="grid grid-cols-2 gap-4">
                     {event.contactPhone && (
                       <a href={`tel:${event.contactPhone}`}
-                        className="flex flex-col items-center gap-2 p-4 bg-slate-50 hover:bg-blue-50 rounded-2xl transition-colors group">
+                        className="flex flex-col items-center gap-2 p-4 bg-slate-50 hover:bg-blue-50 rounded-3xl transition-colors group">
                         <Phone className="w-5 h-5 text-gray-400 group-hover:text-blue-600 transition-colors" />
                         <span className="text-[10px] font-black uppercase text-gray-400 tracking-widest group-hover:text-blue-600">Call</span>
                       </a>
                     )}
                     {event.contactEmail && (
                       <a href={`mailto:${event.contactEmail}`}
-                        className="flex flex-col items-center gap-2 p-4 bg-slate-50 hover:bg-blue-50 rounded-2xl transition-colors group">
+                        className="flex flex-col items-center gap-2 p-4 bg-slate-50 hover:bg-blue-50 rounded-3xl transition-colors group">
                         <Mail className="w-5 h-5 text-gray-400 group-hover:text-blue-600 transition-colors" />
                         <span className="text-[10px] font-black uppercase text-gray-400 tracking-widest group-hover:text-blue-600">Email</span>
                       </a>
@@ -361,18 +361,18 @@ export default function EventDetail() {
         <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-blue-600/20 rounded-full blur-[120px] -mr-64 -mt-64" />
         <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-blue-400/10 rounded-full blur-[100px] -ml-64 -mb-64" />
         <div className="max-w-4xl mx-auto px-6 text-center relative z-10">
-          <h2 className="text-3xl md:text-5xl font-black mb-8 leading-tight">
+          <h2 className="text-4xl md:text-6xl font-black mb-8 leading-tight font-playfair drop-shadow-lg">
             Can't Attend? <br />
             <span className="text-blue-400">You Can Still Support Us.</span>
           </h2>
-          <p className="text-xl text-blue-100/80 mb-10 leading-relaxed max-w-2xl mx-auto font-medium">
+          <p className="text-xl text-blue-100/90 mb-12 leading-relaxed max-w-2xl mx-auto font-source-serif">
             Your donations help us fund these essential programs and extend our reach to even more communities in need.
           </p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-            <Link to="/donate" className="w-full sm:w-auto px-10 py-5 bg-white text-blue-900 rounded-2xl font-black text-lg hover:bg-blue-50 transition-all shadow-xl">
+            <Link to="/donate" className="w-full sm:w-auto px-10 py-5 bg-white text-blue-900 rounded-3xl font-black text-lg hover:bg-blue-50 transition-all shadow-xl">
               Make a Donation
             </Link>
-            <Link to="/contact" className="w-full sm:w-auto px-10 py-5 bg-blue-800 text-white border border-blue-700 rounded-2xl font-black text-lg hover:bg-blue-700 transition-all">
+            <Link to="/contact" className="w-full sm:w-auto px-10 py-5 bg-blue-800 text-white border border-blue-700 rounded-3xl font-black text-lg hover:bg-blue-700 transition-all">
               Contact Us
             </Link>
           </div>

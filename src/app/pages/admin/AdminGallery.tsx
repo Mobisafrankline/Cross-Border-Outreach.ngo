@@ -179,7 +179,7 @@ export default function AdminGallery() {
           <div className="flex items-center gap-3">
             <ImageIcon className="w-8 h-8 text-blue-600" />
             <div>
-              <h1 className="text-3xl font-bold text-slate-900">Gallery Management</h1>
+              <h1 className="text-3xl font-bold text-slate-900 font-playfair">Gallery Management</h1>
               <p className="text-slate-500 font-medium">Upload images and manage event archives</p>
             </div>
           </div>
@@ -277,7 +277,7 @@ export default function AdminGallery() {
                   </div>
                   <div className="p-4">
                     <div className="flex items-start justify-between gap-2 mb-2">
-                      <h3 className="font-semibold text-gray-900 text-sm line-clamp-2 flex-1">
+                      <h3 className="font-semibold text-gray-900 text-sm line-clamp-2 flex-1 font-playfair">
                         {image.alt || image.title}
                       </h3>
                       <span className="px-2 py-1 bg-blue-100 text-blue-600 text-xs rounded-full font-semibold capitalize flex-shrink-0">
@@ -300,7 +300,7 @@ export default function AdminGallery() {
           ) : (
             <div className="text-center py-16">
               <ImageIcon className="w-16 h-16 text-gray-300 mx-auto mb-4" />
-              <h3 className="text-xl font-semibold text-gray-900 mb-2">No images found</h3>
+              <h3 className="text-xl font-semibold text-gray-900 mb-2 font-playfair">No images found</h3>
               <p className="text-gray-600">Try adjusting your filters or upload new images</p>
             </div>
           )
@@ -313,7 +313,7 @@ export default function AdminGallery() {
           ) : filteredArchives.length > 0 ? (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {filteredArchives.map((archive) => (
-                <div key={archive.id} className="bg-white rounded-2xl p-6 border border-gray-200 shadow-sm hover:shadow-md transition-all group flex flex-col h-full">
+                <div key={archive.id} className="bg-white rounded-3xl p-6 border border-gray-200 shadow-sm hover:shadow-md transition-all group flex flex-col h-full">
                   <div className="flex items-start gap-4 mb-4">
                     <div className="w-12 h-12 shrink-0 bg-blue-50 text-blue-600 rounded-xl flex items-center justify-center">
                       <Folder className="w-6 h-6" />
@@ -348,7 +348,7 @@ export default function AdminGallery() {
           ) : (
             <div className="text-center py-16">
               <Folder className="w-16 h-16 text-gray-300 mx-auto mb-4" />
-              <h3 className="text-xl font-semibold text-gray-900 mb-2">No event archives found</h3>
+              <h3 className="text-xl font-semibold text-gray-900 mb-2 font-playfair">No event archives found</h3>
               <p className="text-gray-600">Add a Google Drive link to get started</p>
             </div>
           )
@@ -358,9 +358,9 @@ export default function AdminGallery() {
       {/* Upload Image Modal */}
       {uploadModalOpen && (
         <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-6">
-          <div className="bg-white rounded-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+          <div className="bg-white rounded-3xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
             <div className="p-6 border-b border-gray-200 flex items-center justify-between">
-              <h2 className="text-2xl font-bold text-gray-900">Upload Images</h2>
+              <h2 className="text-2xl font-bold text-gray-900 font-playfair">Upload Images</h2>
               <button
                 onClick={() => setUploadModalOpen(false)}
                 className="w-10 h-10 bg-gray-100 hover:bg-gray-200 rounded-lg flex items-center justify-center transition-colors"
@@ -389,7 +389,7 @@ export default function AdminGallery() {
                 onClick={() => fileInputRef.current?.click()}
               >
                 <Upload className="w-16 h-16 text-gray-400 mx-auto mb-4" />
-                <h3 className="text-lg font-semibold text-gray-900 mb-2">
+                <h3 className="text-lg font-semibold text-gray-900 mb-2 font-playfair">
                   {file ? file.name : "Drop images here or click to browse"}
                 </h3>
                 <p className="text-gray-600 text-sm mb-4">
@@ -470,9 +470,9 @@ export default function AdminGallery() {
       {/* Add Archive Modal */}
       {uploadArchiveOpen && (
         <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-6">
-          <div className="bg-white rounded-2xl max-w-lg w-full max-h-[90vh] overflow-y-auto">
+          <div className="bg-white rounded-3xl max-w-lg w-full max-h-[90vh] overflow-y-auto">
             <div className="p-6 border-b border-gray-200 flex items-center justify-between">
-              <h2 className="text-2xl font-bold text-gray-900">Add Event Archive</h2>
+              <h2 className="text-2xl font-bold text-gray-900 font-playfair">Add Event Archive</h2>
               <button
                 onClick={() => setUploadArchiveOpen(false)}
                 className="w-10 h-10 bg-gray-100 hover:bg-gray-200 rounded-lg flex items-center justify-center transition-colors"

@@ -75,7 +75,7 @@ export default function Mission() {
             alt="Mission and Vision"
             className="w-full h-full object-cover scale-105"
           />
-          <div className="absolute inset-0 bg-gradient-to-b from-slate-900/80 via-slate-900/60 to-slate-900/90" />
+          <div className="absolute inset-0 bg-slate-900/90" />
         </div>
         
         <div className="relative z-10 max-w-5xl mx-auto px-6 text-center">
@@ -87,10 +87,10 @@ export default function Mission() {
             <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-white/90 text-sm font-bold uppercase tracking-widest mb-6">
               <Target className="w-4 h-4 text-blue-400" /> Our Purpose
             </div>
-            <h1 className="text-5xl md:text-7xl font-black text-white mb-6 tracking-tight drop-shadow-xl">
-              Mission <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-cyan-300">&</span> Vision
+            <h1 className="text-5xl md:text-7xl font-black text-white mb-6 tracking-tight drop-shadow-xl font-playfair">
+              Mission <span className="text-transparent bg-clip-text bg-blue-900">&</span> Vision
             </h1>
-            <p className="text-xl md:text-2xl text-slate-200 max-w-2xl mx-auto font-medium leading-relaxed">
+            <p className="text-xl md:text-2xl text-slate-200 max-w-2xl mx-auto font-medium leading-relaxed font-source-serif">
               The driving force behind every program, every partnership, and every life we touch.
             </p>
           </motion.div>
@@ -111,16 +111,16 @@ export default function Mission() {
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true, margin: "-100px" }}
               transition={{ duration: 0.6 }}
-              className="bg-white rounded-[2.5rem] p-10 md:p-14 shadow-2xl shadow-blue-900/5 border border-blue-50 relative overflow-hidden group"
+              className="bg-white rounded-3xl p-10 md:p-14 shadow-2xl shadow-blue-900/5 border border-blue-50 relative overflow-hidden group"
             >
               <div className="absolute top-0 right-0 w-64 h-64 bg-blue-50 rounded-full blur-[80px] -mr-32 -mt-32 transition-transform duration-700 group-hover:scale-150" />
               
               <div className="relative z-10">
-                <div className="w-20 h-20 bg-blue-600 rounded-2xl flex items-center justify-center mb-8 shadow-lg shadow-blue-600/20 transform -rotate-3 group-hover:rotate-0 transition-transform duration-500">
+                <div className="w-20 h-20 bg-blue-600 rounded-3xl flex items-center justify-center mb-8 shadow-lg shadow-blue-600/20 transform -rotate-3 group-hover:rotate-0 transition-transform duration-500">
                   <Target className="w-10 h-10 text-white" />
                 </div>
-                <h2 className="text-4xl font-black text-slate-900 mb-6 tracking-tight">Our Mission</h2>
-                <p className="text-xl text-slate-600 leading-relaxed font-medium">
+                <h2 className="text-4xl font-black text-slate-900 mb-6 tracking-tight font-playfair">Our Mission</h2>
+                <p className="text-xl text-slate-600 leading-relaxed font-medium font-source-serif">
                   To transform lives and build sustainable communities through compassionate outreach. We provide essential support in food security, education, healthcare, and economic empowerment to underserved populations across borders.
                 </p>
               </div>
@@ -132,16 +132,16 @@ export default function Mission() {
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true, margin: "-100px" }}
               transition={{ duration: 0.6, delay: 0.2 }}
-              className="bg-slate-900 rounded-[2.5rem] p-10 md:p-14 shadow-2xl shadow-cyan-900/10 border border-slate-800 relative overflow-hidden group"
+              className="bg-slate-900 rounded-3xl p-10 md:p-14 shadow-2xl shadow-cyan-900/10 border border-slate-800 relative overflow-hidden group"
             >
               <div className="absolute bottom-0 left-0 w-64 h-64 bg-cyan-900/40 rounded-full blur-[80px] -ml-32 -mb-32 transition-transform duration-700 group-hover:scale-150" />
               
               <div className="relative z-10">
-                <div className="w-20 h-20 bg-cyan-400 rounded-2xl flex items-center justify-center mb-8 shadow-lg shadow-cyan-400/20 transform rotate-3 group-hover:rotate-0 transition-transform duration-500">
+                <div className="w-20 h-20 bg-cyan-400 rounded-3xl flex items-center justify-center mb-8 shadow-lg shadow-cyan-400/20 transform rotate-3 group-hover:rotate-0 transition-transform duration-500">
                   <Eye className="w-10 h-10 text-slate-900" />
                 </div>
-                <h2 className="text-4xl font-black text-white mb-6 tracking-tight">Our Vision</h2>
-                <p className="text-xl text-slate-300 leading-relaxed font-medium">
+                <h2 className="text-4xl font-black text-white mb-6 tracking-tight font-playfair">Our Vision</h2>
+                <p className="text-xl text-slate-300 leading-relaxed font-medium font-source-serif">
                   A world where every person, regardless of their circumstances or location, has access to the fundamental resources needed to thrive—nutritious food, quality education, healthcare, and equal economic opportunities.
                 </p>
               </div>
@@ -157,11 +157,11 @@ export default function Mission() {
         
         <div className="max-w-7xl mx-auto px-6 relative z-10">
           <div className="text-center max-w-3xl mx-auto mb-20">
-            <h2 className="text-4xl md:text-5xl font-black text-slate-900 mb-6 tracking-tight">
+            <h2 className="text-4xl md:text-5xl font-black text-slate-900 mb-6 tracking-tight font-playfair">
               Our Core <span className="text-blue-600">Values</span>
             </h2>
             <div className="w-24 h-1.5 bg-blue-600 rounded-full mx-auto mb-8" />
-            <p className="text-xl text-slate-600 leading-relaxed">
+            <p className="text-xl text-slate-600 leading-relaxed font-source-serif">
               These six pillars guide every decision we make, every partnership we forge, and every program we execute.
             </p>
           </div>
@@ -178,11 +178,11 @@ export default function Mission() {
                   transition={{ duration: 0.5, delay: index * 0.1 }}
                   className={`bg-white rounded-3xl p-8 border ${value.border} hover:shadow-xl transition-all duration-300 hover:-translate-y-1 group`}
                 >
-                  <div className={`w-14 h-14 ${value.bg} rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300`}>
+                  <div className={`w-14 h-14 ${value.bg} rounded-3xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300`}>
                     <Icon className={`w-7 h-7 ${value.color}`} />
                   </div>
-                  <h3 className="text-2xl font-black text-slate-900 mb-4">{value.title}</h3>
-                  <p className="text-slate-600 leading-relaxed font-medium">
+                  <h3 className="text-2xl font-black text-slate-900 mb-4 font-playfair">{value.title}</h3>
+                  <p className="text-slate-600 leading-relaxed font-medium font-source-serif">
                     {value.description}
                   </p>
                 </motion.div>
@@ -195,16 +195,16 @@ export default function Mission() {
       {/* ── Our Commitment ── */}
       <section className="py-24 bg-white">
         <div className="max-w-5xl mx-auto px-6">
-          <div className="bg-blue-900 rounded-[3rem] p-10 md:p-16 relative overflow-hidden">
+          <div className="bg-blue-900 rounded-3xl p-10 md:p-16 relative overflow-hidden">
             <div className="absolute top-0 right-0 w-96 h-96 bg-blue-800 rounded-full blur-[100px] -mr-48 -mt-48" />
             
             <div className="relative z-10 flex flex-col lg:flex-row gap-12 items-center">
               <div className="lg:w-1/3 text-center lg:text-left">
-                <div className="w-16 h-16 bg-blue-500/20 rounded-2xl flex items-center justify-center mb-6 mx-auto lg:mx-0 border border-blue-400/30">
+                <div className="w-16 h-16 bg-blue-500/20 rounded-3xl flex items-center justify-center mb-6 mx-auto lg:mx-0 border border-blue-400/30">
                   <Heart className="w-8 h-8 text-blue-300" />
                 </div>
-                <h2 className="text-4xl font-black text-white mb-4 tracking-tight">Our Promise</h2>
-                <p className="text-blue-200 text-lg">
+                <h2 className="text-4xl font-black text-white mb-4 tracking-tight font-playfair">Our Promise</h2>
+                <p className="text-blue-200 text-lg font-source-serif">
                   To the communities we serve and the donors who support us.
                 </p>
               </div>
@@ -218,7 +218,7 @@ export default function Mission() {
                       whileInView={{ opacity: 1, x: 0 }}
                       viewport={{ once: true }}
                       transition={{ duration: 0.4, delay: index * 0.1 }}
-                      className="flex items-start gap-4 bg-white/5 rounded-2xl p-5 border border-white/10 backdrop-blur-sm"
+                      className="flex items-start gap-4 bg-white/5 rounded-3xl p-5 border border-white/10 backdrop-blur-sm"
                     >
                       <CheckCircle2 className="w-6 h-6 text-cyan-400 flex-shrink-0" />
                       <span className="text-white font-medium">{item}</span>
@@ -234,17 +234,17 @@ export default function Mission() {
       {/* ── CTA ── */}
       <section className="pb-24 pt-10 bg-white text-center">
         <div className="max-w-3xl mx-auto px-6">
-          <h2 className="text-3xl md:text-4xl font-black text-slate-900 mb-6">
+          <h2 className="text-3xl md:text-4xl font-black text-slate-900 mb-6 font-playfair">
             Share in Our Vision
           </h2>
-          <p className="text-lg text-slate-600 mb-10">
+          <p className="text-lg text-slate-600 mb-10 font-source-serif">
             It takes a global community to enact lasting change. Join us in making this vision a reality.
           </p>
           <div className="flex flex-col sm:flex-row justify-center gap-4">
-            <Link to="/donate" className="inline-flex items-center justify-center px-8 py-4 bg-blue-600 text-white rounded-2xl font-black text-lg hover:bg-blue-700 transition-colors shadow-xl shadow-blue-600/20">
+            <Link to="/donate" className="inline-flex items-center justify-center px-8 py-4 bg-blue-600 text-white rounded-3xl font-black text-lg hover:bg-blue-700 transition-colors shadow-xl shadow-blue-600/20">
               Support Our Mission
             </Link>
-            <Link to="/opportunities" className="inline-flex items-center justify-center px-8 py-4 bg-slate-100 text-slate-700 rounded-2xl font-black text-lg hover:bg-slate-200 transition-colors border border-slate-200">
+            <Link to="/opportunities" className="inline-flex items-center justify-center px-8 py-4 bg-slate-100 text-slate-700 rounded-3xl font-black text-lg hover:bg-slate-200 transition-colors border border-slate-200">
               Become a Volunteer <ArrowRight className="w-5 h-5 ml-2" />
             </Link>
           </div>

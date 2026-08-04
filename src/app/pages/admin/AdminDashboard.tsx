@@ -130,7 +130,7 @@ export default function AdminDashboard() {
     return (
       <div className="flex-1 h-full bg-slate-50 flex items-center justify-center min-h-[60vh]">
         <div className="text-center">
-          <div className="w-16 h-16 mx-auto mb-4 rounded-2xl bg-gradient-to-br from-blue-500 to-blue-700 flex items-center justify-center shadow-lg shadow-blue-500/20">
+          <div className="w-16 h-16 mx-auto mb-4 rounded-3xl bg-blue-900 flex items-center justify-center shadow-lg shadow-blue-500/20">
             <Loader2 className="w-8 h-8 text-white animate-spin" />
           </div>
           <p className="text-slate-500 font-medium">Loading dashboard…</p>
@@ -236,7 +236,7 @@ export default function AdminDashboard() {
                   <Clock className="w-4 h-4" />
                   {currentDate}
                 </p>
-                <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-white" style={{ fontFamily: "'Playfair Display', Georgia, serif" }}>
+                <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-white font-playfair" style={{ fontFamily: "'Playfair Display', Georgia, serif" }}>
                   Welcome back, {adminProfile?.first_name || 'Admin'}
                 </h1>
                 <p className="text-blue-200/70 font-medium mt-2 text-sm">
@@ -258,7 +258,7 @@ export default function AdminDashboard() {
 
           {/* Error Banner */}
           {error && (
-            <div className="flex items-start gap-3 p-4 mb-6 bg-red-50 border border-red-200 rounded-2xl">
+            <div className="flex items-start gap-3 p-4 mb-6 bg-red-50 border border-red-200 rounded-3xl">
               <AlertCircle className="w-5 h-5 text-red-500 flex-shrink-0 mt-0.5" />
               <div className="flex-1">
                 <p className="text-sm text-red-700 font-medium">{error}</p>
@@ -280,7 +280,7 @@ export default function AdminDashboard() {
                 className="dash-stat-card"
               >
                 <div className="flex items-start justify-between mb-5">
-                  <div className={`w-12 h-12 rounded-2xl bg-gradient-to-br ${stat.gradient} flex items-center justify-center shadow-lg`}
+                  <div className={`w-12 h-12 rounded-3xl bg-gradient-to-br ${stat.gradient} flex items-center justify-center shadow-lg`}
                        style={{ boxShadow: `0 6px 20px rgba(0,0,0,0.15)` }}>
                     <stat.icon className="w-6 h-6 text-white" />
                   </div>
@@ -298,11 +298,11 @@ export default function AdminDashboard() {
 
           {/* Quick Actions */}
           <div className="mb-8">
-            <h2 className="text-base sm:text-lg font-bold text-slate-900 mb-3 sm:mb-4">Quick Actions</h2>
+            <h2 className="text-base sm:text-lg font-bold text-slate-900 mb-3 sm:mb-4 font-playfair">Quick Actions</h2>
             <div className="grid grid-cols-3 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-3 sm:gap-4">
               {quickActions.map((action) => (
                 <Link key={action.href} to={action.href!} className="dash-quick-card group">
-                  <div className={`w-10 h-10 sm:w-12 sm:h-12 rounded-xl sm:rounded-2xl bg-gradient-to-br ${action.color} flex items-center justify-center shadow-md group-hover:shadow-lg transition-shadow`}>
+                  <div className={`w-10 h-10 sm:w-12 sm:h-12 rounded-xl sm:rounded-3xl bg-gradient-to-br ${action.color} flex items-center justify-center shadow-md group-hover:shadow-lg transition-shadow`}>
                     <action.icon className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
                   </div>
                   <span className="text-xs sm:text-sm font-semibold text-slate-700 text-center leading-tight">{action.label}</span>
@@ -314,9 +314,9 @@ export default function AdminDashboard() {
           <div className="grid lg:grid-cols-3 gap-6">
             {/* Recent Donors */}
             <div className="lg:col-span-2">
-              <div className="bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden">
+              <div className="bg-white rounded-3xl shadow-sm border border-slate-100 overflow-hidden">
                 <div className="px-6 py-5 border-b border-slate-100 flex items-center justify-between">
-                  <h2 className="text-lg font-bold text-slate-900 flex items-center gap-2.5">
+                  <h2 className="text-lg font-bold text-slate-900 flex items-center gap-2.5 font-playfair">
                     <div className="w-8 h-8 rounded-lg bg-blue-50 flex items-center justify-center">
                       <Users className="w-4 h-4 text-blue-600" />
                     </div>
@@ -332,7 +332,7 @@ export default function AdminDashboard() {
 
                 {recentDonors.length === 0 ? (
                   <div className="p-12 text-center">
-                    <div className="w-16 h-16 bg-slate-50 rounded-2xl flex items-center justify-center mx-auto mb-4">
+                    <div className="w-16 h-16 bg-slate-50 rounded-3xl flex items-center justify-center mx-auto mb-4">
                       <Users className="w-8 h-8 text-slate-300" />
                     </div>
                     <p className="text-slate-600 font-bold mb-1">No donors yet</p>
@@ -345,7 +345,7 @@ export default function AdminDashboard() {
                     {recentDonors.map((donor) => (
                       <div key={donor.id} className="dash-donor-row">
                         <div className="flex items-center gap-4 min-w-0">
-                          <div className="w-11 h-11 rounded-xl bg-gradient-to-br from-blue-500 to-blue-700 flex items-center justify-center shrink-0 shadow-sm">
+                          <div className="w-11 h-11 rounded-xl bg-blue-900 flex items-center justify-center shrink-0 shadow-sm">
                             <span className="text-sm font-bold text-white">
                               {donor.first_name[0]}{donor.last_name[0]}
                             </span>
@@ -381,8 +381,8 @@ export default function AdminDashboard() {
             {/* Side Widgets */}
             <div className="space-y-6">
               {/* Performance Overview */}
-              <div className="bg-white rounded-2xl shadow-sm border border-slate-100 p-6">
-                <h3 className="text-base font-bold text-slate-900 mb-5 flex items-center gap-2.5">
+              <div className="bg-white rounded-3xl shadow-sm border border-slate-100 p-6">
+                <h3 className="text-base font-bold text-slate-900 mb-5 flex items-center gap-2.5 font-playfair">
                   <div className="w-8 h-8 rounded-lg bg-indigo-50 flex items-center justify-center">
                     <TrendingUp className="w-4 h-4 text-indigo-600" />
                   </div>
@@ -423,8 +423,8 @@ export default function AdminDashboard() {
               </div>
 
               {/* Quick Links */}
-              <div className="bg-white rounded-2xl shadow-sm border border-slate-100 p-6">
-                <h3 className="text-base font-bold text-slate-900 mb-4 flex items-center gap-2.5">
+              <div className="bg-white rounded-3xl shadow-sm border border-slate-100 p-6">
+                <h3 className="text-base font-bold text-slate-900 mb-4 flex items-center gap-2.5 font-playfair">
                   <div className="w-8 h-8 rounded-lg bg-blue-50 flex items-center justify-center">
                     <BarChart3 className="w-4 h-4 text-blue-600" />
                   </div>
@@ -461,7 +461,7 @@ export default function AdminDashboard() {
             <div className="relative bg-white rounded-3xl shadow-2xl w-full max-w-lg p-8 animate-in zoom-in-95 duration-200">
               <div className="flex items-center justify-between mb-8">
                 <div>
-                  <h3 className="text-2xl font-bold text-slate-900">New Content</h3>
+                  <h3 className="text-2xl font-bold text-slate-900 font-playfair">New Content</h3>
                   <p className="text-slate-500 font-medium mt-1">What would you like to post today?</p>
                 </div>
                 <button onClick={() => setIsNewContentModalOpen(false)} className="p-2 text-slate-400 hover:text-slate-600 hover:bg-slate-100 rounded-full transition-colors">
@@ -473,7 +473,7 @@ export default function AdminDashboard() {
                 <Link
                   to="/admin/news/new"
                   onClick={() => setIsNewContentModalOpen(false)}
-                  className="group p-6 rounded-2xl border-2 border-slate-100 hover:border-blue-500 hover:bg-blue-50 transition-all text-center"
+                  className="group p-6 rounded-3xl border-2 border-slate-100 hover:border-blue-500 hover:bg-blue-50 transition-all text-center"
                 >
                   <div className="w-14 h-14 bg-blue-100 text-blue-600 rounded-xl flex items-center justify-center mx-auto mb-4 group-hover:bg-blue-600 group-hover:text-white transition-colors">
                     <Newspaper className="w-8 h-8" />
@@ -485,7 +485,7 @@ export default function AdminDashboard() {
                 <Link
                   to="/admin/blog/new"
                   onClick={() => setIsNewContentModalOpen(false)}
-                  className="group p-6 rounded-2xl border-2 border-slate-100 hover:border-orange-500 hover:bg-orange-50 transition-all text-center"
+                  className="group p-6 rounded-3xl border-2 border-slate-100 hover:border-orange-500 hover:bg-orange-50 transition-all text-center"
                 >
                   <div className="w-14 h-14 bg-orange-100 text-orange-600 rounded-xl flex items-center justify-center mx-auto mb-4 group-hover:bg-orange-600 group-hover:text-white transition-colors">
                     <BookOpen className="w-8 h-8" />

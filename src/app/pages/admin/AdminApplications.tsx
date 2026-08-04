@@ -47,7 +47,7 @@ export default function AdminApplications() {
       <div className="max-w-7xl mx-auto">
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-8">
           <div>
-            <h1 className="text-3xl font-black text-slate-900 flex items-center gap-3">
+            <h1 className="text-3xl font-black text-slate-900 flex items-center gap-3 font-playfair">
               <FileSignature className="w-8 h-8 text-blue-600" />
               Applications
             </h1>
@@ -72,7 +72,7 @@ export default function AdminApplications() {
           </div>
         ) : (
           <div className="grid lg:grid-cols-3 gap-8">
-            <div className="lg:col-span-2 bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
+            <div className="lg:col-span-2 bg-white rounded-3xl shadow-sm border border-slate-200 overflow-hidden">
               <table className="w-full text-left border-collapse">
                 <thead>
                   <tr className="bg-slate-50 border-b border-slate-200">
@@ -125,10 +125,10 @@ export default function AdminApplications() {
 
             <div className="lg:col-span-1">
               {selectedApp ? (
-                <div className="bg-white rounded-2xl shadow-sm border border-slate-200 p-6 sticky top-6">
+                <div className="bg-white rounded-3xl shadow-sm border border-slate-200 p-6 sticky top-6">
                   <div className="flex justify-between items-start mb-6">
                     <div>
-                      <h3 className="text-xl font-black text-slate-900">{selectedApp.first_name} {selectedApp.last_name}</h3>
+                      <h3 className="text-xl font-black text-slate-900 font-playfair">{selectedApp.first_name} {selectedApp.last_name}</h3>
                       <a href={`mailto:${selectedApp.email}`} className="text-blue-600 hover:underline flex items-center gap-1 mt-1 text-sm font-medium">
                         <Mail className="w-4 h-4" /> {selectedApp.email}
                       </a>
@@ -172,7 +172,7 @@ export default function AdminApplications() {
                   </div>
                 </div>
               ) : (
-                <div className="bg-slate-100 rounded-2xl border border-slate-200 border-dashed p-10 flex flex-col items-center justify-center text-center h-full min-h-[300px]">
+                <div className="bg-slate-100 rounded-3xl border border-slate-200 border-dashed p-10 flex flex-col items-center justify-center text-center h-full min-h-[300px]">
                   <FileSignature className="w-12 h-12 text-slate-300 mb-4" />
                   <p className="text-slate-500 font-medium">Select an application from the list to view its details.</p>
                 </div>

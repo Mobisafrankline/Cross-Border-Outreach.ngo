@@ -15,7 +15,7 @@ export default function AdminUsers() {
           <div className="flex items-center gap-3">
             <UsersRound className="w-8 h-8 text-blue-600" />
             <div>
-              <h1 className="text-3xl font-bold text-slate-900">User Management</h1>
+              <h1 className="text-3xl font-bold text-slate-900 font-playfair">User Management</h1>
               <p className="text-slate-500 font-medium">Manage donors and system administrators</p>
             </div>
           </div>

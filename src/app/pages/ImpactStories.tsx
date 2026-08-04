@@ -207,13 +207,13 @@ export default function ImpactStories() {
               </div>
 
               {/* Headline */}
-              <h1 className="text-4xl md:text-5xl lg:text-6xl text-slate-900 leading-[1.05] tracking-tight mb-6" style={{ fontWeight: 900, fontFamily: "'Playfair Display', Georgia, serif" }}>
+              <h1 className="text-4xl md:text-5xl lg:text-6xl text-slate-900 leading-[1.1] tracking-tight mb-8 font-black font-playfair drop-shadow-sm">
                 {selectedStory.title}
               </h1>
 
               {/* Lead / Excerpt */}
               {selectedStory.quote && (
-                <p className="text-xl md:text-2xl text-slate-500 leading-relaxed mb-8" style={{ fontStyle: "italic", fontFamily: "'Source Serif 4', Georgia, serif" }}>
+                <p className="text-xl md:text-2xl text-slate-500 leading-relaxed mb-10 italic font-source-serif">
                   {selectedStory.quote}
                 </p>
               )}
@@ -248,7 +248,7 @@ export default function ImpactStories() {
 
               {/* Featured Image */}
               {selectedStory.image && (
-                <div className="rounded-sm overflow-hidden shadow-md mb-10 border border-slate-100">
+                <div className="rounded-3xl overflow-hidden shadow-md mb-10 border border-slate-100">
                   <ImageWithFallback
                     src={selectedStory.image}
                     alt={selectedStory.title}
@@ -259,21 +259,20 @@ export default function ImpactStories() {
 
               {/* Impact highlight */}
               {selectedStory.impact && selectedStory.impact !== selectedStory.quote && (
-                <div className="flex gap-5 bg-emerald-50 border border-emerald-100 p-6 rounded-2xl mb-10">
+                <div className="flex gap-5 bg-emerald-50 border border-emerald-100 p-6 rounded-3xl mb-10">
                   <div className="w-12 h-12 bg-emerald-500 rounded-xl flex items-center justify-center text-white flex-shrink-0">
                     <Award className="w-6 h-6" />
                   </div>
                   <div>
                     <div className="text-[10px] font-black text-emerald-600 uppercase tracking-widest mb-1">Core Impact</div>
-                    <p className="text-base text-emerald-800 font-semibold leading-relaxed">{selectedStory.impact}</p>
+                    <p className="text-base text-emerald-800 font-semibold leading-relaxed font-source-serif">{selectedStory.impact}</p>
                   </div>
                 </div>
               )}
 
               {/* Main Story Body */}
               <div
-                className="prose prose-lg md:prose-xl max-w-none text-slate-700 leading-[1.85] prose-headings:font-black prose-headings:text-slate-900 prose-a:text-blue-600 hover:prose-a:underline prose-img:rounded-lg prose-p:mb-6 prose-blockquote:border-blue-700"
-                style={{ fontFamily: "'Source Serif 4', Georgia, serif" }}
+                className="prose prose-lg md:prose-xl max-w-none text-slate-700 leading-loose prose-headings:font-black prose-headings:font-playfair prose-headings:text-slate-900 prose-a:text-blue-600 hover:prose-a:underline prose-img:rounded-3xl prose-img:shadow-md prose-p:mb-8 prose-blockquote:border-blue-600 prose-blockquote:bg-blue-50 prose-blockquote:p-6 prose-blockquote:rounded-r-3xl font-source-serif"
                 dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(selectedStory.story) }}
               />
 
@@ -300,14 +299,14 @@ export default function ImpactStories() {
                 <Link
                   to="/donate"
                   onClick={() => setSelectedStory(null)}
-                  className="flex-1 sm:flex-none inline-flex items-center justify-center gap-3 px-10 py-5 bg-blue-600 hover:bg-blue-700 text-white rounded-2xl font-black text-sm uppercase tracking-widest transition-all shadow-xl shadow-blue-600/30"
+                  className="flex-1 sm:flex-none inline-flex items-center justify-center gap-3 px-10 py-5 bg-blue-600 hover:bg-blue-700 text-white rounded-3xl font-black text-sm uppercase tracking-widest transition-all shadow-xl shadow-blue-600/30"
                 >
                   <Heart className="w-5 h-5 fill-white" /> Support This Cause
                 </Link>
                 <Link
                   to="/opportunities"
                   onClick={() => setSelectedStory(null)}
-                  className="flex-1 sm:flex-none inline-flex items-center justify-center gap-3 px-10 py-5 bg-slate-100 hover:bg-slate-200 text-slate-800 rounded-2xl font-black text-sm uppercase tracking-widest transition-all"
+                  className="flex-1 sm:flex-none inline-flex items-center justify-center gap-3 px-10 py-5 bg-slate-100 hover:bg-slate-200 text-slate-800 rounded-3xl font-black text-sm uppercase tracking-widest transition-all"
                 >
                   Volunteer With Us
                 </Link>
