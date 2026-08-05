@@ -11,6 +11,7 @@ export default function Contact() {
     phone: "",
     subject: "",
     message: "",
+    website_url: "", // honeypot
   });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
@@ -19,6 +20,10 @@ export default function Contact() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    if (form.website_url) {
+      console.log("Spam detected");
+      return;
+    }
     // Construct mailto link
     const mailtoLink = `mailto:skamau@crossbordersoutreach.org?subject=${encodeURIComponent(
       form.subject || "Contact Form Submission"

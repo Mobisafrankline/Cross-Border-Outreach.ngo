@@ -15,8 +15,8 @@ const resources = {
         donateNow: "Donate Now"
       },
       home: {
-        heroTitle: "Transforming Lives Through Compassion",
-        heroSubtitle: "Join Cross-borders Outreach international in making a lasting impact on communities through sustainable humanitarian programs.",
+        heroTitle: "Empowering Vulnerable Communities Globally",
+        heroSubtitle: "We deliver humanitarian aid, education, healthcare, and sustainable economic empowerment. Join us to transform lives—donate, volunteer, or partner today.",
         getInvolved: "Get Involved",
         latestNews: "Latest News",
         viewAllNews: "View All News"
@@ -70,8 +70,8 @@ const resources = {
         donateNow: "Donar Ahora"
       },
       home: {
-        heroTitle: "Transformando Vidas a Través de la Compasión",
-        heroSubtitle: "Únete a Cross-borders Outreach international para crear un impacto duradero en las comunidades a través de programas humanitarios sostenibles.",
+        heroTitle: "Empoderando a Comunidades Vulnerables a Nivel Mundial",
+        heroSubtitle: "Entregamos ayuda humanitaria, educación, atención médica y empoderamiento económico. Únete a nosotros para transformar vidas: dona, hazte voluntario o asóciate hoy.",
         getInvolved: "Participa",
         latestNews: "Últimas Noticias",
         viewAllNews: "Ver Todas las Noticias"

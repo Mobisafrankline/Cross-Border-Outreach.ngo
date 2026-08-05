@@ -7,6 +7,7 @@ import { ImageWithFallback } from "../components/figma/ImageWithFallback";
 import { supabase } from "../../lib/supabase";
 import { galleryImages, events } from "../../data/content";
 import { useTranslation } from "react-i18next";
+import heroImage from "../../assets/hero.jpeg";
 import Autoplay from "embla-carousel-autoplay";
 import {
   Carousel,
@@ -225,32 +226,66 @@ export default function Home() {
   return (
     <div className="min-h-screen">
 
-      {/* ── HERO ── */}
-      <section className="home-hero">
-        <div className="home-hero-bg">
-          <ImageWithFallback src="https://images.unsplash.com/photo-1764738130382-cc7a8eaf26c7?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1920" alt="Volunteers helping community" className="w-full h-full object-cover" />
-          <div className="home-hero-overlay" />
+      {/* ── NEW MODERN HERO ── */}
+      <section className="relative min-h-[90vh] flex items-center pt-24 pb-16 lg:pt-32 lg:pb-24 overflow-hidden bg-slate-50">
+        <div className="absolute inset-0 z-0">
+          <div className="absolute top-[-10%] right-[-5%] w-[800px] h-[800px] rounded-full bg-blue-100/50 blur-3xl pointer-events-none" />
+          <div className="absolute bottom-[-10%] left-[-5%] w-[600px] h-[600px] rounded-full bg-orange-100/40 blur-3xl pointer-events-none" />
         </div>
-        <div className="home-orb home-orb-1" />
-        <div className="home-orb home-orb-2" />
-        <div className="home-hero-content">
 
-          <h1 className="home-hero-title font-playfair">{t('home.heroTitle')}</h1>
-          <p className="home-hero-subtitle">{t('home.heroSubtitle')}</p>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 w-full">
+          <div className="grid lg:grid-cols-2 gap-12 lg:gap-8 items-center">
+            
+            {/* Left: Text Content */}
+            <div className="max-w-2xl">
+              <div className="inline-flex items-center gap-3 px-5 py-2.5 rounded-full bg-white shadow-sm border border-slate-200 text-blue-900 font-medium text-sm mb-8 animate-[fade-in-up_0.8s_ease-out]">
+                <span className="relative flex h-3 w-3">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-orange-400 opacity-75"></span>
+                  <span className="relative inline-flex rounded-full h-3 w-3 bg-orange-500"></span>
+                </span>
+                <span className="tracking-wide uppercase text-xs font-bold text-slate-500 mr-1">Currently:</span>
+                <span className="font-semibold text-blue-900"><RotatingText /></span>
+              </div>
+              
+              <h1 className="text-5xl lg:text-7xl font-bold tracking-tight text-gray-900 mb-6 leading-[1.1] animate-[fade-in-up_1s_ease-out]">
+                {t('home.heroTitle')}
+              </h1>
+              
+              <p className="text-lg lg:text-xl text-gray-600 mb-10 leading-relaxed animate-[fade-in-up_1.2s_ease-out] max-w-xl">
+                {t('home.heroSubtitle')}
+              </p>
+              
+              <div className="flex flex-col sm:flex-row gap-4 animate-[fade-in-up_1.4s_ease-out]">
+                <Link 
+                  to="/donate" 
+                  className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-blue-900 text-white rounded-3xl font-semibold hover:bg-blue-800 transition-all shadow-lg hover:shadow-xl hover:-translate-y-1"
+                >
+                  <Heart className="w-5 h-5 fill-white" />
+                  {t('nav.donateNow')}
+                </Link>
+                <Link 
+                  to="/opportunities" 
+                  className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-white text-blue-900 rounded-3xl font-semibold border-2 border-blue-900/10 hover:border-blue-900/30 hover:bg-slate-50 transition-all"
+                >
+                  {t('home.getInvolved')}
+                  <ArrowRight className="w-5 h-5" />
+                </Link>
+              </div>
+            </div>
 
-          {/* Rotating impact text */}
-          <div style={{ marginBottom: 36, fontSize: 'clamp(1.1rem, 2.5vw, 1.5rem)', fontWeight: 700, color: 'rgba(255,255,255,0.7)' }}>
-            We Are <RotatingText />
+            {/* Right: Image Component */}
+            <div className="relative animate-[fade-in-up_1.2s_ease-out]">
+              <div className="relative rounded-[2.5rem] overflow-hidden aspect-[4/5] md:aspect-square lg:aspect-[4/5] shadow-2xl">
+                <ImageWithFallback 
+                  src={heroImage} 
+                  alt="Vulnerable communities we support" 
+                  className="w-full h-full object-cover" 
+                />
+                <div className="absolute inset-0 bg-gradient-to-tr from-blue-900/20 to-transparent" />
+              </div>
+            </div>
+
           </div>
-
-          <div className="home-hero-actions">
-            <Link to="/donate" className="home-btn-primary"><Heart className="w-5 h-5 fill-white" />{t('nav.donateNow')}</Link>
-            <Link to="/opportunities" className="home-btn-secondary">{t('home.getInvolved')}<ArrowRight className="w-5 h-5" /></Link>
-          </div>
-
-
-
-          <div className="home-scroll-hint"><div className="home-scroll-dot" /></div>
         </div>
       </section>
 
@@ -259,7 +294,7 @@ export default function Home() {
         <div className="max-w-5xl mx-auto px-4 sm:px-6 relative z-10">
           <div className="home-stats-grid">
             <StatCard value={8455} suffix="+" label={t('stats.livesImpacted')} icon={<Users className="w-6 h-6" />} trigger={statsVisible} />
-            <StatCard value={12} suffix="+" label={t('stats.partnerOrgs')} icon={<HandHeart className="w-6 h-6" />} trigger={statsVisible} />
+            <StatCard value={150} suffix="+" label="Active Volunteers" icon={<HandHeart className="w-6 h-6" />} trigger={statsVisible} />
             <StatCard value={5} label={t('stats.corePrograms')} icon={<CheckCircle2 className="w-6 h-6" />} trigger={statsVisible} />
             <StatCard value={2} label={t('stats.countriesReached')} icon={<Globe2 className="w-6 h-6" />} trigger={statsVisible} />
           </div>
@@ -447,7 +482,7 @@ export default function Home() {
                       <Calendar className="w-3.5 h-3.5" />
                       {newsItem.date}
                     </div>
-                    <h3 className="text-xl font-bold leading-snug mb-3 transition-colors font-playfair" style={{ color: 'var(--brand-heading)', fontFamily: "'Playfair Display', Georgia, serif" }}>
+                    <h3 className="text-xl font-bold leading-snug mb-3 transition-colors font-playfair" style={{ color: 'var(--brand-heading)' }}>
                       {newsItem.title}
                     </h3>
                     <p className="text-sm leading-relaxed line-clamp-3 mb-6 flex-1 font-source-serif" style={{ color: 'var(--brand-text)' }}>

@@ -6,6 +6,7 @@ import { supabase } from '../../lib/supabase';
 
 interface NewsletterForm {
   email: string;
+  website_url?: string; // honeypot
 }
 
 export default function NewsletterSignup() {
@@ -19,6 +20,13 @@ export default function NewsletterSignup() {
   } = useForm<NewsletterForm>();
 
   const onSubmit = async (data: NewsletterForm) => {
+    // Honeypot check
+    if (data.website_url) {
+      console.log('Spam detected');
+      setIsLoading(false);
+      reset();
+      return;
+    }
     setIsLoading(true);
     try {
       const { error } = await supabase
@@ -59,6 +67,18 @@ export default function NewsletterSignup() {
         
         <div className="w-full lg:w-auto flex-1 max-w-md">
           <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-2">
+            {/* Honeypot Field */}
+            <div className="absolute left-[-9999px] top-[-9999px]" aria-hidden="true">
+              <label htmlFor="website_url">Website</label>
+              <input
+                type="text"
+                id="website_url"
+                tabIndex={-1}
+                autoComplete="off"
+                {...register('website_url')}
+              />
+            </div>
+
             <div className="relative flex items-center">
               <input
                 type="email"

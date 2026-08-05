@@ -268,9 +268,7 @@
 }
 @media(max-width: 500px) {
   .home-stats-section { margin-top: -30px; }
-  .home-stats-grid { grid-template-columns: 1fr; }
-  .home-stat-card { border-right: none !important; border-bottom: 1px solid rgba(30, 58, 138, 0.06) !important; }
-  .home-stat-card:last-child { border-bottom: none !important; }
+  /* Maintain 2x2 grid inherited from 900px breakpoint */
 }
 .home-stat-icon {
   width: 48px;
