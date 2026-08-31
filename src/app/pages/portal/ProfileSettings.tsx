@@ -1,364 +1,353 @@
-import { useState, useEffect } from "react";
-import { User, Mail, Phone, MapPin, Lock, Save, Loader2, ShieldCheck, Heart } from "lucide-react";
+import { useState, useEffect, useRef } from "react";
+import {
+  User, Mail, Phone, MapPin, Lock, Save,
+  Loader2, ShieldCheck, Heart, Camera,
+  Bell, AlertTriangle, CheckCircle2, Eye, EyeOff,
+} from "lucide-react";
 import { supabase } from "../../../lib/supabase";
+import { toast } from "sonner";
+import "../../../styles/portal.css";
+
+type Role = "donor" | "admin";
 
 export default function ProfileSettings() {
-  const [loading, setLoading] = useState(true);
-  const [saving, setSaving] = useState(false);
-  const [userId, setUserId] = useState<string | null>(null);
-  const [userRole, setUserRole] = useState<"donor" | "admin">("donor");
-  
+  const [loading,  setLoading]  = useState(true);
+  const [saving,   setSaving]   = useState(false);
+  const [userId,   setUserId]   = useState<string | null>(null);
+  const [userRole, setUserRole] = useState<Role>("donor");
+  const [avatarUrl, setAvatarUrl] = useState<string | null>(null);
+  const [uploading, setUploading] = useState(false);
+  const fileRef = useRef<HTMLInputElement>(null);
+
   const [formData, setFormData] = useState({
-    firstName: "",
-    lastName: "",
-    email: "",
-    phone: "",
-    address: "",
-    notifications: {
-      email: true,
-      sms: false,
-      newsletter: true
-    }
+    firstName: "", lastName: "", email: "", phone: "", address: "",
+    notifications: { email: true, sms: false, newsletter: true },
   });
 
   const [passwordData, setPasswordData] = useState({
-    currentPassword: "",
-    newPassword: "",
-    confirmPassword: ""
+    newPassword: "", confirmPassword: "",
   });
+  const [showNewPw, setShowNewPw] = useState(false);
+  const [showCPw,   setShowCPw]  = useState(false);
+  const [savingPw,  setSavingPw] = useState(false);
 
-  useEffect(() => {
-    fetchProfile();
-  }, []);
+  /* ── Load profile ───────────────────────────────────────── */
+  useEffect(() => { fetchProfile(); }, []);
 
   const fetchProfile = async () => {
     try {
       const { data: { user } } = await supabase.auth.getUser();
       if (!user) return;
-      
       setUserId(user.id);
-      
-      // Try to fetch donor profile first
-      let { data: profileData, error } = await supabase
-        .from('donors')
-        .select('*')
-        .eq('id', user.id)
-        .single();
-        
-      if (error || !profileData) {
-        // Try admins table if not a donor
-        const { data: adminData } = await supabase
-          .from('admins')
-          .select('*')
-          .eq('id', user.id)
-          .single();
-          
-        if (adminData) {
-          profileData = adminData;
-          setUserRole("admin");
-        }
-      }
 
+      const [donorRes, adminRes] = await Promise.all([
+        supabase.from("donors").select("*").eq("id", user.id).maybeSingle(),
+        supabase.from("admins").select("*").eq("id", user.id).maybeSingle(),
+      ]);
+
+      const profileData = donorRes.data ?? adminRes.data;
+      if (adminRes.data && !donorRes.data) setUserRole("admin");
+
+      setAvatarUrl(profileData?.avatar_url ?? null);
       setFormData(prev => ({
         ...prev,
-        firstName: profileData?.first_name || user.user_metadata?.first_name || "",
-        lastName: profileData?.last_name || user.user_metadata?.last_name || "",
-        email: user.email || "",
-        phone: profileData?.phone || "",
-        address: profileData?.address || profileData?.location || ""
+        firstName:    profileData?.first_name  || user.user_metadata?.first_name  || "",
+        lastName:     profileData?.last_name   || user.user_metadata?.last_name   || "",
+        email:        user.email               || "",
+        phone:        profileData?.phone       || "",
+        address:      profileData?.address     || profileData?.location || "",
+        notifications: {
+          email:       profileData?.notify_email     ?? true,
+          sms:         profileData?.notify_sms       ?? false,
+          newsletter:  profileData?.notify_newsletter ?? true,
+        },
       }));
-    } catch (error) {
-      console.error("Error fetching profile:", error);
+    } catch (err) {
+      console.error("Error fetching profile:", err);
     } finally {
       setLoading(false);
     }
   };
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value
-    });
+  /* ── Avatar upload ──────────────────────────────────────── */
+  const handleAvatarChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file || !userId) return;
+    setUploading(true);
+    const ext  = file.name.split(".").pop();
+    const path = `avatars/${userId}.${ext}`;
+    const { error: uploadErr } = await supabase.storage.from("images").upload(path, file, { upsert: true });
+    if (uploadErr) { toast.error("Failed to upload avatar: " + uploadErr.message); setUploading(false); return; }
+    const { data: { publicUrl } } = supabase.storage.from("images").getPublicUrl(path);
+    const table = userRole === "admin" ? "admins" : "donors";
+    await supabase.from(table).update({ avatar_url: publicUrl }).eq("id", userId);
+    setAvatarUrl(publicUrl + "?t=" + Date.now());
+    toast.success("Profile photo updated!");
+    setUploading(false);
   };
 
-  const handleNotificationChange = (key: string) => {
-    setFormData({
-      ...formData,
-      notifications: {
-        ...formData.notifications,
-        [key]: !formData.notifications[key as keyof typeof formData.notifications]
-      }
-    });
-  };
-
+  /* ── Save profile ───────────────────────────────────────── */
   const handleSave = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!userId) return;
     setSaving(true);
-    
-    try {
-      const table = userRole === "admin" ? "admins" : "donors";
-      const updatePayload: any = {
-        first_name: formData.firstName,
-        last_name: formData.lastName,
-        phone: formData.phone,
-      };
-      
-      if (table === "donors") {
-        updatePayload.address = formData.address;
-      } else {
-        updatePayload.location = formData.address;
-      }
-
-      const { error } = await supabase
-        .from(table)
-        .update(updatePayload)
-        .eq('id', userId);
-
-      if (error) throw error;
-      alert("Profile updated successfully!");
-    } catch (error: any) {
-      alert("Failed to update profile: " + error.message);
-    } finally {
-      setSaving(false);
-    }
+    const updates = {
+      first_name:         formData.firstName,
+      last_name:          formData.lastName,
+      phone:              formData.phone || null,
+      address:            formData.address || null,
+      notify_email:       formData.notifications.email,
+      notify_sms:         formData.notifications.sms,
+      notify_newsletter:  formData.notifications.newsletter,
+    };
+    const table = userRole === "admin" ? "admins" : "donors";
+    const { error } = await supabase.from(table).update(updates).eq("id", userId);
+    setSaving(false);
+    if (error) { toast.error("Failed to save: " + error.message); return; }
+    toast.success("Profile updated successfully!");
   };
 
-  if (loading) {
-    return (
-      <div className="flex-1 h-full bg-slate-50 flex items-center justify-center min-h-[60vh]">
-        <Loader2 className="w-10 h-10 text-blue-600 animate-spin" />
-      </div>
-    );
-  }
+  /* ── Change password ───────────────────────────────────── */
+  const handlePasswordChange = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (passwordData.newPassword !== passwordData.confirmPassword) { toast.error("Passwords do not match."); return; }
+    if (passwordData.newPassword.length < 6) { toast.error("Password must be at least 6 characters."); return; }
+    setSavingPw(true);
+    const { error } = await supabase.auth.updateUser({ password: passwordData.newPassword });
+    setSavingPw(false);
+    if (error) { toast.error("Failed to update password: " + error.message); return; }
+    toast.success("Password updated successfully!");
+    setPasswordData({ newPassword:"", confirmPassword:"" });
+  };
+
+  const initials = [formData.firstName, formData.lastName].filter(Boolean).map(s => s[0]).join("").toUpperCase();
+
+  if (loading) return (
+    <div className="flex items-center justify-center min-h-[50vh]">
+      <Loader2 className="w-8 h-8 text-blue-500 animate-spin"/>
+    </div>
+  );
+
+  const sectionClass = "bg-white rounded-2xl border border-slate-100 shadow-sm p-6";
+  const labelClass   = "block text-sm font-semibold text-slate-700 mb-1.5";
+  const inputClass   = "w-full border border-slate-200 rounded-xl px-4 py-2.5 text-sm text-slate-800 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/10 transition-all";
 
   return (
-    <div className="flex-1 bg-slate-50 pb-20">
+    <div className="flex-1 bg-slate-50 pb-12 portal-fade-in" style={{ fontFamily:"'Inter',sans-serif" }}>
+
       {/* Header */}
-      <div className="bg-white border-b border-slate-200">
-        <div className="max-w-4xl mx-auto px-6 py-8">
-          <div className="flex items-center gap-4">
-            <div className={`w-14 h-14 rounded-3xl flex items-center justify-center ${userRole === 'admin' ? 'bg-indigo-50 text-indigo-600' : 'bg-blue-50 text-blue-600'}`}>
-              {userRole === 'admin' ? <ShieldCheck className="w-7 h-7" /> : <Heart className="w-7 h-7" />}
-            </div>
-            <div>
-              <h1 className="text-3xl font-bold text-slate-900 font-playfair">Profile Settings</h1>
-              <p className="text-slate-500 font-medium mt-1">Manage your {userRole} account information and preferences</p>
-            </div>
-          </div>
+      <div className="relative overflow-hidden">
+        <div className="absolute inset-0" style={{background:userRole==="admin"?"linear-gradient(135deg,#0f172a,#1e3a8a)":"linear-gradient(135deg,#0648b3,#0959d6)"}}/>
+        <div className="relative max-w-4xl mx-auto px-4 sm:px-6 py-8">
+          <h1 className="text-2xl font-bold text-white">Account Settings</h1>
+          <p className="text-blue-200 text-sm mt-1">
+            {userRole === "admin" ? "Administrator Profile" : "Donor Profile"} · {formData.email}
+          </p>
         </div>
       </div>
 
-      <div className="max-w-4xl mx-auto px-6 py-8">
-        <div className="space-y-8">
-          {/* Personal Information */}
-          <div className="bg-white rounded-3xl shadow-sm border border-slate-200 p-8">
-            <h2 className="text-xl font-bold text-slate-900 mb-6 flex items-center gap-2 font-playfair">
-              <User className="w-5 h-5 text-blue-600" /> Personal Information
-            </h2>
-            <form onSubmit={handleSave} className="space-y-6">
-              <div className="grid md:grid-cols-2 gap-6">
-                <div>
-                  <label className="block text-sm font-bold text-slate-700 mb-2">First Name</label>
-                  <div className="relative">
-                    <User className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" />
-                    <input
-                      type="text"
-                      name="firstName"
-                      value={formData.firstName}
-                      onChange={handleChange}
-                      className="w-full pl-12 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-xl font-medium text-slate-900 focus:ring-2 focus:ring-blue-600 focus:border-transparent outline-none transition-all"
-                    />
-                  </div>
-                </div>
+      <div className="max-w-4xl mx-auto px-4 sm:px-6 py-6 space-y-6">
 
-                <div>
-                  <label className="block text-sm font-bold text-slate-700 mb-2">Last Name</label>
-                  <div className="relative">
-                    <User className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" />
-                    <input
-                      type="text"
-                      name="lastName"
-                      value={formData.lastName}
-                      onChange={handleChange}
-                      className="w-full pl-12 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-xl font-medium text-slate-900 focus:ring-2 focus:ring-blue-600 focus:border-transparent outline-none transition-all"
-                    />
-                  </div>
-                </div>
+        {/* ── Avatar + Name ── */}
+        <div className={sectionClass}>
+          <div className="flex items-start gap-6">
+            {/* Avatar */}
+            <div className="relative flex-shrink-0">
+              <div
+                className="portal-avatar"
+                style={{width:80,height:80,fontSize:26,borderRadius:20,background:avatarUrl?"transparent":userRole==="admin"?"linear-gradient(135deg,#3b82f6,#8b5cf6)":"linear-gradient(135deg,#0959d6,#2f7aee)",overflow:"hidden",boxShadow:"0 4px 16px rgba(59,130,246,.3)"}}
+              >
+                {avatarUrl
+                  ? <img src={avatarUrl} alt="avatar" style={{width:"100%",height:"100%",objectFit:"cover"}}/>
+                  : (initials || (userRole==="admin" ? <ShieldCheck className="w-8 h-8 text-white"/> : <Heart className="w-8 h-8 text-white fill-current"/>))}
               </div>
+              <button
+                onClick={() => fileRef.current?.click()}
+                disabled={uploading}
+                className="absolute -bottom-1 -right-1 w-8 h-8 rounded-full border-2 border-white flex items-center justify-center shadow-md transition-all hover:scale-110"
+                style={{background:"#0959d6"}}
+                title="Upload photo"
+              >
+                {uploading ? <Loader2 className="w-3.5 h-3.5 text-white animate-spin"/> : <Camera className="w-3.5 h-3.5 text-white"/>}
+              </button>
+              <input ref={fileRef} type="file" accept="image/*" className="hidden" onChange={handleAvatarChange}/>
+            </div>
 
-              <div>
-                <label className="block text-sm font-bold text-slate-700 mb-2">Email Address</label>
-                <div className="relative">
-                  <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" />
-                  <input
-                    type="email"
-                    name="email"
-                    value={formData.email}
-                    disabled
-                    className="w-full pl-12 pr-4 py-3 bg-slate-100 border border-slate-200 rounded-xl font-medium text-slate-500 cursor-not-allowed outline-none"
-                  />
-                </div>
+            <div className="flex-1">
+              <h2 className="font-bold text-slate-900 text-xl">{formData.firstName} {formData.lastName}</h2>
+              <p className="text-slate-500 text-sm mt-0.5">{formData.email}</p>
+              <div className="mt-2 flex items-center gap-2">
+                <span className="text-xs font-semibold px-2.5 py-1 rounded-full"
+                  style={{background:userRole==="admin"?"#eff6ff":"#eff6ff",color:userRole==="admin"?"#1d4ed8":"#0959d6"}}>
+                  {userRole === "admin" ? "🛡 Administrator" : "💙 Donor"}
+                </span>
               </div>
-
-              <div>
-                <label className="block text-sm font-bold text-slate-700 mb-2">Phone Number</label>
-                <div className="relative">
-                  <Phone className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" />
-                  <input
-                    type="tel"
-                    name="phone"
-                    value={formData.phone}
-                    onChange={handleChange}
-                    className="w-full pl-12 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-xl font-medium text-slate-900 focus:ring-2 focus:ring-blue-600 focus:border-transparent outline-none transition-all"
-                  />
-                </div>
-              </div>
-
-              <div>
-                <label className="block text-sm font-bold text-slate-700 mb-2">{userRole === 'admin' ? 'Location' : 'Address'}</label>
-                <div className="relative">
-                  <MapPin className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" />
-                  <input
-                    type="text"
-                    name="address"
-                    value={formData.address}
-                    onChange={handleChange}
-                    className="w-full pl-12 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-xl font-medium text-slate-900 focus:ring-2 focus:ring-blue-600 focus:border-transparent outline-none transition-all"
-                  />
-                </div>
-              </div>
-
-              <div className="pt-2">
-                <button
-                  type="submit"
-                  disabled={saving}
-                  className="flex items-center gap-2 px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-xl font-bold transition-colors shadow-sm disabled:opacity-70 disabled:cursor-not-allowed"
-                >
-                  {saving ? <Loader2 className="w-5 h-5 animate-spin" /> : <Save className="w-5 h-5" />}
-                  {saving ? "Saving..." : "Save Changes"}
-                </button>
-              </div>
-            </form>
-          </div>
-
-          {/* Notification Preferences */}
-          <div className="bg-white rounded-3xl shadow-sm border border-slate-200 p-8">
-            <h2 className="text-xl font-bold text-slate-900 mb-6 flex items-center gap-2 font-playfair">
-              <Mail className="w-5 h-5 text-blue-600" /> Notification Preferences
-            </h2>
-            <div className="space-y-4">
-              <label className="flex items-center justify-between cursor-pointer p-4 bg-slate-50 rounded-xl hover:bg-slate-100 transition-colors border border-transparent hover:border-slate-200 group">
-                <div>
-                  <div className="font-bold text-slate-900 group-hover:text-blue-700 transition-colors">Email Notifications</div>
-                  <div className="text-sm text-slate-500 font-medium">Receive updates about your account and activities</div>
-                </div>
-                <input
-                  type="checkbox"
-                  checked={formData.notifications.email}
-                  onChange={() => handleNotificationChange('email')}
-                  className="w-5 h-5 text-blue-600 border-slate-300 rounded focus:ring-blue-600 transition-all"
-                />
-              </label>
-
-              <label className="flex items-center justify-between cursor-pointer p-4 bg-slate-50 rounded-xl hover:bg-slate-100 transition-colors border border-transparent hover:border-slate-200 group">
-                <div>
-                  <div className="font-bold text-slate-900 group-hover:text-blue-700 transition-colors">SMS Notifications</div>
-                  <div className="text-sm text-slate-500 font-medium">Get text messages for urgent updates</div>
-                </div>
-                <input
-                  type="checkbox"
-                  checked={formData.notifications.sms}
-                  onChange={() => handleNotificationChange('sms')}
-                  className="w-5 h-5 text-blue-600 border-slate-300 rounded focus:ring-blue-600 transition-all"
-                />
-              </label>
-
-              <label className="flex items-center justify-between cursor-pointer p-4 bg-slate-50 rounded-xl hover:bg-slate-100 transition-colors border border-transparent hover:border-slate-200 group">
-                <div>
-                  <div className="font-bold text-slate-900 group-hover:text-blue-700 transition-colors">Newsletter</div>
-                  <div className="text-sm text-slate-500 font-medium">Monthly updates about our programs and impact</div>
-                </div>
-                <input
-                  type="checkbox"
-                  checked={formData.notifications.newsletter}
-                  onChange={() => handleNotificationChange('newsletter')}
-                  className="w-5 h-5 text-blue-600 border-slate-300 rounded focus:ring-blue-600 transition-all"
-                />
-              </label>
             </div>
           </div>
+        </div>
 
-          {/* Change Password */}
-          <div className="bg-white rounded-3xl shadow-sm border border-slate-200 p-8">
-            <h2 className="text-xl font-bold text-slate-900 mb-6 flex items-center gap-2 font-playfair">
-              <Lock className="w-5 h-5 text-blue-600" /> Change Password
-            </h2>
-            <form className="space-y-6">
+        {/* ── Profile form ── */}
+        <div className={sectionClass}>
+          <h3 className="font-bold text-slate-900 text-base mb-5 flex items-center gap-2">
+            <User className="w-4 h-4 text-blue-500"/> Personal Information
+          </h3>
+          <form onSubmit={handleSave} className="space-y-4">
+            <div className="grid sm:grid-cols-2 gap-4">
               <div>
-                <label className="block text-sm font-bold text-slate-700 mb-2">Current Password</label>
+                <label className={labelClass}>First Name</label>
                 <div className="relative">
-                  <Lock className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" />
+                  <User size={15} color="#9ca3af" style={{position:"absolute",left:13,top:"50%",transform:"translateY(-50%)"}}/>
+                  <input className={inputClass} style={{paddingLeft:40}} name="firstName" value={formData.firstName} onChange={e=>setFormData(p=>({...p,firstName:e.target.value}))} placeholder="John" required/>
+                </div>
+              </div>
+              <div>
+                <label className={labelClass}>Last Name</label>
+                <div className="relative">
+                  <User size={15} color="#9ca3af" style={{position:"absolute",left:13,top:"50%",transform:"translateY(-50%)"}}/>
+                  <input className={inputClass} style={{paddingLeft:40}} name="lastName" value={formData.lastName} onChange={e=>setFormData(p=>({...p,lastName:e.target.value}))} placeholder="Doe" required/>
+                </div>
+              </div>
+            </div>
+            <div>
+              <label className={labelClass}>Email Address</label>
+              <div className="relative">
+                <Mail size={15} color="#9ca3af" style={{position:"absolute",left:13,top:"50%",transform:"translateY(-50%)"}}/>
+                <input className={inputClass + " bg-slate-50"} style={{paddingLeft:40}} type="email" value={formData.email} readOnly disabled/>
+              </div>
+              <p className="text-xs text-slate-400 mt-1">Email cannot be changed here. Contact support if needed.</p>
+            </div>
+            <div className="grid sm:grid-cols-2 gap-4">
+              <div>
+                <label className={labelClass}>Phone</label>
+                <div className="relative">
+                  <Phone size={15} color="#9ca3af" style={{position:"absolute",left:13,top:"50%",transform:"translateY(-50%)"}}/>
+                  <input className={inputClass} style={{paddingLeft:40}} type="tel" value={formData.phone} onChange={e=>setFormData(p=>({...p,phone:e.target.value}))} placeholder="+1 (234) 567-8900"/>
+                </div>
+              </div>
+              <div>
+                <label className={labelClass}>Address</label>
+                <div className="relative">
+                  <MapPin size={15} color="#9ca3af" style={{position:"absolute",left:13,top:"50%",transform:"translateY(-50%)"}}/>
+                  <input className={inputClass} style={{paddingLeft:40}} value={formData.address} onChange={e=>setFormData(p=>({...p,address:e.target.value}))} placeholder="City, Country"/>
+                </div>
+              </div>
+            </div>
+            <button type="submit" disabled={saving}
+              className="flex items-center gap-2 px-6 py-2.5 text-white font-bold text-sm rounded-xl transition-all disabled:opacity-60"
+              style={{background:saving?"#94a3b8":"#0959d6",boxShadow:"0 4px 14px rgba(9,89,214,.3)"}}>
+              {saving ? <><Loader2 className="w-4 h-4 animate-spin"/> Saving…</> : <><Save className="w-4 h-4"/> Save Changes</>}
+            </button>
+          </form>
+        </div>
+
+        {/* ── Notifications ── */}
+        <div className={sectionClass}>
+          <h3 className="font-bold text-slate-900 text-base mb-5 flex items-center gap-2">
+            <Bell className="w-4 h-4 text-blue-500"/> Notification Preferences
+          </h3>
+          <div className="space-y-4">
+            {[
+              { key:"email",      label:"Email Notifications",      desc:"Receive donation confirmations and updates via email" },
+              { key:"sms",        label:"SMS Notifications",         desc:"Receive text message alerts for important updates" },
+              { key:"newsletter", label:"Newsletter",                desc:"Monthly newsletter with program updates and impact stories" },
+            ].map(n => (
+              <label key={n.key} className="flex items-start gap-4 cursor-pointer group">
+                <div className="relative flex-shrink-0 mt-0.5">
                   <input
-                    type="password"
-                    value={passwordData.currentPassword}
-                    onChange={(e) => setPasswordData({...passwordData, currentPassword: e.target.value})}
-                    className="w-full pl-12 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-xl font-medium text-slate-900 focus:ring-2 focus:ring-blue-600 focus:border-transparent outline-none transition-all"
-                    placeholder="••••••••"
+                    type="checkbox"
+                    checked={formData.notifications[n.key as keyof typeof formData.notifications]}
+                    onChange={e => setFormData(p=>({...p,notifications:{...p.notifications,[n.key]:e.target.checked}}))}
+                    className="sr-only"
                   />
-                </div>
-              </div>
-
-              <div className="grid md:grid-cols-2 gap-6">
-                <div>
-                  <label className="block text-sm font-bold text-slate-700 mb-2">New Password</label>
-                  <div className="relative">
-                    <Lock className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" />
-                    <input
-                      type="password"
-                      value={passwordData.newPassword}
-                      onChange={(e) => setPasswordData({...passwordData, newPassword: e.target.value})}
-                      className="w-full pl-12 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-xl font-medium text-slate-900 focus:ring-2 focus:ring-blue-600 focus:border-transparent outline-none transition-all"
-                      placeholder="••••••••"
+                  <div
+                    className="w-11 h-6 rounded-full transition-all duration-200 relative"
+                    style={{background:formData.notifications[n.key as keyof typeof formData.notifications]?"#0959d6":"#d1d5db"}}
+                    onClick={()=>setFormData(p=>({...p,notifications:{...p.notifications,[n.key]:!p.notifications[n.key as keyof typeof p.notifications]}}))}
+                  >
+                    <div
+                      className="absolute top-0.5 left-0.5 w-5 h-5 bg-white rounded-full shadow transition-transform duration-200"
+                      style={{transform:formData.notifications[n.key as keyof typeof formData.notifications]?"translateX(20px)":"translateX(0)"}}
                     />
                   </div>
                 </div>
-
                 <div>
-                  <label className="block text-sm font-bold text-slate-700 mb-2">Confirm New Password</label>
-                  <div className="relative">
-                    <Lock className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" />
-                    <input
-                      type="password"
-                      value={passwordData.confirmPassword}
-                      onChange={(e) => setPasswordData({...passwordData, confirmPassword: e.target.value})}
-                      className="w-full pl-12 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-xl font-medium text-slate-900 focus:ring-2 focus:ring-blue-600 focus:border-transparent outline-none transition-all"
-                      placeholder="••••••••"
-                    />
-                  </div>
+                  <div className="text-sm font-semibold text-slate-800">{n.label}</div>
+                  <div className="text-xs text-slate-500 mt-0.5">{n.desc}</div>
                 </div>
-              </div>
+              </label>
+            ))}
+          </div>
+          <button
+            onClick={handleSave}
+            disabled={saving}
+            className="mt-5 flex items-center gap-2 px-5 py-2.5 text-white font-bold text-sm rounded-xl transition-all disabled:opacity-60"
+            style={{background:"#0959d6"}}>
+            {saving ? <><Loader2 className="w-4 h-4 animate-spin"/> Saving…</> : <><Save className="w-4 h-4"/> Save Preferences</>}
+          </button>
+        </div>
 
-              <div className="pt-2">
-                <button
-                  type="button"
-                  className="px-6 py-3 bg-slate-900 hover:bg-slate-800 text-white rounded-xl font-bold transition-colors shadow-sm"
-                >
-                  Update Password
+        {/* ── Change password ── */}
+        <div className={sectionClass}>
+          <h3 className="font-bold text-slate-900 text-base mb-5 flex items-center gap-2">
+            <Lock className="w-4 h-4 text-blue-500"/> Change Password
+          </h3>
+          <form onSubmit={handlePasswordChange} className="space-y-4">
+            <div>
+              <label className={labelClass}>New Password</label>
+              <div className="relative">
+                <Lock size={15} color="#9ca3af" style={{position:"absolute",left:13,top:"50%",transform:"translateY(-50%)"}}/>
+                <input
+                  className={inputClass}
+                  style={{paddingLeft:40,paddingRight:44}}
+                  type={showNewPw?"text":"password"}
+                  value={passwordData.newPassword}
+                  onChange={e=>setPasswordData(p=>({...p,newPassword:e.target.value}))}
+                  placeholder="Min. 6 characters"
+                  required
+                />
+                <button type="button" onClick={()=>setShowNewPw(v=>!v)} style={{position:"absolute",right:12,top:"50%",transform:"translateY(-50%)",background:"none",border:"none",cursor:"pointer",color:"#6b7280"}}>
+                  {showNewPw?<EyeOff size={17}/>:<Eye size={17}/>}
                 </button>
               </div>
-            </form>
-          </div>
-
-          {/* Danger Zone */}
-          <div className="bg-red-50/50 border-2 border-red-100 rounded-3xl p-8">
-            <h2 className="text-xl font-bold text-red-700 mb-2 font-playfair">Danger Zone</h2>
-            <p className="text-red-600/80 font-medium mb-6">
-              Once you delete your account, there is no going back. All of your data will be permanently removed.
-            </p>
-            <button className="px-6 py-3 bg-white text-red-600 border-2 border-red-200 hover:bg-red-600 hover:text-white hover:border-red-600 rounded-xl font-bold transition-all shadow-sm">
-              Delete Account
+            </div>
+            <div>
+              <label className={labelClass}>Confirm New Password</label>
+              <div className="relative">
+                <Lock size={15} color="#9ca3af" style={{position:"absolute",left:13,top:"50%",transform:"translateY(-50%)"}}/>
+                <input
+                  className={inputClass + (passwordData.confirmPassword && passwordData.confirmPassword !== passwordData.newPassword ? " !border-red-400" : "")}
+                  style={{paddingLeft:40,paddingRight:44}}
+                  type={showCPw?"text":"password"}
+                  value={passwordData.confirmPassword}
+                  onChange={e=>setPasswordData(p=>({...p,confirmPassword:e.target.value}))}
+                  placeholder="Re-enter new password"
+                  required
+                />
+                <button type="button" onClick={()=>setShowCPw(v=>!v)} style={{position:"absolute",right:12,top:"50%",transform:"translateY(-50%)",background:"none",border:"none",cursor:"pointer",color:"#6b7280"}}>
+                  {showCPw?<EyeOff size={17}/>:<Eye size={17}/>}
+                </button>
+              </div>
+              {passwordData.confirmPassword && passwordData.confirmPassword !== passwordData.newPassword && (
+                <p className="text-xs text-red-500 mt-1">Passwords do not match</p>
+              )}
+            </div>
+            <button type="submit" disabled={savingPw}
+              className="flex items-center gap-2 px-6 py-2.5 text-white font-bold text-sm rounded-xl transition-all disabled:opacity-60"
+              style={{background:savingPw?"#94a3b8":"#0f172a"}}>
+              {savingPw ? <><Loader2 className="w-4 h-4 animate-spin"/> Updating…</> : <><Lock className="w-4 h-4"/> Update Password</>}
             </button>
+          </form>
+        </div>
+
+        {/* ── Security info ── */}
+        <div className={sectionClass} style={{borderColor:"#e0f2fe",background:"#f0f9ff"}}>
+          <h3 className="font-bold text-slate-800 text-base mb-3 flex items-center gap-2">
+            <ShieldCheck className="w-4 h-4 text-blue-500"/> Security Info
+          </h3>
+          <div className="space-y-2 text-sm text-slate-600">
+            <div className="flex items-center gap-2"><CheckCircle2 className="w-4 h-4 text-blue-500"/> Supabase email/password authentication</div>
+            <div className="flex items-center gap-2"><CheckCircle2 className="w-4 h-4 text-blue-500"/> All data encrypted at rest and in transit</div>
+            <div className="flex items-center gap-2"><CheckCircle2 className="w-4 h-4 text-blue-500"/> Session tokens automatically refreshed</div>
           </div>
         </div>
       </div>

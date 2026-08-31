@@ -84,7 +84,7 @@ function RotatingText() {
         transition: "opacity 0.35s ease, transform 0.35s ease",
         opacity: fade ? 1 : 0,
         transform: fade ? "translateY(0)" : "translateY(12px)",
-        color: "#fb923c",
+        color: "#0959d6",
       }}
     >
       {heroRotatingPhrases[index]}
@@ -198,11 +198,11 @@ export default function Home() {
   }, []);
 
   const programs = [
-    { title: t('programs.foodSupport'), description: t('programs.foodDesc'), image: 'https://images.unsplash.com/photo-1710092784814-4a6f158913b8?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080', link: '/food-support', color: '#f97316', tag: 'Nutrition' },
-    { title: t('programs.education'), description: t('programs.educationDesc'), image: 'https://images.unsplash.com/photo-1770843093640-c44ae557928b?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080', link: '/education', color: '#1e3a8a', tag: 'Education' },
-    { title: t('programs.healthcare'), description: t('programs.healthcareDesc'), image: 'https://images.unsplash.com/photo-1770221797840-8f5a095ad7ae?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080', link: '/healthcare', color: '#2563eb', tag: 'Healthcare' },
-    { title: t('programs.economic'), description: t('programs.economicDesc'), image: 'https://images.unsplash.com/photo-1752650736246-abae155278be?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080', link: '/economic', color: '#f97316', tag: 'Empowerment' },
-    { title: t('programs.helpingFamilies'), description: t('programs.helpingFamiliesDesc'), image: 'https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080', link: '/helping-families', color: '#ef4444', tag: 'Family Welfare' },
+    { title: t('programs.foodSupport'), description: t('programs.foodDesc'), image: 'https://images.unsplash.com/photo-1710092784814-4a6f158913b8?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080', link: '/food-support', color: '#ea580c', tag: 'Nutrition' },
+    { title: t('programs.education'), description: t('programs.educationDesc'), image: 'https://images.unsplash.com/photo-1770843093640-c44ae557928b?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080', link: '/education', color: '#f59e0b', tag: 'Education' },
+    { title: t('programs.healthcare'), description: t('programs.healthcareDesc'), image: 'https://images.unsplash.com/photo-1770221797840-8f5a095ad7ae?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080', link: '/healthcare', color: '#e11d48', tag: 'Healthcare' },
+    { title: t('programs.economic'), description: t('programs.economicDesc'), image: 'https://images.unsplash.com/photo-1752650736246-abae155278be?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080', link: '/economic', color: '#d97706', tag: 'Empowerment' },
+    { title: t('programs.helpingFamilies'), description: t('programs.helpingFamiliesDesc'), image: 'https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080', link: '/helping-families', color: '#f43f5e', tag: 'Family Welfare' },
   ];
 
   const testimonials = [
@@ -226,11 +226,11 @@ export default function Home() {
   return (
     <div className="min-h-screen">
 
-      {/* ── NEW MODERN HERO ── */}
+      {/* ── MODERN BENTO HERO ── */}
       <section className="relative min-h-[90vh] flex items-center pt-24 pb-16 lg:pt-32 lg:pb-24 overflow-hidden bg-slate-50">
-        <div className="absolute inset-0 z-0">
-          <div className="absolute top-[-10%] right-[-5%] w-[800px] h-[800px] rounded-full bg-blue-100/50 blur-3xl pointer-events-none" />
-          <div className="absolute bottom-[-10%] left-[-5%] w-[600px] h-[600px] rounded-full bg-orange-100/40 blur-3xl pointer-events-none" />
+        <div className="absolute inset-0 z-0 bg-white">
+          <div className="absolute top-[-10%] right-[-5%] w-[800px] h-[800px] rounded-full bg-blue-50/60 blur-[100px] pointer-events-none" />
+          <div className="absolute bottom-[-10%] left-[-5%] w-[600px] h-[600px] rounded-full bg-slate-100/80 blur-[80px] pointer-events-none" />
         </div>
 
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 w-full">
@@ -240,8 +240,8 @@ export default function Home() {
             <div className="max-w-2xl">
               <div className="inline-flex items-center gap-3 px-5 py-2.5 rounded-full bg-white shadow-sm border border-slate-200 text-blue-900 font-medium text-sm mb-8 animate-[fade-in-up_0.8s_ease-out]">
                 <span className="relative flex h-3 w-3">
-                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-orange-400 opacity-75"></span>
-                  <span className="relative inline-flex rounded-full h-3 w-3 bg-orange-500"></span>
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75"></span>
+                  <span className="relative inline-flex rounded-full h-3 w-3 bg-blue-600"></span>
                 </span>
                 <span className="tracking-wide uppercase text-xs font-bold text-slate-500 mr-1">Currently:</span>
                 <span className="font-semibold text-blue-900"><RotatingText /></span>
@@ -258,14 +258,14 @@ export default function Home() {
               <div className="flex flex-col sm:flex-row gap-4 animate-[fade-in-up_1.4s_ease-out]">
                 <Link 
                   to="/donate" 
-                  className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-blue-900 text-white rounded-3xl font-semibold hover:bg-blue-800 transition-all shadow-lg hover:shadow-xl hover:-translate-y-1"
+                  className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-black text-white rounded-xl font-bold hover:bg-slate-800 transition-all shadow-lg hover:shadow-2xl hover:-translate-y-1"
                 >
                   <Heart className="w-5 h-5 fill-white" />
                   {t('nav.donateNow')}
                 </Link>
                 <Link 
                   to="/opportunities" 
-                  className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-white text-blue-900 rounded-3xl font-semibold border-2 border-blue-900/10 hover:border-blue-900/30 hover:bg-slate-50 transition-all"
+                  className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-white text-black rounded-xl font-bold border-2 border-slate-200 hover:border-slate-300 hover:bg-slate-50 transition-all"
                 >
                   {t('home.getInvolved')}
                   <ArrowRight className="w-5 h-5" />
@@ -273,15 +273,32 @@ export default function Home() {
               </div>
             </div>
 
-            {/* Right: Image Component */}
-            <div className="relative animate-[fade-in-up_1.2s_ease-out]">
-              <div className="relative rounded-[2.5rem] overflow-hidden aspect-[4/5] md:aspect-square lg:aspect-[4/5] shadow-2xl">
-                <ImageWithFallback 
-                  src={heroImage} 
-                  alt="Vulnerable communities we support" 
-                  className="w-full h-full object-cover" 
-                />
-                <div className="absolute inset-0 bg-gradient-to-tr from-blue-900/20 to-transparent" />
+            {/* Right: Bento Image Grid Component */}
+            <div className="relative animate-[fade-in-up_1.2s_ease-out] hidden lg:block">
+              <div className="grid grid-cols-2 grid-rows-2 gap-4 h-[600px]">
+                {/* Main large image */}
+                <div className="row-span-2 relative rounded-3xl overflow-hidden shadow-xl ring-1 ring-slate-200">
+                  <ImageWithFallback src={heroImage} alt="Main" className="w-full h-full object-cover" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent" />
+                </div>
+                {/* Top right smaller image */}
+                <div className="relative rounded-3xl overflow-hidden shadow-lg ring-1 ring-slate-200">
+                  <ImageWithFallback src={galleryImages[1]?.url} alt="Support" className="w-full h-full object-cover" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-blue-900/40 to-transparent" />
+                </div>
+                {/* Bottom right smaller image */}
+                <div className="relative rounded-3xl overflow-hidden shadow-lg ring-1 ring-slate-200">
+                  <ImageWithFallback src={galleryImages[2]?.url} alt="Community" className="w-full h-full object-cover" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />
+                </div>
+              </div>
+            </div>
+            
+            {/* Mobile Fallback Single Image */}
+            <div className="relative animate-[fade-in-up_1.2s_ease-out] lg:hidden">
+              <div className="relative rounded-3xl overflow-hidden aspect-[4/5] shadow-2xl ring-1 ring-slate-200">
+                <ImageWithFallback src={heroImage} alt="Vulnerable communities" className="w-full h-full object-cover" />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent" />
               </div>
             </div>
 
@@ -309,30 +326,19 @@ export default function Home() {
             <h2 className="home-section-title font-playfair">In Action Across Communities</h2>
           </div>
         </div>
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 pb-12">
-          <Carousel
-            plugins={[
-              Autoplay({
-                delay: 3500,
-              }),
-            ]}
-            opts={{
-              align: "start",
-              loop: true,
-            }}
-            className="w-full"
-          >
-            <CarouselContent className="-ml-2 md:-ml-4 pb-4">
-              {galleryImages.map((image) => (
-                <CarouselItem key={image.id} className="pl-2 md:pl-4 basis-full md:basis-1/2 lg:basis-1/3">
-                  <div className="home-carousel-item group">
-                    <ImageWithFallback src={image.url} alt={image.alt} loading="lazy" decoding="async" className="w-full h-full object-cover transition-all duration-700 group-hover:scale-110" />
-                    <div className="home-carousel-overlay-premium" />
-                  </div>
-                </CarouselItem>
-              ))}
-            </CarouselContent>
-          </Carousel>
+        <div className="max-w-[1500px] mx-auto px-4 sm:px-6 pb-12">
+          <div className="home-accordion-gallery">
+            {galleryImages.slice(0, 5).map((image, idx) => (
+              <div key={image.id || idx} className="home-accordion-item group">
+                <ImageWithFallback src={image.url} alt={image.alt} loading="lazy" decoding="async" className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105" />
+                <div className="home-accordion-overlay" />
+                <div className="home-accordion-number">0{idx + 1}</div>
+                <div className="home-accordion-content">
+                  <div className="home-accordion-title font-playfair">{image.alt || 'Community Impact'}</div>
+                </div>
+              </div>
+            ))}
+          </div>
           <div className="flex justify-center mt-12">
             <Link to="/gallery" className="home-view-all-link text-lg font-bold flex items-center">
               Explore Our Full Gallery <ChevronRight className="w-5 h-5 ml-1" />
@@ -350,44 +356,32 @@ export default function Home() {
             <p className="home-section-subtitle">We create sustainable change through five core programs designed to address the most critical needs in underserved communities.</p>
           </div>
 
-          {/* MAIN FEATURED PROGRAM */}
-          {programs.find(p => p.link === '/helping-families') && (() => {
-            const mainProgram = programs.find(p => p.link === '/helping-families')!;
-            return (
-              <Link to={mainProgram.link} className="home-main-program-card group">
-                <div className="home-main-program-img-wrap">
-                  <ImageWithFallback src={mainProgram.image} alt={mainProgram.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
-                  <div className="home-program-img-overlay" />
-                  <div className="home-program-tag" style={{ backgroundColor: mainProgram.color }}>{mainProgram.tag}</div>
-                </div>
-                <div className="home-main-program-body">
-                  <h3 className="home-main-program-title font-playfair">{mainProgram.title}</h3>
-                  <p className="home-main-program-desc">{mainProgram.description}</p>
-                  <div className="home-program-cta" style={{ color: mainProgram.color }}>
-                    {t('programs.learnMore')}<ChevronRight className="w-5 h-5 transition-transform group-hover:translate-x-1" />
+          <div className="flex flex-wrap justify-center gap-6 mt-16">
+            {programs.map((program, index) => (
+              <div key={index} className="w-full md:w-[calc(50%-0.75rem)] lg:w-[calc(33.333%-1rem)] group">
+                <Link to={program.link} className="flex flex-col h-full rounded-3xl overflow-hidden shadow-[0_4px_20px_rgba(15,23,42,0.08)] hover:shadow-[0_20px_50px_rgba(15,23,42,0.2)] transition-all duration-500 hover:-translate-y-2 border border-transparent">
+                  <div className="relative aspect-[4/3] overflow-hidden bg-slate-900">
+                    <ImageWithFallback src={program.image} alt={program.title} loading="lazy" decoding="async" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 opacity-90 group-hover:opacity-100" />
+                    <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                    {/* Tag overlaid on image */}
+                    <div className="absolute top-4 right-4 px-4 py-1.5 bg-white/95 backdrop-blur-md rounded-full text-[10px] font-black uppercase tracking-widest shadow-sm" style={{ color: program.color }}>
+                      {program.tag}
+                    </div>
                   </div>
-                </div>
-                <div className="home-program-accent" style={{ backgroundColor: mainProgram.color }} />
-              </Link>
-            );
-          })()}
-
-          {/* 4 COLUMN GRID FOR REMAINING PROGRAMS */}
-          <div className="home-programs-4col-grid">
-            {programs.filter(p => p.link !== '/helping-families').map((program, index) => (
-              <Link to={program.link} key={index} className="home-program-card group">
-                <div className="home-program-img-wrap">
-                  <ImageWithFallback src={program.image} alt={program.title} loading="lazy" decoding="async" className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />
-                  <div className="home-program-img-overlay" />
-                  <div className="home-program-tag" style={{ backgroundColor: program.color }}>{program.tag}</div>
-                </div>
-                <div className="home-program-body">
-                  <h3 className="home-program-title font-playfair">{program.title}</h3>
-                  <p className="home-program-desc">{program.description}</p>
-                  <div className="home-program-cta" style={{ color: program.color }}>{t('programs.learnMore')}<ChevronRight className="w-4 h-4 transition-transform group-hover:translate-x-1" /></div>
-                </div>
-                <div className="home-program-accent" style={{ backgroundColor: program.color }} />
-              </Link>
+                  {/* Solid colored content area */}
+                  <div className="p-8 flex flex-col flex-1 relative transition-colors duration-500" style={{ backgroundColor: program.color }}>
+                    <h3 className="text-2xl font-playfair font-bold text-white mb-4 leading-tight drop-shadow-sm">
+                      {program.title}
+                    </h3>
+                    <p className="text-sm text-white/90 leading-relaxed mb-8 flex-1 drop-shadow-sm">
+                      {program.description}
+                    </p>
+                    <div className="inline-flex items-center text-xs font-bold tracking-widest uppercase transition-transform group-hover:translate-x-1 mt-auto text-white drop-shadow-sm">
+                      {t('programs.learnMore')} <ArrowRight className="w-4 h-4 ml-1.5" />
+                    </div>
+                  </div>
+                </Link>
+              </div>
             ))}
           </div>
         </div>
@@ -402,7 +396,7 @@ export default function Home() {
           </div>
           <div className="home-cta-actions">
             <Link to="/donate" className="home-cta-btn-primary"><Heart className="w-5 h-5 fill-white" />Donate Now</Link>
-            <Link to="/partner" className="home-cta-btn-secondary">Become a Partner<ArrowRight className="w-5 h-5" /></Link>
+            <Link to="/partner" className="home-cta-btn-secondary text-[#111827]">Become a Partner<ArrowRight className="w-5 h-5" /></Link>
           </div>
         </div>
       </section>
@@ -455,9 +449,9 @@ export default function Home() {
 
       {/* ── LATEST NEWS ── */}
       {recentNews.length > 0 && (
-        <section style={{ background: 'var(--brand-cream)', padding: '80px 0', borderTop: '1px solid rgba(30,58,138,0.06)' }}>
-          <div className="max-w-6xl mx-auto px-4 sm:px-6">
-            <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-4">
+        <section className="bg-slate-50 py-24 border-t border-slate-100">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-4">
               <div>
                 <div className="home-section-label">Stay Informed</div>
                 <h2 className="home-section-title-left font-playfair">Latest News</h2>
@@ -468,29 +462,30 @@ export default function Home() {
             </div>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
               {recentNews.map((newsItem) => (
-                <div key={newsItem.id} className="bg-white rounded-3xl overflow-hidden border border-[rgba(30,58,138,0.06)] flex flex-col h-full group hover:-translate-y-1.5 transition-all duration-300" style={{ boxShadow: '0 4px 20px rgba(15,23,42,0.05)' }}>
-                  <div className="relative h-56 w-full overflow-hidden">
+                <div key={newsItem.id} className="bg-white rounded-3xl overflow-hidden flex flex-col h-full group hover:-translate-y-2 transition-all duration-500 shadow-sm border border-transparent hover:border-blue-100 hover:shadow-2xl">
+                  <div className="relative h-64 w-full overflow-hidden">
                     <ImageWithFallback src={newsItem.image} alt={newsItem.title} loading="lazy" decoding="async" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                     <div className="absolute top-4 left-4">
-                      <span className="px-3 py-1 text-white text-[10px] font-black uppercase tracking-widest rounded-md shadow-sm" style={{ background: 'var(--brand-teal)' }}>
+                      <span className="px-4 py-1.5 text-white text-[10px] font-black uppercase tracking-widest rounded-full shadow-lg backdrop-blur-md bg-[#0959d6]/90 border border-white/20">
                         {newsItem.category}
                       </span>
                     </div>
                   </div>
-                  <div className="p-6 md:p-8 flex flex-col flex-1">
-                    <div className="flex items-center gap-2 text-xs font-semibold mb-4" style={{ color: 'var(--brand-text)' }}>
-                      <Calendar className="w-3.5 h-3.5" />
+                  <div className="p-8 flex flex-col flex-1 relative bg-white">
+                    <div className="flex items-center gap-2 text-xs font-bold mb-4 text-slate-500 uppercase tracking-widest">
+                      <Calendar className="w-4 h-4 text-[#0959d6]" />
                       {newsItem.date}
                     </div>
-                    <h3 className="text-xl font-bold leading-snug mb-3 transition-colors font-playfair" style={{ color: 'var(--brand-heading)' }}>
+                    <h3 className="text-2xl font-bold leading-tight mb-4 transition-colors font-playfair text-gray-900 group-hover:text-[#0959d6]">
                       {newsItem.title}
                     </h3>
-                    <p className="text-sm leading-relaxed line-clamp-3 mb-6 flex-1 font-source-serif" style={{ color: 'var(--brand-text)' }}>
+                    <p className="text-base leading-relaxed line-clamp-3 mb-8 flex-1 text-slate-600">
                       {newsItem.excerpt}
                     </p>
-                    <div className="mt-auto pt-2">
-                      <Link to={`/company-news/${newsItem.id}`} className="inline-flex items-center gap-1.5 px-4 py-2 text-xs font-bold uppercase tracking-widest rounded-full transition-colors" style={{ background: 'rgba(30,58,138,0.06)', color: 'var(--brand-teal)' }}>
-                        Read Article <ChevronRight className="w-3.5 h-3.5" />
+                    <div className="mt-auto">
+                      <Link to={`/company-news/${newsItem.id}`} className="inline-flex items-center gap-2 text-sm font-bold uppercase tracking-widest text-[#111827] group-hover:text-[#0959d6] transition-colors">
+                        Read Article <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
                       </Link>
                     </div>
                   </div>
@@ -502,47 +497,79 @@ export default function Home() {
       )}
 
       {/* ── WHY PARTNER ── */}
-      <section className="home-why-section">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6">
-          <div ref={whyReveal.ref} className={`home-why-grid home-reveal ${whyReveal.visible ? 'visible' : ''}`}>
-            <div className="home-why-image-wrap">
-              <ImageWithFallback src="https://images.unsplash.com/photo-1585984968562-1443b72fb0dc?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080" alt="Our team" loading="lazy" decoding="async" className="home-why-image" />
-              <div className="home-why-float-card">
-                <div className="home-why-float-icon">✓</div>
-                <div><div className="home-why-float-num">100%</div><div className="home-why-float-text">Transparent</div></div>
+      <section className="bg-white py-24">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div ref={whyReveal.ref} className={`grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24 items-center home-reveal ${whyReveal.visible ? 'visible' : ''}`}>
+            
+            {/* Image Side */}
+            <div className="relative">
+              <div className="relative aspect-[4/5] rounded-[2rem] overflow-hidden shadow-2xl ring-1 ring-slate-100">
+                <ImageWithFallback src="https://images.unsplash.com/photo-1585984968562-1443b72fb0dc?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080" alt="Our team" loading="lazy" decoding="async" className="w-full h-full object-cover" />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent" />
+              </div>
+              {/* Glassmorphism Floating Badge */}
+              <div className="absolute -bottom-8 -right-8 sm:-bottom-12 sm:-right-12 bg-white/80 backdrop-blur-xl border border-white p-6 sm:p-8 rounded-3xl shadow-[0_20px_60px_rgba(15,23,42,0.1)] flex items-center gap-6 z-10 animate-[bounce_8s_infinite]">
+                <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-[#0959d6] to-[#0648b3] flex items-center justify-center shadow-lg">
+                  <CheckCircle2 className="w-8 h-8 text-white" />
+                </div>
+                <div>
+                  <div className="text-4xl font-black text-gray-900 tracking-tight">100%</div>
+                  <div className="text-sm font-bold text-slate-500 uppercase tracking-widest mt-1">Transparent</div>
+                </div>
               </div>
             </div>
-            <div className="home-why-content">
-              <div className="home-section-label">Our Commitment</div>
-              <h2 className="home-why-title font-playfair">Why Partner With Us</h2>
-              <p className="home-why-desc">At Cross-borders Outreach International, we believe in transparency, sustainability, and community-driven solutions. Every dollar you contribute goes directly to creating meaningful, lasting change.</p>
-              <div className="home-why-list">
+
+            {/* Content Side */}
+            <div className="flex flex-col justify-center pt-12 lg:pt-0">
+              <div className="inline-flex px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-widest mb-6 w-fit border border-blue-100 text-[#0959d6] bg-blue-50">
+                Our Commitment
+              </div>
+              <h2 className="text-4xl lg:text-5xl font-playfair font-bold text-gray-900 mb-6 leading-tight">
+                Why Partner With Us
+              </h2>
+              <p className="text-lg text-gray-600 leading-relaxed mb-10">
+                At Cross-borders Outreach International, we believe in transparency, sustainability, and community-driven solutions. Every dollar you contribute goes directly to creating meaningful, lasting change.
+              </p>
+              
+              {/* 2-Column Floating Card Grid */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-10">
                 {[
                   { text: '100% transparency in fund allocation', color: '#1e3a8a' },
                   { text: 'Community-driven sustainable solutions', color: '#2563eb' },
                   { text: 'Experienced team with local partnerships', color: '#f97316' },
                   { text: 'Regular impact reports and updates', color: '#ef4444' },
-                  { text: 'Tax-deductible contributions', color: '#1e3a8a' },
                 ].map((item, i) => (
-                  <div key={i} className="home-why-item">
-                    <div className="home-why-check" style={{ backgroundColor: `${item.color}18`, color: item.color }}><CheckCircle2 className="w-5 h-5" aria-hidden="true" /></div>
-                    <span className="home-why-item-text">{item.text}</span>
+                  <div key={i} className="flex items-start gap-4 p-5 rounded-2xl bg-slate-50 border border-slate-100 transition-all hover:bg-white hover:shadow-xl hover:-translate-y-1">
+                    <div className="flex-shrink-0 w-10 h-10 rounded-xl flex items-center justify-center" style={{ backgroundColor: `${item.color}15`, color: item.color }}>
+                      <CheckCircle2 className="w-5 h-5" />
+                    </div>
+                    <span className="text-sm font-semibold text-gray-800 leading-snug">{item.text}</span>
                   </div>
                 ))}
               </div>
-              <Link to="/mission" className="home-btn-primary" style={{ width: 'fit-content' }}>Our Mission &amp; Vision<ArrowRight className="w-5 h-5" /></Link>
+              
+              <Link to="/mission" className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-[#111827] text-white rounded-xl font-bold hover:bg-slate-800 transition-all shadow-lg hover:shadow-2xl hover:-translate-y-1 w-fit">
+                Our Mission &amp; Vision<ArrowRight className="w-5 h-5" />
+              </Link>
             </div>
+
           </div>
         </div>
       </section>
 
       {/* ── TESTIMONIALS ── */}
-      <section className="home-testimonials-section">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6">
-          <div ref={testimonialsReveal.ref} className={`home-section-header home-reveal ${testimonialsReveal.visible ? 'visible' : ''}`}>
-            <div className="home-section-label" style={{ color: '#fb923c' }}>Voices of Impact</div>
-            <h2 className="home-section-title font-playfair" style={{ color: 'white' }}>Stories of Transformation</h2>
-            <p className="home-section-subtitle" style={{ color: 'rgba(255,255,255,0.6)' }}>Hear from communities whose lives have been transformed through our programs.</p>
+      <section className="bg-slate-50 py-24">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div ref={testimonialsReveal.ref} className={`mb-16 home-reveal ${testimonialsReveal.visible ? 'visible' : ''}`}>
+            <div className="inline-flex px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-widest mb-6 w-fit border border-orange-200 text-orange-600 bg-orange-50">
+              Voices of Impact
+            </div>
+            <h2 className="text-4xl lg:text-5xl font-playfair font-bold text-gray-900 mb-6 leading-tight">
+              Stories of Transformation
+            </h2>
+            <p className="text-lg text-slate-600 leading-relaxed max-w-2xl">
+              Hear from communities whose lives have been transformed through our programs.
+            </p>
           </div>
           <div className="-mx-2 sm:-mx-3 pb-8">
           <Carousel
@@ -560,17 +587,19 @@ export default function Home() {
             <CarouselContent className="-ml-2 md:-ml-4">
               {testimonials.map((item, index) => (
                 <CarouselItem key={index} className="pl-2 md:pl-4 basis-full md:basis-1/2 lg:basis-1/3">
-                  <div className="home-testimonial-card h-full flex flex-col">
-                    <Quote className="w-10 h-10 mb-4 flex-shrink-0" style={{ color: '#fb923c', opacity: 0.7 }} />
-                    <p className="home-testimonial-quote flex-1">"{item.quote}"</p>
-                    <div className="home-testimonial-author mt-auto pt-2">
-                      <div className="home-testimonial-avatar" style={{ backgroundColor: item.color }}>{item.avatar}</div>
-                      <div><div className="home-testimonial-name">{item.author}</div><div className="home-testimonial-role">{item.role}</div></div>
-                    </div>
-                    <div className="mt-6 pt-6 border-t border-white/10">
-                      <Link to="/impact" className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-widest px-5 py-2.5 rounded-full transition-all duration-300 hover:translate-x-1" style={{ color: '#fb923c', background: 'rgba(249,115,22,0.1)' }}>
-                        Read Full Story <ArrowRight className="w-3.5 h-3.5" />
-                      </Link>
+                  <div className="bg-white rounded-[2rem] p-8 sm:p-10 h-full flex flex-col shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-slate-100 transition-transform duration-500 hover:-translate-y-2 hover:shadow-[0_20px_40px_rgb(0,0,0,0.08)]">
+                    <div className="text-7xl font-playfair text-orange-200 leading-none h-12 mb-4">"</div>
+                    <p className="text-xl font-medium text-slate-800 leading-relaxed mb-10 flex-1">
+                      {item.quote}
+                    </p>
+                    <div className="flex items-center gap-4 pt-6 border-t border-slate-100">
+                      <div className="w-14 h-14 rounded-full flex items-center justify-center text-white font-bold text-xl shadow-inner" style={{ backgroundColor: item.color }}>
+                        {item.avatar}
+                      </div>
+                      <div>
+                        <div className="font-bold text-gray-900">{item.author}</div>
+                        <div className="text-sm text-slate-500">{item.role}</div>
+                      </div>
                     </div>
                   </div>
                 </CarouselItem>
@@ -582,14 +611,26 @@ export default function Home() {
       </section>
 
       {/* ── FINAL CTA ── */}
-      <section className="home-final-cta">
-        <div className="home-final-cta-inner">
-          <h2 className="home-final-cta-title font-playfair">Together, We Can Go Further</h2>
-          <p className="home-final-cta-sub">Join our global community of donors, volunteers, and partners working to create lasting change across borders.</p>
-          <div className="home-final-cta-actions">
-            <Link to="/donate" className="home-final-btn-donate"><Heart className="w-5 h-5 fill-white" />Donate Today</Link>
-            <Link to="/opportunities" className="home-final-btn-volunteer">Volunteer With Us</Link>
-            <Link to="/contact" className="home-final-btn-contact">Contact Us</Link>
+      <section className="relative py-32 bg-[#111827] overflow-hidden border-t border-slate-800">
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[500px] bg-blue-600/20 blur-[120px] rounded-full pointer-events-none" />
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 relative z-10 text-center">
+          <h2 className="text-5xl lg:text-7xl font-playfair font-bold text-white mb-8 leading-tight">
+            Together, We Can<br/>Go Further
+          </h2>
+          <p className="text-xl text-slate-300 mb-12 leading-relaxed max-w-2xl mx-auto">
+            Join our global community of donors, volunteers, and partners working to create lasting change across borders.
+          </p>
+          <div className="flex flex-col sm:flex-row justify-center items-center gap-4">
+            <Link to="/donate" className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-white text-[#111827] rounded-xl font-bold hover:bg-slate-100 transition-all shadow-lg hover:shadow-2xl hover:-translate-y-1 w-full sm:w-auto">
+              <Heart className="w-5 h-5 fill-[#111827]" />
+              Donate Today
+            </Link>
+            <Link to="/opportunities" className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-transparent border-2 border-slate-700 text-white rounded-xl font-bold hover:border-slate-500 hover:bg-slate-800 transition-all w-full sm:w-auto">
+              Volunteer With Us
+            </Link>
+            <Link to="/contact" className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-transparent text-slate-300 font-bold hover:text-white transition-all w-full sm:w-auto">
+              Contact Us
+            </Link>
           </div>
         </div>
       </section>

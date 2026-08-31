@@ -1,813 +1,683 @@
-import { useEffect, useState, useMemo } from "react";
+import { useEffect, useState, useMemo, useRef } from "react";
 import { Link, useNavigate } from "react-router";
 import {
   Heart, DollarSign, Calendar, TrendingUp, Download,
   Eye, Gift, Award, LogOut, Loader2, AlertCircle,
-  PieChart, Star, ChevronRight, Activity, Map, X,
-  BarChart3, Folder, FileText, RefreshCw, LayoutDashboard, UserCog, Image
+  Star, ChevronRight, Activity, X,
+  BarChart3, Folder, FileText, RefreshCw,
+  LayoutDashboard, History, Target, BookOpen,
+  CheckCircle2, CreditCard, Sparkles,
 } from "lucide-react";
 import { useAuth } from "../../../lib/AuthContext";
-import { getDonorProfile, getDonorDonations, signOut, getEventArchives, getReports, getGalleryImages, getArticles } from "../../../lib/supabase";
+import {
+  getDonorProfile, getDonorDonations, signOut,
+  getEventArchives, getReports, getGalleryImages, getArticles
+} from "../../../lib/supabase";
 import type { Donor, Donation, EventArchive, Report, GalleryImage, Article } from "../../../lib/supabase";
 import { Elements } from "@stripe/react-stripe-js";
 import { getStripe, isStripeConfigured } from "../../../lib/stripe";
 import PaymentForm from "../../components/PaymentForm";
+import {
+  AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip,
+  ResponsiveContainer, BarChart, Bar, Cell, RadialBarChart, RadialBar
+} from "recharts";
+import "../../../styles/portal.css";
 
-const IMPACT_MAP: Record<string, { label: string; icon: string; multiplier: number }> = {
-  "Food Support Program":    { label: "Meals Provided",      icon: "🍽️", multiplier: 0.5 },
-  "Education Initiative":    { label: "Students Supported",  icon: "📚", multiplier: 0.04 },
-  "Healthcare Outreach":     { label: "Medical Checkups",    icon: "🏥", multiplier: 0.05 },
-  "Economic Empowerment":    { label: "Businesses Started",  icon: "💼", multiplier: 0.01 },
+/* ── Count-up ──────────────────────────────────────────── */
+function CountUp({ to, prefix="", suffix="", decimals=0, duration=1200 }: { to:number; prefix?:string; suffix?:string; decimals?:number; duration?:number }) {
+  const [val, setVal] = useState(0);
+  const rafRef = useRef<number>();
+  useEffect(() => {
+    let start: number | null = null;
+    const tick = (ts:number) => {
+      if (!start) start = ts;
+      const prog = Math.min((ts - start) / duration, 1);
+      const ease = 1 - Math.pow(1 - prog, 3);
+      setVal(to * ease);
+      if (prog < 1) rafRef.current = requestAnimationFrame(tick);
+    };
+    rafRef.current = requestAnimationFrame(tick);
+    return () => { if (rafRef.current) cancelAnimationFrame(rafRef.current); };
+  }, [to, duration]);
+  const display = decimals > 0 ? val.toFixed(decimals) : Math.floor(val).toLocaleString();
+  return <span>{prefix}{display}{suffix}</span>;
+}
+
+/* ── Constants ─────────────────────────────────────────── */
+const TIERS = [
+  { name:"Bronze", threshold:0,    color:"from-slate-600 to-slate-800", ring:"#64748b", emoji:"🥉" },
+  { name:"Silver", threshold:1000, color:"from-blue-500 to-blue-700",   ring:"#0959d6", emoji:"🥈" },
+  { name:"Gold",   threshold:5000, color:"from-slate-900 to-blue-900",  ring:"#111827", emoji:"🥇" },
+];
+
+const PROGRAM_COLORS: Record<string, string> = {
+  "Food Support Program":  "#0959d6",
+  "Education Initiative":  "#0648b3",
+  "Healthcare Outreach":   "#2f7aee",
+  "Economic Empowerment":  "#111827",
 };
 
-const TIERS = [
-  { name: "Bronze", threshold: 0, color: "from-orange-400 to-amber-600", bg: "bg-amber-50" },
-  { name: "Silver", threshold: 1000, color: "from-slate-300 to-slate-500", bg: "bg-slate-50" },
-  { name: "Gold", threshold: 5000, color: "from-yellow-300 to-yellow-500", bg: "bg-yellow-50" }
-];
+const IMPACT_MAP: Record<string, { label:string; icon:string; multiplier:number }> = {
+  "Food Support Program":  { label:"Meals Provided",     icon:"🍽️", multiplier:0.5  },
+  "Education Initiative":  { label:"Students Supported", icon:"📚", multiplier:0.04 },
+  "Healthcare Outreach":   { label:"Medical Checkups",   icon:"🏥", multiplier:0.05 },
+  "Economic Empowerment":  { label:"Businesses Started", icon:"💼", multiplier:0.01 },
+};
+
+type Tab = "overview" | "donations" | "impact" | "resources";
+
+const PROGRAM_AMOUNTS = [50, 100, 250, 500];
+
+/* ── Helpers ───────────────────────────────────────────── */
+function statusBadge(status: string) {
+  const map: Record<string, { bg:string; color:string }> = {
+    completed: { bg:"#f0fdf4", color:"#16a34a" },
+    pending:   { bg:"#fffbeb", color:"#d97706" },
+    failed:    { bg:"#fef2f2", color:"#dc2626" },
+  };
+  const s = map[status] ?? { bg:"#f8fafc", color:"#64748b" };
+  return (
+    <span style={{padding:"3px 10px",borderRadius:999,fontSize:12,fontWeight:600,background:s.bg,color:s.color,textTransform:"capitalize"}}>
+      {status}
+    </span>
+  );
+}
 
 export default function DonorDashboard() {
   const { user, loading: authLoading } = useAuth();
   const navigate = useNavigate();
+  const [tab, setTab] = useState<Tab>("overview");
 
-  const [donor, setDonor] = useState<Donor | null>(null);
-  const [donations, setDonations] = useState<Donation[]>([]);
-  const [eventArchives, setEventArchives] = useState<EventArchive[]>([]);
-  const [orgReports, setOrgReports] = useState<Report[]>([]);
-  const [galleryImages, setGalleryImages] = useState<GalleryImage[]>([]);
+  const [donor,          setDonor]          = useState<Donor | null>(null);
+  const [donations,      setDonations]      = useState<Donation[]>([]);
+  const [eventArchives,  setEventArchives]  = useState<EventArchive[]>([]);
+  const [orgReports,     setOrgReports]     = useState<Report[]>([]);
+  const [galleryImages,  setGalleryImages]  = useState<GalleryImage[]>([]);
   const [projectUpdates, setProjectUpdates] = useState<Article[]>([]);
-  const [dataLoading, setDataLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  const [dataLoading,    setDataLoading]    = useState(true);
+  const [error,          setError]          = useState<string | null>(null);
 
-  // Donation Modal State
+  // Donation modal
   const [isDonateModalOpen, setIsDonateModalOpen] = useState(false);
-  const [donateFrequency, setDonateFrequency] = useState<"one-time" | "monthly">("one-time");
-  const [donateAmount, setDonateAmount] = useState<number>(50);
-  const [customAmount, setCustomAmount] = useState<string>("");
+  const [donateFrequency,   setDonateFrequency]   = useState<"one-time"|"monthly">("one-time");
+  const [donateAmount,      setDonateAmount]       = useState<number>(50);
+  const [customAmount,      setCustomAmount]       = useState<string>("");
 
-  // ── Fetch real data ──────────────────────────────────────────────────────
+  // Donations tab filter
+  const [filterStatus,  setFilterStatus]  = useState<string>("all");
+  const [filterProgram, setFilterProgram] = useState<string>("all");
+  const [sortAsc,       setSortAsc]       = useState(false);
+
   useEffect(() => {
     if (!user) return;
-
     const load = async () => {
       setDataLoading(true);
-      const [profileRes, donationsRes, archivesRes, reportsRes, galleryRes, articlesRes] = await Promise.all([
-        getDonorProfile(user.id),
-        getDonorDonations(user.id),
-        getEventArchives(),
-        getReports(),
-        getGalleryImages(),
-        getArticles(undefined, 'published')
-      ]);
-
+      const [profileRes, donationsRes, archivesRes, reportsRes, galleryRes, articlesRes] =
+        await Promise.all([
+          getDonorProfile(user.id),
+          getDonorDonations(user.id),
+          getEventArchives(),
+          getReports(),
+          getGalleryImages(),
+          getArticles(undefined, "published"),
+        ]);
       if (profileRes.error) setError(profileRes.error.message);
       else setDonor(profileRes.data);
-
       if (!donationsRes.error) setDonations(donationsRes.data ?? []);
-      if (!archivesRes.error) setEventArchives(archivesRes.data ?? []);
-      if (!reportsRes.error) setOrgReports(reportsRes.data ?? []);
-      if (!galleryRes.error) setGalleryImages(galleryRes.data ?? []);
-      if (!articlesRes.error) setProjectUpdates(articlesRes.data?.slice(0, 3) ?? []);
+      if (!archivesRes.error)  setEventArchives(archivesRes.data ?? []);
+      if (!reportsRes.error)   setOrgReports(reportsRes.data ?? []);
+      if (!galleryRes.error)   setGalleryImages(galleryRes.data ?? []);
+      if (!articlesRes.error)  setProjectUpdates(articlesRes.data?.slice(0,3) ?? []);
       setDataLoading(false);
     };
-
     load();
   }, [user]);
 
-  const handleSignOut = async () => {
-    await signOut();
-    navigate("/donor/login");
-  };
-
-  // ── Computations ────────────────────────────────────────────────────────
+  /* ── Computed ──────────────────────────────────────────── */
+  const completedDonations = useMemo(() => donations.filter(d => d.status === "completed"), [donations]);
   const totalDonated = donor?.total_donated ?? 0;
-  
-  // Tier logic
-  const currentTierIndex = [...TIERS].reverse().findIndex(t => totalDonated >= t.threshold);
-  const currentTier = TIERS[TIERS.length - 1 - (currentTierIndex === -1 ? 2 : currentTierIndex)];
-  const nextTier = TIERS[TIERS.length - 1 - (currentTierIndex === -1 ? 2 : currentTierIndex) + 1];
-  
-  const progressToNextTier = nextTier 
-    ? Math.min(100, Math.max(0, ((totalDonated - currentTier.threshold) / (nextTier.threshold - currentTier.threshold)) * 100))
+
+  // Tier
+  const tierIndex = [...TIERS].findLastIndex(t => totalDonated >= t.threshold);
+  const currentTier = TIERS[Math.max(tierIndex, 0)];
+  const nextTier = TIERS[Math.min(tierIndex + 1, TIERS.length - 1)];
+  const tierProgress = nextTier && nextTier !== currentTier
+    ? Math.min(100, ((totalDonated - currentTier.threshold) / (nextTier.threshold - currentTier.threshold)) * 100)
     : 100;
 
-  // Impact logic
-  const impactStats = useMemo(() => {
-    return Object.entries(IMPACT_MAP).map(([program, info]) => {
-      const total = donations
-        .filter((d) => d.program === program && d.status === "completed")
-        .reduce((s, d) => s + d.amount, 0);
-      return { ...info, program, total, value: Math.round(total * info.multiplier).toString() };
-    }).filter(stat => stat.total > 0 || stat.program === "Food Support Program"); // Always show at least one
-  }, [donations]);
-
-  // Analytics logic (Distribution)
-  const completedDonations = donations.filter(d => d.status === "completed");
-  const actualTotal = completedDonations.reduce((acc, curr) => acc + curr.amount, 0) || 1; // avoid /0
-
-  const distribution = useMemo(() => {
+  // Distribution chart
+  const distributionData = useMemo(() => {
     const map: Record<string, number> = {};
+    completedDonations.forEach(d => { map[d.program] = (map[d.program] || 0) + d.amount; });
+    return Object.entries(map).map(([name, amount]) => ({ name: name.split(" ")[0], fullName: name, amount }));
+  }, [completedDonations]);
+
+  // Monthly area chart
+  const monthlyData = useMemo(() => {
+    const map: Record<string, number> = {};
+    const now = new Date();
+    for (let i = 5; i >= 0; i--) {
+      const d = new Date(now.getFullYear(), now.getMonth() - i, 1);
+      const key = d.toLocaleString("default", { month:"short" });
+      map[key] = 0;
+    }
     completedDonations.forEach(d => {
-      map[d.program] = (map[d.program] || 0) + d.amount;
+      const key = new Date(d.date).toLocaleString("default", { month:"short" });
+      if (key in map) map[key] += d.amount;
     });
-    return Object.entries(map).map(([name, amount]) => ({
-      name,
-      amount,
-      percentage: Math.round((amount / actualTotal) * 100)
-    })).sort((a, b) => b.amount - a.amount);
-  }, [completedDonations, actualTotal]);
+    return Object.entries(map).map(([month, amount]) => ({ month, amount }));
+  }, [completedDonations]);
 
-  const donorName = donor ? `${donor.first_name} ${donor.last_name}` : user?.user_metadata?.first_name ? `${user.user_metadata.first_name} ${user.user_metadata.last_name || ''}` : "Valued Donor";
-  const firstName = donor?.first_name || user?.user_metadata?.first_name || "Donor";
+  // Impact stats
+  const impactStats = useMemo(() =>
+    Object.entries(IMPACT_MAP).map(([program, info]) => {
+      const total = completedDonations.filter(d => d.program === program).reduce((s,d) => s+d.amount, 0);
+      return { ...info, program, total, value: Math.round(total * info.multiplier) };
+    })
+  , [completedDonations]);
 
-  // ── Receipt Generation ───────────────────────────────────────────────────
-  const generateAnnualReceipt = () => {
-    const year = new Date().getFullYear();
-    const yearlyDonations = completedDonations.filter(d => new Date(d.date).getFullYear() === year);
-    const yearlyTotal = yearlyDonations.reduce((acc, curr) => acc + curr.amount, 0);
+  // Filtered donations (for Donations tab)
+  const filteredDonations = useMemo(() => {
+    let list = [...donations];
+    if (filterStatus  !== "all") list = list.filter(d => d.status  === filterStatus);
+    if (filterProgram !== "all") list = list.filter(d => d.program === filterProgram);
+    list.sort((a,b) => {
+      const diff = new Date(a.date).getTime() - new Date(b.date).getTime();
+      return sortAsc ? diff : -diff;
+    });
+    return list;
+  }, [donations, filterStatus, filterProgram, sortAsc]);
 
-    const receiptHtml = `
-      <html>
-        <head>
-          <title>Tax Receipt ${year} - Cross Border Outreach</title>
-          <style>
-            body { font-family: system-ui, sans-serif; color: #111827; max-width: 800px; margin: 0 auto; padding: 40px; }
-            .header { text-align: center; border-bottom: 2px solid #e5e7eb; padding-bottom: 20px; margin-bottom: 30px; }
-            .title { font-size: 24px; font-weight: bold; margin: 0; }
-            .org { color: #4b5563; margin-top: 5px; }
-            .info { display: flex; justify-content: space-between; margin-bottom: 40px; }
-            table { border-collapse: collapse; margin-bottom: 30px; width: 100%; }
-            th, td { padding: 12px; text-align: left; border-bottom: 1px solid #e5e7eb; }
-            th { background-color: #f9fafb; font-weight: 600; color: #4b5563; }
-            .total { font-size: 20px; font-weight: bold; text-align: right; }
-            .footer { margin-top: 50px; font-size: 14px; color: #6b7280; text-align: center; border-top: 1px solid #e5e7eb; padding-top: 20px; }
-          </style>
-        </head>
-        <body>
-          <div class="header">
-            <h1 class="title">Official Annual Tax Receipt</h1>
-            <p class="org">Cross Border Outreach - Tax ID: 12-3456789</p>
-            <p class="org">${year} Tax Year</p>
-          </div>
-          
-          <div class="info">
-            <div>
-              <strong>Donor Name:</strong> ${donorName}<br>
-              <strong>Email:</strong> ${user?.email}
-            </div>
-            <div style="text-align: right;">
-              <strong>Date Issued:</strong> ${new Date().toLocaleDateString()}<br>
-            </div>
-          </div>
+  const allPrograms = [...new Set(donations.map(d => d.program))];
 
-          <p>Thank you for your generous support. This document serves as your official tax receipt for the year ${year}. No goods or services were provided in exchange for these contributions.</p>
+  const donorName   = donor ? `${donor.first_name} ${donor.last_name}` : user?.user_metadata?.first_name ? `${user.user_metadata.first_name} ${user.user_metadata.last_name||""}` : "Valued Donor";
+  const firstName   = donor?.first_name || user?.user_metadata?.first_name || "Donor";
 
-          <table>
-            <thead>
-              <tr>
-                <th>Date</th>
-                <th>Program</th>
-                <th>Amount</th>
-              </tr>
-            </thead>
-            <tbody>
-              ${yearlyDonations.map(d => `
-                <tr>
-                  <td>${new Date(d.date).toLocaleDateString()}</td>
-                  <td>${d.program}</td>
-                  <td>$${d.amount.toFixed(2)}</td>
-                </tr>
-              `).join('')}
-            </tbody>
-          </table>
-
-          <div class="total">
-            Total Eligible Contributions: $${yearlyTotal.toFixed(2)}
-          </div>
-
-          <div class="footer">
-            Cross Border Outreach is a registered 501(c)(3) non-profit organization.
-            <br>123 Charity Way, Goodville, XY 12345 | support@crossbordersoutreach.org
-          </div>
-        </body>
-      </html>
-    `;
-
-    const printWindow = window.open('', '_blank');
-    if (printWindow) {
-      printWindow.document.write(receiptHtml);
-      printWindow.document.close();
-      printWindow.focus();
-      setTimeout(() => {
-        printWindow.print();
-        printWindow.close();
-      }, 250);
-    }
+  /* ── Receipt helpers ───────────────────────────────────── */
+  const generateSingleReceipt = (don: Donation) => {
+    const win = window.open("","_blank");
+    if (!win) return;
+    win.document.write(`<html><head><title>Receipt</title><style>body{font-family:system-ui;max-width:680px;margin:0 auto;padding:40px;color:#111}.header{text-align:center;border-bottom:2px solid #e5e7eb;padding-bottom:20px;margin-bottom:30px}.row{display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px dashed #e5e7eb}.footer{margin-top:50px;font-size:13px;color:#6b7280;text-align:center;border-top:1px solid #e5e7eb;padding-top:20px}</style></head><body>
+      <div class="header"><h2>Official Donation Receipt</h2><p>Cross-Borders Outreach · Tax ID: 12-3456789</p></div>
+      <div style="margin-bottom:24px"><strong>Donor:</strong> ${donorName}<br><strong>Email:</strong> ${user?.email}</div>
+      <div class="row"><span>Receipt ID</span><strong>${don.id||"N/A"}</strong></div>
+      <div class="row"><span>Date</span><strong>${new Date(don.date).toLocaleDateString()}</strong></div>
+      <div class="row"><span>Program</span><strong>${don.program}</strong></div>
+      <div class="row"><span>Amount</span><strong>$${don.amount.toFixed(2)}</strong></div>
+      <div class="row"><span>Payment</span><strong style="text-transform:capitalize">${don.payment_method}</strong></div>
+      <p style="margin-top:24px;font-size:14px;line-height:1.6">Thank you for your generous contribution. No goods or services were provided in exchange.</p>
+      <div class="footer">Cross-Borders Outreach is a registered 501(c)(3) non-profit organization.</div>
+    </body></html>`);
+    win.document.close();
+    setTimeout(() => { win.print(); win.close(); }, 250);
   };
 
-  const generateSingleReceipt = (donation: Donation) => {
-    const receiptHtml = `
-      <html>
-        <head>
-          <title>Donation Receipt - ${donation.id}</title>
-          <style>
-            body { font-family: system-ui, sans-serif; color: #111827; max-width: 800px; margin: 0 auto; padding: 40px; }
-            .header { text-align: center; border-bottom: 2px solid #e5e7eb; padding-bottom: 20px; margin-bottom: 30px; }
-            .title { font-size: 24px; font-weight: bold; margin: 0; }
-            .org { color: #4b5563; margin-top: 5px; }
-            .details { background: #f9fafb; padding: 20px; border-radius: 8px; margin-bottom: 30px; }
-            .row { display: flex; justify-content: space-between; margin-bottom: 10px; border-bottom: 1px dashed #e5e7eb; padding-bottom: 10px; }
-            .row:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
-            .footer { margin-top: 50px; font-size: 14px; color: #6b7280; text-align: center; border-top: 1px solid #e5e7eb; padding-top: 20px; }
-          </style>
-        </head>
-        <body>
-          <div class="header">
-            <h1 class="title">Official Donation Receipt</h1>
-            <p class="org">Cross Border Outreach - Tax ID: 12-3456789</p>
-          </div>
-          
-          <div style="margin-bottom: 30px;">
-            <strong>Donor Name:</strong> ${donorName}<br>
-            <strong>Email:</strong> ${user?.email}
-          </div>
-
-          <div class="details">
-            <div class="row"><span>Receipt ID:</span> <strong>${donation.id || 'N/A'}</strong></div>
-            <div class="row"><span>Date:</span> <strong>${new Date(donation.date).toLocaleDateString()}</strong></div>
-            <div class="row"><span>Program:</span> <strong>${donation.program}</strong></div>
-            <div class="row"><span>Amount:</span> <strong>$${donation.amount.toFixed(2)}</strong></div>
-            <div class="row"><span>Payment Method:</span> <strong style="text-transform: capitalize;">${donation.payment_method}</strong></div>
-          </div>
-
-          <p>Thank you for your generous support. No goods or services were provided in exchange for this contribution. Please retain this receipt for your tax records.</p>
-
-          <div class="footer">
-            Cross Border Outreach is a registered 501(c)(3) non-profit organization.
-            <br>123 Charity Way, Goodville, XY 12345 | support@crossbordersoutreach.org
-          </div>
-        </body>
-      </html>
-    `;
-
-    const printWindow = window.open('', '_blank');
-    if (printWindow) {
-      printWindow.document.write(receiptHtml);
-      printWindow.document.close();
-      printWindow.focus();
-      setTimeout(() => {
-        printWindow.print();
-        printWindow.close();
-      }, 250);
-    }
-  };
-
-  // ── Render States ──────────────────────────────────────────────────────
-  if (authLoading || dataLoading) {
-    return (
-      <div className="min-h-screen bg-[#f8fafc] flex items-center justify-center">
-        <div className="text-center flex flex-col items-center">
-          <div className="relative w-16 h-16 mb-4">
-            <div className="absolute inset-0 border-4 border-blue-100 rounded-full"></div>
-            <div className="absolute inset-0 border-4 border-blue-600 rounded-full border-t-transparent animate-spin"></div>
-            <Heart className="absolute inset-0 m-auto w-6 h-6 text-blue-600 animate-pulse" />
-          </div>
-          <p className="text-slate-500 font-semibold tracking-wide">Preparing your dashboard...</p>
+  /* ── Loading ───────────────────────────────────────────── */
+  if (authLoading || dataLoading) return (
+    <div className="flex-1 h-full bg-slate-50 flex items-center justify-center min-h-[60vh]">
+      <div className="text-center">
+        <div className="w-16 h-16 mx-auto mb-4 rounded-3xl flex items-center justify-center shadow-lg"
+          style={{background:"linear-gradient(135deg,#0648b3,#0959d6)",boxShadow:"0 8px 24px rgba(9,89,214,.35)"}}>
+          <Loader2 className="w-8 h-8 text-white animate-spin"/>
         </div>
+        <p className="text-slate-500 font-medium">Loading your dashboard…</p>
       </div>
-    );
-  }
+    </div>
+  );
 
-  if (error) {
-    return (
-      <div className="min-h-screen bg-slate-50 flex items-center justify-center p-6">
-        <div className="max-w-md w-full bg-white rounded-3xl shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-slate-100 p-8 text-center">
-          <div className="w-16 h-16 bg-red-50 rounded-3xl flex items-center justify-center mx-auto mb-6">
-            <AlertCircle className="w-8 h-8 text-red-500" />
-          </div>
-          <h2 className="text-2xl font-bold text-slate-900 mb-3 font-playfair">Connection Error</h2>
-          <p className="text-slate-600 mb-8 text-sm leading-relaxed font-source-serif">{error}</p>
-          <button onClick={() => window.location.reload()} className="w-full py-3.5 bg-slate-900 text-white rounded-xl font-semibold hover:bg-slate-800 transition-colors shadow-lg shadow-slate-900/20">
-            Refresh Page
-          </button>
-        </div>
-      </div>
-    );
-  }
-
+  const hour     = new Date().getHours();
+  const greeting = hour < 12 ? "Good morning" : hour < 18 ? "Good afternoon" : "Good evening";
 
   return (
-    <div className="flex-1 bg-slate-50 text-slate-900 pb-20">
-      
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 pt-8 pb-4">
-        
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
-           <div>
-             <h1 className="text-3xl font-bold text-slate-900 font-playfair">Welcome back, {firstName}</h1>
-             <p className="text-slate-500 font-medium mt-1">Here is your impact portfolio and recent activity.</p>
-           </div>
-           <button
-             onClick={() => window.location.reload()}
-             className="flex items-center justify-center gap-2 px-4 py-2 bg-white border border-slate-200 hover:bg-slate-50 hover:border-slate-300 text-slate-700 rounded-xl font-bold text-sm transition-all shadow-sm"
-           >
-             <RefreshCw className="w-4 h-4" />
-             Refresh Data
-           </button>
+    <div className="flex-1 bg-slate-50 pb-12 portal-fade-in" style={{fontFamily:"'Inter',sans-serif"}}>
+
+      {/* ── Welcome Banner ── */}
+      <div className="relative overflow-hidden">
+        <div className="absolute inset-0" style={{background:"linear-gradient(135deg,#0648b3,#0959d6,#0648b3)"}}/>
+        <div className="absolute inset-0 opacity-15">
+          <div className="absolute top-0 right-0 w-80 h-80 bg-yellow-400 rounded-full blur-3xl -translate-y-1/2 translate-x-1/3"/>
+          <div className="absolute bottom-0 left-0 w-64 h-64 bg-blue-300 rounded-full blur-3xl translate-y-1/2 -translate-x-1/3"/>
         </div>
-        {nextTier && (
-          <div className="mb-8 bg-blue-50 border border-blue-200 rounded-xl p-4 flex items-center justify-between">
-            <div className="flex items-center gap-3">
-              <Award className="w-6 h-6 text-blue-600" />
-              <div>
-                <p className="text-sm font-semibold text-blue-900">{currentTier.name} Member</p>
-                <p className="text-xs text-blue-700">${(nextTier.threshold - totalDonated).toLocaleString()} to {nextTier.name} Tier</p>
-              </div>
+        <div className="relative max-w-6xl mx-auto px-4 sm:px-6 py-8 sm:py-10">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+            <div>
+              <p className="text-blue-200 text-sm font-medium mb-1">{greeting} 👋</p>
+              <h1 className="text-2xl sm:text-3xl font-bold text-white">
+                Welcome, <span style={{color:"#fcc526"}}>{firstName}</span>
+              </h1>
+              <p className="text-blue-200/70 text-sm mt-2">Your generosity is changing lives across 38+ nations.</p>
             </div>
-            <div className="w-1/3 h-2 bg-blue-200 rounded-full overflow-hidden hidden sm:block">
-              <div 
-                className="h-full bg-blue-600 rounded-full transition-all"
-                style={{ width: `${progressToNextTier}%` }}
-              ></div>
-            </div>
+            <button
+              onClick={() => setIsDonateModalOpen(true)}
+              className="flex items-center gap-2 px-6 py-3 text-white font-bold rounded-xl transition-all flex-shrink-0"
+              style={{background:"#111827",boxShadow:"0 6px 20px rgba(17,24,39,.30)"}}
+            >
+              <Sparkles className="w-4 h-4"/> Donate Now
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 py-6 space-y-6">
+
+        {error && (
+          <div className="flex items-center gap-3 p-4 rounded-xl bg-red-50 border border-red-100 text-red-700 text-sm">
+            <AlertCircle className="w-5 h-5 flex-shrink-0"/> {error}
           </div>
         )}
 
-        {/* ── KEY METRICS ── */}
-        <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6 mb-8">
+        {/* ── Stat Cards ── */}
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
           {[
-            { label: "Total Contribution", value: `$${totalDonated.toLocaleString()}`, icon: DollarSign, color: "bg-blue-500" },
-            { label: "Donations Made", value: donor?.donation_count ?? donations.length, icon: Gift, color: "bg-green-500" },
-            { label: "Impact Score", value: (Math.round(totalDonated * 0.15) + 100).toLocaleString(), icon: Activity, color: "bg-purple-500" },
-            { label: "Account Tier", value: currentTier.name, icon: Award, color: "bg-orange-500" },
-          ].map((stat, i) => (
-            <div key={i} className="bg-white rounded-3xl shadow-sm p-6 border border-gray-100">
-              <div className="flex items-center gap-4 mb-4">
-                <div className={`${stat.color} w-10 h-10 rounded-lg flex items-center justify-center text-white`}>
-                  <stat.icon className="w-6 h-6" />
+            { label:"Total Given",    value:totalDonated,         prefix:"$", suffix:"",    icon:Heart,    grad:"from-blue-500 to-blue-700"   },
+            { label:"Donations Made", value:donor?.donation_count??0, prefix:"", suffix:"", icon:CreditCard, grad:"from-blue-600 to-blue-800"   },
+            { label:"Tier",           value:0,                    prefix:"",  suffix:"",    icon:Award,    grad:"from-slate-700 to-slate-900", tierOverride:true },
+            { label:"Impact Score",   value:Math.round(totalDonated * 0.12), prefix:"", suffix:" pts", icon:Target, grad:"from-blue-700 to-blue-900" },
+          ].map((s, i) => (
+            <div key={s.label} className="portal-stat-card" style={{animationDelay:`${i*80}ms`}}>
+              <div className="flex items-start justify-between mb-3">
+                <div className={`w-10 h-10 rounded-xl bg-gradient-to-br ${s.grad} flex items-center justify-center shadow-md flex-shrink-0`}>
+                  <s.icon className="w-4 h-4 text-white"/>
                 </div>
               </div>
-              <div className="text-3xl font-bold text-gray-900 mb-1">{stat.value}</div>
-              <div className="text-sm text-gray-500 font-medium">{stat.label}</div>
+              {s.tierOverride ? (
+                <div>
+                  <div className="text-2xl font-black text-slate-900 mb-0.5">{currentTier.emoji} {currentTier.name}</div>
+                  {nextTier !== currentTier && (
+                    <div className="mt-2">
+                      <div className="flex justify-between text-xs text-slate-400 mb-1">
+                        <span>{currentTier.name}</span>
+                        <span>{nextTier.name}</span>
+                      </div>
+                      <div className="h-1.5 bg-slate-100 rounded-full overflow-hidden">
+                        <div className="h-full rounded-full transition-all duration-1000" style={{width:`${tierProgress}%`,background:`linear-gradient(90deg,${currentTier.ring},${nextTier.ring})`}}/>
+                      </div>
+                    </div>
+                  )}
+                </div>
+              ) : (
+                <div className="text-2xl sm:text-3xl font-black text-slate-900 mb-1">
+                  <CountUp to={s.value} prefix={s.prefix} suffix={s.suffix} duration={1200+i*150}/>
+                </div>
+              )}
+              <p className="text-sm text-slate-500 font-medium">{s.label}</p>
             </div>
           ))}
         </div>
 
-        {/* Quick Actions */}
-        <div className="mb-8">
-          <h2 className="text-xl font-bold text-gray-900 mb-4 font-playfair">Quick Actions</h2>
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
-            {[
-              { label: "New Donation", onClick: () => setIsDonateModalOpen(true), icon: Heart, color: "bg-blue-600" },
-              { label: "View Reports", onClick: () => {
-                const el = document.getElementById('org-reports');
-                el?.scrollIntoView({ behavior: 'smooth' });
-              }, icon: FileText, color: "bg-emerald-600" },
-              { label: "Impact Gallery", onClick: () => {
-                const el = document.getElementById('impact-gallery');
-                el?.scrollIntoView({ behavior: 'smooth' });
-              }, icon: Image, color: "bg-purple-600" },
-              { label: "Tax Receipt", onClick: generateAnnualReceipt, icon: Download, color: "bg-orange-600" },
-              { label: "Account Settings", href: "/donor/profile", icon: UserCog, color: "bg-teal-600" },
-              { label: "Suggest Project", href: "/contact", icon: Star, color: "bg-pink-600" },
-            ].map((action, i) => {
-              const ActionContent = (
-                <div className={`${action.color} rounded-3xl p-6 text-white text-center hover:shadow-lg transition-all transform hover:-translate-y-1 h-full flex flex-col items-center justify-center`}>
-                  <action.icon className="w-8 h-8 mb-3" />
-                  <div className="text-sm font-bold">{action.label}</div>
-                </div>
-              );
-
-              if (action.onClick) {
-                return <button key={i} onClick={action.onClick} className="w-full text-left">{ActionContent}</button>
-              }
-
-              return (
-                <Link key={i} to={action.href!} className="block">
-                  {ActionContent}
-                </Link>
-              );
-            })}
-          </div>
+        {/* ── Tab Bar ── */}
+        <div className="portal-tabs">
+          {([
+            { id:"overview",   label:"Overview",   icon:LayoutDashboard },
+            { id:"donations",  label:"Donations",  icon:History         },
+            { id:"impact",     label:"My Impact",  icon:Activity        },
+            { id:"resources",  label:"Resources",  icon:Folder          },
+          ] as { id:Tab; label:string; icon:any }[]).map(t => (
+            <button key={t.id} className={`portal-tab ${tab===t.id?"active":""}`} onClick={()=>setTab(t.id)}>
+              <t.icon style={{width:15,height:15}}/> {t.label}
+            </button>
+          ))}
         </div>
 
-        <div className="grid lg:grid-cols-3 gap-8">
-          {/* ── MAIN CONTENT (Left 2 columns) ── */}
-          <div className="lg:col-span-2 space-y-8">
-            
-            {/* Real-world Impact Visuals */}
-            <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-200">
-              <h2 className="text-xl font-bold text-gray-900 mb-6 flex items-center gap-2 font-playfair">
-                <Map className="w-5 h-5 text-blue-600" /> Real-World Impact
-              </h2>
-              <div className="grid sm:grid-cols-2 gap-4">
-                {impactStats.map((stat, i) => (
-                  <div key={i} className="bg-gray-50 rounded-xl p-4 border border-gray-100 hover:border-blue-200 transition-colors">
-                      <div className="flex items-center gap-4">
-                        <div className="w-12 h-12 bg-white rounded-lg shadow-sm flex items-center justify-center text-2xl shrink-0">
-                          {stat.icon}
-                        </div>
-                        <div className="min-w-0">
-                          <div className="text-xl font-bold text-gray-900 truncate">{stat.value}</div>
-                          <div className="text-sm font-medium text-gray-500 truncate">{stat.label}</div>
-                        </div>
-                      </div>
+        {/* ── OVERVIEW TAB ── */}
+        {tab==="overview" && (
+          <div className="grid lg:grid-cols-2 gap-6 portal-fade-in">
+            {/* Giving trend */}
+            <div className="bg-white rounded-2xl border border-slate-100 shadow-sm p-6">
+              <h2 className="font-bold text-slate-900 mb-4">Giving Trend</h2>
+              <ResponsiveContainer width="100%" height={180}>
+                <AreaChart data={monthlyData} margin={{top:4,right:4,left:-22,bottom:0}}>
+                  <defs>
+                    <linearGradient id="donorGrad" x1="0" y1="0" x2="0" y2="1">
+                      <stop offset="5%"  stopColor="#0959d6" stopOpacity={0.18}/>
+                      <stop offset="95%" stopColor="#0959d6" stopOpacity={0.01}/>
+                    </linearGradient>
+                  </defs>
+                  <CartesianGrid strokeDasharray="3 3" stroke="#f1f5f9" vertical={false}/>
+                  <XAxis dataKey="month" tick={{fontSize:11,fill:"#94a3b8"}} axisLine={false} tickLine={false}/>
+                  <YAxis tick={{fontSize:11,fill:"#94a3b8"}} axisLine={false} tickLine={false} tickFormatter={v=>`$${v}`}/>
+                  <Tooltip formatter={(v:any) => [`$${v}`, "Donated"]} contentStyle={{borderRadius:10,border:"1px solid #e2e8f0",fontSize:13}}/>
+                  <Area type="monotone" dataKey="amount" stroke="#0959d6" strokeWidth={2.5} fill="url(#donorGrad)" dot={false}/>
+                </AreaChart>
+              </ResponsiveContainer>
+            </div>
+
+            {/* Recent donations */}
+            <div className="bg-white rounded-2xl border border-slate-100 shadow-sm overflow-hidden">
+              <div className="flex items-center justify-between px-5 py-4 border-b border-slate-50">
+                <h2 className="font-bold text-slate-900">Recent Donations</h2>
+                <button onClick={() => setTab("donations")} className="text-sm text-blue-600 font-semibold flex items-center gap-1 hover:text-blue-700">
+                  See all <ChevronRight className="w-4 h-4"/>
+                </button>
+              </div>
+              {donations.length === 0 ? (
+                <div className="p-8 text-center">
+                  <Heart className="w-10 h-10 text-slate-200 mx-auto mb-3"/>
+                  <p className="text-slate-500 font-medium">No donations yet</p>
+                  <p className="text-slate-400 text-sm mt-1">Make your first donation to get started</p>
+                  <button onClick={() => setIsDonateModalOpen(true)} className="mt-4 px-4 py-2 rounded-xl text-white text-sm font-semibold" style={{background:"#0959d6"}}>
+                    Donate Now
+                  </button>
+                </div>
+              ) : donations.slice(0,5).map(d => (
+                <div key={d.id} className="portal-activity-row">
+                  <div className="w-9 h-9 rounded-full flex items-center justify-center flex-shrink-0" style={{background:"#eff6ff"}}>
+                    <Heart className="w-4 h-4 text-blue-500"/>
                   </div>
-                ))}
+                  <div className="flex-1 min-w-0">
+                    <p className="text-sm font-medium text-slate-800 truncate">{d.program}</p>
+                    <p className="text-xs text-slate-400">{new Date(d.date).toLocaleDateString()}</p>
+                  </div>
+                  <div className="flex items-center gap-2 flex-shrink-0">
+                    <span className="text-sm font-bold text-slate-900">${d.amount.toLocaleString()}</span>
+                    {statusBadge(d.status)}
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            {/* Tier card */}
+            <div className="bg-white rounded-2xl border border-slate-100 shadow-sm p-6">
+              <h2 className="font-bold text-slate-900 mb-4">Donor Tier Status</h2>
+              <div className={`rounded-xl bg-gradient-to-br ${currentTier.color} p-5 text-white mb-4`}>
+                <div className="text-3xl mb-1">{currentTier.emoji}</div>
+                <div className="font-black text-2xl">{currentTier.name} Donor</div>
+                <div className="opacity-75 text-sm mt-1">${totalDonated.toLocaleString()} total contributed</div>
+              </div>
+              {nextTier !== currentTier && (
+                <div>
+                  <div className="flex justify-between text-sm text-slate-600 mb-2">
+                    <span>Progress to <strong>{nextTier.name}</strong></span>
+                    <span className="font-bold">{Math.round(tierProgress)}%</span>
+                  </div>
+                  <div className="h-3 bg-slate-100 rounded-full overflow-hidden">
+                    <div className="h-full rounded-full transition-all duration-1000" style={{width:`${tierProgress}%`,background:`linear-gradient(90deg,${currentTier.ring},${nextTier.ring})`}}/>
+                  </div>
+                  <p className="text-xs text-slate-400 mt-2">
+                    ${Math.max(0, nextTier.threshold - totalDonated).toLocaleString()} more to reach {nextTier.name} tier
+                  </p>
+                </div>
+              )}
+              {nextTier === currentTier && (
+                <div className="flex items-center gap-2 text-amber-600 text-sm font-semibold">
+                  <Star className="w-4 h-4 fill-current"/> You've reached the highest tier! Thank you.
+                </div>
+              )}
+            </div>
+
+            {/* Latest updates */}
+            <div className="bg-white rounded-2xl border border-slate-100 shadow-sm overflow-hidden">
+              <div className="px-5 py-4 border-b border-slate-50">
+                <h2 className="font-bold text-slate-900">Latest Updates</h2>
+              </div>
+              {projectUpdates.length === 0 ? (
+                <div className="p-6 text-center text-slate-400 text-sm">No updates yet</div>
+              ) : projectUpdates.map(article => (
+                <div key={article.id} className="portal-activity-row">
+                  <div className="w-9 h-9 rounded-xl bg-blue-50 flex items-center justify-center flex-shrink-0">
+                    <FileText className="w-4 h-4 text-blue-500"/>
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <p className="text-sm font-medium text-slate-800 truncate">{article.title}</p>
+                    <p className="text-xs text-slate-400">{article.category}</p>
+                  </div>
+                  <ChevronRight className="w-4 h-4 text-slate-300"/>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* ── DONATIONS TAB ── */}
+        {tab==="donations" && (
+          <div className="portal-fade-in space-y-4">
+            {/* Filters */}
+            <div className="bg-white rounded-2xl border border-slate-100 shadow-sm p-4">
+              <div className="flex flex-wrap gap-3 items-center">
+                <select value={filterStatus} onChange={e=>setFilterStatus(e.target.value)}
+                  className="border border-slate-200 rounded-xl px-3 py-2 text-sm font-medium text-slate-700 outline-none focus:border-blue-400" style={{background:"#f8fafc"}}>
+                  <option value="all">All Statuses</option>
+                  <option value="completed">Completed</option>
+                  <option value="pending">Pending</option>
+                  <option value="failed">Failed</option>
+                </select>
+                <select value={filterProgram} onChange={e=>setFilterProgram(e.target.value)}
+                  className="border border-slate-200 rounded-xl px-3 py-2 text-sm font-medium text-slate-700 outline-none focus:border-blue-400" style={{background:"#f8fafc"}}>
+                  <option value="all">All Programs</option>
+                  {allPrograms.map(p => <option key={p} value={p}>{p}</option>)}
+                </select>
+                <button onClick={()=>setSortAsc(s=>!s)} className="flex items-center gap-2 border border-slate-200 rounded-xl px-3 py-2 text-sm font-medium text-slate-700 hover:bg-slate-50 transition-colors" style={{background:"#f8fafc"}}>
+                  {sortAsc ? "Oldest first" : "Newest first"}
+                </button>
+                <div className="ml-auto text-sm text-slate-500 font-medium">{filteredDonations.length} results</div>
               </div>
             </div>
 
-            {/* Donation History */}
-            <div className="bg-white rounded-xl shadow-sm border border-gray-200">
-              <div className="p-6 border-b border-gray-200 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-                <div>
-                  <h2 className="text-xl font-bold text-gray-900 font-playfair">Transaction History</h2>
-                  <p className="text-sm text-gray-500 mt-1">Your recent contributions</p>
-                </div>
-                <button onClick={generateAnnualReceipt} className="flex items-center justify-center gap-2 px-4 py-2 bg-gray-50 hover:bg-gray-100 text-gray-700 rounded-lg font-semibold transition-colors text-sm border border-gray-200">
-                  <Download className="w-4 h-4" />
-                  Tax Receipt ({new Date().getFullYear()})
-                </button>
+            {/* Table */}
+            {filteredDonations.length === 0 ? (
+              <div className="bg-white rounded-2xl border border-slate-100 shadow-sm p-12 text-center">
+                <History className="w-12 h-12 text-slate-200 mx-auto mb-3"/>
+                <p className="text-slate-500 font-semibold">No donations found</p>
+                <p className="text-slate-400 text-sm mt-1">Try adjusting your filters</p>
               </div>
-
-              {donations.length === 0 ? (
-                <div className="p-12 text-center">
-                  <div className="w-16 h-16 bg-gray-50 rounded-full flex items-center justify-center mx-auto mb-4">
-                    <Gift className="w-8 h-8 text-gray-300" />
-                  </div>
-                  <p className="text-gray-900 font-semibold text-lg mb-1 font-source-serif">Your journey starts here</p>
-                  <p className="text-gray-500 text-sm mb-6 max-w-sm mx-auto">Make your first donation today and start tracking your global impact immediately.</p>
-                  <button onClick={() => setIsDonateModalOpen(true)} className="inline-flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg font-semibold hover:bg-blue-700 transition-colors">
-                    <Heart className="w-4 h-4" /> Give Now
-                  </button>
-                </div>
-              ) : (
+            ) : (
+              <div className="bg-white rounded-2xl border border-slate-100 shadow-sm overflow-hidden">
                 <div className="overflow-x-auto">
-                  <table className="w-full text-left border-collapse">
+                  <table className="w-full text-sm">
                     <thead>
-                      <tr className="bg-gray-50 border-b border-gray-200 text-xs uppercase tracking-wider text-gray-500 font-semibold">
-                        <th className="px-6 py-4">Date</th>
-                        <th className="px-6 py-4">Program</th>
-                        <th className="px-6 py-4">Amount</th>
-                        <th className="px-6 py-4">Status</th>
-                        <th className="px-6 py-4 text-right">Receipt</th>
+                      <tr style={{background:"#f8fafc",borderBottom:"1px solid #f1f5f9"}}>
+                        <th className="text-left px-5 py-3 font-semibold text-slate-500">Date</th>
+                        <th className="text-left px-5 py-3 font-semibold text-slate-500">Program</th>
+                        <th className="text-left px-5 py-3 font-semibold text-slate-500">Amount</th>
+                        <th className="text-left px-5 py-3 font-semibold text-slate-500">Status</th>
+                        <th className="text-left px-5 py-3 font-semibold text-slate-500">Receipt</th>
                       </tr>
                     </thead>
-                    <tbody className="divide-y divide-gray-200 text-sm">
-                      {donations.slice(0, 5).map((donation) => (
-                        <tr key={donation.id} className="hover:bg-gray-50 transition-colors group">
-                          <td className="px-6 py-4 font-medium text-gray-600">
-                            {new Date(donation.date).toLocaleDateString(undefined, { month: 'short', day: 'numeric', year: 'numeric' })}
-                          </td>
-                          <td className="px-6 py-4 font-semibold text-gray-900">
-                            {donation.program}
-                          </td>
-                          <td className="px-6 py-4 font-bold text-gray-900">
-                            ${donation.amount.toLocaleString()}
-                          </td>
-                          <td className="px-6 py-4">
-                            <span className={`inline-flex px-2 py-0.5 text-xs font-semibold rounded-full ${
-                              donation.status === "completed" ? "bg-green-100 text-green-700" : 
-                              donation.status === "pending" ? "bg-amber-100 text-amber-700" : 
-                              "bg-red-100 text-red-700"
-                            }`}>
-                              {donation.status}
+                    <tbody>
+                      {filteredDonations.map(d => (
+                        <tr key={d.id} style={{borderBottom:"1px solid #f8fafc"}} className="hover:bg-slate-50 transition-colors">
+                          <td className="px-5 py-3.5 text-slate-600">{new Date(d.date).toLocaleDateString()}</td>
+                          <td className="px-5 py-3.5">
+                            <span className="flex items-center gap-2">
+                              <span className="w-2.5 h-2.5 rounded-full flex-shrink-0" style={{background:PROGRAM_COLORS[d.program]??"#94a3b8"}}/>
+                              <span className="text-slate-700 font-medium">{d.program}</span>
                             </span>
                           </td>
-                          <td className="px-6 py-4 text-right">
-                            <button onClick={() => generateSingleReceipt(donation)} className="inline-flex items-center gap-1.5 text-blue-600 font-semibold hover:text-blue-800 transition-opacity">
-                              <Eye className="w-4 h-4" /> View
-                            </button>
+                          <td className="px-5 py-3.5 font-bold text-slate-900">${d.amount.toLocaleString()}</td>
+                          <td className="px-5 py-3.5">{statusBadge(d.status)}</td>
+                          <td className="px-5 py-3.5">
+                            {d.status==="completed" ? (
+                              <button onClick={()=>generateSingleReceipt(d)} className="flex items-center gap-1.5 text-blue-600 hover:text-blue-700 font-semibold transition-colors">
+                                <Download className="w-3.5 h-3.5"/> PDF
+                              </button>
+                            ) : <span className="text-slate-300">—</span>}
                           </td>
                         </tr>
                       ))}
                     </tbody>
                   </table>
-                  {donations.length > 5 && (
-                    <div className="p-4 border-t border-gray-200 text-center">
-                      <button className="text-sm font-semibold text-gray-500 hover:text-blue-600 transition-colors inline-flex items-center gap-1">
-                        View All Transactions <ChevronRight className="w-4 h-4" />
-                      </button>
-                    </div>
-                  )}
                 </div>
+              </div>
+            )}
+          </div>
+        )}
+
+        {/* ── IMPACT TAB ── */}
+        {tab==="impact" && (
+          <div className="portal-fade-in space-y-6">
+            {/* Impact cards */}
+            <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+              {impactStats.map((s,i) => (
+                <div key={s.program} className="portal-stat-card text-center" style={{animationDelay:`${i*80}ms`}}>
+                  <div className="text-3xl mb-2">{s.icon}</div>
+                  <div className="text-2xl font-black text-slate-900">
+                    <CountUp to={s.value} duration={1400+i*100}/>
+                  </div>
+                  <p className="text-sm text-slate-500 font-medium mt-1">{s.label}</p>
+                  <p className="text-xs text-slate-400 mt-0.5">{s.program.split(" ")[0]}</p>
+                </div>
+              ))}
+            </div>
+
+            {/* Program distribution bar chart */}
+            <div className="bg-white rounded-2xl border border-slate-100 shadow-sm p-6">
+              <h2 className="font-bold text-slate-900 mb-5">Giving by Program</h2>
+              {distributionData.length === 0 ? (
+                <div className="h-40 flex items-center justify-center text-slate-400 text-sm">No data yet — make a donation to see your impact</div>
+              ) : (
+                <ResponsiveContainer width="100%" height={200}>
+                  <BarChart data={distributionData} margin={{top:4,right:4,left:-14,bottom:0}}>
+                    <CartesianGrid strokeDasharray="3 3" stroke="#f1f5f9" vertical={false}/>
+                    <XAxis dataKey="name" tick={{fontSize:12,fill:"#94a3b8"}} axisLine={false} tickLine={false}/>
+                    <YAxis tick={{fontSize:12,fill:"#94a3b8"}} axisLine={false} tickLine={false} tickFormatter={v=>`$${v}`}/>
+                    <Tooltip formatter={(v:any,_:any,props:any) => [`$${v.toLocaleString()}`, props.payload.fullName]} contentStyle={{borderRadius:10,border:"1px solid #e2e8f0",fontSize:13}}/>
+                    <Bar dataKey="amount" radius={[6,6,0,0]}>
+                      {distributionData.map((entry) => (
+                        <Cell key={entry.name} fill={PROGRAM_COLORS[entry.fullName] ?? "#3b82f6"}/>
+                      ))}
+                    </Bar>
+                  </BarChart>
+                </ResponsiveContainer>
               )}
             </div>
 
-            {/* ── Event Archives Section ── */}
-            <div className="bg-white rounded-xl shadow-sm border border-gray-200">
-              <div className="p-6 border-b border-gray-200">
-                <h2 className="text-xl font-bold text-gray-900 flex items-center gap-2 font-playfair">
-                  <Folder className="w-5 h-5 text-blue-600" /> Event Photo Archives
-                </h2>
-                <p className="text-sm text-gray-500 mt-1">Exclusive access to high-resolution photos from our past events and programs.</p>
-              </div>
-              <div className="p-6 bg-gray-50/50">
-                {eventArchives.length > 0 ? (
-                  <div className="grid sm:grid-cols-2 gap-4">
-                    {eventArchives.map((archive) => (
-                      <div key={archive.id} className="bg-white rounded-xl p-4 border border-gray-200 shadow-sm hover:shadow-md transition-all group flex flex-col h-full">
-                        <div className="flex items-start gap-3 mb-3">
-                          <div className="w-10 h-10 shrink-0 bg-blue-50 text-blue-600 rounded-lg flex items-center justify-center group-hover:bg-blue-600 group-hover:text-white transition-colors">
-                            <Folder className="w-5 h-5" />
-                          </div>
-                          <div>
-                            <h4 className="font-bold text-sm text-gray-900 line-clamp-1">{archive.title}</h4>
-                            <span className="text-xs text-gray-500 font-medium uppercase">{archive.date}</span>
-                          </div>
-                        </div>
-                        <a
-                          href={archive.drive_url}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="w-full mt-auto py-2 text-center bg-gray-50 text-gray-700 font-semibold text-sm rounded-lg hover:bg-gray-100 transition-colors border border-gray-200"
-                        >
-                          Open Drive Folder
-                        </a>
-                      </div>
-                    ))}
-                  </div>
-                ) : (
-                  <div className="text-center py-8">
-                    <p className="text-sm text-gray-500">No event archives are currently available.</p>
-                  </div>
-                )}
+            {/* Impact narrative */}
+            <div className="bg-gradient-to-br from-blue-600 to-blue-800 rounded-2xl p-6 text-white">
+              <div className="flex items-start gap-4">
+                <div className="w-12 h-12 bg-white/10 rounded-xl flex items-center justify-center flex-shrink-0">
+                  <Sparkles className="w-6 h-6"/>
+                </div>
+                <div>
+                  <h3 className="font-bold text-xl mb-2">Your Combined Impact</h3>
+                  <p className="text-blue-100 text-sm leading-relaxed">
+                    Through your <strong className="text-white">${totalDonated.toLocaleString()}</strong> in contributions, you've helped provide meals, support education, enable healthcare access, and empower communities across 38+ countries.
+                  </p>
+                </div>
               </div>
             </div>
-
-            {/* ── Organization Reports Section ── */}
-            <div id="org-reports" className="bg-white rounded-xl shadow-sm border border-gray-200">
-              <div className="p-6 border-b border-gray-200">
-                <h2 className="text-xl font-bold text-gray-900 flex items-center gap-2 font-playfair">
-                  <FileText className="w-5 h-5 text-blue-600" /> Organization Reports
-                </h2>
-                <p className="text-sm text-gray-500 mt-1">Full access to all published reports including financials.</p>
-              </div>
-              <div className="p-6 bg-gray-50/50">
-                {orgReports.length > 0 ? (
-                  <div className="space-y-3">
-                    {orgReports.slice(0, 6).map((report) => (
-                      <a
-                        key={report.id}
-                        href={report.file_url}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="flex items-center gap-3 p-3 bg-white rounded-lg border border-gray-200 hover:shadow-sm hover:border-blue-200 transition-all group"
-                      >
-                        <div className="w-10 h-10 shrink-0 bg-blue-50 text-blue-600 rounded-lg flex items-center justify-center group-hover:bg-blue-600 group-hover:text-white transition-colors">
-                          <FileText className="w-5 h-5" />
-                        </div>
-                        <div className="flex-1 min-w-0">
-                          <h4 className="font-semibold text-sm text-gray-900 truncate">{report.title}</h4>
-                          <div className="flex items-center gap-2 text-xs text-gray-500">
-                            {report.year && <span>{report.year}</span>}
-                            <span className="capitalize px-1.5 py-0.5 rounded bg-gray-100 text-gray-600 font-medium">{report.category}</span>
-                          </div>
-                        </div>
-                        <Download className="w-4 h-4 text-gray-400 group-hover:text-blue-600 shrink-0" />
-                      </a>
-                    ))}
-                  </div>
-                ) : (
-                  <div className="text-center py-8">
-                    <p className="text-sm text-gray-500">No reports are currently available.</p>
-                  </div>
-                )}
-              </div>
-            </div>
-
-            {/* ── Impact Gallery Section ── */}
-            <div id="impact-gallery" className="bg-white rounded-xl shadow-sm border border-gray-200">
-              <div className="p-6 border-b border-gray-200">
-                <h2 className="text-xl font-bold text-gray-900 flex items-center gap-2 font-playfair">
-                  <Eye className="w-5 h-5 text-blue-600" /> Impact Gallery
-                </h2>
-                <p className="text-sm text-gray-500 mt-1">See the direct results of your generosity in the field.</p>
-              </div>
-              <div className="p-6 bg-gray-50/50">
-                {galleryImages.length > 0 ? (
-                  <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
-                    {galleryImages.slice(0, 6).map((img) => (
-                      <div key={img.id} className="relative aspect-square rounded-xl overflow-hidden group cursor-pointer shadow-sm hover:shadow-md transition-all">
-                        <img 
-                          src={img.url} 
-                          alt={img.alt} 
-                          className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" 
-                        />
-                        <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex flex-col justify-end p-3">
-                          <p className="text-white text-[10px] font-bold uppercase tracking-wider mb-0.5">{img.category}</p>
-                          <p className="text-white text-xs font-medium truncate">{img.title}</p>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                ) : (
-                  <div className="text-center py-8">
-                    <p className="text-sm text-gray-500">No impact photos are currently available.</p>
-                  </div>
-                )}
-                {galleryImages.length > 6 && (
-                  <div className="mt-6 text-center">
-                    <Link to="/gallery" className="text-sm font-semibold text-blue-600 hover:text-blue-700">
-                      View Full Gallery →
-                    </Link>
-                  </div>
-                )}
-              </div>
-            </div>
-
           </div>
+        )}
 
-          {/* ── SIDEBAR (Right column) ── */}
-          <div className="space-y-8">
-            
-            {/* Portfolio of Impact (Analytics) */}
-            <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
-              <h3 className="text-lg font-bold text-gray-900 mb-6 flex items-center gap-2 font-playfair">
-                <PieChart className="w-5 h-5 text-purple-600" /> Portfolio of Impact
-              </h3>
-              
-              {distribution.length > 0 ? (
-                <div className="space-y-5">
-                  {distribution.map((item, i) => (
-                    <div key={i}>
-                      <div className="flex justify-between text-sm font-semibold mb-2">
-                        <span className="text-gray-700">{item.name}</span>
-                        <span className="text-gray-900">{item.percentage}%</span>
-                      </div>
-                      <div className="h-2 w-full bg-gray-100 rounded-full overflow-hidden">
-                        <div 
-                          className={`h-full rounded-full ${['bg-blue-500', 'bg-purple-500', 'bg-green-500', 'bg-yellow-500'][i % 4]}`} 
-                          style={{ width: `${item.percentage}%` }}
-                        ></div>
-                      </div>
+        {/* ── RESOURCES TAB ── */}
+        {tab==="resources" && (
+          <div className="portal-fade-in grid lg:grid-cols-2 gap-6">
+            {/* Reports */}
+            <div className="bg-white rounded-2xl border border-slate-100 shadow-sm overflow-hidden">
+              <div className="flex items-center justify-between px-5 py-4 border-b border-slate-50">
+                <h2 className="font-bold text-slate-900 flex items-center gap-2"><BarChart3 className="w-5 h-5 text-blue-500"/> Organization Reports</h2>
+              </div>
+              {orgReports.length === 0 ? (
+                <div className="p-6 text-center text-slate-400 text-sm">No reports available</div>
+              ) : orgReports.slice(0,5).map(r => (
+                <a key={r.id} href={r.file_url} target="_blank" rel="noopener noreferrer" className="portal-activity-row flex-row no-underline" style={{display:"flex",textDecoration:"none"}}>
+                  <div className="w-9 h-9 rounded-xl bg-blue-50 flex items-center justify-center flex-shrink-0">
+                    <FileText className="w-4 h-4 text-blue-500"/>
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <p className="text-sm font-medium text-slate-800 truncate">{r.title}</p>
+                    <p className="text-xs text-slate-400">{r.category} · {r.year}</p>
+                  </div>
+                  <Download className="w-4 h-4 text-slate-400 flex-shrink-0"/>
+                </a>
+              ))}
+            </div>
+
+            {/* Event Archives */}
+            <div className="bg-white rounded-2xl border border-slate-100 shadow-sm overflow-hidden">
+              <div className="px-5 py-4 border-b border-slate-50">
+                <h2 className="font-bold text-slate-900 flex items-center gap-2"><Calendar className="w-5 h-5 text-purple-500"/> Event Archives</h2>
+              </div>
+              {eventArchives.length === 0 ? (
+                <div className="p-6 text-center text-slate-400 text-sm">No event archives</div>
+              ) : eventArchives.slice(0,5).map(e => (
+                <a key={e.id} href={e.drive_url} target="_blank" rel="noopener noreferrer" className="portal-activity-row" style={{display:"flex",textDecoration:"none"}}>
+                  <div className="w-9 h-9 rounded-xl bg-purple-50 flex items-center justify-center flex-shrink-0">
+                    <Calendar className="w-4 h-4 text-purple-500"/>
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <p className="text-sm font-medium text-slate-800 truncate">{e.title}</p>
+                    <p className="text-xs text-slate-400">{new Date(e.date).toLocaleDateString()}</p>
+                  </div>
+                  <Eye className="w-4 h-4 text-slate-400 flex-shrink-0"/>
+                </a>
+              ))}
+            </div>
+
+            {/* Gallery */}
+            <div className="bg-white rounded-2xl border border-slate-100 shadow-sm overflow-hidden lg:col-span-2">
+              <div className="flex items-center justify-between px-5 py-4 border-b border-slate-50">
+                <h2 className="font-bold text-slate-900">Gallery Highlights</h2>
+                <Link to="/gallery" className="text-sm text-blue-600 font-semibold hover:text-blue-700 flex items-center gap-1">
+                  View All <ChevronRight className="w-4 h-4"/>
+                </Link>
+              </div>
+              {galleryImages.length === 0 ? (
+                <div className="p-6 text-center text-slate-400 text-sm">No images yet</div>
+              ) : (
+                <div className="grid grid-cols-3 sm:grid-cols-4 lg:grid-cols-6 gap-2 p-4">
+                  {galleryImages.slice(0,12).map(img => (
+                    <div key={img.id} className="aspect-square rounded-xl overflow-hidden bg-slate-100">
+                      <img src={img.url} alt={img.alt} className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"/>
                     </div>
                   ))}
                 </div>
-              ) : (
-                <p className="text-sm text-gray-500 text-center py-4">Make a donation to see your portfolio distribution.</p>
               )}
             </div>
-
-            {/* Project Updates */}
-            <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
-              <h3 className="text-lg font-bold text-gray-900 mb-6 flex items-center gap-2 font-playfair">
-                <TrendingUp className="w-5 h-5 text-orange-500" /> Latest Updates
-              </h3>
-              <div className="space-y-4">
-                {projectUpdates.map((update) => (
-                  <Link key={update.id} to={`/blog/${update.id}`} className="block group">
-                    <div className="flex gap-3">
-                      {update.featured_image && (
-                        <img src={update.featured_image} alt="" className="w-16 h-16 rounded-lg object-cover shrink-0" />
-                      )}
-                      <div className="min-w-0">
-                        <h4 className="text-sm font-bold text-gray-900 group-hover:text-blue-600 transition-colors line-clamp-2">{update.title}</h4>
-                        <p className="text-xs text-gray-500 mt-1">{new Date(update.published_at || update.created_at).toLocaleDateString()}</p>
-                      </div>
-                    </div>
-                  </Link>
-                ))}
-                {projectUpdates.length === 0 && (
-                  <p className="text-sm text-gray-500 text-center py-4">No recent updates.</p>
-                )}
-              </div>
-            </div>
-
-            {/* Quick Actions */}
-            <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
-              <h3 className="text-lg font-bold text-gray-900 mb-4 flex items-center gap-2 font-playfair">
-                <BarChart3 className="w-5 h-5 text-blue-600" />
-                Manage Account
-              </h3>
-              <div className="space-y-2">
-                <Link to="/donor/profile" className="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-blue-50 text-gray-700 hover:text-blue-700 transition-colors">
-                  <span className="text-sm font-medium">Account Settings</span>
-                </Link>
-                <Link to="/contact" className="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-blue-50 text-gray-700 hover:text-blue-700 transition-colors">
-                  <span className="text-sm font-medium">Suggest a Project</span>
-                </Link>
-                <Link to="/contact" className="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-blue-50 text-gray-700 hover:text-blue-700 transition-colors">
-                  <span className="text-sm font-medium">Support / FAQ</span>
-                </Link>
-              </div>
-            </div>
-
           </div>
-        </div>
+        )}
       </div>
 
-      {/* ── DONATION PORTAL MODAL ── */}
+      {/* ── Donate Modal ── */}
       {isDonateModalOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 overflow-y-auto">
-          <div className="absolute inset-0 bg-gray-900/60 backdrop-blur-sm" onClick={() => setIsDonateModalOpen(false)}></div>
-          
-          <div className="relative bg-white rounded-3xl shadow-2xl w-full max-w-4xl my-auto overflow-hidden flex flex-col max-h-[90vh]">
-            {/* Modal Header */}
-            <div className="flex-shrink-0 bg-white border-b border-gray-200 px-6 py-5 flex items-center justify-between">
-              <h2 className="text-xl font-bold text-gray-900 flex items-center gap-2 font-playfair">
-                <Heart className="w-5 h-5 text-blue-600" /> New Contribution
-              </h2>
-              <button onClick={() => setIsDonateModalOpen(false)} className="p-2 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-full transition-colors">
-                <X className="w-5 h-5" />
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4" style={{background:"rgba(6,72,179,.6)",backdropFilter:"blur(4px)"}}>
+          <div className="bg-white rounded-2xl shadow-xl w-full max-w-md portal-fade-in overflow-hidden">
+            <div className="flex items-center justify-between px-6 py-5 border-b border-slate-100">
+              <div>
+                <h2 className="font-bold text-slate-900 text-lg">Make a Donation</h2>
+                <p className="text-sm text-slate-500 mt-0.5">Choose your program and amount</p>
+              </div>
+              <button onClick={()=>setIsDonateModalOpen(false)} className="text-slate-400 hover:text-slate-600 p-1">
+                <X className="w-5 h-5"/>
               </button>
             </div>
-
-            {/* Modal Body (Scrollable) */}
-            <div className="p-6 sm:p-8 overflow-y-auto flex-1 bg-gray-50/50">
-              
-              <div className="grid md:grid-cols-12 gap-8">
-                {/* Donation Setup Column */}
-                <div className="md:col-span-5 space-y-6">
-                  
-                  {/* Frequency Toggle */}
-                  <div>
-                    <label className="block text-sm font-bold text-gray-700 mb-3">Donation Frequency</label>
-                    <div className="bg-gray-100 p-1.5 rounded-xl flex relative">
-                      <div 
-                        className="absolute inset-y-1.5 w-[calc(50%-6px)] bg-white rounded-lg shadow-sm border border-gray-200 transition-all duration-300 ease-out"
-                        style={{ left: donateFrequency === "one-time" ? "6px" : "calc(50% + 3px)" }}
-                      />
-                      <button onClick={() => setDonateFrequency("one-time")} className={`relative z-10 flex-1 py-2.5 text-sm font-bold transition-colors ${donateFrequency === "one-time" ? "text-gray-900" : "text-gray-500 hover:text-gray-700"}`}>Give Once</button>
-                      <button onClick={() => setDonateFrequency("monthly")} className={`relative z-10 flex-1 py-2.5 text-sm font-bold transition-colors flex items-center justify-center gap-1.5 ${donateFrequency === "monthly" ? "text-blue-700" : "text-gray-500 hover:text-gray-700"}`}><Calendar className="w-3.5 h-3.5" /> Monthly</button>
-                    </div>
-                  </div>
-
-                  {/* Amount Selection */}
-                  <div>
-                    <label className="block text-sm font-bold text-gray-700 mb-3">Select Amount</label>
-                    <div className="grid grid-cols-2 gap-3 mb-3">
-                      {[25, 50, 100, 250].map((amt) => (
-                        <button
-                          key={amt}
-                          onClick={() => { setDonateAmount(amt); setCustomAmount(""); }}
-                          className={`py-3 rounded-xl font-bold border-2 transition-all ${donateAmount === amt ? "border-blue-600 bg-blue-50 text-blue-700" : "border-gray-200 bg-white text-gray-600 hover:border-blue-300"}`}
-                        >
-                          ${amt}
-                        </button>
-                      ))}
-                    </div>
-                    <div className="relative">
-                      <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                        <DollarSign className={`w-4 h-4 transition-colors ${!donateAmount && customAmount ? "text-blue-600" : "text-gray-400"}`} />
-                      </div>
-                      <input
-                        type="number"
-                        placeholder="Other Amount"
-                        value={customAmount}
-                        onChange={(e) => { setCustomAmount(e.target.value); if(e.target.value) setDonateAmount(0); }}
-                        className={`w-full pl-10 pr-4 py-3 rounded-xl border-2 font-bold text-gray-900 focus:outline-none transition-colors ${!donateAmount && customAmount ? "border-blue-600 bg-blue-50/30" : "border-gray-200 focus:border-blue-400 bg-white"}`}
-                      />
-                    </div>
-                  </div>
-
-                  <div className="bg-blue-50 border border-blue-100 rounded-xl p-4 text-sm text-blue-800 flex items-start gap-3">
-                    <Heart className="w-5 h-5 text-blue-600 shrink-0 mt-0.5" />
-                    <p>Your {donateFrequency} contribution of <strong className="font-bold">${donateAmount || customAmount || 0}</strong> directly funds critical global programs.</p>
-                  </div>
-
-                </div>
-
-                {/* Payment Form Column */}
-                <div className="md:col-span-7">
-                  <div className="bg-white border border-gray-200 rounded-3xl p-6 sm:p-8 shadow-sm h-full">
-                    {(donateAmount > 0 || Number(customAmount) > 0) ? (
-                      isStripeConfigured() ? (
-                        <Elements stripe={getStripe()}>
-                          <PaymentForm 
-                            amount={donateAmount || Number(customAmount)}
-                            donationType={donateFrequency === "one-time" ? "one-time" : "recurring"}
-                            prefillData={{
-                              firstName: donor?.first_name || firstName,
-                              lastName: donor?.last_name || "",
-                              email: user?.email || ""
-                            }}
-                            onSuccess={() => {
-                              setTimeout(() => {
-                                setIsDonateModalOpen(false);
-                                window.location.reload();
-                              }, 3000);
-                            }}
-                          />
-                        </Elements>
-                      ) : (
-                        <div className="text-center py-12 bg-gray-50 rounded-xl border border-gray-100">
-                          <AlertCircle className="w-10 h-10 text-amber-500 mx-auto mb-3" />
-                          <h4 className="font-bold text-gray-900">Payment Setup Required</h4>
-                          <p className="text-sm text-gray-500 mt-2">Stripe keys are not configured in your environment.</p>
-                        </div>
-                      )
-                    ) : (
-                      <div className="text-center py-20 flex flex-col items-center justify-center h-[calc(100%-3rem)] bg-slate-50/50 rounded-3xl border border-slate-100 border-dashed">
-                        <div className="w-20 h-20 bg-white rounded-full flex items-center justify-center shadow-sm mb-4">
-                          <DollarSign className="w-8 h-8 text-slate-300" />
-                        </div>
-                        <p className="font-bold text-slate-500">Select an amount to continue</p>
-                      </div>
-                    )}
-                  </div>
-                </div>
+            <div className="p-6 space-y-5">
+              {/* Frequency */}
+              <div className="portal-tabs" style={{marginBottom:0}}>
+                <button className={`portal-tab ${donateFrequency==="one-time"?"active":""}`} onClick={()=>setDonateFrequency("one-time")}>One-time</button>
+                <button className={`portal-tab ${donateFrequency==="monthly"?"active":""}`} onClick={()=>setDonateFrequency("monthly")}>Monthly</button>
               </div>
-
+              {/* Amounts */}
+              <div className="grid grid-cols-4 gap-2">
+                {PROGRAM_AMOUNTS.map(amt => (
+                  <button key={amt} onClick={()=>{setDonateAmount(amt);setCustomAmount("");}}
+                    className="py-3 rounded-xl font-bold text-sm transition-all border-2"
+                    style={{borderColor:donateAmount===amt&&!customAmount?"#0959d6":"#e5e7eb",background:donateAmount===amt&&!customAmount?"#eff6ff":"#f8fafc",color:donateAmount===amt&&!customAmount?"#0959d6":"#64748b"}}>
+                    ${amt}
+                  </button>
+                ))}
+              </div>
+              <input
+                type="number"
+                placeholder="Custom amount ($)"
+                value={customAmount}
+                onChange={e=>{setCustomAmount(e.target.value);setDonateAmount(Number(e.target.value));}}
+                className="w-full border-2 border-slate-200 rounded-xl px-4 py-3 text-sm font-medium outline-none focus:border-blue-500"
+                style={{fontFamily:"'Inter',sans-serif"}}
+              />
+              {isStripeConfigured ? (
+                <Elements stripe={getStripe()}>
+                  <PaymentForm
+                    amount={donateAmount}
+                    frequency={donateFrequency}
+                    onSuccess={()=>setIsDonateModalOpen(false)}
+                    onClose={()=>setIsDonateModalOpen(false)}
+                  />
+                </Elements>
+              ) : (
+                <div className="p-4 rounded-xl bg-amber-50 border border-amber-100 text-amber-700 text-sm font-medium">
+                  Payment processing not configured.
+                </div>
+              )}
             </div>
           </div>
         </div>

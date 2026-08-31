@@ -45,7 +45,9 @@ import AdminEvents from "./pages/admin/AdminEvents";
 // Donor Pages
 import DonorLayout from "./components/portal/DonorLayout";
 import DonorDashboard from "./pages/donor/DonorDashboard";
+import DonorDonationsPage from "./pages/donor/DonorDonationsPage";
 import DonorProfile from "./pages/donor/DonorProfile";
+import DonorRegister from "./pages/donor/DonorRegister";
 
 // Shared Portal Pages
 import ProfileSettings from "./pages/portal/ProfileSettings";
@@ -129,6 +131,7 @@ export const router = createBrowserRouter([
         ),
         children: [
           { path: "dashboard", Component: DonorDashboard },
+          { path: "donations", Component: DonorDonationsPage },
           { path: "profile", Component: ProfileSettings },
           { path: "profile-legacy", Component: DonorProfile },
         ],
