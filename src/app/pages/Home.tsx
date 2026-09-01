@@ -234,7 +234,7 @@ export default function Home() {
     <div className="min-h-screen">
 
       {/* ── GABRIEL STYLE HERO ── */}
-      <section className="relative min-h-[90vh] flex items-center pt-24 pb-16 lg:pt-32 lg:pb-24 bg-gradient-to-br from-navy-900 via-[#0a2540] to-sky-900 overflow-hidden">
+      <section className="relative min-h-[90vh] flex items-center pt-32 pb-16 lg:pt-32 lg:pb-24 bg-gradient-to-br from-navy-900 via-[#0a2540] to-sky-900 overflow-hidden">
         {/* Subtle pattern overlay */}
         <div className="absolute inset-0 opacity-10 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] mix-blend-overlay"></div>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 w-full">
@@ -242,12 +242,12 @@ export default function Home() {
             
             {/* Left: Text Content */}
             <div className="max-w-2xl">
-              <div className="inline-flex items-center gap-3 px-5 py-2.5 bg-gold-400 text-navy-900 font-extrabold text-sm mb-8 animate-[fade-in-up_0.8s_ease-out] rounded uppercase tracking-widest shadow-sm">
-                <Sparkles className="w-4 h-4 text-navy-900" />
+              <div className="inline-flex items-center gap-2 sm:gap-3 px-4 sm:px-5 py-2 sm:py-2.5 bg-gold-400 text-navy-900 font-extrabold text-xs sm:text-sm mb-6 sm:mb-8 animate-[fade-in-up_0.8s_ease-out] rounded uppercase tracking-widest shadow-sm">
+                <Sparkles className="w-3 h-3 sm:w-4 sm:h-4 text-navy-900" />
                 <RotatingText />
               </div>
               
-              <h1 className="text-5xl lg:text-7xl font-extrabold tracking-tight text-white mb-6 leading-[1.1] animate-[fade-in-up_1s_ease-out]">
+              <h1 className="text-4xl sm:text-5xl lg:text-7xl font-extrabold tracking-tight text-white mb-6 leading-[1.15] lg:leading-[1.1] animate-[fade-in-up_1s_ease-out]">
                 {t('home.heroTitle')}
               </h1>
               
