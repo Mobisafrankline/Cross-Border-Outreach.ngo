@@ -117,7 +117,7 @@ export default function AdminEvents() {
                         </td>
                         <td className="px-6 py-4">
                           <span className={`px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider ${
-                            item.status === 'published' ? 'bg-emerald-100 text-emerald-700' : 'bg-amber-100 text-amber-700'
+                            item.status === 'published' ? 'bg-sky-100 text-sky-700' : 'bg-amber-100 text-amber-700'
                           }`}>
                             {item.status}
                           </span>

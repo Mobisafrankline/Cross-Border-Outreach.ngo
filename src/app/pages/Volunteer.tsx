@@ -26,7 +26,7 @@ export default function Volunteer() {
       time: "4-8 hours/week",
       description: "Manage logistics and distribution of nutritious meals to families in crisis.",
       category: "Field Work",
-      color: "bg-emerald-50 text-emerald-700 border-emerald-100"
+      color: "bg-sky-50 text-sky-700 border-sky-100"
     },
     {
       title: "Education Mentor",

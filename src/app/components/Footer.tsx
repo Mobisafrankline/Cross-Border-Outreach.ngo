@@ -74,15 +74,10 @@ export default function Footer() {
   ];
 
   return (
-    <footer className="bg-[#0B132B] text-slate-300 relative overflow-hidden pt-12">
-      {/* Background Accents */}
-      <div className="absolute top-0 left-0 w-full h-full overflow-hidden z-0 pointer-events-none">
-        <div className="absolute -top-40 -right-40 w-96 h-96 bg-blue-600 rounded-full opacity-5 blur-[100px]" />
-        <div className="absolute -bottom-40 -left-40 w-96 h-96 bg-indigo-500 rounded-full opacity-5 blur-[100px]" />
-      </div>
-
+    <footer className="bg-navy-900 text-offwhite relative pt-16">
       <div className="relative z-10">
-        <div className="max-w-7xl mx-auto px-6 mb-16">          <NewsletterSignup />
+        <div className="max-w-7xl mx-auto px-6 mb-16">
+          <NewsletterSignup />
         </div>
 
         {/* Main Footer Content */}
@@ -92,23 +87,23 @@ export default function Footer() {
             {/* Brand Column */}
             <div className="lg:col-span-4">
               <Link to="/" className="flex items-center gap-3 mb-6 group inline-flex">
-                <div className="bg-white p-2 rounded-xl group-hover:scale-105 transition-transform duration-300">
+                <div className="bg-white p-2 rounded-lg transition-transform duration-300">
                   <img
                     src="/logo.png"
                     alt="Cross-borders Outreach Logo"
-                    className="w-10 h-10 object-contain"
+                    className="w-12 h-12 object-contain"
                   />
                 </div>
                 <div>
-                  <div className="font-bold text-white text-xl tracking-wide">
-                    Cross-borders Outreach
+                  <div className="font-extrabold text-white text-xl tracking-tight leading-none">
+                    The Cross Borders
                   </div>
-                  <div className="text-sm font-medium text-blue-400">
-                    International
+                  <div className="text-[11px] font-bold text-slate-300 tracking-widest uppercase mt-1">
+                    Outreach International
                   </div>
                 </div>
               </Link>
-              <p className="text-slate-400 leading-relaxed mb-8 pr-4">
+              <p className="text-slate-300 leading-relaxed mb-8 pr-4">
                 Transforming lives across borders through compassion, dedication, and sustainable community impact. We believe in empowering communities for a brighter, self-reliant future.
               </p>
               
@@ -121,7 +116,7 @@ export default function Footer() {
                     target="_blank"
                     rel="noopener noreferrer"
                     aria-label={social.label}
-                    className={`w-10 h-10 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-slate-300 transition-all duration-300 ${social.color} hover:text-white hover:-translate-y-1 hover:shadow-lg`}
+                    className={`w-10 h-10 rounded bg-white/10 flex items-center justify-center text-white transition-all duration-300 ${social.color} hover:text-white hover:-translate-y-1`}
                   >
                     {social.icon}
                   </a>
@@ -131,15 +126,15 @@ export default function Footer() {
 
             {/* Quick Links Column */}
             <div className="lg:col-span-2 lg:col-start-6">
-              <h3 className="text-white font-bold tracking-wider uppercase text-sm mb-6">Quick Links</h3>
+              <h3 className="text-gold-400 font-bold tracking-wider uppercase text-sm mb-6">Quick Links</h3>
               <ul className="space-y-4">
                 {quickLinks.map((link) => (
                   <li key={link.label}>
                     <Link 
                       to={link.href} 
-                      className="text-slate-400 hover:text-white transition-colors duration-200 flex items-center gap-2 group"
+                      className="text-slate-300 hover:text-white transition-colors duration-200 flex items-center gap-2 group font-semibold"
                     >
-                      <span className="w-1.5 h-1.5 rounded-full bg-blue-500/0 group-hover:bg-blue-500 transition-colors" />
+                      <span className="w-1.5 h-1.5 rounded-full bg-transparent group-hover:bg-gold-400 transition-colors" />
                       {link.label}
                     </Link>
                   </li>
@@ -149,15 +144,15 @@ export default function Footer() {
 
             {/* Programs Column */}
             <div className="lg:col-span-2 lg:col-start-8">
-              <h3 className="text-white font-bold tracking-wider uppercase text-sm mb-6">Our Programs</h3>
+              <h3 className="text-gold-400 font-bold tracking-wider uppercase text-sm mb-6">Our Programs</h3>
               <ul className="space-y-4">
                 {programs.map((prog) => (
                   <li key={prog.label}>
                     <Link 
                       to={prog.href} 
-                      className="text-slate-400 hover:text-white transition-colors duration-200 flex items-center gap-2 group"
+                      className="text-slate-300 hover:text-white transition-colors duration-200 flex items-center gap-2 group font-semibold"
                     >
-                      <span className="w-1.5 h-1.5 rounded-full bg-blue-500/0 group-hover:bg-blue-500 transition-colors" />
+                      <span className="w-1.5 h-1.5 rounded-full bg-transparent group-hover:bg-blue-600 transition-colors" />
                       {prog.label}
                     </Link>
                   </li>
@@ -167,33 +162,33 @@ export default function Footer() {
 
             {/* Contact Column */}
             <div className="lg:col-span-3 lg:col-start-10">
-              <h3 className="text-white font-bold tracking-wider uppercase text-sm mb-6">Contact Us</h3>
+              <h3 className="text-gold-400 font-bold tracking-wider uppercase text-sm mb-6">Contact Us</h3>
               <ul className="space-y-5">
                 <li>
                   <a 
                     href="tel:+14049806138" 
-                    className="flex items-start gap-3 text-slate-400 hover:text-white transition-colors duration-200 group"
+                    className="flex items-start gap-3 text-slate-300 hover:text-white transition-colors duration-200 group"
                   >
-                    <div className="w-10 h-10 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center shrink-0 group-hover:bg-blue-600/20 group-hover:border-blue-500/30 transition-colors">
-                      <Phone className="w-4 h-4 text-blue-400" />
+                    <div className="w-10 h-10 rounded bg-white/10 flex items-center justify-center shrink-0 group-hover:bg-blue-700 transition-colors">
+                      <Phone className="w-4 h-4 text-white" />
                     </div>
                     <div>
-                      <div className="text-xs font-semibold uppercase tracking-wider text-slate-500 mb-1">Phone</div>
-                      <div className="font-medium">+1 (404) 980 6138</div>
+                      <div className="text-xs font-bold uppercase tracking-wider text-slate-400 mb-1">Phone</div>
+                      <div className="font-bold">+1 (404) 980 6138</div>
                     </div>
                   </a>
                 </li>
                 <li>
                   <a 
                     href="mailto:info@cross-bordersoutreach.ngo" 
-                    className="flex items-start gap-3 text-slate-400 hover:text-white transition-colors duration-200 group"
+                    className="flex items-start gap-3 text-slate-300 hover:text-white transition-colors duration-200 group"
                   >
-                    <div className="w-10 h-10 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center shrink-0 group-hover:bg-blue-600/20 group-hover:border-blue-500/30 transition-colors">
-                      <Mail className="w-4 h-4 text-blue-400" />
+                    <div className="w-10 h-10 rounded bg-white/10 flex items-center justify-center shrink-0 group-hover:bg-blue-700 transition-colors">
+                      <Mail className="w-4 h-4 text-white" />
                     </div>
                     <div>
-                      <div className="text-xs font-semibold uppercase tracking-wider text-slate-500 mb-1">Email</div>
-                      <div className="font-medium break-all">info@cross-bordersoutreach.ngo</div>
+                      <div className="text-xs font-bold uppercase tracking-wider text-slate-400 mb-1">Email</div>
+                      <div className="font-bold break-all">info@cross-bordersoutreach.ngo</div>
                     </div>
                   </a>
                 </li>
@@ -204,20 +199,20 @@ export default function Footer() {
         </div>
 
         {/* Bottom Bar */}
-        <div className="border-t border-white/10 bg-black/20">
+        <div className="border-t border-white/10 bg-navy-900">
           <div className="max-w-7xl mx-auto px-6 py-6 flex flex-col md:flex-row justify-between items-center gap-4">
             <div className="flex flex-col items-center md:items-start gap-1">
-              <p className="text-slate-500 text-sm font-medium text-center md:text-left">
-                &copy; {currentYear} Cross-borders Outreach international All rights reserved.
-              </p>
-              <p className="text-slate-600 text-xs font-semibold tracking-wider text-center md:text-left">
+              <div className="text-slate-400 text-sm font-medium">
+                &copy; {currentYear} The Cross Borders Outreach International. All rights reserved.
+              </div>
+              <p className="text-slate-500 text-[10px] font-bold tracking-widest text-center md:text-left">
                 DESIGNED BY MOBISA FROM MOBIVIC SOLUTIONS
               </p>
             </div>
             <div className="flex flex-wrap justify-center gap-6">
-              <Link to="/privacy" className="text-sm font-medium text-slate-500 hover:text-white transition-colors">Privacy Policy</Link>
-              <Link to="/terms" className="text-sm font-medium text-slate-500 hover:text-white transition-colors">Terms of Service</Link>
-              <Link to="/accessibility" className="text-sm font-medium text-slate-500 hover:text-white transition-colors">Accessibility</Link>
+              <Link to="/privacy" className="text-sm font-bold text-slate-400 hover:text-white transition-colors">Privacy Policy</Link>
+              <Link to="/terms" className="text-sm font-bold text-slate-400 hover:text-white transition-colors">Terms of Service</Link>
+              <Link to="/accessibility" className="text-sm font-bold text-slate-400 hover:text-white transition-colors">Accessibility</Link>
             </div>
           </div>
         </div>

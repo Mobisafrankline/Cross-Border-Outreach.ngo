@@ -50,7 +50,7 @@ export default function Partner() {
         "Cross-border knowledge exchange",
         "Unified advocacy campaigns"
       ],
-      color: "bg-emerald-50 text-emerald-700"
+      color: "bg-sky-50 text-sky-700"
     }
   ];
 
@@ -171,7 +171,7 @@ export default function Partner() {
                 <div className="space-y-4 mb-10">
                   {type.benefits.map((benefit, idx) => (
                     <div key={idx} className="flex items-center gap-3">
-                      <CheckCircle2 className="w-5 h-5 text-emerald-500 shrink-0" />
+                      <CheckCircle2 className="w-5 h-5 text-sky-500 shrink-0" />
                       <span className="text-slate-700 font-medium text-sm">{benefit}</span>
                     </div>
                   ))}

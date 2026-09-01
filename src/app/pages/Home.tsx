@@ -4,6 +4,7 @@ import {
 } from "lucide-react";
 import { Link } from "react-router";
 import { ImageWithFallback } from "../components/figma/ImageWithFallback";
+import NewsletterSignup from "../components/NewsletterSignup";
 import { supabase } from "../../lib/supabase";
 import { galleryImages, events } from "../../data/content";
 import { useTranslation } from "react-i18next";
@@ -99,10 +100,16 @@ function StatCard({ value, suffix = '', label, icon, trigger }: {
 }) {
   const count = useCountUp(value, 2000, trigger);
   return (
-    <div className="home-stat-card">
-      <div className="home-stat-icon">{icon}</div>
-      <div className="home-stat-number">{count.toLocaleString()}{suffix}</div>
-      <div className="home-stat-label">{label}</div>
+    <div className="flex flex-col items-center justify-center text-center px-2 sm:px-4">
+      <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-white/10 flex items-center justify-center text-gold-400 mb-2 sm:mb-4 border border-white/20">
+        {icon}
+      </div>
+      <div className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-white mb-1 sm:mb-2 tracking-tight">
+        {count.toLocaleString()}{suffix}
+      </div>
+      <div className="text-xs sm:text-sm font-bold tracking-widest uppercase text-sky-100">
+        {label}
+      </div>
     </div>
   );
 }
@@ -226,46 +233,39 @@ export default function Home() {
   return (
     <div className="min-h-screen">
 
-      {/* ── MODERN BENTO HERO ── */}
-      <section className="relative min-h-[90vh] flex items-center pt-24 pb-16 lg:pt-32 lg:pb-24 overflow-hidden bg-slate-50">
-        <div className="absolute inset-0 z-0 bg-white">
-          <div className="absolute top-[-10%] right-[-5%] w-[800px] h-[800px] rounded-full bg-blue-50/60 blur-[100px] pointer-events-none" />
-          <div className="absolute bottom-[-10%] left-[-5%] w-[600px] h-[600px] rounded-full bg-slate-100/80 blur-[80px] pointer-events-none" />
-        </div>
-
+      {/* ── GABRIEL STYLE HERO ── */}
+      <section className="relative min-h-[90vh] flex items-center pt-24 pb-16 lg:pt-32 lg:pb-24 bg-gradient-to-br from-navy-900 via-[#0a2540] to-sky-900 overflow-hidden">
+        {/* Subtle pattern overlay */}
+        <div className="absolute inset-0 opacity-10 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] mix-blend-overlay"></div>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 w-full">
-          <div className="grid lg:grid-cols-2 gap-12 lg:gap-8 items-center">
+          <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
             
             {/* Left: Text Content */}
             <div className="max-w-2xl">
-              <div className="inline-flex items-center gap-3 px-5 py-2.5 rounded-full bg-white shadow-sm border border-slate-200 text-blue-900 font-medium text-sm mb-8 animate-[fade-in-up_0.8s_ease-out]">
-                <span className="relative flex h-3 w-3">
-                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75"></span>
-                  <span className="relative inline-flex rounded-full h-3 w-3 bg-blue-600"></span>
-                </span>
-                <span className="tracking-wide uppercase text-xs font-bold text-slate-500 mr-1">Currently:</span>
-                <span className="font-semibold text-blue-900"><RotatingText /></span>
+              <div className="inline-flex items-center gap-3 px-5 py-2.5 bg-gold-400 text-navy-900 font-extrabold text-sm mb-8 animate-[fade-in-up_0.8s_ease-out] rounded uppercase tracking-widest shadow-sm">
+                <Sparkles className="w-4 h-4 text-navy-900" />
+                <RotatingText />
               </div>
               
-              <h1 className="text-5xl lg:text-7xl font-bold tracking-tight text-gray-900 mb-6 leading-[1.1] animate-[fade-in-up_1s_ease-out]">
+              <h1 className="text-5xl lg:text-7xl font-extrabold tracking-tight text-white mb-6 leading-[1.1] animate-[fade-in-up_1s_ease-out]">
                 {t('home.heroTitle')}
               </h1>
               
-              <p className="text-lg lg:text-xl text-gray-600 mb-10 leading-relaxed animate-[fade-in-up_1.2s_ease-out] max-w-xl">
+              <p className="text-lg lg:text-xl text-sky-100 mb-10 leading-relaxed animate-[fade-in-up_1.2s_ease-out] max-w-xl font-medium">
                 {t('home.heroSubtitle')}
               </p>
               
               <div className="flex flex-col sm:flex-row gap-4 animate-[fade-in-up_1.4s_ease-out]">
                 <Link 
                   to="/donate" 
-                  className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-black text-white rounded-xl font-bold hover:bg-slate-800 transition-all shadow-lg hover:shadow-2xl hover:-translate-y-1"
+                  className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-gold-500 text-navy-900 rounded font-bold hover:bg-gold-400 transition-colors shadow-lg"
                 >
-                  <Heart className="w-5 h-5 fill-white" />
+                  <Heart className="w-5 h-5 fill-navy-900" />
                   {t('nav.donateNow')}
                 </Link>
                 <Link 
                   to="/opportunities" 
-                  className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-white text-black rounded-xl font-bold border-2 border-slate-200 hover:border-slate-300 hover:bg-slate-50 transition-all"
+                  className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-white/10 text-white rounded font-bold hover:bg-white/20 transition-colors border border-white/20 shadow-lg"
                 >
                   {t('home.getInvolved')}
                   <ArrowRight className="w-5 h-5" />
@@ -273,32 +273,17 @@ export default function Home() {
               </div>
             </div>
 
-            {/* Right: Bento Image Grid Component */}
+            {/* Right: Solid Image */}
             <div className="relative animate-[fade-in-up_1.2s_ease-out] hidden lg:block">
-              <div className="grid grid-cols-2 grid-rows-2 gap-4 h-[600px]">
-                {/* Main large image */}
-                <div className="row-span-2 relative rounded-3xl overflow-hidden shadow-xl ring-1 ring-slate-200">
-                  <ImageWithFallback src={heroImage} alt="Main" className="w-full h-full object-cover" />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent" />
-                </div>
-                {/* Top right smaller image */}
-                <div className="relative rounded-3xl overflow-hidden shadow-lg ring-1 ring-slate-200">
-                  <ImageWithFallback src={galleryImages[1]?.url} alt="Support" className="w-full h-full object-cover" />
-                  <div className="absolute inset-0 bg-gradient-to-t from-blue-900/40 to-transparent" />
-                </div>
-                {/* Bottom right smaller image */}
-                <div className="relative rounded-3xl overflow-hidden shadow-lg ring-1 ring-slate-200">
-                  <ImageWithFallback src={galleryImages[2]?.url} alt="Community" className="w-full h-full object-cover" />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />
-                </div>
+              <div className="relative rounded-2xl overflow-hidden shadow-2xl border-4 border-white/10 aspect-[4/5] lg:aspect-auto lg:h-[600px]">
+                <ImageWithFallback src={heroImage} alt="Main" className="w-full h-full object-cover" />
               </div>
             </div>
             
             {/* Mobile Fallback Single Image */}
-            <div className="relative animate-[fade-in-up_1.2s_ease-out] lg:hidden">
-              <div className="relative rounded-3xl overflow-hidden aspect-[4/5] shadow-2xl ring-1 ring-slate-200">
+            <div className="relative animate-[fade-in-up_1.2s_ease-out] lg:hidden mt-8">
+              <div className="relative rounded-xl overflow-hidden aspect-video shadow-2xl border-4 border-white/10">
                 <ImageWithFallback src={heroImage} alt="Vulnerable communities" className="w-full h-full object-cover" />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent" />
               </div>
             </div>
 
@@ -307,13 +292,13 @@ export default function Home() {
       </section>
 
       {/* ── STATS ── */}
-      <section className="home-stats-section" ref={statsRef}>
-        <div className="max-w-5xl mx-auto px-4 sm:px-6 relative z-10">
-          <div className="home-stats-grid">
-            <StatCard value={8455} suffix="+" label={t('stats.livesImpacted')} icon={<Users className="w-6 h-6" />} trigger={statsVisible} />
-            <StatCard value={150} suffix="+" label="Active Volunteers" icon={<HandHeart className="w-6 h-6" />} trigger={statsVisible} />
-            <StatCard value={5} label={t('stats.corePrograms')} icon={<CheckCircle2 className="w-6 h-6" />} trigger={statsVisible} />
-            <StatCard value={2} label={t('stats.countriesReached')} icon={<Globe2 className="w-6 h-6" />} trigger={statsVisible} />
+      <section className="bg-sky-600 py-10 md:py-16 border-y-4 border-sky-700" ref={statsRef}>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 relative z-10">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-y-8 gap-x-4 md:gap-0 md:divide-x-2 md:divide-white/10">
+            <StatCard value={10055} suffix="+" label="Individuals Served" icon={<Users className="w-5 h-5" />} trigger={statsVisible} />
+            <StatCard value={150} suffix="+" label="Active Volunteers" icon={<HandHeart className="w-5 h-5" />} trigger={statsVisible} />
+            <StatCard value={5} label={t('stats.corePrograms')} icon={<CheckCircle2 className="w-5 h-5" />} trigger={statsVisible} />
+            <StatCard value={2} label={t('stats.countriesReached')} icon={<Globe2 className="w-5 h-5" />} trigger={statsVisible} />
           </div>
         </div>
       </section>
@@ -348,40 +333,49 @@ export default function Home() {
       </section>
 
       {/* ── PROGRAMS ── */}
-      <section className="home-programs-section">
+      <section className="bg-slate-50 py-24 border-b-2 border-slate-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6">
-          <div ref={programsReveal.ref} className={`home-section-header home-reveal ${programsReveal.visible ? 'visible' : ''}`}>
-            <div className="home-section-label">What We Do</div>
-            <h2 className="home-section-title font-playfair">Our Core Programs</h2>
-            <p className="home-section-subtitle">We create sustainable change through five core programs designed to address the most critical needs in underserved communities.</p>
+          <div ref={programsReveal.ref} className={`mb-16 home-reveal ${programsReveal.visible ? 'visible' : ''}`}>
+            <div className="inline-flex px-4 py-1.5 bg-gold-500 text-navy-900 font-bold text-xs uppercase tracking-widest rounded mb-6">
+              What We Do
+            </div>
+            <h2 className="text-4xl lg:text-5xl font-extrabold text-navy-900 mb-6 leading-tight">
+              Our Core Programs
+            </h2>
+            <p className="text-lg text-slate-600 font-medium max-w-2xl">
+              We create sustainable change through five core programs designed to address the most critical needs in underserved communities.
+            </p>
           </div>
 
-          <div className="flex flex-wrap justify-center gap-6 mt-16">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-8">
             {programs.map((program, index) => (
-              <div key={index} className="w-full md:w-[calc(50%-0.75rem)] lg:w-[calc(33.333%-1rem)] group">
-                <Link to={program.link} className="flex flex-col h-full rounded-3xl overflow-hidden shadow-[0_4px_20px_rgba(15,23,42,0.08)] hover:shadow-[0_20px_50px_rgba(15,23,42,0.2)] transition-all duration-500 hover:-translate-y-2 border border-transparent">
-                  <div className="relative aspect-[4/3] overflow-hidden bg-slate-900">
-                    <ImageWithFallback src={program.image} alt={program.title} loading="lazy" decoding="async" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 opacity-90 group-hover:opacity-100" />
-                    <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                    {/* Tag overlaid on image */}
-                    <div className="absolute top-4 right-4 px-4 py-1.5 bg-white/95 backdrop-blur-md rounded-full text-[10px] font-black uppercase tracking-widest shadow-sm" style={{ color: program.color }}>
-                      {program.tag}
-                    </div>
+              <Link 
+                key={index}
+                to={program.link} 
+                className={`group flex flex-col bg-white rounded-lg overflow-hidden border-2 border-slate-200 hover:border-blue-600 transition-colors shadow-sm ${
+                  index < 3 ? 'lg:col-span-2' : 'lg:col-span-3'
+                } ${index === 4 ? 'md:col-span-2 lg:col-span-3' : ''}`}
+              >
+                <div className="relative aspect-[4/3] overflow-hidden border-b-2 border-slate-200">
+                  <ImageWithFallback src={program.image} alt={program.title} loading="lazy" decoding="async" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
+                  {/* Tag overlaid on image */}
+                  <div className="absolute top-4 right-4 px-3 py-1 bg-navy-900 text-white rounded text-[10px] font-bold uppercase tracking-widest shadow-sm">
+                    {program.tag}
                   </div>
-                  {/* Solid colored content area */}
-                  <div className="p-8 flex flex-col flex-1 relative transition-colors duration-500" style={{ backgroundColor: program.color }}>
-                    <h3 className="text-2xl font-playfair font-bold text-white mb-4 leading-tight drop-shadow-sm">
-                      {program.title}
-                    </h3>
-                    <p className="text-sm text-white/90 leading-relaxed mb-8 flex-1 drop-shadow-sm">
-                      {program.description}
-                    </p>
-                    <div className="inline-flex items-center text-xs font-bold tracking-widest uppercase transition-transform group-hover:translate-x-1 mt-auto text-white drop-shadow-sm">
-                      {t('programs.learnMore')} <ArrowRight className="w-4 h-4 ml-1.5" />
-                    </div>
+                </div>
+                {/* Content area */}
+                <div className="p-6 flex flex-col flex-1">
+                  <h3 className="text-xl font-extrabold text-navy-900 mb-3 leading-tight group-hover:text-blue-700 transition-colors">
+                    {program.title}
+                  </h3>
+                  <p className="text-sm text-slate-600 font-medium mb-6 flex-1">
+                    {program.description}
+                  </p>
+                  <div className="inline-flex items-center text-xs font-bold tracking-widest uppercase text-blue-700 group-hover:text-blue-800 transition-colors mt-auto">
+                    {t('programs.learnMore')} <ArrowRight className="w-4 h-4 ml-1.5 transition-transform group-hover:translate-x-1" />
                   </div>
-                </Link>
-              </div>
+                </div>
+              </Link>
             ))}
           </div>
         </div>
@@ -610,25 +604,24 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ── FINAL CTA ── */}
-      <section className="relative py-32 bg-[#111827] overflow-hidden border-t border-slate-800">
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[500px] bg-blue-600/20 blur-[120px] rounded-full pointer-events-none" />
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 relative z-10 text-center">
-          <h2 className="text-5xl lg:text-7xl font-playfair font-bold text-white mb-8 leading-tight">
+      {/* ── FINAL CTA & NEWSLETTER ── */}
+      <section className="bg-navy-900 pt-16 pb-8 border-t-8 border-gold-500">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 text-center">
+          <h2 className="text-4xl lg:text-6xl font-extrabold text-white mb-6 leading-tight">
             Together, We Can<br/>Go Further
           </h2>
-          <p className="text-xl text-slate-300 mb-12 leading-relaxed max-w-2xl mx-auto">
+          <p className="text-xl text-slate-300 mb-12 font-medium max-w-2xl mx-auto">
             Join our global community of donors, volunteers, and partners working to create lasting change across borders.
           </p>
           <div className="flex flex-col sm:flex-row justify-center items-center gap-4">
-            <Link to="/donate" className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-white text-[#111827] rounded-xl font-bold hover:bg-slate-100 transition-all shadow-lg hover:shadow-2xl hover:-translate-y-1 w-full sm:w-auto">
-              <Heart className="w-5 h-5 fill-[#111827]" />
+            <Link to="/donate" className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-blue-600 text-white rounded font-bold hover:bg-blue-700 transition-colors shadow-sm w-full sm:w-auto">
+              <Heart className="w-5 h-5 fill-white" />
               Donate Today
             </Link>
-            <Link to="/opportunities" className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-transparent border-2 border-slate-700 text-white rounded-xl font-bold hover:border-slate-500 hover:bg-slate-800 transition-all w-full sm:w-auto">
+            <Link to="/opportunities" className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-transparent border-2 border-slate-300 text-white rounded font-bold hover:border-white transition-colors w-full sm:w-auto">
               Volunteer With Us
             </Link>
-            <Link to="/contact" className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-transparent text-slate-300 font-bold hover:text-white transition-all w-full sm:w-auto">
+            <Link to="/contact" className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-transparent text-slate-300 font-bold hover:text-white transition-colors w-full sm:w-auto">
               Contact Us
             </Link>
           </div>

@@ -146,17 +146,17 @@ export default function PaymentForm({
 
   if (success) {
     return (
-      <div className="bg-emerald-50 border-2 border-emerald-100 rounded-3xl p-10 text-center shadow-lg relative overflow-hidden">
-        <div className="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-emerald-400 to-emerald-600" />
-        <div className="w-20 h-20 bg-white shadow-md border-4 border-emerald-100 text-emerald-500 rounded-full flex items-center justify-center mx-auto mb-6">
+      <div className="bg-sky-50 border-2 border-sky-100 rounded-3xl p-10 text-center shadow-lg relative overflow-hidden">
+        <div className="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-sky-400 to-sky-600" />
+        <div className="w-20 h-20 bg-white shadow-md border-4 border-sky-100 text-sky-500 rounded-full flex items-center justify-center mx-auto mb-6">
           <CheckCircle2 className="w-10 h-10" />
         </div>
         <h3 className="text-3xl font-extrabold text-slate-900 mb-3 tracking-tight">Payment Successful</h3>
-        <p className="text-lg text-emerald-800 font-medium mb-6">
+        <p className="text-lg text-sky-800 font-medium mb-6">
           Your {donationType === 'recurring' ? 'monthly' : ''} donation of ${amount} has been securely processed.
         </p>
-        <div className="bg-white rounded-xl p-4 inline-flex items-center gap-3 border border-emerald-100 shadow-sm">
-          <Mail className="w-5 h-5 text-emerald-500" />
+        <div className="bg-white rounded-xl p-4 inline-flex items-center gap-3 border border-sky-100 shadow-sm">
+          <Mail className="w-5 h-5 text-sky-500" />
           <span className="text-slate-600 font-medium text-sm">Receipt sent to <b className="text-slate-800">{formData.email}</b></span>
         </div>
       </div>

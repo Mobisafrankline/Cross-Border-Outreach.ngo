@@ -29,7 +29,7 @@ type ViewMode = "grid" | "masonry";
 // Category config with colours & icons
 const CATEGORY_CONFIG: Record<string, { label: string; color: string; bg: string; ring: string }> = {
   all: { label: "All Photos", color: "text-white", bg: "bg-blue-600", ring: "ring-blue-400" },
-  community: { label: "Community", color: "text-emerald-700", bg: "bg-emerald-50", ring: "ring-emerald-400" },
+  community: { label: "Community", color: "text-sky-700", bg: "bg-sky-50", ring: "ring-sky-400" },
   education: { label: "Education", color: "text-violet-700", bg: "bg-violet-50", ring: "ring-violet-400" },
   healthcare: { label: "Healthcare", color: "text-rose-700", bg: "bg-rose-50", ring: "ring-rose-400" },
   food: { label: "Food Support", color: "text-amber-700", bg: "bg-amber-50", ring: "ring-amber-400" },
@@ -37,7 +37,7 @@ const CATEGORY_CONFIG: Record<string, { label: string; color: string; bg: string
 };
 
 const CATEGORY_BADGE: Record<string, string> = {
-  community: "bg-emerald-600",
+  community: "bg-sky-600",
   education: "bg-violet-600",
   healthcare: "bg-rose-600",
   food: "bg-amber-500",

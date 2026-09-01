@@ -269,8 +269,8 @@ export default function TwoLayerNavbar() {
       ref={dropdownRef}
       className="fixed top-0 left-0 right-0 z-50 shadow-md"
     >
-      {/* ═══ TOP BAR — Dark navy utility strip ═══ */}
-      <div className="relative z-20" style={{ background: 'linear-gradient(135deg, #1e3a8a 0%, #1e40af 40%, #1d4ed8 100%)' }}>
+      {/* ═══ TOP BAR — Gabriel Style Off-White Strip ═══ */}
+      <div className="relative z-20 bg-offwhite border-b border-slate-200">
         <div
           className="max-w-7xl mx-auto px-4 sm:px-6"
           style={{
@@ -281,63 +281,63 @@ export default function TwoLayerNavbar() {
           <div className="flex items-center justify-between h-14">
             {/* Logo + Org Name (top bar) */}
             <Link to="/" className="flex items-center gap-1.5 sm:gap-2.5 group flex-shrink-0 min-w-0 pr-1">
-              <div className="w-6 h-6 sm:w-8 sm:h-8 flex items-center justify-center group-hover:scale-110 transition-transform duration-200 shrink-0">
+              <div className="w-6 h-6 sm:w-8 sm:h-8 flex items-center justify-center group-hover:scale-105 transition-transform duration-200 shrink-0">
                 <img
                   src="/logo.png"
                   alt="Crossborders Outreach Logo"
                   className="w-full h-full object-contain"
                 />
               </div>
-              <div className="text-white truncate">
-                <div className="font-bold text-[11px] sm:text-sm leading-tight tracking-wide truncate">Cross-borders Outreach</div>
-                <div className="text-[8px] sm:text-[10px] text-blue-200 font-medium tracking-wider uppercase leading-none mt-0.5">International</div>
+              <div className="text-navy-900 truncate">
+                <div className="font-extrabold text-[12px] sm:text-[15px] leading-tight tracking-tight truncate">The Cross Borders</div>
+                <div className="text-[9px] sm:text-[11px] text-slate-500 font-bold tracking-widest uppercase leading-none mt-0.5">Outreach International</div>
               </div>
             </Link>
 
             {/* Utility links + actions (right side) */}
-            <div className="flex items-center gap-0.5 sm:gap-1">
+            <div className="flex items-center gap-2 sm:gap-3">
               {utilityLinks.map((link) => (
                 <Link
                   key={link.href}
                   to={link.href}
-                  className="px-2.5 py-1 text-white/80 hover:text-white text-xs font-medium transition-colors hidden sm:inline-flex items-center"
+                  className="px-2.5 py-1 text-slate-600 hover:text-blue-700 text-xs font-bold uppercase tracking-wider transition-colors hidden sm:inline-flex items-center"
                 >
                   {link.label}
                 </Link>
               ))}
 
-              {/* Divider */}
-              <div className="hidden sm:block w-px h-4 bg-white/20 mx-1" />
-
               <DesktopLanguageSelector />
-
-              {/* Divider */}
-              <div className="hidden md:block w-px h-4 bg-white/20 mx-1" />
 
               <Link
                 to="/login"
-                className="hidden md:flex items-center gap-1.5 px-3 py-1 text-white/80 hover:text-white text-xs font-medium transition-colors"
+                className="hidden md:flex items-center gap-1.5 px-3 py-1 text-slate-600 hover:text-blue-700 text-xs font-bold uppercase tracking-wider transition-colors"
               >
-                <LogIn className="w-3.5 h-3.5" />
+                <LogIn className="w-4 h-4" />
                 <span>Sign In</span>
               </Link>
 
-              {/* Divider */}
-              <div className="hidden md:block w-px h-4 bg-white/20 mx-1" />
+              {/* Partner CTA */}
+              <Link
+                to="/partner"
+                className="hidden md:flex px-4 py-2 bg-sky-600 hover:bg-sky-700 text-white rounded text-sm font-bold transition-colors whitespace-nowrap items-center gap-1.5 border border-sky-700 shadow-sm"
+              >
+                <Handshake className="w-4 h-4" />
+                Partner With Us
+              </Link>
 
               {/* Donate CTA - always visible */}
-                <Link
-                  to="/donate"
-                  className="flex px-3 sm:px-4 py-1.5 bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600 text-white rounded-lg font-bold transition-all duration-200 hover:shadow-lg hover:shadow-orange-500/25 hover:scale-[1.02] active:scale-95 text-xs whitespace-nowrap items-center gap-1.5"
-                >
-                <Heart className="w-3 h-3 hidden sm:block" />
+              <Link
+                to="/donate"
+                className="flex px-4 sm:px-5 py-2 bg-gold-500 hover:bg-gold-600 text-navy-900 rounded text-sm font-bold transition-colors whitespace-nowrap items-center gap-1.5 shadow-sm"
+              >
+                <Heart className="w-4 h-4 hidden sm:block" />
                 Donate
               </Link>
 
               {/* Mobile hamburger */}
               <button
                 onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-                className="lg:hidden p-2 ml-1 text-white hover:bg-white/10 rounded transition-colors duration-200"
+                className="lg:hidden p-2 text-slate-800 hover:bg-slate-100 rounded transition-colors duration-200 border border-slate-200"
                 aria-label={mobileMenuOpen ? "Close menu" : "Open menu"}
                 aria-expanded={mobileMenuOpen}
                 aria-controls="mobile-menu"
@@ -350,7 +350,7 @@ export default function TwoLayerNavbar() {
       </div>
 
       {/* ═══ BOTTOM BAR — White main navigation ═══ */}
-      <div className="hidden lg:block relative z-10 bg-white border-b border-slate-200" style={{ boxShadow: '0 4px 20px rgba(0,0,0,0.04)' }}>
+      <div className="hidden lg:block relative z-10 bg-white border-b-2 border-gold-400">
         <div
           className="max-w-7xl mx-auto px-4 sm:px-6"
           style={{
@@ -377,9 +377,9 @@ export default function TwoLayerNavbar() {
                         onClick={() => setActiveDropdown(activeDropdown === item.label ? null : item.label)}
                         aria-expanded={activeDropdown === item.label}
                         aria-haspopup="true"
-                        className={`flex items-center gap-1 px-4 py-3 text-slate-700 hover:text-blue-600 hover:bg-slate-50 font-semibold transition-all duration-200 text-sm border-b-2 ${
+                        className={`flex items-center gap-1 px-4 py-3 text-slate-800 hover:text-blue-700 hover:bg-slate-50 font-bold transition-all duration-200 text-sm border-b-2 ${
                           activeDropdown === item.label
-                            ? 'bg-slate-50 text-blue-600 border-blue-600'
+                            ? 'bg-slate-50 text-blue-700 border-blue-700'
                             : 'border-transparent'
                         }`}
                       >
@@ -398,28 +398,28 @@ export default function TwoLayerNavbar() {
                             transition={{ duration: 0.15, ease: "easeOut" }}
                             className="absolute top-full left-0 pt-1 z-50"
                           >
-                            <div className="w-[320px] bg-white rounded-2xl shadow-2xl border border-gray-100/80 py-2.5 overflow-hidden" style={{ boxShadow: '0 20px 60px rgba(0,0,0,0.12), 0 4px 20px rgba(0,0,0,0.06)' }}>
+                            <div className="w-[320px] bg-white rounded-lg shadow-xl border border-slate-100 py-2.5 overflow-hidden">
                               {menuGroup.dropdown.map((subItem) => (
                                 <Link
                                   key={subItem.href}
                                   to={subItem.href}
                                   onClick={() => setActiveDropdown(null)}
-                                  className={`flex items-start gap-3.5 px-4 py-3.5 hover:bg-blue-50/60 transition-all duration-150 group relative ${location.pathname === subItem.href ? 'bg-blue-50/80' : ''}`}
+                                  className={`flex items-start gap-3.5 px-4 py-3.5 hover:bg-orange-50 transition-all duration-150 group relative ${location.pathname === subItem.href ? 'bg-orange-50' : ''}`}
                                 >
                                   <div className={`w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0 transition-colors duration-150 ${location.pathname === subItem.href
-                                    ? 'bg-blue-600 text-white'
-                                    : 'bg-blue-100 text-blue-600 group-hover:bg-blue-600 group-hover:text-white'
+                                    ? 'bg-blue-700 text-white'
+                                    : 'bg-orange-100 text-blue-700 group-hover:bg-blue-700 group-hover:text-white'
                                     }`}>
                                     {subItem.icon}
                                   </div>
                                   <div className="flex-1 min-w-0">
-                                    <div className={`font-semibold transition-colors duration-150 ${location.pathname === subItem.href
-                                      ? 'text-blue-600'
-                                      : 'text-gray-900 group-hover:text-blue-600'
+                                    <div className={`font-bold transition-colors duration-150 ${location.pathname === subItem.href
+                                      ? 'text-blue-700'
+                                      : 'text-slate-800 group-hover:text-blue-700'
                                       }`}>
                                       {subItem.label}
                                     </div>
-                                    <div className="text-sm text-gray-500 mt-0.5 truncate">
+                                    <div className="text-sm text-slate-500 mt-0.5 truncate">
                                       {subItem.description}
                                     </div>
                                   </div>
@@ -438,10 +438,10 @@ export default function TwoLayerNavbar() {
                   <Link
                     key={item.label}
                     to={item.href!}
-                    className={`px-4 py-3 text-sm font-semibold transition-all duration-200 border-b-2 ${
+                    className={`px-4 py-3 text-sm font-bold transition-all duration-200 border-b-2 ${
                       location.pathname === item.href
-                        ? 'bg-slate-50 text-blue-600 border-blue-600'
-                        : 'text-slate-700 hover:text-blue-600 hover:bg-slate-50 border-transparent'
+                        ? 'bg-slate-50 text-blue-700 border-blue-700'
+                        : 'text-slate-800 hover:text-blue-700 hover:bg-slate-50 border-transparent'
                     }`}
                   >
                     {item.label}
@@ -462,7 +462,7 @@ export default function TwoLayerNavbar() {
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               onClick={() => setMobileMenuOpen(false)}
-              className="fixed inset-0 bg-black/50 z-40 lg:hidden"
+              className="fixed inset-0 bg-black/60 z-40 lg:hidden"
               aria-hidden="true"
             />
 
@@ -479,15 +479,15 @@ export default function TwoLayerNavbar() {
               className="fixed top-0 right-0 bottom-0 w-full max-w-sm bg-white z-50 shadow-2xl lg:hidden overflow-y-auto"
               style={{ paddingBottom: 'env(safe-area-inset-bottom)' }}
             >
-              <div className="p-4 border-b border-gray-200" style={{ background: 'linear-gradient(135deg, #1e3a8a 0%, #1e40af 40%, #1d4ed8 100%)' }}>
+              <div className="p-4 border-b border-gray-200 bg-offwhite">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-2">
                     <img src="/logo.png" alt="Logo" className="w-8 h-8 object-contain" />
-                    <span className="text-white font-bold text-lg">Menu</span>
+                    <span className="text-navy-900 font-extrabold text-lg">Menu</span>
                   </div>
                   <button
                     onClick={() => setMobileMenuOpen(false)}
-                    className="p-3 text-white hover:bg-white/10 rounded-lg transition-colors"
+                    className="p-3 text-slate-500 hover:bg-slate-100 rounded-lg transition-colors"
                     aria-label="Close menu"
                   >
                     <X className="w-6 h-6" />
@@ -503,8 +503,8 @@ export default function TwoLayerNavbar() {
                       aria-expanded={mobileExpandedItem === item.label}
                       className="w-full flex items-center justify-between py-3 text-left"
                     >
-                      <span className="font-semibold text-gray-900">{item.label}</span>
-                      <span className={`text-gray-400 transition-transform duration-200 text-lg ${mobileExpandedItem === item.label ? 'rotate-45' : ''}`}>+</span>
+                      <span className="font-bold text-slate-800">{item.label}</span>
+                      <span className={`text-slate-400 transition-transform duration-200 text-lg ${mobileExpandedItem === item.label ? 'rotate-45' : ''}`}>+</span>
                     </button>
 
                     <AnimatePresence>
@@ -523,19 +523,19 @@ export default function TwoLayerNavbar() {
                                 to={subItem.href}
                                 onClick={() => setMobileMenuOpen(false)}
                                 className={`flex items-center gap-3 px-3 py-3 rounded-lg transition-colors duration-150 ${location.pathname === subItem.href
-                                  ? 'bg-blue-50'
-                                  : 'hover:bg-gray-50'
+                                  ? 'bg-orange-50'
+                                  : 'hover:bg-slate-50'
                                   }`}
                               >
                                 <div className={`w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0 ${location.pathname === subItem.href
-                                  ? 'bg-blue-600 text-white'
-                                  : 'bg-blue-100 text-blue-600'
+                                  ? 'bg-blue-700 text-white'
+                                  : 'bg-orange-100 text-blue-700'
                                   }`}>
                                   {subItem.icon}
                                 </div>
                                 <div>
-                                  <div className={`font-medium ${location.pathname === subItem.href ? 'text-blue-600' : 'text-gray-900'}`}>{subItem.label}</div>
-                                  <div className="text-sm text-gray-500">{subItem.description}</div>
+                                  <div className={`font-bold ${location.pathname === subItem.href ? 'text-blue-700' : 'text-slate-800'}`}>{subItem.label}</div>
+                                  <div className="text-sm text-slate-500">{subItem.description}</div>
                                 </div>
                               </Link>
                             ))}
@@ -549,7 +549,7 @@ export default function TwoLayerNavbar() {
                 <Link
                   to="/events"
                   onClick={() => setMobileMenuOpen(false)}
-                  className={`block py-3 font-semibold border-b border-gray-100 ${location.pathname === '/events' ? 'text-blue-600' : 'text-gray-900'}`}
+                  className={`block py-3 font-bold border-b border-gray-100 ${location.pathname === '/events' ? 'text-blue-700' : 'text-slate-800'}`}
                 >
                   Events
                 </Link>
@@ -557,7 +557,7 @@ export default function TwoLayerNavbar() {
                 <Link
                   to="/blog"
                   onClick={() => setMobileMenuOpen(false)}
-                  className={`block py-3 font-semibold border-b border-gray-100 ${location.pathname === '/blog' ? 'text-blue-600' : 'text-gray-900'}`}
+                  className={`block py-3 font-bold border-b border-gray-100 ${location.pathname === '/blog' ? 'text-blue-700' : 'text-slate-800'}`}
                 >
                   Blog
                 </Link>
@@ -565,7 +565,7 @@ export default function TwoLayerNavbar() {
                 <Link
                   to="/company-news"
                   onClick={() => setMobileMenuOpen(false)}
-                  className={`block py-3 font-semibold border-b border-gray-100 ${location.pathname === '/company-news' ? 'text-blue-600' : 'text-gray-900'}`}
+                  className={`block py-3 font-bold border-b border-gray-100 ${location.pathname === '/company-news' ? 'text-blue-700' : 'text-slate-800'}`}
                 >
                   Company News
                 </Link>
@@ -573,7 +573,7 @@ export default function TwoLayerNavbar() {
                 <Link
                   to="/gallery"
                   onClick={() => setMobileMenuOpen(false)}
-                  className={`block py-3 font-semibold border-b border-gray-100 ${location.pathname === '/gallery' ? 'text-blue-600' : 'text-gray-900'}`}
+                  className={`block py-3 font-bold border-b border-gray-100 ${location.pathname === '/gallery' ? 'text-blue-700' : 'text-slate-800'}`}
                 >
                   Gallery
                 </Link>
@@ -581,7 +581,7 @@ export default function TwoLayerNavbar() {
                 <Link
                   to="/reports"
                   onClick={() => setMobileMenuOpen(false)}
-                  className={`block py-3 font-semibold border-b border-gray-100 ${location.pathname === '/reports' ? 'text-blue-600' : 'text-gray-900'}`}
+                  className={`block py-3 font-bold border-b border-gray-100 ${location.pathname === '/reports' ? 'text-blue-700' : 'text-slate-800'}`}
                 >
                   Reports
                 </Link>
@@ -589,7 +589,7 @@ export default function TwoLayerNavbar() {
                 <Link
                   to="/contact"
                   onClick={() => setMobileMenuOpen(false)}
-                  className={`block py-3 font-semibold border-b border-gray-100 ${location.pathname === '/contact' ? 'text-blue-600' : 'text-gray-900'}`}
+                  className={`block py-3 font-bold border-b border-gray-100 ${location.pathname === '/contact' ? 'text-blue-700' : 'text-slate-800'}`}
                 >
                   Contact
                 </Link>
@@ -599,17 +599,25 @@ export default function TwoLayerNavbar() {
                 <Link
                   to="/login"
                   onClick={() => setMobileMenuOpen(false)}
-                  className="flex items-center gap-3 py-3 font-semibold text-gray-900 border-b border-gray-100"
+                  className="flex items-center gap-3 py-3 font-bold text-slate-800 border-b border-gray-100"
                 >
-                  <LogIn className="w-5 h-5 text-blue-600" />
+                  <LogIn className="w-5 h-5 text-blue-700" />
                   Login
                 </Link>
 
-                <div className="pt-3">
+                <div className="pt-3 flex flex-col gap-2">
+                  <Link
+                    to="/partner"
+                    onClick={() => setMobileMenuOpen(false)}
+                    className="flex items-center justify-center gap-2 w-full px-4 py-3 bg-sky-600 hover:bg-sky-700 text-white rounded-lg font-bold"
+                  >
+                    <Handshake className="w-5 h-5" />
+                    Partner With Us
+                  </Link>
                   <Link
                     to="/donate"
                     onClick={() => setMobileMenuOpen(false)}
-                    className="flex items-center justify-center gap-2 w-full px-4 py-3.5 bg-gradient-to-r from-orange-500 to-red-500 text-white rounded-xl font-bold shadow-lg text-base"
+                    className="flex items-center justify-center gap-2 w-full px-4 py-3 bg-gold-500 hover:bg-gold-600 text-navy-900 rounded-lg font-bold"
                   >
                     <Heart className="w-5 h-5" />
                     Donate Now

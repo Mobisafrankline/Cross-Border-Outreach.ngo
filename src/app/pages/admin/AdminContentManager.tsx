@@ -52,7 +52,7 @@ export default function AdminContentManager() {
 
   const getTypeIcon = (type: string) => {
     switch (type) {
-      case "news": return <Newspaper className="w-4 h-4 text-emerald-600" />;
+      case "news": return <Newspaper className="w-4 h-4 text-sky-600" />;
       case "blog": return <BookOpen className="w-4 h-4 text-orange-600" />;
       case "events": return <Calendar className="w-4 h-4 text-blue-600" />;
       case "story": return <Award className="w-4 h-4 text-pink-600" />;
@@ -135,7 +135,7 @@ export default function AdminContentManager() {
                         </td>
                         <td className="px-6 py-4">
                           <span className={`px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider ${
-                            item.status === 'published' ? 'bg-emerald-100 text-emerald-700' : 'bg-amber-100 text-amber-700'
+                            item.status === 'published' ? 'bg-sky-100 text-sky-700' : 'bg-amber-100 text-amber-700'
                           }`}>
                             {item.status}
                           </span>

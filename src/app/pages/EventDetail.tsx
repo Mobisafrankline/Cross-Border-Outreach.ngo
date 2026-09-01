@@ -195,12 +195,12 @@ export default function EventDetail() {
                   {event.category}
                 </span>
                 {isUpcoming ? (
-                  <span className="px-4 py-1.5 bg-emerald-500 text-white rounded-full text-xs font-black uppercase tracking-widest shadow-xl flex items-center gap-2">
+                  <span className="px-4 py-1.5 bg-sky-500 text-white rounded-full text-xs font-black uppercase tracking-widest shadow-xl flex items-center gap-2">
                     <span className="w-2 h-2 bg-white rounded-full animate-pulse" /> Upcoming Event
                   </span>
                 ) : (
                   <span className="px-4 py-1.5 bg-slate-700 text-white rounded-full text-xs font-black uppercase tracking-widest shadow-xl flex items-center gap-2 border border-white/20">
-                    <CheckCircle className="w-3.5 h-3.5 text-emerald-400" /> Past Event
+                    <CheckCircle className="w-3.5 h-3.5 text-sky-400" /> Past Event
                   </span>
                 )}
               </div>
@@ -254,7 +254,7 @@ export default function EventDetail() {
                     <p className="text-slate-500 text-sm italic">Direct community reach through this specific program.</p>
                   </div>
                   <div className="bg-slate-50 rounded-3xl p-8 border border-slate-100">
-                    <div className="text-4xl font-black text-emerald-600 mb-2">100%</div>
+                    <div className="text-4xl font-black text-sky-600 mb-2">100%</div>
                     <div className="text-lg font-bold text-slate-900 mb-2">Goal Reached</div>
                     <p className="text-slate-500 text-sm italic">Successfully delivered all planned resources and services.</p>
                   </div>

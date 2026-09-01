@@ -7,7 +7,7 @@ export default function HelpingFamilies() {
   const impacts = [
     { number: "350+", label: "Families Assisted", icon: <Home className="w-6 h-6 text-rose-500" /> },
     { number: "1,200+", label: "Children Supported", icon: <Baby className="w-6 h-6 text-blue-500" /> },
-    { number: "100%", label: "Needs Assessed", icon: <ShieldCheck className="w-6 h-6 text-emerald-500" /> },
+    { number: "100%", label: "Needs Assessed", icon: <ShieldCheck className="w-6 h-6 text-sky-500" /> },
     { number: "24/7", label: "Emergency Support", icon: <Heart className="w-6 h-6 text-purple-500" /> }
   ];
 

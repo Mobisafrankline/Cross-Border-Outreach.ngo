@@ -115,7 +115,7 @@ export default function AdminReports() {
 
   const getCategoryColor = (cat: string) => {
     const colors: Record<string, string> = {
-      event: "bg-emerald-100 text-emerald-700",
+      event: "bg-sky-100 text-sky-700",
       quarterly: "bg-violet-100 text-violet-700",
       monthly: "bg-amber-100 text-amber-700",
       yearly: "bg-cyan-100 text-cyan-700",

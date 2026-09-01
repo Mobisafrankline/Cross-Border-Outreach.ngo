@@ -124,7 +124,7 @@ export default function AdminJobs() {
                         <button 
                           onClick={() => toggleActive(job)}
                           className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold ${
-                            job.is_active ? 'bg-emerald-100 text-emerald-700' : 'bg-slate-100 text-slate-600'
+                            job.is_active ? 'bg-sky-100 text-sky-700' : 'bg-slate-100 text-slate-600'
                           }`}
                         >
                           {job.is_active ? <CheckCircle2 className="w-3.5 h-3.5" /> : <XCircle className="w-3.5 h-3.5" />}

@@ -39,7 +39,7 @@ export default function Fundraise() {
       icon: Users,
       title: "Workplace Goal",
       description: "Mobilize your colleagues and compete for the highest team contribution.",
-      color: "bg-emerald-50 text-emerald-600"
+      color: "bg-sky-50 text-sky-600"
     }
   ];
 

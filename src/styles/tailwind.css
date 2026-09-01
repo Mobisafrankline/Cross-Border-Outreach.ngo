@@ -1,6 +1,20 @@
 @import 'tailwindcss' source(none);
 @source '../**/*.{js,ts,jsx,tsx}';
 
+@theme {
+  --color-gold-400: #FFD13B;
+  --color-gold-500: #F5B800;
+  --color-gold-600: #D6A100;
+  --color-navy-800: #053D61;
+  --color-navy-900: #032B45;
+  --color-offwhite: #F9F9FB;
+  
+  --font-plus-jakarta: 'Plus Jakarta Sans', sans-serif;
+  --font-outfit: 'Outfit', sans-serif;
+  --font-inter: 'Inter', sans-serif;
+  --font-playfair: 'Playfair Display', serif;
+}
+
 @import 'tw-animate-css';
 
 @layer utilities {

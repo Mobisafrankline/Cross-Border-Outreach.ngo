@@ -10,7 +10,7 @@ type ReportCategory = "all" | "event" | "quarterly" | "monthly" | "yearly" | "fi
 
 const CATEGORY_CONFIG: Record<string, { label: string; icon: any; color: string; bg: string }> = {
   all: { label: "All Reports", icon: FileText, color: "text-blue-600", bg: "bg-blue-50" },
-  event: { label: "Event Reports", icon: Calendar, color: "text-emerald-600", bg: "bg-emerald-50" },
+  event: { label: "Event Reports", icon: Calendar, color: "text-sky-600", bg: "bg-sky-50" },
   quarterly: { label: "Quarterly", icon: ClipboardList, color: "text-violet-600", bg: "bg-violet-50" },
   monthly: { label: "Monthly", icon: Clock, color: "text-amber-600", bg: "bg-amber-50" },
   yearly: { label: "Yearly", icon: BarChart3, color: "text-cyan-600", bg: "bg-cyan-50" },
@@ -89,7 +89,7 @@ export default function Reports() {
 
   const getCategoryBadgeColor = (cat: string) => {
     const colors: Record<string, string> = {
-      event: "bg-emerald-100 text-emerald-700",
+      event: "bg-sky-100 text-sky-700",
       quarterly: "bg-violet-100 text-violet-700",
       monthly: "bg-amber-100 text-amber-700",
       yearly: "bg-cyan-100 text-cyan-700",
@@ -100,7 +100,7 @@ export default function Reports() {
 
   const getCategoryIconBg = (cat: string) => {
     const colors: Record<string, string> = {
-      event: "bg-emerald-600",
+      event: "bg-sky-600",
       quarterly: "bg-violet-600",
       monthly: "bg-amber-600",
       yearly: "bg-cyan-600",
@@ -318,10 +318,10 @@ export default function Reports() {
               transition={{ delay: 0.1 }}
               className="bg-white rounded-3xl p-10 text-center border border-gray-100 shadow-xl hover:shadow-2xl transition-all"
             >
-              <div className="w-16 h-16 bg-emerald-50 text-emerald-600 rounded-3xl flex items-center justify-center mx-auto mb-6">
+              <div className="w-16 h-16 bg-sky-50 text-sky-600 rounded-3xl flex items-center justify-center mx-auto mb-6">
                 <Users className="w-8 h-8" />
               </div>
-              <div className="text-5xl font-black text-emerald-600 mb-3">10%</div>
+              <div className="text-5xl font-black text-sky-600 mb-3">10%</div>
               <div className="text-lg font-bold text-gray-900 mb-2">Fundraising</div>
               <p className="text-sm text-gray-400">Donor engagement, campaigns, and partnership development</p>
             </motion.div>

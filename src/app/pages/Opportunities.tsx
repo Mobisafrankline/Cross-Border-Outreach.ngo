@@ -203,7 +203,7 @@ export default function Opportunities() {
             <div className="lg:col-span-7">
               <div className="bg-white rounded-3xl shadow-2xl p-8 md:p-12 relative">
                 {submitStatus === 'success' && (
-                  <div className="absolute top-0 left-0 w-full p-4 bg-emerald-500 text-white text-center font-bold rounded-t-[2.5rem]">
+                  <div className="absolute top-0 left-0 w-full p-4 bg-sky-500 text-white text-center font-bold rounded-t-[2.5rem]">
                     Application submitted successfully! We'll be in touch soon.
                   </div>
                 )}

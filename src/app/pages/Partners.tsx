@@ -29,8 +29,8 @@ const partnershipTiers = [
   {
     tier: "Community",
     icon: Users,
-    color: "from-emerald-500 to-teal-600",
-    shadowColor: "shadow-emerald-600/20",
+    color: "from-sky-500 to-teal-600",
+    shadowColor: "shadow-sky-600/20",
     benefits: [
       "Joint community events",
       "Shared volunteer network",
@@ -163,7 +163,7 @@ export default function Partners() {
                 </p>
 
                 <div className="pt-5 border-t border-gray-50 flex items-center justify-between">
-                  <div className="flex items-center gap-2 text-sm font-bold text-emerald-600">
+                  <div className="flex items-center gap-2 text-sm font-bold text-sky-600">
                     <ShieldCheck className="w-4 h-4" />
                     {partner.impact}
                   </div>
@@ -251,8 +251,8 @@ export default function Partners() {
                   <ul className="space-y-3 mb-8 flex-1">
                     {tier.benefits.map((b, i) => (
                       <li key={i} className="flex items-start gap-3">
-                        <div className="w-5 h-5 bg-emerald-50 rounded-full flex items-center justify-center shrink-0 mt-0.5">
-                          <svg className="w-3 h-3 text-emerald-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
+                        <div className="w-5 h-5 bg-sky-50 rounded-full flex items-center justify-center shrink-0 mt-0.5">
+                          <svg className="w-3 h-3 text-sky-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
                             <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
                           </svg>
                         </div>

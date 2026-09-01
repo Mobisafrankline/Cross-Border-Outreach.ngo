@@ -7,7 +7,7 @@ import { publications } from "../../data/content";
 const categoryColors: Record<string, { bg: string; text: string; accent: string }> = {
   "Research Paper": { bg: "bg-violet-50", text: "text-violet-700", accent: "bg-violet-600" },
   "White Paper": { bg: "bg-blue-50", text: "text-blue-700", accent: "bg-blue-600" },
-  "Case Study": { bg: "bg-emerald-50", text: "text-emerald-700", accent: "bg-emerald-600" },
+  "Case Study": { bg: "bg-sky-50", text: "text-sky-700", accent: "bg-sky-600" },
   "Report": { bg: "bg-amber-50", text: "text-amber-700", accent: "bg-amber-600" },
   "Guide": { bg: "bg-rose-50", text: "text-rose-700", accent: "bg-rose-600" },
   "Toolkit": { bg: "bg-cyan-50", text: "text-cyan-700", accent: "bg-cyan-600" },

@@ -240,7 +240,7 @@ export default function AdminDashboard() {
                 <div className={`w-11 h-11 rounded-xl bg-gradient-to-br ${s.gradient} flex items-center justify-center shadow-md flex-shrink-0`}>
                   <s.icon className="w-5 h-5 text-white"/>
                 </div>
-                <TrendingUp className="w-4 h-4 text-emerald-400"/>
+                <TrendingUp className="w-4 h-4 text-sky-400"/>
               </div>
               <div className="text-2xl sm:text-3xl font-black text-slate-900 mb-1">
                 <CountUp to={s.value} prefix={s.prefix} duration={1200 + i*150}/>
@@ -309,7 +309,7 @@ export default function AdminDashboard() {
                     <p className="text-xs text-slate-400 mt-0.5">{new Date(item.time).toLocaleDateString()}</p>
                   </div>
                   {item.amount && (
-                    <span className="text-sm font-bold text-emerald-600 flex-shrink-0">${item.amount.toLocaleString()}</span>
+                    <span className="text-sm font-bold text-sky-600 flex-shrink-0">${item.amount.toLocaleString()}</span>
                   )}
                   {!item.amount && (
                     <span className="text-xs px-2 py-0.5 rounded-full font-semibold flex-shrink-0"

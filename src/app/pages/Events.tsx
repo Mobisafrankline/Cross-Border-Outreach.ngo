@@ -195,7 +195,7 @@ export default function Events() {
 
                             {/* New badge for Supabase events */}
                             {event.source === "supabase" && (
-                              <div className="absolute top-6 right-16 px-3 py-1 bg-emerald-500 text-white text-[9px] font-black uppercase tracking-widest rounded-xl shadow-lg">
+                              <div className="absolute top-6 right-16 px-3 py-1 bg-sky-500 text-white text-[9px] font-black uppercase tracking-widest rounded-xl shadow-lg">
                                 New
                               </div>
                             )}
@@ -268,7 +268,7 @@ export default function Events() {
                   </div>
                   {/* Pagination Controls */}
                   {totalPages > 1 && (
-                    <div className="flex items-center justify-between border-t border-slate-200 py-10 mt-16" style={sans}>
+                    <div className="flex items-center justify-between border-t border-slate-200 py-10 mt-16">
                       <button
                         disabled={currentPage === 1}
                         onClick={() => setCurrentPage(p => Math.max(1, p - 1))}

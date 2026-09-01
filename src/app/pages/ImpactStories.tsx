@@ -259,13 +259,13 @@ export default function ImpactStories() {
 
               {/* Impact highlight */}
               {selectedStory.impact && selectedStory.impact !== selectedStory.quote && (
-                <div className="flex gap-5 bg-emerald-50 border border-emerald-100 p-6 rounded-3xl mb-10">
-                  <div className="w-12 h-12 bg-emerald-500 rounded-xl flex items-center justify-center text-white flex-shrink-0">
+                <div className="flex gap-5 bg-sky-50 border border-sky-100 p-6 rounded-3xl mb-10">
+                  <div className="w-12 h-12 bg-sky-500 rounded-xl flex items-center justify-center text-white flex-shrink-0">
                     <Award className="w-6 h-6" />
                   </div>
                   <div>
-                    <div className="text-[10px] font-black text-emerald-600 uppercase tracking-widest mb-1">Core Impact</div>
-                    <p className="text-base text-emerald-800 font-semibold leading-relaxed font-source-serif">{selectedStory.impact}</p>
+                    <div className="text-[10px] font-black text-sky-600 uppercase tracking-widest mb-1">Core Impact</div>
+                    <p className="text-base text-sky-800 font-semibold leading-relaxed font-source-serif">{selectedStory.impact}</p>
                   </div>
                 </div>
               )}

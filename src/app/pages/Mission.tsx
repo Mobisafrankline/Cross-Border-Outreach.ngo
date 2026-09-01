@@ -32,9 +32,9 @@ export default function Mission() {
     { 
       title: "Sustainability", 
       icon: Globe,
-      color: "text-emerald-500",
-      bg: "bg-emerald-50",
-      border: "border-emerald-100",
+      color: "text-sky-500",
+      bg: "bg-sky-50",
+      border: "border-sky-100",
       description: "We create long-term solutions that empower communities to thrive independently long after we leave." 
     },
     { 

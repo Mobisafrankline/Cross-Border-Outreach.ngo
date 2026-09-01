@@ -29,17 +29,15 @@ export default function NewsletterSignup() {
     }
     setIsLoading(true);
     try {
-      const { error } = await supabase
-        .from('newsletter_subscribers')
-        .insert([{ email: data.email }]);
+      const { data: responseData, error } = await supabase.functions.invoke('mailchimp-subscribe', {
+        body: { email: data.email },
+      });
 
       if (error) {
-        if (error.code === '23505') { // Unique constraint violation (already subscribed)
-          toast.error('This email is already subscribed!');
-        } else {
-          toast.error('Failed to subscribe. Please try again later.');
-          console.error('Subscription error:', error);
-        }
+        toast.error('Failed to subscribe. Please try again later.');
+        console.error('Function error:', error);
+      } else if (responseData?.error) {
+        toast.error(responseData.error);
       } else {
         toast.success('Successfully subscribed to our newsletter!');
         reset();
@@ -53,14 +51,14 @@ export default function NewsletterSignup() {
   };
 
   return (
-    <div className="bg-slate-800/50 backdrop-blur-sm border border-white/10 rounded-2xl p-6 lg:p-8 mt-8">
+    <div className="bg-white/5 border border-white/10 rounded p-6 lg:p-8 mt-8">
       <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-6">
         <div className="max-w-xl">
           <h3 className="text-xl md:text-2xl font-bold text-white flex items-center gap-2 mb-2">
-            <Mail className="w-6 h-6 text-blue-400" />
+            <Mail className="w-6 h-6 text-gold-400" />
             Stay Updated
           </h3>
-          <p className="text-slate-400 text-sm md:text-base leading-relaxed">
+          <p className="text-slate-300 text-sm md:text-base leading-relaxed font-medium">
             Join our newsletter to receive the latest updates on our impact stories, upcoming events, and opportunities to make a difference.
           </p>
         </div>
@@ -83,7 +81,7 @@ export default function NewsletterSignup() {
               <input
                 type="email"
                 placeholder="Enter your email address"
-                className={`w-full bg-slate-900/50 border ${errors.email ? 'border-red-500' : 'border-slate-700'} text-white placeholder-slate-500 rounded-xl py-3.5 pl-4 pr-32 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all`}
+                className={`w-full bg-navy-900 border ${errors.email ? 'border-red-500' : 'border-white/20'} text-white placeholder-slate-400 rounded py-3.5 pl-4 pr-32 focus:outline-none focus:ring-2 focus:ring-blue-600 transition-all font-medium`}
                 {...register('email', { 
                   required: 'Email is required',
                   pattern: {
@@ -95,7 +93,7 @@ export default function NewsletterSignup() {
               <button
                 type="submit"
                 disabled={isLoading}
-                className="absolute right-1.5 top-1.5 bottom-1.5 bg-blue-600 hover:bg-blue-500 text-white font-medium px-4 rounded-lg flex items-center gap-2 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                className="absolute right-1.5 top-1.5 bottom-1.5 bg-blue-600 hover:bg-blue-700 text-white font-bold px-4 rounded flex items-center gap-2 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                 aria-label="Subscribe to newsletter"
               >
                 {isLoading ? <Loader2 className="w-4 h-4 animate-spin" /> : (
@@ -107,7 +105,7 @@ export default function NewsletterSignup() {
               </button>
             </div>
             {errors.email && (
-              <p className="text-red-400 text-xs px-2">{errors.email.message}</p>
+              <p className="text-red-400 text-xs px-2 font-bold">{errors.email.message}</p>
             )}
           </form>
         </div>

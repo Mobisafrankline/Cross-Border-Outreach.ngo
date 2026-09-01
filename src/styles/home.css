@@ -359,12 +359,6 @@
   height: 480px;
   width: 100%;
 }
-@media(max-width: 768px) {
-  .home-accordion-gallery {
-    flex-direction: column;
-    height: 800px;
-  }
-}
 .home-accordion-item {
   position: relative;
   flex: 1;
@@ -375,6 +369,26 @@
 }
 .home-accordion-item:hover {
   flex: 4;
+}
+
+@media(max-width: 768px) {
+  .home-accordion-gallery {
+    flex-direction: row;
+    height: 320px;
+    overflow-x: auto;
+    overflow-y: hidden;
+    scroll-snap-type: x mandatory;
+    padding-bottom: 8px;
+    -webkit-overflow-scrolling: touch;
+    gap: 8px;
+  }
+  .home-accordion-item {
+    flex: 0 0 85%;
+    scroll-snap-align: center;
+  }
+  .home-accordion-item:hover {
+    flex: 0 0 85%;
+  }
 }
 .home-accordion-overlay {
   position: absolute;

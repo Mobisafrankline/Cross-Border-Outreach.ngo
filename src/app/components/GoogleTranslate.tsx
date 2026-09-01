@@ -75,13 +75,13 @@ export function DesktopLanguageSelector() {
     <div ref={ref} className="hidden md:block relative">
       <button
         onClick={() => setOpen(!open)}
-        className="flex items-center gap-1.5 px-3 py-2 bg-white/10 hover:bg-white/20 text-white rounded-lg transition-all duration-200 text-sm"
+        className="flex items-center gap-1.5 px-2.5 py-1 hover:bg-slate-100 text-slate-600 hover:text-blue-700 rounded transition-all duration-200 text-xs font-bold uppercase tracking-wider"
       >
         <Globe className="w-4 h-4" />
-        <span className="font-semibold hidden lg:inline">
-          {active.flag} {active.code.toUpperCase()}
+        <span className="hidden lg:inline">
+          {active.flag} {active.code}
         </span>
-        <span className="font-semibold lg:hidden">{active.flag}</span>
+        <span className="lg:hidden">{active.flag}</span>
       </button>
 
       <AnimatePresence>
