@@ -161,7 +161,7 @@ export default function ImpactStories() {
   if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-[#f8f9fa]">
-        <Loader2 className="w-12 h-12 text-blue-600 animate-spin" />
+        <Loader2 className="w-12 h-12 text-[#F5B800] animate-spin" />
       </div>
     );
   }
@@ -184,7 +184,7 @@ export default function ImpactStories() {
               <div className="max-w-[800px] mx-auto px-4 md:px-6 py-4">
                 <button
                   onClick={() => setSelectedStory(null)}
-                  className="inline-flex items-center gap-2 text-slate-400 hover:text-blue-700 font-semibold transition-colors text-sm"
+                  className="inline-flex items-center gap-2 text-slate-400 hover:text-[#032B45] font-semibold transition-colors text-sm"
                 >
                   <ArrowRight className="w-4 h-4 rotate-180" />
                   Back to Impact Stories
@@ -207,7 +207,7 @@ export default function ImpactStories() {
               </div>
 
               {/* Headline */}
-              <h1 className="text-4xl md:text-5xl lg:text-6xl text-slate-900 leading-[1.1] tracking-tight mb-8 font-black font-playfair drop-shadow-sm">
+              <h1 className="text-4xl md:text-5xl lg:text-6xl text-navy-900 leading-[1.1] tracking-tight mb-8 font-black font-playfair drop-shadow-sm">
                 {selectedStory.title}
               </h1>
 
@@ -221,11 +221,11 @@ export default function ImpactStories() {
               {/* Author byline */}
               <div className="flex items-center justify-between py-5 border-y border-slate-200 mb-10">
                 <div className="flex items-center gap-3">
-                  <div className="w-11 h-11 rounded-full bg-blue-700 flex items-center justify-center text-white text-base font-bold">
+                  <div className="w-11 h-11 rounded-full bg-[#032B45] flex items-center justify-center text-white text-base font-bold">
                     {selectedStory.author ? selectedStory.author.charAt(0).toUpperCase() : "C"}
                   </div>
                   <div>
-                    <div className="font-bold text-slate-900 text-sm">{selectedStory.author || "Cross-Borders Outreach"}</div>
+                    <div className="font-bold text-navy-900 text-sm">{selectedStory.author || "Cross-Borders Outreach"}</div>
                     <div className="text-[11px] text-slate-400 uppercase tracking-widest font-medium">
                       Impact Stories · Cross-Borders Outreach
                     </div>
@@ -234,12 +234,12 @@ export default function ImpactStories() {
                 <div className="flex items-center gap-2">
                   {selectedStory.location && (
                     <span className="flex items-center gap-1.5 text-xs text-slate-500 font-semibold">
-                      <MapPin className="w-3.5 h-3.5 text-blue-600" /> {selectedStory.location}
+                      <MapPin className="w-3.5 h-3.5 text-[#F5B800]" /> {selectedStory.location}
                     </span>
                   )}
                   <button
                     onClick={() => { navigator.clipboard.writeText(window.location.href); alert("Link copied!"); }}
-                    className="w-9 h-9 rounded-full border border-slate-200 hover:border-blue-400 flex items-center justify-center transition-colors text-slate-400 hover:text-blue-600"
+                    className="w-9 h-9 rounded-full border border-slate-200 hover:border-blue-400 flex items-center justify-center transition-colors text-slate-400 hover:text-[#F5B800]"
                   >
                     <Share2 className="w-4 h-4" />
                   </button>
@@ -259,20 +259,20 @@ export default function ImpactStories() {
 
               {/* Impact highlight */}
               {selectedStory.impact && selectedStory.impact !== selectedStory.quote && (
-                <div className="flex gap-5 bg-sky-50 border border-sky-100 p-6 rounded-3xl mb-10">
-                  <div className="w-12 h-12 bg-sky-500 rounded-xl flex items-center justify-center text-white flex-shrink-0">
+                <div className="flex gap-5 bg-gold-50/50 border border-[#F5B800]/20 p-6 rounded-3xl mb-10 shadow-sm">
+                  <div className="w-12 h-12 bg-gradient-to-br from-[#F5B800] to-[#FFD13B] rounded-xl flex items-center justify-center text-navy-900 shadow-lg shadow-[#F5B800]/20 flex-shrink-0">
                     <Award className="w-6 h-6" />
                   </div>
                   <div>
-                    <div className="text-[10px] font-black text-sky-600 uppercase tracking-widest mb-1">Core Impact</div>
-                    <p className="text-base text-sky-800 font-semibold leading-relaxed font-source-serif">{selectedStory.impact}</p>
+                    <div className="text-[10px] font-black text-[#F5B800] uppercase tracking-widest mb-1">Core Impact</div>
+                    <p className="text-base text-navy-900 font-bold leading-relaxed font-source-serif">{selectedStory.impact}</p>
                   </div>
                 </div>
               )}
 
               {/* Main Story Body */}
               <div
-                className="prose prose-lg md:prose-xl max-w-none text-slate-700 leading-loose prose-headings:font-black prose-headings:font-playfair prose-headings:text-slate-900 prose-a:text-blue-600 hover:prose-a:underline prose-img:rounded-3xl prose-img:shadow-md prose-p:mb-8 prose-blockquote:border-blue-600 prose-blockquote:bg-blue-50 prose-blockquote:p-6 prose-blockquote:rounded-r-3xl font-source-serif"
+                className="prose prose-lg md:prose-xl max-w-none text-slate-700 leading-loose prose-headings:font-black prose-headings:font-playfair prose-headings:text-navy-900 prose-a:text-[#F5B800] hover:prose-a:underline prose-img:rounded-3xl prose-img:shadow-md prose-p:mb-8 prose-blockquote:border-[#F5B800] prose-blockquote:bg-sky-50 prose-blockquote:p-6 prose-blockquote:rounded-r-3xl font-source-serif"
                 dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(selectedStory.story) }}
               />
 
@@ -281,14 +281,14 @@ export default function ImpactStories() {
                 <button
                   onClick={handlePrevious}
                   disabled={currentIndex <= 0}
-                  className="flex items-center gap-2 text-slate-500 hover:text-blue-600 font-bold uppercase tracking-widest text-sm disabled:opacity-30 disabled:cursor-not-allowed transition-colors group"
+                  className="flex items-center gap-2 text-slate-500 hover:text-[#F5B800] font-bold uppercase tracking-widest text-sm disabled:opacity-30 disabled:cursor-not-allowed transition-colors group"
                 >
                   <ArrowRight className="w-5 h-5 rotate-180 group-hover:-translate-x-1 transition-transform" /> Previous Story
                 </button>
                 <button
                   onClick={handleNext}
                   disabled={currentIndex >= allStories.length - 1}
-                  className="flex items-center gap-2 text-slate-500 hover:text-blue-600 font-bold uppercase tracking-widest text-sm disabled:opacity-30 disabled:cursor-not-allowed transition-colors group"
+                  className="flex items-center gap-2 text-slate-500 hover:text-[#F5B800] font-bold uppercase tracking-widest text-sm disabled:opacity-30 disabled:cursor-not-allowed transition-colors group"
                 >
                   Next Story <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
                 </button>
@@ -299,14 +299,14 @@ export default function ImpactStories() {
                 <Link
                   to="/donate"
                   onClick={() => setSelectedStory(null)}
-                  className="flex-1 sm:flex-none inline-flex items-center justify-center gap-3 px-10 py-5 bg-blue-600 hover:bg-blue-700 text-white rounded-3xl font-black text-sm uppercase tracking-widest transition-all shadow-xl shadow-blue-600/30"
+                  className="flex-1 sm:flex-none inline-flex items-center justify-center gap-3 px-10 py-5 bg-[#F5B800] hover:bg-[#032B45] text-white rounded-3xl font-black text-sm uppercase tracking-widest transition-all shadow-xl shadow-[#F5B800]/30"
                 >
                   <Heart className="w-5 h-5 fill-white" /> Support This Cause
                 </Link>
                 <Link
                   to="/opportunities"
                   onClick={() => setSelectedStory(null)}
-                  className="flex-1 sm:flex-none inline-flex items-center justify-center gap-3 px-10 py-5 bg-slate-100 hover:bg-slate-200 text-slate-800 rounded-3xl font-black text-sm uppercase tracking-widest transition-all"
+                  className="flex-1 sm:flex-none inline-flex items-center justify-center gap-3 px-10 py-5 bg-slate-100 hover:bg-slate-200 text-navy-800 rounded-3xl font-black text-sm uppercase tracking-widest transition-all"
                 >
                   Volunteer With Us
                 </Link>

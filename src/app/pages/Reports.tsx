@@ -9,7 +9,7 @@ import { Link } from "react-router";
 type ReportCategory = "all" | "event" | "quarterly" | "monthly" | "yearly" | "financial";
 
 const CATEGORY_CONFIG: Record<string, { label: string; icon: any; color: string; bg: string }> = {
-  all: { label: "All Reports", icon: FileText, color: "text-blue-600", bg: "bg-blue-50" },
+  all: { label: "All Reports", icon: FileText, color: "text-[#F5B800]", bg: "bg-sky-50" },
   event: { label: "Event Reports", icon: Calendar, color: "text-sky-600", bg: "bg-sky-50" },
   quarterly: { label: "Quarterly", icon: ClipboardList, color: "text-violet-600", bg: "bg-violet-50" },
   monthly: { label: "Monthly", icon: Clock, color: "text-amber-600", bg: "bg-amber-50" },
@@ -106,7 +106,7 @@ export default function Reports() {
       yearly: "bg-cyan-600",
       financial: "bg-rose-600",
     };
-    return colors[cat] || "bg-blue-600";
+    return colors[cat] || "bg-[#F5B800]";
   };
 
   return (
@@ -120,7 +120,7 @@ export default function Reports() {
             alt="Reports"
             className="w-full h-full object-cover"
           />
-          <div className="absolute inset-0 bg-gradient-to-b from-blue-900/40 via-blue-900/80 to-blue-900" />
+          <div className="absolute inset-0 bg-gradient-to-b from-navy-900 via-[#0a2540] to-sky-900" />
         </div>
 
         <div className="relative z-10 max-w-5xl mx-auto px-6 text-center text-white">
@@ -129,7 +129,7 @@ export default function Reports() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
           >
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-500/20 backdrop-blur-md border border-blue-400/30 text-blue-200 text-xs font-bold uppercase tracking-widest mb-6">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-sky-500/20 backdrop-blur-md border border-blue-400/30 text-blue-200 text-xs font-bold uppercase tracking-widest mb-6">
               <Shield className="w-3.5 h-3.5" /> Accountability
             </div>
             <h1 className="text-4xl md:text-7xl font-black mb-6 tracking-tight drop-shadow-2xl font-playfair">
@@ -148,10 +148,10 @@ export default function Reports() {
 
           {/* Section Header */}
           <div className="max-w-2xl mb-16">
-            <h2 className="text-3xl md:text-5xl font-black text-gray-900 mb-4 tracking-tight font-playfair">
-              Organization <span className="text-blue-600">Reports</span>
+            <h2 className="text-3xl md:text-5xl font-black text-navy-900 mb-4 tracking-tight font-playfair">
+              Organization <span className="text-[#F5B800]">Reports</span>
             </h2>
-            <div className="w-20 h-1.5 bg-blue-600 rounded-full mb-6"></div>
+            <div className="w-20 h-1.5 bg-[#F5B800] rounded-full mb-6"></div>
             <p className="text-lg text-gray-500 leading-relaxed font-source-serif">
               Download our comprehensive reports detailing our impact, finances, and operations across all programs.
             </p>
@@ -166,7 +166,7 @@ export default function Reports() {
                   key={key}
                   onClick={() => setActiveCategory(key as ReportCategory)}
                   className={`flex items-center gap-2 px-5 py-3 rounded-3xl font-bold text-xs uppercase tracking-widest transition-all ${activeCategory === key
-                      ? "bg-blue-600 text-white shadow-xl shadow-blue-600/20"
+                      ? "bg-[#F5B800] text-white shadow-xl shadow-[#F5B800]/20"
                       : "bg-gray-50 text-gray-500 hover:bg-gray-100 border border-gray-100"
                     }`}
                 >
@@ -181,7 +181,7 @@ export default function Reports() {
           {loading ? (
             <div className="flex justify-center items-center py-32">
               <div className="flex flex-col items-center gap-4">
-                <Loader2 className="w-12 h-12 text-blue-600 animate-spin" />
+                <Loader2 className="w-12 h-12 text-[#F5B800] animate-spin" />
                 <p className="text-sm font-bold text-gray-400 uppercase tracking-widest">Loading reports...</p>
               </div>
             </div>
@@ -203,7 +203,7 @@ export default function Reports() {
 
                       <div className="flex-1 min-w-0">
                         <div className="flex items-center gap-2 flex-wrap mb-2">
-                          <h3 className="text-lg font-black text-gray-900 group-hover:text-blue-600 transition-colors line-clamp-1 font-playfair">
+                          <h3 className="text-lg font-black text-navy-900 group-hover:text-[#F5B800] transition-colors line-clamp-1 font-playfair">
                             {report.title}
                           </h3>
                           {report.category === "financial" && report.access_code && (
@@ -246,7 +246,7 @@ export default function Reports() {
                         onClick={() => handleReportClick(report)}
                         className={`w-full px-6 py-4 rounded-3xl flex items-center justify-center gap-3 font-black text-[10px] uppercase tracking-widest transition-all ${report.category === "financial" && report.access_code
                             ? "bg-rose-50 text-rose-600 hover:bg-rose-100 border border-rose-100"
-                            : "bg-gray-50 text-gray-700 hover:bg-blue-50 hover:text-blue-600 border border-gray-100"
+                            : "bg-gray-50 text-gray-700 hover:bg-sky-50 hover:text-[#F5B800] border border-gray-100"
                           }`}
                       >
                         {report.category === "financial" && report.access_code ? (
@@ -287,10 +287,10 @@ export default function Reports() {
       <section className="py-24 bg-gray-50">
         <div className="max-w-5xl mx-auto px-6">
           <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-5xl font-black text-gray-900 mb-4 tracking-tight font-playfair">
-              Financial <span className="text-blue-600">Transparency</span>
+            <h2 className="text-3xl md:text-5xl font-black text-navy-900 mb-4 tracking-tight font-playfair">
+              Financial <span className="text-[#F5B800]">Transparency</span>
             </h2>
-            <div className="w-20 h-1.5 bg-blue-600 rounded-full mx-auto mb-6"></div>
+            <div className="w-20 h-1.5 bg-[#F5B800] rounded-full mx-auto mb-6"></div>
             <p className="text-lg text-gray-500 max-w-2xl mx-auto font-source-serif">
               Every dollar contributed is maximized for impact. We maintain one of the highest program efficiency ratings in the sector.
             </p>
@@ -303,11 +303,11 @@ export default function Reports() {
               viewport={{ once: true }}
               className="bg-white rounded-3xl p-10 text-center border border-gray-100 shadow-xl hover:shadow-2xl transition-all"
             >
-              <div className="w-16 h-16 bg-blue-50 text-blue-600 rounded-3xl flex items-center justify-center mx-auto mb-6">
+              <div className="w-16 h-16 bg-sky-50 text-[#F5B800] rounded-3xl flex items-center justify-center mx-auto mb-6">
                 <Heart className="w-8 h-8" />
               </div>
-              <div className="text-5xl font-black text-blue-600 mb-3">85%</div>
-              <div className="text-lg font-bold text-gray-900 mb-2">Program Services</div>
+              <div className="text-5xl font-black text-[#F5B800] mb-3">85%</div>
+              <div className="text-lg font-bold text-navy-900 mb-2">Program Services</div>
               <p className="text-sm text-gray-400">Directly funding community programs and outreach initiatives</p>
             </motion.div>
 
@@ -322,7 +322,7 @@ export default function Reports() {
                 <Users className="w-8 h-8" />
               </div>
               <div className="text-5xl font-black text-sky-600 mb-3">10%</div>
-              <div className="text-lg font-bold text-gray-900 mb-2">Fundraising</div>
+              <div className="text-lg font-bold text-navy-900 mb-2">Fundraising</div>
               <p className="text-sm text-gray-400">Donor engagement, campaigns, and partnership development</p>
             </motion.div>
 
@@ -337,7 +337,7 @@ export default function Reports() {
                 <BarChart3 className="w-8 h-8" />
               </div>
               <div className="text-5xl font-black text-violet-600 mb-3">5%</div>
-              <div className="text-lg font-bold text-gray-900 mb-2">Administrative</div>
+              <div className="text-lg font-bold text-navy-900 mb-2">Administrative</div>
               <p className="text-sm text-gray-400">Essential operations, compliance, and governance overhead</p>
             </motion.div>
           </div>
@@ -345,8 +345,8 @@ export default function Reports() {
       </section>
 
       {/* ── CTA Section ── */}
-      <section className="py-24 bg-blue-900 text-white overflow-hidden relative">
-        <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-blue-600/20 rounded-full blur-[120px] -mr-64 -mt-64" />
+      <section className="py-24 bg-navy-900 text-white overflow-hidden relative">
+        <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-[#F5B800]/20 rounded-full blur-[120px] -mr-64 -mt-64" />
         <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-blue-400/10 rounded-full blur-[100px] -ml-64 -mb-64" />
 
         <div className="max-w-4xl mx-auto px-6 text-center relative z-10">
@@ -358,11 +358,11 @@ export default function Reports() {
             We believe in full transparency. Reach out to us for any questions regarding our financials or program impact.
           </p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-            <Link to="/contact" className="w-full sm:w-auto px-10 py-5 bg-white text-blue-900 rounded-3xl font-black text-lg hover:bg-blue-50 transition-all shadow-xl inline-flex items-center justify-center gap-3">
+            <Link to="/contact" className="w-full sm:w-auto px-10 py-5 bg-white text-navy-900 rounded-3xl font-black text-lg hover:bg-sky-50 transition-all shadow-xl inline-flex items-center justify-center gap-3">
               Contact Us
               <ArrowRight className="w-5 h-5" />
             </Link>
-            <Link to="/donate" className="w-full sm:w-auto px-10 py-5 bg-blue-800 text-white border border-blue-700 rounded-3xl font-black text-lg hover:bg-blue-700 transition-all inline-flex items-center justify-center gap-3">
+            <Link to="/donate" className="w-full sm:w-auto px-10 py-5 bg-navy-800 text-white border border-blue-700 rounded-3xl font-black text-lg hover:bg-[#032B45] transition-all inline-flex items-center justify-center gap-3">
               Support Our Mission
             </Link>
           </div>
@@ -383,7 +383,7 @@ export default function Reports() {
                   <Lock className="w-6 h-6 text-rose-600" />
                 </div>
                 <div>
-                  <h2 className="text-lg font-black text-gray-900 font-playfair">Access Code Required</h2>
+                  <h2 className="text-lg font-black text-navy-900 font-playfair">Access Code Required</h2>
                   <p className="text-sm text-gray-400">This financial report is protected</p>
                 </div>
               </div>

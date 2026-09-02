@@ -1,6 +1,6 @@
 /* ═══════════════════════════════════════════════════════════════════════
    CROSS-BORDERS OUTREACH — HOME PAGE STYLES
-   Brand Palette: Blue-900 (#0959d6) + Black (#111827)
+   Brand Palette: Blue-900 (#F5B800) + Black (#111827)
    ═══════════════════════════════════════════════════════════════════════ */
 
 /* ── ANIMATIONS ───────────────────────────────────────────────────────── */
@@ -99,7 +99,7 @@
   width: 8px;
   height: 8px;
   border-radius: 50%;
-  background: #0959d6;
+  background: #F5B800;
   animation: pulse-dot 2s ease-in-out infinite;
 }
 .home-hero-title {
@@ -275,7 +275,7 @@
   height: 48px;
   border-radius: 14px;
   background: rgba(9, 89, 214, 0.05);
-  color: #0959d6;
+  color: #F5B800;
   margin: 0 auto 12px;
   display: flex;
   align-items: center;
@@ -462,7 +462,7 @@
   font-weight: 700;
   letter-spacing: 0.15em;
   text-transform: uppercase;
-  color: #0959d6;
+  color: #F5B800;
   margin-bottom: 10px;
 }
 .home-section-header {
@@ -503,7 +503,7 @@
   display: inline-flex;
   align-items: center;
   gap: 4px;
-  color: #0959d6;
+  color: #F5B800;
   font-weight: 600;
   font-size: 14px;
   text-decoration: none;
@@ -511,7 +511,7 @@
 }
 .home-view-all-link:hover {
   gap: 8px;
-  color: #0648b3;
+  color: #032B45;
 }
 
 /* ── PROGRAMS BENTO GRID ──────────────────────────────────────────────── */
@@ -609,7 +609,7 @@
 
 /* ── CTA BANNER ───────────────────────────────────────────────────────── */
 .home-cta-banner {
-  background: #0959d6;
+  background: #F5B800;
   padding: 80px 24px;
   position: relative;
   overflow: hidden;
@@ -795,7 +795,7 @@
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.08em;
-  color: #0959d6;
+  color: #F5B800;
   background: rgba(9, 89, 214, 0.06);
   padding: 4px 12px;
   border-radius: 50px;
@@ -842,7 +842,7 @@
   gap: 6px;
   font-size: 13px;
   font-weight: 700;
-  color: #0959d6;
+  color: #F5B800;
   padding: 8px 20px;
   background: rgba(9, 89, 214, 0.06);
   border-radius: 50px;
@@ -850,7 +850,7 @@
   margin-top: auto;
 }
 .home-event-card:hover .home-event-cta {
-  background: #0959d6;
+  background: #F5B800;
   color: white;
   box-shadow: 0 4px 16px rgba(9, 89, 214, 0.3);
   transform: translateX(4px);

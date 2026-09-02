@@ -127,7 +127,7 @@ export default function DonorProfile() {
   if (loading) {
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-        <Loader2 className="w-10 h-10 text-blue-600 animate-spin" />
+        <Loader2 className="w-10 h-10 text-[#F5B800] animate-spin" />
       </div>
     );
   }
@@ -138,9 +138,9 @@ export default function DonorProfile() {
       <div className="bg-white border-b border-gray-200">
         <div className="max-w-4xl mx-auto px-6 py-6">
           <div className="flex items-center gap-3">
-            <User className="w-8 h-8 text-blue-600" />
+            <User className="w-8 h-8 text-[#F5B800]" />
             <div>
-              <h1 className="text-3xl font-bold text-gray-900 font-playfair">Profile Settings</h1>
+              <h1 className="text-3xl font-bold text-navy-900 font-playfair">Profile Settings</h1>
               <p className="text-gray-600">Manage your account information and preferences</p>
             </div>
           </div>
@@ -151,7 +151,7 @@ export default function DonorProfile() {
         <div className="space-y-8">
           {/* Personal Information */}
           <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-8">
-            <h2 className="text-xl font-bold text-gray-900 mb-6 font-playfair">Personal Information</h2>
+            <h2 className="text-xl font-bold text-navy-900 mb-6 font-playfair">Personal Information</h2>
             <form onSubmit={handleSave} className="space-y-6">
               {/* Name Fields */}
               <div className="grid md:grid-cols-2 gap-6">
@@ -166,7 +166,7 @@ export default function DonorProfile() {
                       name="firstName"
                       value={formData.firstName}
                       onChange={handleChange}
-                      className="w-full pl-11 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-600 focus:border-transparent outline-none"
+                      className="w-full pl-11 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#F5B800] focus:border-transparent outline-none"
                     />
                   </div>
                 </div>
@@ -182,7 +182,7 @@ export default function DonorProfile() {
                       name="lastName"
                       value={formData.lastName}
                       onChange={handleChange}
-                      className="w-full pl-11 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-600 focus:border-transparent outline-none"
+                      className="w-full pl-11 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#F5B800] focus:border-transparent outline-none"
                     />
                   </div>
                 </div>
@@ -217,7 +217,7 @@ export default function DonorProfile() {
                     name="phone"
                     value={formData.phone}
                     onChange={handleChange}
-                    className="w-full pl-11 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-600 focus:border-transparent outline-none"
+                    className="w-full pl-11 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#F5B800] focus:border-transparent outline-none"
                   />
                 </div>
               </div>
@@ -234,7 +234,7 @@ export default function DonorProfile() {
                     name="address"
                     value={formData.address}
                     onChange={handleChange}
-                    className="w-full pl-11 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-600 focus:border-transparent outline-none"
+                    className="w-full pl-11 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#F5B800] focus:border-transparent outline-none"
                   />
                 </div>
               </div>
@@ -243,7 +243,7 @@ export default function DonorProfile() {
               <button
                 type="submit"
                 disabled={saving}
-                className="flex items-center gap-2 px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-semibold transition-colors disabled:opacity-70"
+                className="flex items-center gap-2 px-6 py-3 bg-[#F5B800] hover:bg-[#032B45] text-white rounded-lg font-semibold transition-colors disabled:opacity-70"
               >
                 {saving ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
                 {saving ? "Saving..." : "Save Changes"}
@@ -253,44 +253,44 @@ export default function DonorProfile() {
 
           {/* Notification Preferences */}
           <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-8">
-            <h2 className="text-xl font-bold text-gray-900 mb-6 font-playfair">Notification Preferences</h2>
+            <h2 className="text-xl font-bold text-navy-900 mb-6 font-playfair">Notification Preferences</h2>
             <div className="space-y-4">
               <label className="flex items-center justify-between cursor-pointer p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors">
                 <div>
-                  <div className="font-semibold text-gray-900">Email Notifications</div>
+                  <div className="font-semibold text-navy-900">Email Notifications</div>
                   <div className="text-sm text-gray-600">Receive updates about your donations</div>
                 </div>
                 <input
                   type="checkbox"
                   checked={formData.notifications.email}
                   onChange={() => handleNotificationChange('email')}
-                  className="w-5 h-5 text-blue-600 border-gray-300 rounded focus:ring-blue-600"
+                  className="w-5 h-5 text-[#F5B800] border-gray-300 rounded focus:ring-[#F5B800]"
                 />
               </label>
 
               <label className="flex items-center justify-between cursor-pointer p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors">
                 <div>
-                  <div className="font-semibold text-gray-900">SMS Notifications</div>
+                  <div className="font-semibold text-navy-900">SMS Notifications</div>
                   <div className="text-sm text-gray-600">Get text messages for important updates</div>
                 </div>
                 <input
                   type="checkbox"
                   checked={formData.notifications.sms}
                   onChange={() => handleNotificationChange('sms')}
-                  className="w-5 h-5 text-blue-600 border-gray-300 rounded focus:ring-blue-600"
+                  className="w-5 h-5 text-[#F5B800] border-gray-300 rounded focus:ring-[#F5B800]"
                 />
               </label>
 
               <label className="flex items-center justify-between cursor-pointer p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors">
                 <div>
-                  <div className="font-semibold text-gray-900">Newsletter</div>
+                  <div className="font-semibold text-navy-900">Newsletter</div>
                   <div className="text-sm text-gray-600">Monthly updates about our programs</div>
                 </div>
                 <input
                   type="checkbox"
                   checked={formData.notifications.newsletter}
                   onChange={() => handleNotificationChange('newsletter')}
-                  className="w-5 h-5 text-blue-600 border-gray-300 rounded focus:ring-blue-600"
+                  className="w-5 h-5 text-[#F5B800] border-gray-300 rounded focus:ring-[#F5B800]"
                 />
               </label>
             </div>
@@ -298,7 +298,7 @@ export default function DonorProfile() {
 
           {/* Change Password */}
           <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-8">
-            <h2 className="text-xl font-bold text-gray-900 mb-6 font-playfair">Change Password</h2>
+            <h2 className="text-xl font-bold text-navy-900 mb-6 font-playfair">Change Password</h2>
             <form className="space-y-6">
               <div>
                 <label className="block text-sm font-semibold text-gray-700 mb-2">
@@ -310,7 +310,7 @@ export default function DonorProfile() {
                     type="password"
                     value={passwordData.currentPassword}
                     onChange={(e) => setPasswordData({...passwordData, currentPassword: e.target.value})}
-                    className="w-full pl-11 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-600 focus:border-transparent outline-none"
+                    className="w-full pl-11 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#F5B800] focus:border-transparent outline-none"
                     placeholder="••••••••"
                   />
                 </div>
@@ -327,7 +327,7 @@ export default function DonorProfile() {
                       type="password"
                       value={passwordData.newPassword}
                       onChange={(e) => setPasswordData({...passwordData, newPassword: e.target.value})}
-                      className="w-full pl-11 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-600 focus:border-transparent outline-none"
+                      className="w-full pl-11 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#F5B800] focus:border-transparent outline-none"
                       placeholder="••••••••"
                     />
                   </div>
@@ -343,7 +343,7 @@ export default function DonorProfile() {
                       type="password"
                       value={passwordData.confirmPassword}
                       onChange={(e) => setPasswordData({...passwordData, confirmPassword: e.target.value})}
-                      className="w-full pl-11 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-600 focus:border-transparent outline-none"
+                      className="w-full pl-11 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#F5B800] focus:border-transparent outline-none"
                       placeholder="••••••••"
                     />
                   </div>
@@ -352,7 +352,7 @@ export default function DonorProfile() {
 
               <button
                 type="button"
-                className="px-6 py-3 bg-gray-900 hover:bg-gray-800 text-white rounded-lg font-semibold transition-colors"
+                className="px-6 py-3 bg-navy-900 hover:bg-gray-800 text-white rounded-lg font-semibold transition-colors"
               >
                 Update Password
               </button>

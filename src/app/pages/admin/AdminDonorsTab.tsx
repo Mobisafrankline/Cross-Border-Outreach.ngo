@@ -54,7 +54,7 @@ export default function AdminDonorsTab() {
   if (loading) {
     return (
       <div className="flex items-center justify-center py-20">
-        <Loader2 className="w-10 h-10 text-blue-600 animate-spin" />
+        <Loader2 className="w-10 h-10 text-[#F5B800] animate-spin" />
       </div>
     );
   }
@@ -71,7 +71,7 @@ export default function AdminDonorsTab() {
       <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
         <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
           <div className="text-sm text-gray-600 mb-1">Total Donors</div>
-          <div className="text-3xl font-bold text-gray-900">{stats.total}</div>
+          <div className="text-3xl font-bold text-navy-900">{stats.total}</div>
         </div>
         <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
           <div className="text-sm text-gray-600 mb-1">Active Donors</div>
@@ -79,7 +79,7 @@ export default function AdminDonorsTab() {
         </div>
         <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
           <div className="text-sm text-gray-600 mb-1">Total Donated</div>
-          <div className="text-3xl font-bold text-blue-600">${stats.totalDonated.toLocaleString()}</div>
+          <div className="text-3xl font-bold text-[#F5B800]">${stats.totalDonated.toLocaleString()}</div>
         </div>
         <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
           <div className="text-sm text-gray-600 mb-1">Avg per Donor</div>
@@ -96,7 +96,7 @@ export default function AdminDonorsTab() {
             type="text"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full pl-11 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-600 focus:border-transparent outline-none"
+            className="w-full pl-11 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#F5B800] focus:border-transparent outline-none"
             placeholder="Search donors by name or email..."
           />
         </div>
@@ -108,7 +108,7 @@ export default function AdminDonorsTab() {
               onClick={() => setFilterStatus(status)}
               className={`px-4 py-2 rounded-lg font-semibold capitalize transition-all ${
                 filterStatus === status
-                  ? "bg-blue-600 text-white"
+                  ? "bg-[#F5B800] text-white"
                   : "bg-gray-100 text-gray-700 hover:bg-gray-200"
               }`}
             >
@@ -139,19 +139,19 @@ export default function AdminDonorsTab() {
                   <td className="px-6 py-4 whitespace-nowrap">
                     <div className="flex items-center gap-3">
                       <div className="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center flex-shrink-0">
-                        <span className="text-blue-600 font-bold text-sm uppercase">
+                        <span className="text-[#F5B800] font-bold text-sm uppercase">
                           {donor.first_name?.[0]}{donor.last_name?.[0]}
                         </span>
                       </div>
                       <div>
-                        <div className="font-semibold text-gray-900">{donor.first_name} {donor.last_name}</div>
+                        <div className="font-semibold text-navy-900">{donor.first_name} {donor.last_name}</div>
                         <div className="text-xs text-gray-600">Since {new Date(donor.created_at).toLocaleDateString()}</div>
                       </div>
                     </div>
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">
                     <div className="text-sm">
-                      <div className="flex items-center gap-1 text-gray-900">
+                      <div className="flex items-center gap-1 text-navy-900">
                         <Mail className="w-3 h-3" />
                         {donor.email}
                       </div>
@@ -162,17 +162,17 @@ export default function AdminDonorsTab() {
                     </div>
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">
-                    <div className="text-lg font-bold text-gray-900">
+                    <div className="text-lg font-bold text-navy-900">
                       ${(donor.total_donated || 0).toLocaleString()}
                     </div>
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">
-                    <div className="text-sm font-semibold text-gray-900">
+                    <div className="text-sm font-semibold text-navy-900">
                       {donor.donation_count || 0} times
                     </div>
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">
-                    <div className="text-sm text-gray-900">
+                    <div className="text-sm text-navy-900">
                       {donor.donation_count > 0 ? "Recently" : "N/A"}
                     </div>
                   </td>
@@ -189,12 +189,12 @@ export default function AdminDonorsTab() {
                     <div className="flex items-center justify-end gap-2">
                       <button
                         onClick={() => setSelectedDonor(donor)}
-                        className="p-2 hover:bg-blue-50 text-blue-600 rounded-lg transition-colors"
+                        className="p-2 hover:bg-sky-50 text-[#F5B800] rounded-lg transition-colors"
                         title="View"
                       >
                         <Eye className="w-4 h-4" />
                       </button>
-                      <button className="p-2 hover:bg-blue-50 text-blue-600 rounded-lg transition-colors" title="Edit">
+                      <button className="p-2 hover:bg-sky-50 text-[#F5B800] rounded-lg transition-colors" title="Edit">
                         <Edit className="w-4 h-4" />
                       </button>
                       <button className="p-2 hover:bg-red-50 text-red-600 rounded-lg transition-colors" title="Delete">
@@ -212,7 +212,7 @@ export default function AdminDonorsTab() {
       {filteredDonors.length === 0 && (
         <div className="text-center py-12">
           <Users className="w-16 h-16 text-gray-300 mx-auto mb-4" />
-          <h3 className="text-xl font-semibold text-gray-900 mb-2 font-playfair">No donors found</h3>
+          <h3 className="text-xl font-semibold text-navy-900 mb-2 font-playfair">No donors found</h3>
           <p className="text-gray-600">Try adjusting your search or filters</p>
         </div>
       )}
@@ -221,7 +221,7 @@ export default function AdminDonorsTab() {
         <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-6" onClick={() => setSelectedDonor(null)}>
           <div className="bg-white rounded-3xl max-w-2xl w-full" onClick={(e) => e.stopPropagation()}>
             <div className="p-6 border-b border-gray-200 flex items-center justify-between">
-              <h2 className="text-2xl font-bold text-gray-900 font-playfair">Donor Details</h2>
+              <h2 className="text-2xl font-bold text-navy-900 font-playfair">Donor Details</h2>
               <button
                 onClick={() => setSelectedDonor(null)}
                 className="w-10 h-10 bg-gray-100 hover:bg-gray-200 rounded-lg flex items-center justify-center transition-colors"
@@ -234,12 +234,12 @@ export default function AdminDonorsTab() {
             <div className="p-6">
               <div className="flex items-center gap-4 mb-6">
                 <div className="w-20 h-20 bg-blue-100 rounded-full flex items-center justify-center">
-                  <span className="text-blue-600 font-bold text-2xl uppercase">
+                  <span className="text-[#F5B800] font-bold text-2xl uppercase">
                     {selectedDonor.first_name?.[0]}{selectedDonor.last_name?.[0]}
                   </span>
                 </div>
                 <div>
-                  <h3 className="text-2xl font-bold text-gray-900 font-playfair">{selectedDonor.first_name} {selectedDonor.last_name}</h3>
+                  <h3 className="text-2xl font-bold text-navy-900 font-playfair">{selectedDonor.first_name} {selectedDonor.last_name}</h3>
                   <p className="text-gray-600">Member since {new Date(selectedDonor.created_at).toLocaleDateString()}</p>
                 </div>
               </div>
@@ -247,7 +247,7 @@ export default function AdminDonorsTab() {
               <div className="grid grid-cols-2 gap-6 mb-6">
                 <div>
                   <div className="text-sm text-gray-600 mb-1">Total Donated</div>
-                  <div className="text-2xl font-bold text-blue-600">${(selectedDonor.total_donated || 0).toLocaleString()}</div>
+                  <div className="text-2xl font-bold text-[#F5B800]">${(selectedDonor.total_donated || 0).toLocaleString()}</div>
                 </div>
                 <div>
                   <div className="text-sm text-gray-600 mb-1">Total Donations</div>
@@ -258,15 +258,15 @@ export default function AdminDonorsTab() {
               <div className="space-y-4">
                 <div>
                   <div className="text-sm font-semibold text-gray-700 mb-1">Email</div>
-                  <div className="text-gray-900">{selectedDonor.email}</div>
+                  <div className="text-navy-900">{selectedDonor.email}</div>
                 </div>
                 <div>
                   <div className="text-sm font-semibold text-gray-700 mb-1">Phone</div>
-                  <div className="text-gray-900">{selectedDonor.phone || 'N/A'}</div>
+                  <div className="text-navy-900">{selectedDonor.phone || 'N/A'}</div>
                 </div>
                 <div>
                   <div className="text-sm font-semibold text-gray-700 mb-1">Last Donation</div>
-                  <div className="text-gray-900">{selectedDonor.donation_count > 0 ? "Recently" : "N/A"}</div>
+                  <div className="text-navy-900">{selectedDonor.donation_count > 0 ? "Recently" : "N/A"}</div>
                 </div>
                 <div>
                   <div className="text-sm font-semibold text-gray-700 mb-1">Status</div>

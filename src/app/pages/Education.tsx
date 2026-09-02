@@ -101,7 +101,7 @@ export default function Education() {
       {/* Initiatives */}
       <section className="prog-initiatives-section">
         <div className="prog-initiatives-header">
-          <div className="prog-initiatives-label" style={{ color: "#3b82f6" }}>Our Initiatives</div>
+          <div className="prog-initiatives-label" style={{ color: "#032B45" }}>Our Initiatives</div>
           <h2 className="prog-initiatives-title font-playfair">Education Programs</h2>
           <p className="prog-initiatives-subtitle">
             Supporting students at every stage of their educational journey
@@ -159,14 +159,14 @@ export default function Education() {
       </section>
 
       {/* CTA */}
-      <section className="prog-cta-section" style={{ background: "linear-gradient(135deg, #1e3a8a, #3b82f6)" }}>
+      <section className="prog-cta-section" style={{ background: "linear-gradient(135deg, #032B45, #053D61)" }}>
         <div className="prog-cta-inner">
           <h2 className="prog-cta-title font-playfair">Invest in Education, Transform Lives</h2>
           <p className="prog-cta-subtitle">
             Your support can give a child the gift of education and a brighter future.
           </p>
           <div className="prog-cta-actions">
-            <Link to="/donate" className="prog-cta-btn-primary" style={{ color: "#1e3a8a" }}>
+            <Link to="/donate" className="prog-cta-btn-primary" style={{ color: "#032B45" }}>
               <Heart className="w-5 h-5" /> Sponsor a Student
             </Link>
             <Link to="/opportunities" className="prog-cta-btn-secondary">

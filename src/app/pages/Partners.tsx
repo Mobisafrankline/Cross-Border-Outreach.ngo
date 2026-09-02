@@ -42,7 +42,7 @@ const partnershipTiers = [
     tier: "Strategic",
     icon: Target,
     color: "from-blue-600 to-indigo-600",
-    shadowColor: "shadow-blue-600/20",
+    shadowColor: "shadow-[#F5B800]/20",
     popular: true,
     benefits: [
       "Everything in Community",
@@ -93,7 +93,7 @@ export default function Partners() {
 
         <div className="relative z-10 max-w-5xl mx-auto px-6 text-center text-white">
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}>
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-500/20 backdrop-blur-md border border-blue-400/30 text-blue-200 text-xs font-bold uppercase tracking-widest mb-6">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-sky-500/20 backdrop-blur-md border border-blue-400/30 text-blue-200 text-xs font-bold uppercase tracking-widest mb-6">
               <Handshake className="w-3.5 h-3.5" /> Our Alliance
             </div>
             <h1 className="text-4xl md:text-7xl font-black mb-6 tracking-tight drop-shadow-2xl font-playfair">
@@ -110,10 +110,10 @@ export default function Partners() {
       <section className="py-24 bg-white">
         <div className="max-w-7xl mx-auto px-6">
           <div className="max-w-2xl mb-16">
-            <h2 className="text-3xl md:text-5xl font-black text-gray-900 mb-4 tracking-tight font-playfair">
-              Our <span className="text-blue-600">Partners</span>
+            <h2 className="text-3xl md:text-5xl font-black text-navy-900 mb-4 tracking-tight font-playfair">
+              Our <span className="text-[#F5B800]">Partners</span>
             </h2>
-            <div className="w-20 h-1.5 bg-blue-600 rounded-full mb-6" />
+            <div className="w-20 h-1.5 bg-[#F5B800] rounded-full mb-6" />
             <p className="text-lg text-gray-500 leading-relaxed font-source-serif">
               We are proud to collaborate with organizations that share our vision for a more compassionate and connected world.
             </p>
@@ -132,27 +132,27 @@ export default function Partners() {
                     {partner.name === "Operation Compassion" ? (
                       <div className="flex flex-col items-center justify-center leading-[1.1] text-center w-full">
                         <span className="text-[10px] font-black text-red-600 tracking-tight uppercase">Operation</span>
-                        <span className="text-[9px] font-black text-blue-600 tracking-tight uppercase">Compassion</span>
+                        <span className="text-[9px] font-black text-[#F5B800] tracking-tight uppercase">Compassion</span>
                       </div>
                     ) : partner.logo ? (
                       <img src={partner.logo} alt={partner.name} className="w-full h-full object-contain" />
                     ) : (
-                      <span className="text-2xl font-black text-blue-600">
+                      <span className="text-2xl font-black text-[#F5B800]">
                         {partner.name.split(' ').map(w => w[0]).join('')}
                       </span>
                     )}
                   </div>
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center gap-3 mb-1">
-                      <h3 className="text-xl font-black text-gray-900 truncate font-playfair">{partner.name}</h3>
+                      <h3 className="text-xl font-black text-navy-900 truncate font-playfair">{partner.name}</h3>
                       {partner.website !== "#" && (
                         <a href={partner.website} target="_blank" rel="noopener noreferrer"
-                          className="text-gray-300 hover:text-blue-600 transition-colors shrink-0">
+                          className="text-gray-300 hover:text-[#F5B800] transition-colors shrink-0">
                           <ExternalLink className="w-4 h-4" />
                         </a>
                       )}
                     </div>
-                    <span className="inline-block px-3 py-1 bg-blue-50 text-blue-600 text-[10px] font-black uppercase tracking-widest rounded-lg">
+                    <span className="inline-block px-3 py-1 bg-sky-50 text-[#F5B800] text-[10px] font-black uppercase tracking-widest rounded-lg">
                       {partner.type}
                     </span>
                   </div>
@@ -167,7 +167,7 @@ export default function Partners() {
                     <ShieldCheck className="w-4 h-4" />
                     {partner.impact}
                   </div>
-                  <div className="w-8 h-8 bg-gray-50 rounded-full flex items-center justify-center text-gray-300 group-hover:bg-blue-50 group-hover:text-blue-600 transition-all">
+                  <div className="w-8 h-8 bg-gray-50 rounded-full flex items-center justify-center text-gray-300 group-hover:bg-sky-50 group-hover:text-[#F5B800] transition-all">
                     <Star className="w-4 h-4" />
                   </div>
                 </div>
@@ -181,10 +181,10 @@ export default function Partners() {
       <section className="py-24 bg-gray-50">
         <div className="max-w-7xl mx-auto px-6">
           <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-5xl font-black text-gray-900 mb-4 tracking-tight font-playfair">
-              What Our Partners <span className="text-blue-600">Say</span>
+            <h2 className="text-3xl md:text-5xl font-black text-navy-900 mb-4 tracking-tight font-playfair">
+              What Our Partners <span className="text-[#F5B800]">Say</span>
             </h2>
-            <div className="w-20 h-1.5 bg-blue-600 rounded-full mb-6 mx-auto" />
+            <div className="w-20 h-1.5 bg-[#F5B800] rounded-full mb-6 mx-auto" />
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl mx-auto">
@@ -200,11 +200,11 @@ export default function Partners() {
                   "{t.quote}"
                 </p>
                 <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center text-blue-600 font-black text-sm">
+                  <div className="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center text-[#F5B800] font-black text-sm">
                     {t.org.charAt(0)}
                   </div>
                   <div>
-                    <div className="font-bold text-gray-900 text-sm">{t.name}</div>
+                    <div className="font-bold text-navy-900 text-sm">{t.name}</div>
                     <div className="text-gray-400 text-xs font-bold">{t.org}</div>
                   </div>
                 </div>
@@ -218,10 +218,10 @@ export default function Partners() {
       <section className="py-24 bg-white">
         <div className="max-w-7xl mx-auto px-6">
           <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-5xl font-black text-gray-900 mb-4 tracking-tight font-playfair">
-              Partnership <span className="text-blue-600">Tiers</span>
+            <h2 className="text-3xl md:text-5xl font-black text-navy-900 mb-4 tracking-tight font-playfair">
+              Partnership <span className="text-[#F5B800]">Tiers</span>
             </h2>
-            <div className="w-20 h-1.5 bg-blue-600 rounded-full mb-6 mx-auto" />
+            <div className="w-20 h-1.5 bg-[#F5B800] rounded-full mb-6 mx-auto" />
             <p className="text-lg text-gray-500 max-w-2xl mx-auto leading-relaxed font-source-serif">
               Choose the partnership level that aligns with your organization's goals and capacity for impact.
             </p>
@@ -237,7 +237,7 @@ export default function Partners() {
                   className={`relative bg-white rounded-3xl border ${tier.popular ? 'border-blue-200 shadow-2xl scale-[1.02]' : 'border-gray-100 hover:border-blue-100'} p-8 flex flex-col transition-all duration-300 hover:shadow-xl`}>
 
                   {tier.popular && (
-                    <div className="absolute -top-4 left-1/2 -translate-x-1/2 px-5 py-1.5 bg-blue-600 text-white text-[10px] font-black uppercase tracking-widest rounded-full shadow-lg">
+                    <div className="absolute -top-4 left-1/2 -translate-x-1/2 px-5 py-1.5 bg-[#F5B800] text-white text-[10px] font-black uppercase tracking-widest rounded-full shadow-lg">
                       Most Popular
                     </div>
                   )}
@@ -246,7 +246,7 @@ export default function Partners() {
                     <Icon className="w-8 h-8 text-white" />
                   </div>
 
-                  <h3 className="text-2xl font-black text-gray-900 mb-6 font-playfair">{tier.tier}</h3>
+                  <h3 className="text-2xl font-black text-navy-900 mb-6 font-playfair">{tier.tier}</h3>
 
                   <ul className="space-y-3 mb-8 flex-1">
                     {tier.benefits.map((b, i) => (
@@ -264,8 +264,8 @@ export default function Partners() {
                   <Link to="/partner"
                     className={`w-full py-4 rounded-3xl font-black text-sm uppercase tracking-widest text-center transition-all ${
                       tier.popular
-                        ? 'bg-blue-600 text-white shadow-xl shadow-blue-600/20 hover:bg-blue-700 hover:-translate-y-1'
-                        : 'bg-gray-50 text-gray-700 border border-gray-100 hover:bg-blue-50 hover:text-blue-600 hover:border-blue-100'
+                        ? 'bg-[#F5B800] text-white shadow-xl shadow-[#F5B800]/20 hover:bg-[#032B45] hover:-translate-y-1'
+                        : 'bg-gray-50 text-gray-700 border border-gray-100 hover:bg-sky-50 hover:text-[#F5B800] hover:border-blue-100'
                     }`}>
                     Get Started
                   </Link>
@@ -277,8 +277,8 @@ export default function Partners() {
       </section>
 
       {/* ── Bottom CTA ── */}
-      <section className="py-24 bg-blue-900 text-white overflow-hidden relative">
-        <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-blue-600/20 rounded-full blur-[120px] -mr-64 -mt-64" />
+      <section className="py-24 bg-navy-900 text-white overflow-hidden relative">
+        <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-[#F5B800]/20 rounded-full blur-[120px] -mr-64 -mt-64" />
         <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-blue-400/10 rounded-full blur-[100px] -ml-64 -mb-64" />
 
         <div className="max-w-4xl mx-auto px-6 text-center relative z-10">
@@ -295,11 +295,11 @@ export default function Partners() {
           </p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
             <Link to="/partner"
-              className="w-full sm:w-auto inline-flex items-center justify-center gap-3 px-10 py-5 bg-white text-blue-900 rounded-3xl font-black text-lg hover:bg-blue-50 transition-all shadow-xl">
+              className="w-full sm:w-auto inline-flex items-center justify-center gap-3 px-10 py-5 bg-white text-navy-900 rounded-3xl font-black text-lg hover:bg-sky-50 transition-all shadow-xl">
               Become a Partner <ArrowRight className="w-5 h-5" />
             </Link>
             <Link to="/contact"
-              className="w-full sm:w-auto inline-flex items-center justify-center gap-3 px-10 py-5 bg-blue-800 text-white border border-blue-700 rounded-3xl font-black text-lg hover:bg-blue-700 transition-all">
+              className="w-full sm:w-auto inline-flex items-center justify-center gap-3 px-10 py-5 bg-navy-800 text-white border border-blue-700 rounded-3xl font-black text-lg hover:bg-[#032B45] transition-all">
               Contact Our Team
             </Link>
           </div>

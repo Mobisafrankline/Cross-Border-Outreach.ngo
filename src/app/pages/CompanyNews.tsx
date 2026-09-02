@@ -44,7 +44,7 @@ export default function CompanyNews() {
   if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-[#f8f9fa]">
-        <Loader2 className="w-12 h-12 text-blue-600 animate-spin" />
+        <Loader2 className="w-12 h-12 text-[#F5B800] animate-spin" />
       </div>
     );
   }
@@ -53,7 +53,7 @@ export default function CompanyNews() {
     return (
       <div className="min-h-screen flex items-center justify-center bg-[#f8f9fa]">
         <div className="text-center">
-          <h2 className="text-2xl font-bold text-gray-900 mb-2 font-playfair">No News Yet</h2>
+          <h2 className="text-2xl font-bold text-navy-900 mb-2 font-playfair">No News Yet</h2>
           <p className="text-gray-500">Check back soon for the latest company updates.</p>
         </div>
       </div>

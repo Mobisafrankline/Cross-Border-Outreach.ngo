@@ -124,20 +124,20 @@ export default function ProfileSettings() {
 
   if (loading) return (
     <div className="flex items-center justify-center min-h-[50vh]">
-      <Loader2 className="w-8 h-8 text-blue-500 animate-spin"/>
+      <Loader2 className="w-8 h-8 text-[#F5B800] animate-spin"/>
     </div>
   );
 
   const sectionClass = "bg-white rounded-2xl border border-slate-100 shadow-sm p-6";
   const labelClass   = "block text-sm font-semibold text-slate-700 mb-1.5";
-  const inputClass   = "w-full border border-slate-200 rounded-xl px-4 py-2.5 text-sm text-slate-800 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/10 transition-all";
+  const inputClass   = "w-full border border-slate-200 rounded-xl px-4 py-2.5 text-sm text-navy-800 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/10 transition-all";
 
   return (
-    <div className="flex-1 bg-slate-50 pb-12 portal-fade-in" style={{ fontFamily:"'Inter',sans-serif" }}>
+    <div className="flex-1 bg-sky-50 pb-12 portal-fade-in" style={{ fontFamily:"'Inter',sans-serif" }}>
 
       {/* Header */}
       <div className="relative overflow-hidden">
-        <div className="absolute inset-0" style={{background:userRole==="admin"?"linear-gradient(135deg,#0f172a,#1e3a8a)":"linear-gradient(135deg,#0648b3,#0959d6)"}}/>
+        <div className="absolute inset-0" style={{background:userRole==="admin"?"linear-gradient(135deg, #032B45, #053D61)":"linear-gradient(135deg, #032B45, #053D61)"}}/>
         <div className="relative max-w-4xl mx-auto px-4 sm:px-6 py-8">
           <h1 className="text-2xl font-bold text-white">Account Settings</h1>
           <p className="text-blue-200 text-sm mt-1">
@@ -155,7 +155,7 @@ export default function ProfileSettings() {
             <div className="relative flex-shrink-0">
               <div
                 className="portal-avatar"
-                style={{width:80,height:80,fontSize:26,borderRadius:20,background:avatarUrl?"transparent":userRole==="admin"?"linear-gradient(135deg,#3b82f6,#8b5cf6)":"linear-gradient(135deg,#0959d6,#2f7aee)",overflow:"hidden",boxShadow:"0 4px 16px rgba(59,130,246,.3)"}}
+                style={{width:80,height:80,fontSize:26,borderRadius:20,background:avatarUrl?"transparent":userRole==="admin"?"linear-gradient(135deg, #032B45, #053D61)":"linear-gradient(135deg, #032B45, #053D61)",overflow:"hidden",boxShadow:"0 4px 16px rgba(59,130,246,.3)"}}
               >
                 {avatarUrl
                   ? <img src={avatarUrl} alt="avatar" style={{width:"100%",height:"100%",objectFit:"cover"}}/>
@@ -165,7 +165,7 @@ export default function ProfileSettings() {
                 onClick={() => fileRef.current?.click()}
                 disabled={uploading}
                 className="absolute -bottom-1 -right-1 w-8 h-8 rounded-full border-2 border-white flex items-center justify-center shadow-md transition-all hover:scale-110"
-                style={{background:"#0959d6"}}
+                style={{background:"#F5B800"}}
                 title="Upload photo"
               >
                 {uploading ? <Loader2 className="w-3.5 h-3.5 text-white animate-spin"/> : <Camera className="w-3.5 h-3.5 text-white"/>}
@@ -174,11 +174,11 @@ export default function ProfileSettings() {
             </div>
 
             <div className="flex-1">
-              <h2 className="font-bold text-slate-900 text-xl">{formData.firstName} {formData.lastName}</h2>
+              <h2 className="font-bold text-navy-900 text-xl">{formData.firstName} {formData.lastName}</h2>
               <p className="text-slate-500 text-sm mt-0.5">{formData.email}</p>
               <div className="mt-2 flex items-center gap-2">
                 <span className="text-xs font-semibold px-2.5 py-1 rounded-full"
-                  style={{background:userRole==="admin"?"#eff6ff":"#eff6ff",color:userRole==="admin"?"#1d4ed8":"#0959d6"}}>
+                  style={{background:userRole==="admin"?"#eff6ff":"#eff6ff",color:userRole==="admin"?"#032B45":"#F5B800"}}>
                   {userRole === "admin" ? "🛡 Administrator" : "💙 Donor"}
                 </span>
               </div>
@@ -188,8 +188,8 @@ export default function ProfileSettings() {
 
         {/* ── Profile form ── */}
         <div className={sectionClass}>
-          <h3 className="font-bold text-slate-900 text-base mb-5 flex items-center gap-2">
-            <User className="w-4 h-4 text-blue-500"/> Personal Information
+          <h3 className="font-bold text-navy-900 text-base mb-5 flex items-center gap-2">
+            <User className="w-4 h-4 text-[#F5B800]"/> Personal Information
           </h3>
           <form onSubmit={handleSave} className="space-y-4">
             <div className="grid sm:grid-cols-2 gap-4">
@@ -212,7 +212,7 @@ export default function ProfileSettings() {
               <label className={labelClass}>Email Address</label>
               <div className="relative">
                 <Mail size={15} color="#9ca3af" style={{position:"absolute",left:13,top:"50%",transform:"translateY(-50%)"}}/>
-                <input className={inputClass + " bg-slate-50"} style={{paddingLeft:40}} type="email" value={formData.email} readOnly disabled/>
+                <input className={inputClass + " bg-sky-50"} style={{paddingLeft:40}} type="email" value={formData.email} readOnly disabled/>
               </div>
               <p className="text-xs text-slate-400 mt-1">Email cannot be changed here. Contact support if needed.</p>
             </div>
@@ -234,7 +234,7 @@ export default function ProfileSettings() {
             </div>
             <button type="submit" disabled={saving}
               className="flex items-center gap-2 px-6 py-2.5 text-white font-bold text-sm rounded-xl transition-all disabled:opacity-60"
-              style={{background:saving?"#94a3b8":"#0959d6",boxShadow:"0 4px 14px rgba(9,89,214,.3)"}}>
+              style={{background:saving?"#94a3b8":"#F5B800",boxShadow:"0 4px 14px rgba(9,89,214,.3)"}}>
               {saving ? <><Loader2 className="w-4 h-4 animate-spin"/> Saving…</> : <><Save className="w-4 h-4"/> Save Changes</>}
             </button>
           </form>
@@ -242,8 +242,8 @@ export default function ProfileSettings() {
 
         {/* ── Notifications ── */}
         <div className={sectionClass}>
-          <h3 className="font-bold text-slate-900 text-base mb-5 flex items-center gap-2">
-            <Bell className="w-4 h-4 text-blue-500"/> Notification Preferences
+          <h3 className="font-bold text-navy-900 text-base mb-5 flex items-center gap-2">
+            <Bell className="w-4 h-4 text-[#F5B800]"/> Notification Preferences
           </h3>
           <div className="space-y-4">
             {[
@@ -261,7 +261,7 @@ export default function ProfileSettings() {
                   />
                   <div
                     className="w-11 h-6 rounded-full transition-all duration-200 relative"
-                    style={{background:formData.notifications[n.key as keyof typeof formData.notifications]?"#0959d6":"#d1d5db"}}
+                    style={{background:formData.notifications[n.key as keyof typeof formData.notifications]?"#F5B800":"#d1d5db"}}
                     onClick={()=>setFormData(p=>({...p,notifications:{...p.notifications,[n.key]:!p.notifications[n.key as keyof typeof p.notifications]}}))}
                   >
                     <div
@@ -271,7 +271,7 @@ export default function ProfileSettings() {
                   </div>
                 </div>
                 <div>
-                  <div className="text-sm font-semibold text-slate-800">{n.label}</div>
+                  <div className="text-sm font-semibold text-navy-800">{n.label}</div>
                   <div className="text-xs text-slate-500 mt-0.5">{n.desc}</div>
                 </div>
               </label>
@@ -281,15 +281,15 @@ export default function ProfileSettings() {
             onClick={handleSave}
             disabled={saving}
             className="mt-5 flex items-center gap-2 px-5 py-2.5 text-white font-bold text-sm rounded-xl transition-all disabled:opacity-60"
-            style={{background:"#0959d6"}}>
+            style={{background:"#F5B800"}}>
             {saving ? <><Loader2 className="w-4 h-4 animate-spin"/> Saving…</> : <><Save className="w-4 h-4"/> Save Preferences</>}
           </button>
         </div>
 
         {/* ── Change password ── */}
         <div className={sectionClass}>
-          <h3 className="font-bold text-slate-900 text-base mb-5 flex items-center gap-2">
-            <Lock className="w-4 h-4 text-blue-500"/> Change Password
+          <h3 className="font-bold text-navy-900 text-base mb-5 flex items-center gap-2">
+            <Lock className="w-4 h-4 text-[#F5B800]"/> Change Password
           </h3>
           <form onSubmit={handlePasswordChange} className="space-y-4">
             <div>
@@ -333,7 +333,7 @@ export default function ProfileSettings() {
             </div>
             <button type="submit" disabled={savingPw}
               className="flex items-center gap-2 px-6 py-2.5 text-white font-bold text-sm rounded-xl transition-all disabled:opacity-60"
-              style={{background:savingPw?"#94a3b8":"#0f172a"}}>
+              style={{background:savingPw?"#94a3b8":"#032B45"}}>
               {savingPw ? <><Loader2 className="w-4 h-4 animate-spin"/> Updating…</> : <><Lock className="w-4 h-4"/> Update Password</>}
             </button>
           </form>
@@ -341,13 +341,13 @@ export default function ProfileSettings() {
 
         {/* ── Security info ── */}
         <div className={sectionClass} style={{borderColor:"#e0f2fe",background:"#f0f9ff"}}>
-          <h3 className="font-bold text-slate-800 text-base mb-3 flex items-center gap-2">
-            <ShieldCheck className="w-4 h-4 text-blue-500"/> Security Info
+          <h3 className="font-bold text-navy-800 text-base mb-3 flex items-center gap-2">
+            <ShieldCheck className="w-4 h-4 text-[#F5B800]"/> Security Info
           </h3>
           <div className="space-y-2 text-sm text-slate-600">
-            <div className="flex items-center gap-2"><CheckCircle2 className="w-4 h-4 text-blue-500"/> Supabase email/password authentication</div>
-            <div className="flex items-center gap-2"><CheckCircle2 className="w-4 h-4 text-blue-500"/> All data encrypted at rest and in transit</div>
-            <div className="flex items-center gap-2"><CheckCircle2 className="w-4 h-4 text-blue-500"/> Session tokens automatically refreshed</div>
+            <div className="flex items-center gap-2"><CheckCircle2 className="w-4 h-4 text-[#F5B800]"/> Supabase email/password authentication</div>
+            <div className="flex items-center gap-2"><CheckCircle2 className="w-4 h-4 text-[#F5B800]"/> All data encrypted at rest and in transit</div>
+            <div className="flex items-center gap-2"><CheckCircle2 className="w-4 h-4 text-[#F5B800]"/> Session tokens automatically refreshed</div>
           </div>
         </div>
       </div>

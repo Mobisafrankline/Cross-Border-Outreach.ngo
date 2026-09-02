@@ -50,7 +50,7 @@ export default function AdminAdminsTab() {
   if (loading) {
     return (
       <div className="flex items-center justify-center py-20">
-        <Loader2 className="w-10 h-10 text-blue-600 animate-spin" />
+        <Loader2 className="w-10 h-10 text-[#F5B800] animate-spin" />
       </div>
     );
   }
@@ -66,12 +66,12 @@ export default function AdminAdminsTab() {
       {/* Stats */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
         <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6 flex items-center gap-4">
-          <div className="w-12 h-12 bg-blue-100 text-blue-600 rounded-xl flex items-center justify-center shrink-0">
+          <div className="w-12 h-12 bg-blue-100 text-[#F5B800] rounded-xl flex items-center justify-center shrink-0">
             <Shield className="w-6 h-6" />
           </div>
           <div>
             <div className="text-sm text-gray-600 mb-0.5">Total Users</div>
-            <div className="text-2xl font-bold text-gray-900">{users.length}</div>
+            <div className="text-2xl font-bold text-navy-900">{users.length}</div>
           </div>
         </div>
         <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6 flex items-center gap-4">
@@ -80,7 +80,7 @@ export default function AdminAdminsTab() {
           </div>
           <div>
             <div className="text-sm text-gray-600 mb-0.5">Active Accounts</div>
-            <div className="text-2xl font-bold text-gray-900">{users.length}</div>
+            <div className="text-2xl font-bold text-navy-900">{users.length}</div>
           </div>
         </div>
       </div>
@@ -93,7 +93,7 @@ export default function AdminAdminsTab() {
             type="text"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full pl-11 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-600 focus:border-transparent outline-none"
+            className="w-full pl-11 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#F5B800] focus:border-transparent outline-none"
             placeholder="Search users by name or location..."
           />
         </div>
@@ -125,7 +125,7 @@ export default function AdminAdminsTab() {
                   <td className="px-6 py-4 whitespace-nowrap">
                     <div className="flex items-center gap-3">
                       <div className={`w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0 ${
-                        user.user_type === 'Admin' ? 'bg-blue-100 text-blue-600' : 
+                        user.user_type === 'Admin' ? 'bg-blue-100 text-[#F5B800]' : 
                         user.user_type === 'Donor' ? 'bg-green-100 text-green-600' : 
                         'bg-gray-100 text-gray-600'
                       }`}>
@@ -134,7 +134,7 @@ export default function AdminAdminsTab() {
                         </span>
                       </div>
                       <div>
-                        <div className="font-semibold text-gray-900">
+                        <div className="font-semibold text-navy-900">
                           {user.first_name || user.last_name ? `${user.first_name || ''} ${user.last_name || ''}` : 'Unregistered Profile'}
                         </div>
                         <div className="text-xs text-gray-500 mt-0.5">{user.email}</div>
@@ -150,14 +150,14 @@ export default function AdminAdminsTab() {
                     </div>
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">
-                    <div className="flex items-center gap-1.5 text-sm text-gray-900">
+                    <div className="flex items-center gap-1.5 text-sm text-navy-900">
                       <Calendar className="w-4 h-4 text-gray-400" />
                       {new Date(user.created_at).toLocaleDateString()}
                     </div>
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">
                     <span className={`inline-flex px-3 py-1 rounded-full text-xs font-semibold border ${
-                      user.user_type === 'Admin' ? 'bg-blue-50 text-blue-700 border-blue-200' :
+                      user.user_type === 'Admin' ? 'bg-sky-50 text-[#032B45] border-blue-200' :
                       user.user_type === 'Donor' ? 'bg-green-50 text-green-700 border-green-200' :
                       'bg-gray-50 text-gray-700 border-gray-200'
                     }`}>
@@ -175,7 +175,7 @@ export default function AdminAdminsTab() {
       {filteredUsers.length === 0 && !loading && (
         <div className="text-center py-16 bg-white rounded-xl border border-gray-200 mt-6">
           <Shield className="w-16 h-16 text-gray-300 mx-auto mb-4" />
-          <h3 className="text-xl font-semibold text-gray-900 mb-2 font-playfair">No users found</h3>
+          <h3 className="text-xl font-semibold text-navy-900 mb-2 font-playfair">No users found</h3>
           <p className="text-gray-500">Try adjusting your search criteria</p>
         </div>
       )}

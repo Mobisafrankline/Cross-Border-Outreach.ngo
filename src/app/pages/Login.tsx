@@ -7,10 +7,10 @@ export default function Login() {
         <div className="max-w-md mx-auto px-6">
           <div className="bg-white rounded-3xl shadow-xl p-8 md:p-12">
             <div className="text-center mb-8">
-              <div className="w-16 h-16 bg-blue-600 rounded-full flex items-center justify-center mx-auto mb-4">
+              <div className="w-16 h-16 bg-[#F5B800] rounded-full flex items-center justify-center mx-auto mb-4">
                 <User className="w-8 h-8 text-white" />
               </div>
-              <h1 className="text-3xl font-bold text-gray-900 mb-2 font-playfair">Member Login</h1>
+              <h1 className="text-3xl font-bold text-navy-900 mb-2 font-playfair">Member Login</h1>
               <p className="text-gray-600">
                 Access your donor portal and account information
               </p>
@@ -47,17 +47,17 @@ export default function Login() {
 
               <div className="flex items-center justify-between">
                 <label className="flex items-center gap-2">
-                  <input type="checkbox" className="w-4 h-4 text-blue-600 rounded" />
+                  <input type="checkbox" className="w-4 h-4 text-[#F5B800] rounded" />
                   <span className="text-sm text-gray-600">Remember me</span>
                 </label>
-                <a href="#" className="text-sm text-blue-600 hover:text-blue-700 font-semibold">
+                <a href="#" className="text-sm text-[#F5B800] hover:text-[#032B45] font-semibold">
                   Forgot Password?
                 </a>
               </div>
 
               <button
                 type="submit"
-                className="w-full py-4 bg-blue-900 text-white rounded-lg font-bold text-lg hover:from-blue-700 hover:to-blue-800 transition-all shadow-lg hover:shadow-xl transform hover:-translate-y-0.5"
+                className="w-full py-4 bg-navy-900 text-white rounded-lg font-bold text-lg hover:from-blue-700 hover:to-blue-800 transition-all shadow-lg hover:shadow-xl transform hover:-translate-y-0.5"
               >
                 Sign In
               </button>
@@ -76,7 +76,7 @@ export default function Login() {
 
           <div className="mt-8 text-center text-sm text-gray-600">
             <p>
-              Need help? <a href="/contact" className="text-blue-600 hover:text-blue-700 font-semibold">Contact Support</a>
+              Need help? <a href="/contact" className="text-[#F5B800] hover:text-[#032B45] font-semibold">Contact Support</a>
             </p>
           </div>
         </div>

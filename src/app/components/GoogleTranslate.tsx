@@ -75,7 +75,7 @@ export function DesktopLanguageSelector() {
     <div ref={ref} className="hidden md:block relative">
       <button
         onClick={() => setOpen(!open)}
-        className="flex items-center gap-1.5 px-2.5 py-1 hover:bg-slate-100 text-slate-600 hover:text-blue-700 rounded transition-all duration-200 text-xs font-bold uppercase tracking-wider"
+        className="flex items-center gap-1.5 px-2.5 py-1 hover:bg-slate-100 text-slate-600 hover:text-[#032B45] rounded transition-all duration-200 text-xs font-bold uppercase tracking-wider"
       >
         <Globe className="w-4 h-4" />
         <span className="hidden lg:inline">
@@ -98,9 +98,9 @@ export function DesktopLanguageSelector() {
                 <button
                   key={lang.code}
                   onClick={() => handleSelect(lang.code)}
-                  className={`w-full flex items-center gap-3 px-4 py-2.5 text-left hover:bg-blue-50 transition-colors duration-150 ${
+                  className={`w-full flex items-center gap-3 px-4 py-2.5 text-left hover:bg-sky-50 transition-colors duration-150 ${
                     currentLang === lang.code
-                      ? "bg-blue-50 text-blue-600"
+                      ? "bg-sky-50 text-[#F5B800]"
                       : "text-gray-700"
                   }`}
                 >
@@ -135,7 +135,7 @@ export function MobileLanguageSelector({
 
   return (
     <div className="py-3 border-b border-gray-100">
-      <div className="font-semibold text-gray-900 mb-2 flex items-center gap-2">
+      <div className="font-semibold text-navy-900 mb-2 flex items-center gap-2">
         <Globe className="w-4 h-4 text-gray-500" />
         Translate
       </div>
@@ -146,7 +146,7 @@ export function MobileLanguageSelector({
             onClick={() => handleSelect(lang.code)}
             className={`flex items-center gap-2 px-3 py-2 rounded-lg transition-colors duration-150 text-sm ${
               currentLang === lang.code
-                ? "bg-blue-50 text-blue-600 border border-blue-200 font-medium"
+                ? "bg-sky-50 text-[#F5B800] border border-blue-200 font-medium"
                 : "hover:bg-gray-50 text-gray-700 border border-gray-200"
             }`}
           >

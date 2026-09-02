@@ -173,19 +173,19 @@ export default function AdminGallery() {
   };
 
   return (
-    <div className="flex-1 bg-slate-50 text-slate-900 pb-12">
+    <div className="flex-1 bg-sky-50 text-navy-900 pb-12">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 pt-8 pb-4">
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
           <div className="flex items-center gap-3">
-            <ImageIcon className="w-8 h-8 text-blue-600" />
+            <ImageIcon className="w-8 h-8 text-[#F5B800]" />
             <div>
-              <h1 className="text-3xl font-bold text-slate-900 font-playfair">Gallery Management</h1>
+              <h1 className="text-3xl font-bold text-navy-900 font-playfair">Gallery Management</h1>
               <p className="text-slate-500 font-medium">Upload images and manage event archives</p>
             </div>
           </div>
           <button
             onClick={() => activeTab === "images" ? setUploadModalOpen(true) : setUploadArchiveOpen(true)}
-            className="flex items-center gap-2 px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-xl font-bold transition-all shadow-sm"
+            className="flex items-center gap-2 px-6 py-3 bg-[#F5B800] hover:bg-[#032B45] text-white rounded-xl font-bold transition-all shadow-sm"
           >
             {activeTab === "images" ? <Upload className="w-5 h-5" /> : <Plus className="w-5 h-5" />}
             {activeTab === "images" ? "Upload Images" : "Add Archive Link"}
@@ -197,7 +197,7 @@ export default function AdminGallery() {
           <button
             onClick={() => setActiveTab("images")}
             className={`pb-3 px-1 text-sm font-bold transition-colors border-b-2 -mb-[1px] ${
-              activeTab === "images" ? "border-blue-600 text-blue-600" : "border-transparent text-slate-500 hover:text-slate-900"
+              activeTab === "images" ? "border-[#F5B800] text-[#F5B800]" : "border-transparent text-slate-500 hover:text-navy-900"
             }`}
           >
             Gallery Images
@@ -205,7 +205,7 @@ export default function AdminGallery() {
           <button
             onClick={() => setActiveTab("archives")}
             className={`pb-3 px-1 text-sm font-bold transition-colors border-b-2 -mb-[1px] ${
-              activeTab === "archives" ? "border-blue-600 text-blue-600" : "border-transparent text-slate-500 hover:text-slate-900"
+              activeTab === "archives" ? "border-[#F5B800] text-[#F5B800]" : "border-transparent text-slate-500 hover:text-navy-900"
             }`}
           >
             Event Archives (Google Drive)
@@ -225,7 +225,7 @@ export default function AdminGallery() {
                   type="text"
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="w-full pl-11 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-600 focus:border-transparent outline-none"
+                  className="w-full pl-11 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#F5B800] focus:border-transparent outline-none"
                   placeholder={`Search ${activeTab}...`}
                 />
               </div>
@@ -240,7 +240,7 @@ export default function AdminGallery() {
                     onClick={() => setSelectedCategory(cat)}
                     className={`px-4 py-2 rounded-lg font-semibold capitalize transition-all ${
                       selectedCategory === cat
-                        ? "bg-blue-600 text-white"
+                        ? "bg-[#F5B800] text-white"
                         : "bg-gray-100 text-gray-700 hover:bg-gray-200"
                     }`}
                   >
@@ -262,7 +262,7 @@ export default function AdminGallery() {
           /* ── Images Grid ── */
           loading ? (
             <div className="flex justify-center items-center py-24">
-              <Loader2 className="w-10 h-10 text-blue-600 animate-spin" />
+              <Loader2 className="w-10 h-10 text-[#F5B800] animate-spin" />
             </div>
           ) : filteredImages.length > 0 ? (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
@@ -277,10 +277,10 @@ export default function AdminGallery() {
                   </div>
                   <div className="p-4">
                     <div className="flex items-start justify-between gap-2 mb-2">
-                      <h3 className="font-semibold text-gray-900 text-sm line-clamp-2 flex-1 font-playfair">
+                      <h3 className="font-semibold text-navy-900 text-sm line-clamp-2 flex-1 font-playfair">
                         {image.alt || image.title}
                       </h3>
-                      <span className="px-2 py-1 bg-blue-100 text-blue-600 text-xs rounded-full font-semibold capitalize flex-shrink-0">
+                      <span className="px-2 py-1 bg-blue-100 text-[#F5B800] text-xs rounded-full font-semibold capitalize flex-shrink-0">
                         {image.category}
                       </span>
                     </div>
@@ -300,7 +300,7 @@ export default function AdminGallery() {
           ) : (
             <div className="text-center py-16">
               <ImageIcon className="w-16 h-16 text-gray-300 mx-auto mb-4" />
-              <h3 className="text-xl font-semibold text-gray-900 mb-2 font-playfair">No images found</h3>
+              <h3 className="text-xl font-semibold text-navy-900 mb-2 font-playfair">No images found</h3>
               <p className="text-gray-600">Try adjusting your filters or upload new images</p>
             </div>
           )
@@ -308,18 +308,18 @@ export default function AdminGallery() {
           /* ── Archives Grid ── */
           archiveLoading ? (
             <div className="flex justify-center items-center py-24">
-              <Loader2 className="w-10 h-10 text-blue-600 animate-spin" />
+              <Loader2 className="w-10 h-10 text-[#F5B800] animate-spin" />
             </div>
           ) : filteredArchives.length > 0 ? (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {filteredArchives.map((archive) => (
                 <div key={archive.id} className="bg-white rounded-3xl p-6 border border-gray-200 shadow-sm hover:shadow-md transition-all group flex flex-col h-full">
                   <div className="flex items-start gap-4 mb-4">
-                    <div className="w-12 h-12 shrink-0 bg-blue-50 text-blue-600 rounded-xl flex items-center justify-center">
+                    <div className="w-12 h-12 shrink-0 bg-sky-50 text-[#F5B800] rounded-xl flex items-center justify-center">
                       <Folder className="w-6 h-6" />
                     </div>
                     <div className="flex-1">
-                      <h4 className="font-bold text-gray-900 line-clamp-2">{archive.title}</h4>
+                      <h4 className="font-bold text-navy-900 line-clamp-2">{archive.title}</h4>
                       <span className="text-xs text-gray-500 font-medium uppercase tracking-wider">{archive.date}</span>
                     </div>
                   </div>
@@ -331,7 +331,7 @@ export default function AdminGallery() {
                       href={archive.drive_url}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="flex-1 py-2 text-center bg-blue-50 text-blue-700 font-semibold rounded-lg hover:bg-blue-100 transition-colors text-sm"
+                      className="flex-1 py-2 text-center bg-sky-50 text-[#032B45] font-semibold rounded-lg hover:bg-blue-100 transition-colors text-sm"
                     >
                       Test Link
                     </a>
@@ -348,7 +348,7 @@ export default function AdminGallery() {
           ) : (
             <div className="text-center py-16">
               <Folder className="w-16 h-16 text-gray-300 mx-auto mb-4" />
-              <h3 className="text-xl font-semibold text-gray-900 mb-2 font-playfair">No event archives found</h3>
+              <h3 className="text-xl font-semibold text-navy-900 mb-2 font-playfair">No event archives found</h3>
               <p className="text-gray-600">Add a Google Drive link to get started</p>
             </div>
           )
@@ -360,7 +360,7 @@ export default function AdminGallery() {
         <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-6">
           <div className="bg-white rounded-3xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
             <div className="p-6 border-b border-gray-200 flex items-center justify-between">
-              <h2 className="text-2xl font-bold text-gray-900 font-playfair">Upload Images</h2>
+              <h2 className="text-2xl font-bold text-navy-900 font-playfair">Upload Images</h2>
               <button
                 onClick={() => setUploadModalOpen(false)}
                 className="w-10 h-10 bg-gray-100 hover:bg-gray-200 rounded-lg flex items-center justify-center transition-colors"
@@ -389,7 +389,7 @@ export default function AdminGallery() {
                 onClick={() => fileInputRef.current?.click()}
               >
                 <Upload className="w-16 h-16 text-gray-400 mx-auto mb-4" />
-                <h3 className="text-lg font-semibold text-gray-900 mb-2 font-playfair">
+                <h3 className="text-lg font-semibold text-navy-900 mb-2 font-playfair">
                   {file ? file.name : "Drop images here or click to browse"}
                 </h3>
                 <p className="text-gray-600 text-sm mb-4">
@@ -397,7 +397,7 @@ export default function AdminGallery() {
                 </p>
                 <button 
                   type="button" 
-                  className="px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-semibold transition-colors"
+                  className="px-6 py-3 bg-[#F5B800] hover:bg-[#032B45] text-white rounded-lg font-semibold transition-colors"
                 >
                   {file ? "Change File" : "Select Files"}
                 </button>
@@ -412,7 +412,7 @@ export default function AdminGallery() {
                     type="text"
                     value={uploadTitle}
                     onChange={(e) => setUploadTitle(e.target.value)}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-600 focus:border-transparent outline-none"
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#F5B800] focus:border-transparent outline-none"
                     placeholder="Enter image title..."
                   />
                 </div>
@@ -423,7 +423,7 @@ export default function AdminGallery() {
                   <select 
                     value={uploadCategory}
                     onChange={(e) => setUploadCategory(e.target.value)}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-600 focus:border-transparent outline-none"
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#F5B800] focus:border-transparent outline-none"
                   >
                     <option value="community">Community</option>
                     <option value="education">Education</option>
@@ -440,7 +440,7 @@ export default function AdminGallery() {
                     type="text"
                     value={uploadAlt}
                     onChange={(e) => setUploadAlt(e.target.value)}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-600 focus:border-transparent outline-none"
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#F5B800] focus:border-transparent outline-none"
                     placeholder="Describe the image..."
                   />
                 </div>
@@ -457,7 +457,7 @@ export default function AdminGallery() {
                 <button 
                   onClick={handleUploadImage}
                   disabled={uploading}
-                  className="flex-1 px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-semibold transition-colors flex items-center justify-center gap-2 disabled:opacity-50"
+                  className="flex-1 px-6 py-3 bg-[#F5B800] hover:bg-[#032B45] text-white rounded-lg font-semibold transition-colors flex items-center justify-center gap-2 disabled:opacity-50"
                 >
                   {uploading ? <Loader2 className="w-5 h-5 animate-spin" /> : "Upload Image"}
                 </button>
@@ -472,7 +472,7 @@ export default function AdminGallery() {
         <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-6">
           <div className="bg-white rounded-3xl max-w-lg w-full max-h-[90vh] overflow-y-auto">
             <div className="p-6 border-b border-gray-200 flex items-center justify-between">
-              <h2 className="text-2xl font-bold text-gray-900 font-playfair">Add Event Archive</h2>
+              <h2 className="text-2xl font-bold text-navy-900 font-playfair">Add Event Archive</h2>
               <button
                 onClick={() => setUploadArchiveOpen(false)}
                 className="w-10 h-10 bg-gray-100 hover:bg-gray-200 rounded-lg flex items-center justify-center transition-colors"
@@ -498,7 +498,7 @@ export default function AdminGallery() {
                     type="text"
                     value={archiveTitle}
                     onChange={(e) => setArchiveTitle(e.target.value)}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-600 focus:border-transparent outline-none"
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#F5B800] focus:border-transparent outline-none"
                     placeholder="e.g. Visit to Kioimbi Children's Home"
                   />
                 </div>
@@ -510,7 +510,7 @@ export default function AdminGallery() {
                     type="text"
                     value={archiveDate}
                     onChange={(e) => setArchiveDate(e.target.value)}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-600 focus:border-transparent outline-none"
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#F5B800] focus:border-transparent outline-none"
                     placeholder="e.g. March 14, 2026"
                   />
                 </div>
@@ -522,7 +522,7 @@ export default function AdminGallery() {
                     value={archiveDesc}
                     onChange={(e) => setArchiveDesc(e.target.value)}
                     rows={3}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-600 focus:border-transparent outline-none resize-none"
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#F5B800] focus:border-transparent outline-none resize-none"
                     placeholder="Brief description of the event..."
                   />
                 </div>
@@ -534,7 +534,7 @@ export default function AdminGallery() {
                     type="url"
                     value={archiveUrl}
                     onChange={(e) => setArchiveUrl(e.target.value)}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-600 focus:border-transparent outline-none"
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#F5B800] focus:border-transparent outline-none"
                     placeholder="https://drive.google.com/drive/folders/..."
                   />
                 </div>
@@ -551,7 +551,7 @@ export default function AdminGallery() {
                 <button 
                   onClick={handleSaveArchive}
                   disabled={archiveSaving}
-                  className="flex-1 px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-semibold transition-colors flex items-center justify-center gap-2 disabled:opacity-50"
+                  className="flex-1 px-6 py-3 bg-[#F5B800] hover:bg-[#032B45] text-white rounded-lg font-semibold transition-colors flex items-center justify-center gap-2 disabled:opacity-50"
                 >
                   {archiveSaving ? <Loader2 className="w-5 h-5 animate-spin" /> : "Save Link"}
                 </button>

@@ -110,7 +110,7 @@ export default function Opportunities() {
             alt="Volunteers working together"
             className="w-full h-full object-cover scale-110"
           />
-          <div className="absolute inset-0 bg-slate-900/90" />
+          <div className="absolute inset-0 bg-navy-900/90" />
         </div>
         
         <div className="relative z-10 max-w-5xl mx-auto px-6 text-center text-white">
@@ -119,19 +119,19 @@ export default function Opportunities() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
           >
-            <div className="inline-flex items-center gap-2 px-4 py-2 bg-blue-600/30 backdrop-blur-md rounded-full border border-blue-400/30 mb-8">
+            <div className="inline-flex items-center gap-2 px-4 py-2 bg-[#F5B800]/30 backdrop-blur-md rounded-full border border-blue-400/30 mb-8">
               <Star className="w-4 h-4 text-orange-400 fill-orange-400" />
               <span className="text-sm font-bold tracking-widest uppercase">Join the Movement</span>
             </div>
             <h1 className="text-5xl md:text-7xl font-black mb-8 leading-tight tracking-tight font-playfair">
               Change Starts <br/>
-              <span className="text-transparent bg-clip-text bg-blue-900 italic">With You.</span>
+              <span className="text-transparent bg-clip-text bg-navy-900 italic">With You.</span>
             </h1>
             <p className="text-xl md:text-2xl opacity-90 max-w-2xl mx-auto leading-relaxed mb-10 font-medium font-source-serif">
               Give your time, share your skills, and become a catalyst for sustainable change in communities worldwide.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <a href="#apply" className="px-8 py-4 bg-white text-slate-900 rounded-3xl font-bold hover:bg-blue-50 transition-all shadow-xl flex items-center justify-center gap-2">
+              <a href="#apply" className="px-8 py-4 bg-white text-navy-900 rounded-3xl font-bold hover:bg-sky-50 transition-all shadow-xl flex items-center justify-center gap-2">
                 Apply to Volunteer <ArrowRight className="w-5 h-5" />
               </a>
               <a href="#opportunities" className="px-8 py-4 bg-white/10 backdrop-blur-md border border-white/20 text-white rounded-3xl font-bold hover:bg-white/20 transition-all flex items-center justify-center gap-2">
@@ -143,10 +143,10 @@ export default function Opportunities() {
       </section>
 
       {/* The Journey Section */}
-      <section className="py-24 bg-slate-50 overflow-hidden">
+      <section className="py-24 bg-sky-50 overflow-hidden">
         <div className="max-w-7xl mx-auto px-6">
           <div className="text-center mb-20">
-            <h2 className="text-4xl md:text-5xl font-black text-slate-900 mb-6 font-playfair">Your Volunteer Journey</h2>
+            <h2 className="text-4xl md:text-5xl font-black text-navy-900 mb-6 font-playfair">Your Volunteer Journey</h2>
             <p className="text-slate-500 text-lg max-w-2xl mx-auto font-source-serif">
               We've designed a simple, supportive process to get you from application to making a real impact.
             </p>
@@ -158,13 +158,13 @@ export default function Opportunities() {
             
             {journeySteps.map((step, i) => (
               <div key={i} className="relative z-10 group">
-                <div className="w-24 h-24 bg-white rounded-[2rem] shadow-lg shadow-slate-200 border border-slate-100 flex items-center justify-center mb-8 group-hover:scale-110 group-hover:bg-blue-600 group-hover:text-white transition-all duration-300">
+                <div className="w-24 h-24 bg-white rounded-[2rem] shadow-lg shadow-slate-200 border border-slate-100 flex items-center justify-center mb-8 group-hover:scale-110 group-hover:bg-[#F5B800] group-hover:text-white transition-all duration-300">
                   <step.icon className="w-10 h-10" />
                 </div>
-                <div className="absolute -top-4 -left-4 w-10 h-10 bg-blue-600 text-white rounded-full flex items-center justify-center font-black shadow-lg">
+                <div className="absolute -top-4 -left-4 w-10 h-10 bg-[#F5B800] text-white rounded-full flex items-center justify-center font-black shadow-lg">
                   {i + 1}
                 </div>
-                <h3 className="text-xl font-black text-slate-900 mb-3 font-playfair">{step.title}</h3>
+                <h3 className="text-xl font-black text-navy-900 mb-3 font-playfair">{step.title}</h3>
                 <p className="text-slate-500 leading-relaxed text-sm font-source-serif">{step.desc}</p>
               </div>
             ))}
@@ -173,8 +173,8 @@ export default function Opportunities() {
       </section>
 
       {/* Application Form */}
-      <section id="apply" className="py-24 bg-blue-900 relative overflow-hidden">
-        <div className="absolute top-0 right-0 w-1/2 h-full bg-blue-800/20 -skew-x-12 transform translate-x-1/2" />
+      <section id="apply" className="py-24 bg-navy-900 relative overflow-hidden">
+        <div className="absolute top-0 right-0 w-1/2 h-full bg-navy-800/20 -skew-x-12 transform translate-x-1/2" />
         <div className="max-w-7xl mx-auto px-6 relative z-10">
           <div className="grid lg:grid-cols-12 gap-16 items-center">
             <div className="lg:col-span-5 text-white">
@@ -191,7 +191,7 @@ export default function Opportunities() {
                   "Global community of passionate change-makers"
                 ].map((item, i) => (
                   <div key={i} className="flex items-center gap-4">
-                    <div className="w-6 h-6 bg-blue-500 rounded-full flex items-center justify-center shrink-0">
+                    <div className="w-6 h-6 bg-sky-500 rounded-full flex items-center justify-center shrink-0">
                       <CheckCircle2 className="w-4 h-4 text-white" />
                     </div>
                     <span className="font-medium text-blue-50 text-lg">{item}</span>
@@ -221,7 +221,7 @@ export default function Opportunities() {
                         type="text" 
                         value={formData.firstName}
                         onChange={(e) => setFormData({...formData, firstName: e.target.value})}
-                        className="w-full px-6 py-4 bg-slate-50 border-2 border-transparent focus:border-blue-600 rounded-3xl focus:outline-none transition-all font-medium" 
+                        className="w-full px-6 py-4 bg-sky-50 border-2 border-transparent focus:border-[#F5B800] rounded-3xl focus:outline-none transition-all font-medium" 
                       />
                     </div>
                     <div className="space-y-2">
@@ -231,7 +231,7 @@ export default function Opportunities() {
                         type="text" 
                         value={formData.lastName}
                         onChange={(e) => setFormData({...formData, lastName: e.target.value})}
-                        className="w-full px-6 py-4 bg-slate-50 border-2 border-transparent focus:border-blue-600 rounded-3xl focus:outline-none transition-all font-medium" 
+                        className="w-full px-6 py-4 bg-sky-50 border-2 border-transparent focus:border-[#F5B800] rounded-3xl focus:outline-none transition-all font-medium" 
                       />
                     </div>
                   </div>
@@ -243,7 +243,7 @@ export default function Opportunities() {
                       type="email" 
                       value={formData.email}
                       onChange={(e) => setFormData({...formData, email: e.target.value})}
-                      className="w-full px-6 py-4 bg-slate-50 border-2 border-transparent focus:border-blue-600 rounded-3xl focus:outline-none transition-all font-medium" 
+                      className="w-full px-6 py-4 bg-sky-50 border-2 border-transparent focus:border-[#F5B800] rounded-3xl focus:outline-none transition-all font-medium" 
                     />
                   </div>
 
@@ -252,7 +252,7 @@ export default function Opportunities() {
                     <select 
                       value={appType}
                       onChange={(e) => setAppType(e.target.value)}
-                      className="w-full px-6 py-4 bg-slate-50 border-2 border-transparent focus:border-blue-600 rounded-3xl focus:outline-none transition-all font-medium appearance-none"
+                      className="w-full px-6 py-4 bg-sky-50 border-2 border-transparent focus:border-[#F5B800] rounded-3xl focus:outline-none transition-all font-medium appearance-none"
                     >
                       <option value="volunteer">Volunteer (Always Open)</option>
                       <option value="job">Job Opening</option>
@@ -268,7 +268,7 @@ export default function Opportunities() {
                         <select 
                           value={formData.interest}
                           onChange={(e) => setFormData({...formData, interest: e.target.value})}
-                          className="w-full px-6 py-4 bg-slate-50 border-2 border-transparent focus:border-blue-600 rounded-3xl focus:outline-none transition-all font-medium appearance-none"
+                          className="w-full px-6 py-4 bg-sky-50 border-2 border-transparent focus:border-[#F5B800] rounded-3xl focus:outline-none transition-all font-medium appearance-none"
                         >
                           <option>Food Distribution</option>
                           <option>Education & Tutoring</option>
@@ -280,7 +280,7 @@ export default function Opportunities() {
                           required
                           value={formData.jobId}
                           onChange={(e) => setFormData({...formData, jobId: e.target.value})}
-                          className="w-full px-6 py-4 bg-slate-50 border-2 border-transparent focus:border-blue-600 rounded-3xl focus:outline-none transition-all font-medium appearance-none"
+                          className="w-full px-6 py-4 bg-sky-50 border-2 border-transparent focus:border-[#F5B800] rounded-3xl focus:outline-none transition-all font-medium appearance-none"
                         >
                           {jobs.length === 0 ? (
                             <option value="">No open jobs at the moment</option>
@@ -297,7 +297,7 @@ export default function Opportunities() {
                       <select 
                         value={formData.availability}
                         onChange={(e) => setFormData({...formData, availability: e.target.value})}
-                        className="w-full px-6 py-4 bg-slate-50 border-2 border-transparent focus:border-blue-600 rounded-3xl focus:outline-none transition-all font-medium appearance-none"
+                        className="w-full px-6 py-4 bg-sky-50 border-2 border-transparent focus:border-[#F5B800] rounded-3xl focus:outline-none transition-all font-medium appearance-none"
                       >
                         <option>Weekends</option>
                         <option>Weekdays (Evenings)</option>
@@ -314,7 +314,7 @@ export default function Opportunities() {
                       rows={4} 
                       value={formData.about}
                       onChange={(e) => setFormData({...formData, about: e.target.value})}
-                      className="w-full px-6 py-4 bg-slate-50 border-2 border-transparent focus:border-blue-600 rounded-3xl focus:outline-none transition-all font-medium resize-none" 
+                      className="w-full px-6 py-4 bg-sky-50 border-2 border-transparent focus:border-[#F5B800] rounded-3xl focus:outline-none transition-all font-medium resize-none" 
                       placeholder="Tell us about your background and why you want to join..." 
                     />
                   </div>
@@ -322,7 +322,7 @@ export default function Opportunities() {
                   <button 
                     type="submit" 
                     disabled={isSubmitting || (appType === 'job' && jobs.length === 0)}
-                    className="w-full py-5 bg-blue-600 text-white rounded-3xl font-black text-lg hover:bg-blue-700 transition-all shadow-xl shadow-blue-600/20 transform active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed"
+                    className="w-full py-5 bg-[#F5B800] text-white rounded-3xl font-black text-lg hover:bg-[#032B45] transition-all shadow-xl shadow-[#F5B800]/20 transform active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed"
                   >
                     {isSubmitting ? 'Submitting...' : 'Submit Application'}
                   </button>
@@ -341,15 +341,15 @@ export default function Opportunities() {
               <MessageSquare className="w-48 h-48" />
             </div>
             <div className="relative z-10 text-center">
-              <p className="text-2xl md:text-4xl font-bold text-slate-800 leading-tight mb-10">
+              <p className="text-2xl md:text-4xl font-bold text-navy-800 leading-tight mb-10">
                 "Volunteering here hasn't just allowed me to help others; it's completely reshaped my perspective on community and global responsibility."
               </p>
               <div className="flex items-center justify-center gap-4">
-                <div className="w-16 h-16 bg-blue-600 rounded-full border-4 border-slate-50 flex items-center justify-center text-white text-xl font-black shadow-xl">
+                <div className="w-16 h-16 bg-[#F5B800] rounded-full border-4 border-slate-50 flex items-center justify-center text-white text-xl font-black shadow-xl">
                   JM
                 </div>
                 <div className="text-left">
-                  <div className="font-black text-slate-900 text-xl tracking-tight leading-none">Jennifer Martinez</div>
+                  <div className="font-black text-navy-900 text-xl tracking-tight leading-none">Jennifer Martinez</div>
                   <div className="text-slate-500 font-bold uppercase text-xs tracking-widest mt-1">Education Lead, 3 Years</div>
                 </div>
               </div>

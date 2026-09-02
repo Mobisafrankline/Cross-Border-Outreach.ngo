@@ -28,7 +28,7 @@ type ViewMode = "grid" | "masonry";
 
 // Category config with colours & icons
 const CATEGORY_CONFIG: Record<string, { label: string; color: string; bg: string; ring: string }> = {
-  all: { label: "All Photos", color: "text-white", bg: "bg-blue-600", ring: "ring-blue-400" },
+  all: { label: "All Photos", color: "text-white", bg: "bg-[#F5B800]", ring: "ring-blue-400" },
   community: { label: "Community", color: "text-sky-700", bg: "bg-sky-50", ring: "ring-sky-400" },
   education: { label: "Education", color: "text-violet-700", bg: "bg-violet-50", ring: "ring-violet-400" },
   healthcare: { label: "Healthcare", color: "text-rose-700", bg: "bg-rose-50", ring: "ring-rose-400" },
@@ -167,9 +167,9 @@ export default function Gallery() {
   ];
 
   return (
-    <div className="min-h-screen bg-slate-50 text-slate-900">
+    <div className="min-h-screen bg-sky-50 text-navy-900">
       {/* ── Hero ──────────────────────────────────────────────────── */}
-      <section className="relative overflow-hidden bg-blue-600 bg-gradient-to-br from-blue-700 via-blue-600 to-blue-800">
+      <section className="relative overflow-hidden bg-[#F5B800] bg-gradient-to-br from-navy-900 via-[#0a2540] to-navy-800">
         {/* Decorative blobs */}
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
           <div
@@ -256,8 +256,8 @@ export default function Gallery() {
                     key={cat.id}
                     onClick={() => setSelectedCategory(cat.id as Category)}
                     className={`px-4 py-1.5 rounded-full text-sm font-semibold transition-all duration-200 ${isActive
-                        ? "bg-blue-600 text-white shadow-md shadow-blue-600/20 ring-2 ring-blue-600 ring-offset-2 ring-offset-white"
-                        : "bg-white text-slate-600 border border-slate-200 hover:bg-slate-50 hover:border-slate-300"
+                        ? "bg-[#F5B800] text-white shadow-md shadow-[#F5B800]/20 ring-2 ring-[#F5B800] ring-offset-2 ring-offset-white"
+                        : "bg-white text-slate-600 border border-slate-200 hover:bg-sky-50 hover:border-slate-300"
                       }`}
                   >
                     {cat.label}
@@ -270,7 +270,7 @@ export default function Gallery() {
             {/* Mobile filter toggle */}
             <button
               onClick={() => setIsFilterOpen(!isFilterOpen)}
-              className="md:hidden flex items-center gap-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-xl text-sm font-semibold transition-colors shadow-sm"
+              className="md:hidden flex items-center gap-2 px-4 py-2 bg-[#F5B800] hover:bg-[#032B45] text-white rounded-xl text-sm font-semibold transition-colors shadow-sm"
             >
               <Filter className="w-4 h-4" />
               Filter
@@ -283,7 +283,7 @@ export default function Gallery() {
                   key={mode}
                   onClick={() => setViewMode(mode)}
                   className={`p-2 rounded-lg transition-all ${viewMode === mode
-                      ? "bg-white text-blue-600 shadow-sm"
+                      ? "bg-white text-[#F5B800] shadow-sm"
                       : "text-slate-500 hover:text-slate-700 hover:bg-slate-200/50"
                     }`}
                   title={`${mode.charAt(0).toUpperCase() + mode.slice(1)} view`}
@@ -311,7 +311,7 @@ export default function Gallery() {
                         key={cat.id}
                         onClick={() => { setSelectedCategory(cat.id as Category); setIsFilterOpen(false); }}
                         className={`px-3 py-1.5 rounded-full text-sm font-semibold transition-all ${isActive
-                            ? "bg-blue-600 text-white shadow-sm"
+                            ? "bg-[#F5B800] text-white shadow-sm"
                             : "bg-white text-slate-600 border border-slate-200"
                           }`}
                       >
@@ -335,21 +335,21 @@ export default function Gallery() {
           animate={{ opacity: 1 }}
           className="flex items-center gap-2 mb-8"
         >
-          <div className="w-1.5 h-6 bg-blue-600 rounded-full"></div>
+          <div className="w-1.5 h-6 bg-[#F5B800] rounded-full"></div>
           <p className="text-slate-600 font-medium">
-            Showing <span className="text-slate-900 font-bold">{filteredImages.length}</span> photos
+            Showing <span className="text-navy-900 font-bold">{filteredImages.length}</span> photos
             {selectedCategory !== "all" && (
-              <> in <span className="text-blue-600 capitalize">{CATEGORY_CONFIG[selectedCategory].label}</span></>
+              <> in <span className="text-[#F5B800] capitalize">{CATEGORY_CONFIG[selectedCategory].label}</span></>
             )}
             {searchQuery && (
-              <> matching <span className="text-blue-600">"{searchQuery}"</span></>
+              <> matching <span className="text-[#F5B800]">"{searchQuery}"</span></>
             )}
           </p>
         </motion.div>
 
         {loading ? (
           <div className="flex justify-center items-center py-24">
-            <Loader2 className="w-10 h-10 text-blue-600 animate-spin" />
+            <Loader2 className="w-10 h-10 text-[#F5B800] animate-spin" />
           </div>
         ) : (
         <motion.div
@@ -384,7 +384,7 @@ export default function Gallery() {
                     <p className="text-white font-semibold text-base mb-3 leading-tight line-clamp-2 drop-shadow-md">{image.alt}</p>
                     <div className="flex items-center justify-between">
                       <span
-                        className={`px-3 py-1 rounded-full text-white text-xs font-bold capitalize shadow-sm ${CATEGORY_BADGE[image.category] ?? "bg-blue-600"}`}
+                        className={`px-3 py-1 rounded-full text-white text-xs font-bold capitalize shadow-sm ${CATEGORY_BADGE[image.category] ?? "bg-[#F5B800]"}`}
                       >
                         {image.category}
                       </span>
@@ -406,11 +406,11 @@ export default function Gallery() {
             <div className="w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-5 bg-slate-100 text-slate-400">
               <ImageIcon className="w-10 h-10" />
             </div>
-            <h3 className="text-2xl font-bold text-slate-800 mb-2 font-playfair">No photos found</h3>
+            <h3 className="text-2xl font-bold text-navy-800 mb-2 font-playfair">No photos found</h3>
             <p className="text-slate-500 mb-6 max-w-md mx-auto">Try selecting a different category or adjusting your search term to find what you're looking for.</p>
             <button
               onClick={() => { setSelectedCategory("all"); setSearchQuery(""); }}
-              className="px-6 py-2.5 bg-blue-600 hover:bg-blue-700 text-white rounded-xl text-sm font-semibold transition-colors shadow-sm"
+              className="px-6 py-2.5 bg-[#F5B800] hover:bg-[#032B45] text-white rounded-xl text-sm font-semibold transition-colors shadow-sm"
             >
               Clear all filters
             </button>
@@ -441,8 +441,8 @@ export default function Gallery() {
               {/* Toolbar */}
               <div className="flex items-center justify-between px-6 py-4 bg-white border-b border-slate-200 z-10 shrink-0">
                 <div className="flex-1 pr-4">
-                  <p className="text-slate-900 font-bold text-base leading-tight truncate">{currentImg.alt}</p>
-                  <span className={`mt-1.5 inline-block px-2.5 py-0.5 rounded-full text-white text-[10px] uppercase tracking-wider font-bold ${CATEGORY_BADGE[currentImg.category] ?? "bg-blue-600"}`}>
+                  <p className="text-navy-900 font-bold text-base leading-tight truncate">{currentImg.alt}</p>
+                  <span className={`mt-1.5 inline-block px-2.5 py-0.5 rounded-full text-white text-[10px] uppercase tracking-wider font-bold ${CATEGORY_BADGE[currentImg.category] ?? "bg-[#F5B800]"}`}>
                     {currentImg.category}
                   </span>
                 </div>
@@ -454,7 +454,7 @@ export default function Gallery() {
                     onClick={handleShare}
                     className={`flex items-center gap-1.5 px-3 py-1.5 sm:px-4 sm:py-2 rounded-lg text-sm font-semibold transition-all ${copied
                         ? "bg-green-50 text-green-700 border border-green-200"
-                        : "bg-slate-50 text-slate-700 border border-slate-200 hover:bg-slate-100"
+                        : "bg-sky-50 text-slate-700 border border-slate-200 hover:bg-slate-100"
                       }`}
                   >
                     <Share2 className="w-4 h-4" />
@@ -466,7 +466,7 @@ export default function Gallery() {
                     target="_blank"
                     rel="noopener noreferrer"
                     onClick={(e) => e.stopPropagation()}
-                    className="flex items-center gap-1.5 px-3 py-1.5 sm:px-4 sm:py-2 rounded-lg text-sm font-semibold bg-blue-50 text-blue-700 border border-blue-200 hover:bg-blue-100 transition-all"
+                    className="flex items-center gap-1.5 px-3 py-1.5 sm:px-4 sm:py-2 rounded-lg text-sm font-semibold bg-sky-50 text-[#032B45] border border-blue-200 hover:bg-blue-100 transition-all"
                   >
                     <Download className="w-4 h-4" />
                     <span className="hidden sm:inline">Save Image</span>
@@ -500,7 +500,7 @@ export default function Gallery() {
                 {selectedIndex > 0 && (
                   <button
                     onClick={(e) => { e.stopPropagation(); goPrev(); }}
-                    className="absolute left-4 p-3 rounded-full bg-white/90 text-slate-800 shadow-lg hover:bg-white hover:scale-110 transition-all backdrop-blur-sm border border-slate-200"
+                    className="absolute left-4 p-3 rounded-full bg-white/90 text-navy-800 shadow-lg hover:bg-white hover:scale-110 transition-all backdrop-blur-sm border border-slate-200"
                     aria-label="Previous image"
                   >
                     <ChevronLeft className="w-6 h-6" />
@@ -509,7 +509,7 @@ export default function Gallery() {
                 {selectedIndex < filteredImages.length - 1 && (
                   <button
                     onClick={(e) => { e.stopPropagation(); goNext(); }}
-                    className="absolute right-4 p-3 rounded-full bg-white/90 text-slate-800 shadow-lg hover:bg-white hover:scale-110 transition-all backdrop-blur-sm border border-slate-200"
+                    className="absolute right-4 p-3 rounded-full bg-white/90 text-navy-800 shadow-lg hover:bg-white hover:scale-110 transition-all backdrop-blur-sm border border-slate-200"
                     aria-label="Next image"
                   >
                     <ChevronRight className="w-6 h-6" />
@@ -524,7 +524,7 @@ export default function Gallery() {
                     key={img.id}
                     onClick={(e) => { e.stopPropagation(); setSelectedImage(img.id); }}
                     className={`flex-shrink-0 w-16 h-16 sm:w-20 sm:h-20 rounded-xl overflow-hidden transition-all ${i === selectedIndex
-                        ? "ring-2 ring-blue-600 ring-offset-2 opacity-100"
+                        ? "ring-2 ring-[#F5B800] ring-offset-2 opacity-100"
                         : "opacity-40 hover:opacity-100"
                       }`}
                   >
@@ -543,7 +543,7 @@ export default function Gallery() {
 
       {/* ── Google Drive Archive Section ────────────────────────────── */}
       {/* ── Google Drive Archive Section ────────────────────────────── */}
-      <section className="py-16 px-6 bg-slate-50 border-t border-slate-200">
+      <section className="py-16 px-6 bg-sky-50 border-t border-slate-200">
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-12">
             <div className="inline-flex items-center justify-center w-16 h-16 bg-white rounded-full border border-slate-200 shadow-sm mb-6">
@@ -555,7 +555,7 @@ export default function Gallery() {
                 <path d="M21.13 28.73h44.07l-22.02 38.12H-1l22.13-38.12z" fill="#ffba00"/>
               </svg>
             </div>
-            <h3 className="text-3xl md:text-4xl font-bold text-slate-900 mb-4 font-playfair">Event Photo Archives</h3>
+            <h3 className="text-3xl md:text-4xl font-bold text-navy-900 mb-4 font-playfair">Event Photo Archives</h3>
             <p className="text-lg text-slate-600 max-w-2xl mx-auto font-source-serif">
               Browse and download high-resolution photos from our specific past events and programs in our public Google Drive folders.
             </p>
@@ -563,18 +563,18 @@ export default function Gallery() {
 
           {archivesLoading ? (
             <div className="flex justify-center items-center py-12">
-              <Loader2 className="w-10 h-10 text-blue-600 animate-spin" />
+              <Loader2 className="w-10 h-10 text-[#F5B800] animate-spin" />
             </div>
           ) : eventArchives.length > 0 ? (
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
               {eventArchives.map((archive) => (
                 <div key={archive.id} className="bg-white rounded-3xl p-6 border border-slate-200 shadow-sm hover:shadow-md transition-all group flex flex-col h-full">
                   <div className="flex items-start gap-4 mb-4">
-                    <div className="w-12 h-12 shrink-0 bg-blue-50 text-blue-600 rounded-xl flex items-center justify-center group-hover:bg-blue-600 group-hover:text-white transition-colors">
+                    <div className="w-12 h-12 shrink-0 bg-sky-50 text-[#F5B800] rounded-xl flex items-center justify-center group-hover:bg-[#F5B800] group-hover:text-white transition-colors">
                       <Folder className="w-6 h-6" />
                     </div>
                     <div>
-                      <h4 className="font-bold text-slate-900 line-clamp-2">{archive.title}</h4>
+                      <h4 className="font-bold text-navy-900 line-clamp-2">{archive.title}</h4>
                       <span className="text-xs text-slate-500 font-medium uppercase tracking-wider">{archive.date}</span>
                     </div>
                   </div>
@@ -585,7 +585,7 @@ export default function Gallery() {
                     href={archive.drive_url}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="w-full py-2.5 text-center bg-slate-50 text-slate-700 font-semibold rounded-xl hover:bg-slate-100 transition-colors border border-slate-200 mt-auto"
+                    className="w-full py-2.5 text-center bg-sky-50 text-slate-700 font-semibold rounded-xl hover:bg-slate-100 transition-colors border border-slate-200 mt-auto"
                   >
                     Open Drive Folder
                   </a>
@@ -606,30 +606,30 @@ export default function Gallery() {
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="max-w-4xl mx-auto text-center rounded-3xl p-10 sm:p-14 bg-blue-50 border border-blue-100 shadow-sm relative overflow-hidden"
+          className="max-w-4xl mx-auto text-center rounded-3xl p-10 sm:p-14 bg-sky-50 border border-blue-100 shadow-sm relative overflow-hidden"
         >
           {/* Decorative shapes for CTA */}
           <div className="absolute top-0 right-0 -mr-16 -mt-16 w-48 h-48 rounded-full bg-blue-100/50 blur-2xl"></div>
           <div className="absolute bottom-0 left-0 -ml-16 -mb-16 w-48 h-48 rounded-full bg-blue-200/50 blur-2xl"></div>
 
           <div className="relative z-10">
-            <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-white shadow-sm mb-6 text-blue-600">
+            <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-white shadow-sm mb-6 text-[#F5B800]">
               <Heart className="w-8 h-8 fill-blue-600/20" />
             </div>
-            <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-4 tracking-tight font-playfair">Be Part of Our Story</h2>
+            <h2 className="text-3xl md:text-4xl font-bold text-navy-900 mb-4 tracking-tight font-playfair">Be Part of Our Story</h2>
             <p className="text-lg text-slate-600 mb-8 max-w-2xl mx-auto font-source-serif">
               Every photo represents a life touched, a community strengthened, and a future brightened. Join our mission and help us create more stories worth telling.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <a
                 href="/opportunities"
-                className="px-8 py-3.5 rounded-xl font-bold text-blue-700 bg-white border border-blue-200 shadow-sm hover:bg-blue-50 hover:border-blue-300 transition-all text-center"
+                className="px-8 py-3.5 rounded-xl font-bold text-[#032B45] bg-white border border-blue-200 shadow-sm hover:bg-sky-50 hover:border-blue-300 transition-all text-center"
               >
                 Volunteer With Us
               </a>
               <a
                 href="/donate"
-                className="px-8 py-3.5 rounded-xl font-bold text-white bg-blue-600 shadow-md shadow-blue-600/20 hover:bg-blue-700 transition-all text-center"
+                className="px-8 py-3.5 rounded-xl font-bold text-white bg-[#F5B800] shadow-md shadow-[#F5B800]/20 hover:bg-[#032B45] transition-all text-center"
               >
                 Donate Now
               </a>

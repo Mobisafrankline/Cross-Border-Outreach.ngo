@@ -74,7 +74,7 @@ export default function DonateStripe() {
             alt="Donation and giving"
             className="w-full h-full object-cover"
           />
-          <div className="absolute inset-0 bg-gradient-to-r from-blue-900/90 to-blue-800/70" />
+          <div className="absolute inset-0 bg-gradient-to-r from-[#032B45]/90 to-[#053D61]/70" />
         </div>
         
         <div className="relative z-10 max-w-4xl mx-auto px-6 text-center text-white">
@@ -98,13 +98,13 @@ export default function DonateStripe() {
               <div className="bg-white rounded-xl shadow-lg p-8">
                 {/* Step 1: Donation Type */}
                 <div className="mb-8">
-                  <h2 className="text-2xl font-bold text-gray-900 mb-4 font-playfair">Choose Donation Type</h2>
+                  <h2 className="text-2xl font-bold text-navy-900 mb-4 font-playfair">Choose Donation Type</h2>
                   <div className="grid grid-cols-2 gap-4">
                     <button
                       onClick={() => setDonationType("one-time")}
                       className={`p-4 rounded-lg border-2 font-semibold transition-all ${
                         donationType === "one-time"
-                          ? "border-blue-600 bg-blue-50 text-blue-600"
+                          ? "border-[#032B45] bg-slate-50 text-[#032B45]"
                           : "border-gray-300 bg-white text-gray-700 hover:border-gray-400"
                       }`}
                     >
@@ -115,7 +115,7 @@ export default function DonateStripe() {
                       onClick={() => setDonationType("recurring")}
                       className={`p-4 rounded-lg border-2 font-semibold transition-all ${
                         donationType === "recurring"
-                          ? "border-blue-600 bg-blue-50 text-blue-600"
+                          ? "border-[#032B45] bg-slate-50 text-[#032B45]"
                           : "border-gray-300 bg-white text-gray-700 hover:border-gray-400"
                       }`}
                     >
@@ -127,7 +127,7 @@ export default function DonateStripe() {
 
                 {/* Step 2: Amount */}
                 <div className="mb-8">
-                  <h2 className="text-2xl font-bold text-gray-900 mb-4 font-playfair">Select Amount</h2>
+                  <h2 className="text-2xl font-bold text-navy-900 mb-4 font-playfair">Select Amount</h2>
                   <div className="grid grid-cols-3 gap-3 mb-4">
                     {predefinedAmounts.map((amount) => (
                       <button
@@ -138,7 +138,7 @@ export default function DonateStripe() {
                         }}
                         className={`py-4 px-6 rounded-lg border-2 font-bold transition-all ${
                           selectedAmount === amount
-                            ? "border-blue-600 bg-blue-50 text-blue-600"
+                            ? "border-[#032B45] bg-slate-50 text-[#032B45]"
                             : "border-gray-300 bg-white text-gray-700 hover:border-gray-400"
                         }`}
                       >
@@ -159,7 +159,7 @@ export default function DonateStripe() {
                           setCustomAmount(e.target.value);
                           setSelectedAmount(null);
                         }}
-                        className="w-full pl-8 pr-4 py-3 border-2 border-gray-300 rounded-lg focus:border-blue-600 focus:outline-none text-lg"
+                        className="w-full pl-8 pr-4 py-3 border-2 border-gray-300 rounded-lg focus:border-[#032B45] focus:outline-none text-lg"
                         placeholder="Enter amount"
                         min="1"
                       />
@@ -169,7 +169,7 @@ export default function DonateStripe() {
 
                 {/* Step 3: Program Selection */}
                 <div className="mb-8">
-                  <h2 className="text-2xl font-bold text-gray-900 mb-4 font-playfair">Choose Program</h2>
+                  <h2 className="text-2xl font-bold text-navy-900 mb-4 font-playfair">Choose Program</h2>
                   <div className="space-y-3">
                     {programs.map((program) => (
                       <button
@@ -177,11 +177,11 @@ export default function DonateStripe() {
                         onClick={() => setSelectedProgram(program.id)}
                         className={`w-full text-left p-4 rounded-lg border-2 transition-all ${
                           selectedProgram === program.id
-                            ? "border-blue-600 bg-blue-50"
+                            ? "border-[#032B45] bg-slate-50"
                             : "border-gray-300 bg-white hover:border-gray-400"
                         }`}
                       >
-                        <div className="font-semibold text-gray-900">{program.label}</div>
+                        <div className="font-semibold text-navy-900">{program.label}</div>
                         <div className="text-sm text-gray-600 mt-1">{program.description}</div>
                       </button>
                     ))}
@@ -190,7 +190,7 @@ export default function DonateStripe() {
 
                 {/* Step 4: Payment Method */}
                 <div className="mb-8">
-                  <h2 className="text-2xl font-bold text-gray-900 mb-4 font-playfair">Payment Method</h2>
+                  <h2 className="text-2xl font-bold text-navy-900 mb-4 font-playfair">Payment Method</h2>
                   <div className="grid md:grid-cols-2 gap-3">
                     {paymentMethods.map((method) => (
                       <button
@@ -198,17 +198,17 @@ export default function DonateStripe() {
                         onClick={() => setSelectedPaymentMethod(method.id)}
                         className={`flex items-start gap-3 p-4 rounded-lg border-2 transition-all text-left ${
                           selectedPaymentMethod === method.id
-                            ? "border-blue-600 bg-blue-50"
+                            ? "border-[#032B45] bg-slate-50"
                             : "border-gray-300 bg-white hover:border-gray-400"
                         }`}
                       >
                         <div className={`w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0 ${
-                          selectedPaymentMethod === method.id ? "bg-blue-600 text-white" : "bg-gray-100 text-gray-600"
+                          selectedPaymentMethod === method.id ? "bg-[#032B45] text-white" : "bg-gray-100 text-gray-600"
                         }`}>
                           {method.icon}
                         </div>
                         <div className="flex-1">
-                          <div className="font-semibold text-gray-900">{method.label}</div>
+                          <div className="font-semibold text-navy-900">{method.label}</div>
                           <div className="text-xs text-gray-600 mt-0.5">{method.description}</div>
                         </div>
                       </button>
@@ -232,21 +232,21 @@ export default function DonateStripe() {
 
             {/* Right Column - Summary */}
             <div className="lg:col-span-1">
-              <div className="bg-blue-900 rounded-xl p-8 text-white sticky top-40">
+              <div className="bg-[#032B45] rounded-xl p-8 text-white sticky top-40">
                 <h3 className="text-2xl font-bold mb-6 font-playfair">Donation Summary</h3>
                 
                 <div className="space-y-4 mb-6">
-                  <div className="flex justify-between py-3 border-b border-blue-400/30">
+                  <div className="flex justify-between py-3 border-b border-white/20">
                     <span className="opacity-90">Type:</span>
                     <span className="font-semibold capitalize">{donationType}</span>
                   </div>
-                  <div className="flex justify-between py-3 border-b border-blue-400/30">
+                  <div className="flex justify-between py-3 border-b border-white/20">
                     <span className="opacity-90">Program:</span>
                     <span className="font-semibold">
                       {programs.find(p => p.id === selectedProgram)?.label}
                     </span>
                   </div>
-                  <div className="flex justify-between py-3 border-b border-blue-400/30">
+                  <div className="flex justify-between py-3 border-b border-white/20">
                     <span className="opacity-90">Payment:</span>
                     <span className="font-semibold text-sm">
                       {getPaymentMethodDisplay(selectedPaymentMethod)}
@@ -301,19 +301,19 @@ export default function DonateStripe() {
         <div className="max-w-6xl mx-auto px-6">
           <div className="flex flex-wrap justify-center items-center gap-8 opacity-60">
             <div className="text-center">
-              <div className="text-2xl font-bold text-gray-900">🔒</div>
+              <div className="text-2xl font-bold text-navy-900">🔒</div>
               <div className="text-sm text-gray-600 mt-1">Secure SSL</div>
             </div>
             <div className="text-center">
-              <div className="text-2xl font-bold text-gray-900">✓</div>
+              <div className="text-2xl font-bold text-navy-900">✓</div>
               <div className="text-sm text-gray-600 mt-1">Verified Nonprofit</div>
             </div>
             <div className="text-center">
-              <div className="text-2xl font-bold text-gray-900">💳</div>
+              <div className="text-2xl font-bold text-navy-900">💳</div>
               <div className="text-sm text-gray-600 mt-1">PCI Compliant</div>
             </div>
             <div className="text-center">
-              <div className="text-2xl font-bold text-gray-900">⚡</div>
+              <div className="text-2xl font-bold text-navy-900">⚡</div>
               <div className="text-sm text-gray-600 mt-1">Powered by Stripe</div>
             </div>
           </div>

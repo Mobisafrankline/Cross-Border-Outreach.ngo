@@ -85,7 +85,7 @@ function RotatingText() {
         transition: "opacity 0.35s ease, transform 0.35s ease",
         opacity: fade ? 1 : 0,
         transform: fade ? "translateY(0)" : "translateY(12px)",
-        color: "#0959d6",
+        color: "#F5B800",
       }}
     >
       {heroRotatingPhrases[index]}
@@ -333,7 +333,7 @@ export default function Home() {
       </section>
 
       {/* ── PROGRAMS ── */}
-      <section className="bg-slate-50 py-24 border-b-2 border-slate-200">
+      <section className="bg-sky-50 py-24 border-b-2 border-slate-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6">
           <div ref={programsReveal.ref} className={`mb-16 home-reveal ${programsReveal.visible ? 'visible' : ''}`}>
             <div className="inline-flex px-4 py-1.5 bg-gold-500 text-navy-900 font-bold text-xs uppercase tracking-widest rounded mb-6">
@@ -352,7 +352,7 @@ export default function Home() {
               <Link 
                 key={index}
                 to={program.link} 
-                className={`group flex flex-col bg-white rounded-lg overflow-hidden border-2 border-slate-200 hover:border-blue-600 transition-colors shadow-sm ${
+                className={`group flex flex-col bg-white rounded-lg overflow-hidden border-2 border-slate-200 hover:border-[#F5B800] transition-colors shadow-sm ${
                   index < 3 ? 'lg:col-span-2' : 'lg:col-span-3'
                 } ${index === 4 ? 'md:col-span-2 lg:col-span-3' : ''}`}
               >
@@ -365,13 +365,13 @@ export default function Home() {
                 </div>
                 {/* Content area */}
                 <div className="p-6 flex flex-col flex-1">
-                  <h3 className="text-xl font-extrabold text-navy-900 mb-3 leading-tight group-hover:text-blue-700 transition-colors">
+                  <h3 className="text-xl font-extrabold text-navy-900 mb-3 leading-tight group-hover:text-[#032B45] transition-colors">
                     {program.title}
                   </h3>
                   <p className="text-sm text-slate-600 font-medium mb-6 flex-1">
                     {program.description}
                   </p>
-                  <div className="inline-flex items-center text-xs font-bold tracking-widest uppercase text-blue-700 group-hover:text-blue-800 transition-colors mt-auto">
+                  <div className="inline-flex items-center text-xs font-bold tracking-widest uppercase text-[#032B45] group-hover:text-navy-800 transition-colors mt-auto">
                     {t('programs.learnMore')} <ArrowRight className="w-4 h-4 ml-1.5 transition-transform group-hover:translate-x-1" />
                   </div>
                 </div>
@@ -443,7 +443,7 @@ export default function Home() {
 
       {/* ── LATEST NEWS ── */}
       {recentNews.length > 0 && (
-        <section className="bg-slate-50 py-24 border-t border-slate-100">
+        <section className="bg-sky-50 py-24 border-t border-slate-100">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-4">
               <div>
@@ -461,24 +461,24 @@ export default function Home() {
                     <ImageWithFallback src={newsItem.image} alt={newsItem.title} loading="lazy" decoding="async" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                     <div className="absolute top-4 left-4">
-                      <span className="px-4 py-1.5 text-white text-[10px] font-black uppercase tracking-widest rounded-full shadow-lg backdrop-blur-md bg-[#0959d6]/90 border border-white/20">
+                      <span className="px-4 py-1.5 text-white text-[10px] font-black uppercase tracking-widest rounded-full shadow-lg backdrop-blur-md bg-[#F5B800]/90 border border-white/20">
                         {newsItem.category}
                       </span>
                     </div>
                   </div>
                   <div className="p-8 flex flex-col flex-1 relative bg-white">
                     <div className="flex items-center gap-2 text-xs font-bold mb-4 text-slate-500 uppercase tracking-widest">
-                      <Calendar className="w-4 h-4 text-[#0959d6]" />
+                      <Calendar className="w-4 h-4 text-[#F5B800]" />
                       {newsItem.date}
                     </div>
-                    <h3 className="text-2xl font-bold leading-tight mb-4 transition-colors font-playfair text-gray-900 group-hover:text-[#0959d6]">
+                    <h3 className="text-2xl font-bold leading-tight mb-4 transition-colors font-playfair text-navy-900 group-hover:text-[#F5B800]">
                       {newsItem.title}
                     </h3>
                     <p className="text-base leading-relaxed line-clamp-3 mb-8 flex-1 text-slate-600">
                       {newsItem.excerpt}
                     </p>
                     <div className="mt-auto">
-                      <Link to={`/company-news/${newsItem.id}`} className="inline-flex items-center gap-2 text-sm font-bold uppercase tracking-widest text-[#111827] group-hover:text-[#0959d6] transition-colors">
+                      <Link to={`/company-news/${newsItem.id}`} className="inline-flex items-center gap-2 text-sm font-bold uppercase tracking-widest text-[#111827] group-hover:text-[#F5B800] transition-colors">
                         Read Article <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
                       </Link>
                     </div>
@@ -503,11 +503,11 @@ export default function Home() {
               </div>
               {/* Glassmorphism Floating Badge */}
               <div className="absolute -bottom-8 -right-8 sm:-bottom-12 sm:-right-12 bg-white/80 backdrop-blur-xl border border-white p-6 sm:p-8 rounded-3xl shadow-[0_20px_60px_rgba(15,23,42,0.1)] flex items-center gap-6 z-10 animate-[bounce_8s_infinite]">
-                <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-[#0959d6] to-[#0648b3] flex items-center justify-center shadow-lg">
+                <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-[#F5B800] to-[#032B45] flex items-center justify-center shadow-lg">
                   <CheckCircle2 className="w-8 h-8 text-white" />
                 </div>
                 <div>
-                  <div className="text-4xl font-black text-gray-900 tracking-tight">100%</div>
+                  <div className="text-4xl font-black text-navy-900 tracking-tight">100%</div>
                   <div className="text-sm font-bold text-slate-500 uppercase tracking-widest mt-1">Transparent</div>
                 </div>
               </div>
@@ -515,10 +515,10 @@ export default function Home() {
 
             {/* Content Side */}
             <div className="flex flex-col justify-center pt-12 lg:pt-0">
-              <div className="inline-flex px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-widest mb-6 w-fit border border-blue-100 text-[#0959d6] bg-blue-50">
+              <div className="inline-flex px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-widest mb-6 w-fit border border-blue-100 text-[#F5B800] bg-sky-50">
                 Our Commitment
               </div>
-              <h2 className="text-4xl lg:text-5xl font-playfair font-bold text-gray-900 mb-6 leading-tight">
+              <h2 className="text-4xl lg:text-5xl font-playfair font-bold text-navy-900 mb-6 leading-tight">
                 Why Partner With Us
               </h2>
               <p className="text-lg text-gray-600 leading-relaxed mb-10">
@@ -533,7 +533,7 @@ export default function Home() {
                   { text: 'Experienced team with local partnerships', color: '#f97316' },
                   { text: 'Regular impact reports and updates', color: '#ef4444' },
                 ].map((item, i) => (
-                  <div key={i} className="flex items-start gap-4 p-5 rounded-2xl bg-slate-50 border border-slate-100 transition-all hover:bg-white hover:shadow-xl hover:-translate-y-1">
+                  <div key={i} className="flex items-start gap-4 p-5 rounded-2xl bg-sky-50 border border-slate-100 transition-all hover:bg-white hover:shadow-xl hover:-translate-y-1">
                     <div className="flex-shrink-0 w-10 h-10 rounded-xl flex items-center justify-center" style={{ backgroundColor: `${item.color}15`, color: item.color }}>
                       <CheckCircle2 className="w-5 h-5" />
                     </div>
@@ -542,7 +542,7 @@ export default function Home() {
                 ))}
               </div>
               
-              <Link to="/mission" className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-[#111827] text-white rounded-xl font-bold hover:bg-slate-800 transition-all shadow-lg hover:shadow-2xl hover:-translate-y-1 w-fit">
+              <Link to="/mission" className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-[#111827] text-white rounded-xl font-bold hover:bg-navy-800 transition-all shadow-lg hover:shadow-2xl hover:-translate-y-1 w-fit">
                 Our Mission &amp; Vision<ArrowRight className="w-5 h-5" />
               </Link>
             </div>
@@ -552,13 +552,13 @@ export default function Home() {
       </section>
 
       {/* ── TESTIMONIALS ── */}
-      <section className="bg-slate-50 py-24">
+      <section className="bg-sky-50 py-24">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div ref={testimonialsReveal.ref} className={`mb-16 home-reveal ${testimonialsReveal.visible ? 'visible' : ''}`}>
             <div className="inline-flex px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-widest mb-6 w-fit border border-orange-200 text-orange-600 bg-orange-50">
               Voices of Impact
             </div>
-            <h2 className="text-4xl lg:text-5xl font-playfair font-bold text-gray-900 mb-6 leading-tight">
+            <h2 className="text-4xl lg:text-5xl font-playfair font-bold text-navy-900 mb-6 leading-tight">
               Stories of Transformation
             </h2>
             <p className="text-lg text-slate-600 leading-relaxed max-w-2xl">
@@ -583,7 +583,7 @@ export default function Home() {
                 <CarouselItem key={index} className="pl-2 md:pl-4 basis-full md:basis-1/2 lg:basis-1/3">
                   <div className="bg-white rounded-[2rem] p-8 sm:p-10 h-full flex flex-col shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-slate-100 transition-transform duration-500 hover:-translate-y-2 hover:shadow-[0_20px_40px_rgb(0,0,0,0.08)]">
                     <div className="text-7xl font-playfair text-orange-200 leading-none h-12 mb-4">"</div>
-                    <p className="text-xl font-medium text-slate-800 leading-relaxed mb-10 flex-1">
+                    <p className="text-xl font-medium text-navy-800 leading-relaxed mb-10 flex-1">
                       {item.quote}
                     </p>
                     <div className="flex items-center gap-4 pt-6 border-t border-slate-100">
@@ -591,7 +591,7 @@ export default function Home() {
                         {item.avatar}
                       </div>
                       <div>
-                        <div className="font-bold text-gray-900">{item.author}</div>
+                        <div className="font-bold text-navy-900">{item.author}</div>
                         <div className="text-sm text-slate-500">{item.role}</div>
                       </div>
                     </div>
@@ -614,7 +614,7 @@ export default function Home() {
             Join our global community of donors, volunteers, and partners working to create lasting change across borders.
           </p>
           <div className="flex flex-col sm:flex-row justify-center items-center gap-4">
-            <Link to="/donate" className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-blue-600 text-white rounded font-bold hover:bg-blue-700 transition-colors shadow-sm w-full sm:w-auto">
+            <Link to="/donate" className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-[#F5B800] text-white rounded font-bold hover:bg-[#032B45] transition-colors shadow-sm w-full sm:w-auto">
               <Heart className="w-5 h-5 fill-white" />
               Donate Today
             </Link>

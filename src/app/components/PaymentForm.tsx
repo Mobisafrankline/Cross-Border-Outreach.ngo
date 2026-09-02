@@ -151,19 +151,19 @@ export default function PaymentForm({
         <div className="w-20 h-20 bg-white shadow-md border-4 border-sky-100 text-sky-500 rounded-full flex items-center justify-center mx-auto mb-6">
           <CheckCircle2 className="w-10 h-10" />
         </div>
-        <h3 className="text-3xl font-extrabold text-slate-900 mb-3 tracking-tight">Payment Successful</h3>
+        <h3 className="text-3xl font-extrabold text-navy-900 mb-3 tracking-tight">Payment Successful</h3>
         <p className="text-lg text-sky-800 font-medium mb-6">
           Your {donationType === 'recurring' ? 'monthly' : ''} donation of ${amount} has been securely processed.
         </p>
         <div className="bg-white rounded-xl p-4 inline-flex items-center gap-3 border border-sky-100 shadow-sm">
           <Mail className="w-5 h-5 text-sky-500" />
-          <span className="text-slate-600 font-medium text-sm">Receipt sent to <b className="text-slate-800">{formData.email}</b></span>
+          <span className="text-slate-600 font-medium text-sm">Receipt sent to <b className="text-navy-800">{formData.email}</b></span>
         </div>
       </div>
     );
   }
 
-  const inputClasses = "w-full bg-white border border-gray-200 rounded-lg px-4 py-3 text-gray-900 focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 transition-all";
+  const inputClasses = "w-full bg-white border border-gray-200 rounded-lg px-4 py-3 text-navy-900 focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 transition-all";
 
   return (
     <form onSubmit={handleSubmit} className="space-y-6 animate-in fade-in duration-500">
@@ -171,14 +171,14 @@ export default function PaymentForm({
       {/* ── Checkout Header ── */}
       <div className="flex items-center justify-between pb-4 border-b border-gray-200">
         <div>
-          <h3 className="text-lg font-bold text-gray-900">Secure Checkout</h3>
+          <h3 className="text-lg font-bold text-navy-900">Secure Checkout</h3>
           <p className="text-gray-500 text-sm mt-1 flex items-center gap-1.5">
-            <Lock className="w-4 h-4 text-blue-500" /> 256-bit SSL Encrypted
+            <Lock className="w-4 h-4 text-[#F5B800]" /> 256-bit SSL Encrypted
           </p>
         </div>
         <div className="text-right">
           <div className="text-gray-500 font-semibold uppercase tracking-wider text-[10px] mb-1">Total Contribution</div>
-          <div className="text-2xl font-bold text-gray-900">${amount}<span className="text-base text-gray-400 font-medium">{donationType === 'recurring' ? '/mo' : ''}</span></div>
+          <div className="text-2xl font-bold text-navy-900">${amount}<span className="text-base text-gray-400 font-medium">{donationType === 'recurring' ? '/mo' : ''}</span></div>
         </div>
       </div>
 
@@ -195,7 +195,7 @@ export default function PaymentForm({
       {/* ── Personal Info Section ── */}
       <div className="space-y-4">
         <div>
-          <h4 className="text-sm font-semibold text-gray-900 mb-3">Donor Information</h4>
+          <h4 className="text-sm font-semibold text-navy-900 mb-3">Donor Information</h4>
           <div className="grid sm:grid-cols-2 gap-4">
             <div className="relative">
               <User className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
@@ -252,7 +252,7 @@ export default function PaymentForm({
         </div>
 
         <div>
-          <h4 className="text-sm font-semibold text-gray-900 mb-3 mt-6">Billing Details</h4>
+          <h4 className="text-sm font-semibold text-navy-900 mb-3 mt-6">Billing Details</h4>
           <div className="space-y-4">
             <div className="relative">
               <MapPin className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
@@ -308,7 +308,7 @@ export default function PaymentForm({
 
         {/* ── Payment Details Section ── */}
         <div className="mt-6">
-          <h4 className="text-sm font-semibold text-gray-900 mb-3">Secure Payment</h4>
+          <h4 className="text-sm font-semibold text-navy-900 mb-3">Secure Payment</h4>
           <div className="bg-white border border-gray-200 rounded-lg p-4 focus-within:border-blue-500 focus-within:ring-2 focus-within:ring-blue-500/20 transition-all shadow-sm">
             <div className="flex items-center gap-3">
               <CreditCard className="w-5 h-5 text-gray-400" />
@@ -343,7 +343,7 @@ export default function PaymentForm({
         <button
           type="submit"
           disabled={isProcessing || !stripe}
-          className="w-full py-3.5 px-4 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-semibold text-base transition-colors flex items-center justify-center gap-2 disabled:opacity-70 disabled:cursor-not-allowed shadow-sm"
+          className="w-full py-3.5 px-4 bg-[#F5B800] hover:bg-[#032B45] text-white rounded-lg font-semibold text-base transition-colors flex items-center justify-center gap-2 disabled:opacity-70 disabled:cursor-not-allowed shadow-sm"
         >
           {isProcessing ? (
             <>
@@ -360,7 +360,7 @@ export default function PaymentForm({
 
         <p className="text-center text-xs text-gray-500 mt-4">
           Payments are securely processed by Stripe. <br/>
-          <a href="mailto:skamau@crossbordersoutreach.org" className="text-blue-600 hover:underline mt-1 inline-block">Contact Support</a>
+          <a href="mailto:skamau@crossbordersoutreach.org" className="text-[#F5B800] hover:underline mt-1 inline-block">Contact Support</a>
         </p>
       </div>
     </form>

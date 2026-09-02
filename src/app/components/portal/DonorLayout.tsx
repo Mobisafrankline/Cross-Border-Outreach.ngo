@@ -106,7 +106,7 @@ export default function DonorLayout() {
         `}
         style={{
           width: 264,
-          background: "linear-gradient(180deg, #0648b3 0%, #0959d6 50%, #0648b3 100%)",
+          background: "linear-gradient(180deg, #032B45 0%, #053D61 50%, #032B45 100%)",
           flexShrink: 0,
         }}
       >
@@ -210,14 +210,14 @@ export default function DonorLayout() {
 
             {/* Desktop breadcrumb */}
             <div className="hidden lg:flex items-center gap-2 text-sm">
-              <Heart className="w-4 h-4 text-blue-500"/>
+              <Heart className="w-4 h-4 text-[#F5B800]"/>
               <span className="text-slate-400 font-medium">Donor</span>
               <ChevronRight className="w-4 h-4 text-slate-300"/>
-              <span className="font-semibold text-slate-800">{crumb}</span>
+              <span className="font-semibold text-navy-800">{crumb}</span>
             </div>
 
             {/* Mobile page title */}
-            <span className="font-bold text-slate-900 lg:hidden">{crumb}</span>
+            <span className="font-bold text-navy-900 lg:hidden">{crumb}</span>
           </div>
 
           <div className="flex items-center gap-2">
@@ -238,7 +238,7 @@ export default function DonorLayout() {
         </header>
 
         {/* Page content */}
-        <div className="flex-1 overflow-y-auto bg-slate-50">
+        <div className="flex-1 overflow-y-auto bg-sky-50">
           <Outlet/>
         </div>
       </main>

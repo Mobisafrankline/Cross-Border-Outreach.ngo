@@ -45,16 +45,16 @@ function CountUp({ to, prefix="", suffix="", decimals=0, duration=1200 }: { to:n
 
 /* ── Constants ─────────────────────────────────────────── */
 const TIERS = [
-  { name:"Bronze", threshold:0,    color:"from-slate-600 to-slate-800", ring:"#64748b", emoji:"🥉" },
-  { name:"Silver", threshold:1000, color:"from-blue-500 to-blue-700",   ring:"#0959d6", emoji:"🥈" },
-  { name:"Gold",   threshold:5000, color:"from-slate-900 to-blue-900",  ring:"#111827", emoji:"🥇" },
+  { name:"Bronze", threshold:0,    color:"from-[#053D61] to-navy-900", ring:"#053D61", emoji:"🥉" },
+  { name:"Silver", threshold:1000, color:"from-navy-900 to-[#0a2540]",   ring:"#032B45", emoji:"🥈" },
+  { name:"Gold",   threshold:5000, color:"from-gold-500 to-gold-600",  ring:"#F5B800", emoji:"🥇" },
 ];
 
 const PROGRAM_COLORS: Record<string, string> = {
-  "Food Support Program":  "#0959d6",
-  "Education Initiative":  "#0648b3",
-  "Healthcare Outreach":   "#2f7aee",
-  "Economic Empowerment":  "#111827",
+  "Food Support Program":  "#F5B800",
+  "Education Initiative":  "#FFD13B",
+  "Healthcare Outreach":   "#E5A800",
+  "Economic Empowerment":  "#032B45",
 };
 
 const IMPACT_MAP: Record<string, { label:string; icon:string; multiplier:number }> = {
@@ -217,7 +217,7 @@ export default function DonorDashboard() {
     <div className="flex-1 h-full bg-slate-50 flex items-center justify-center min-h-[60vh]">
       <div className="text-center">
         <div className="w-16 h-16 mx-auto mb-4 rounded-3xl flex items-center justify-center shadow-lg"
-          style={{background:"linear-gradient(135deg,#0648b3,#0959d6)",boxShadow:"0 8px 24px rgba(9,89,214,.35)"}}>
+          style={{background:"linear-gradient(135deg, #032B45, #053D61)",boxShadow:"0 8px 24px rgba(3,43,69,.35)"}}>
           <Loader2 className="w-8 h-8 text-white animate-spin"/>
         </div>
         <p className="text-slate-500 font-medium">Loading your dashboard…</p>
@@ -233,24 +233,24 @@ export default function DonorDashboard() {
 
       {/* ── Welcome Banner ── */}
       <div className="relative overflow-hidden">
-        <div className="absolute inset-0" style={{background:"linear-gradient(135deg,#0648b3,#0959d6,#0648b3)"}}/>
-        <div className="absolute inset-0 opacity-15">
-          <div className="absolute top-0 right-0 w-80 h-80 bg-yellow-400 rounded-full blur-3xl -translate-y-1/2 translate-x-1/3"/>
-          <div className="absolute bottom-0 left-0 w-64 h-64 bg-blue-300 rounded-full blur-3xl translate-y-1/2 -translate-x-1/3"/>
+        <div className="absolute inset-0" style={{background:"linear-gradient(135deg,#032B45,#053D61,#032B45)"}}/>
+        <div className="absolute inset-0 opacity-20">
+          <div className="absolute top-0 right-0 w-80 h-80 bg-[#F5B800] rounded-full blur-3xl -translate-y-1/2 translate-x-1/3"/>
+          <div className="absolute bottom-0 left-0 w-64 h-64 bg-[#0a2540] rounded-full blur-3xl translate-y-1/2 -translate-x-1/3"/>
         </div>
         <div className="relative max-w-6xl mx-auto px-4 sm:px-6 py-8 sm:py-10">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
             <div>
-              <p className="text-blue-200 text-sm font-medium mb-1">{greeting} 👋</p>
+              <p className="text-blue-100 text-sm font-medium mb-1">{greeting} 👋</p>
               <h1 className="text-2xl sm:text-3xl font-bold text-white">
-                Welcome, <span style={{color:"#fcc526"}}>{firstName}</span>
+                Welcome, <span style={{ color: "#F5B800" }}>{firstName}</span>
               </h1>
-              <p className="text-blue-200/70 text-sm mt-2">Your generosity is changing lives across 38+ nations.</p>
+              <p className="text-blue-100/70 text-sm mt-2">Your generosity is changing lives across 38+ nations.</p>
             </div>
             <button
               onClick={() => setIsDonateModalOpen(true)}
               className="flex items-center gap-2 px-6 py-3 text-white font-bold rounded-xl transition-all flex-shrink-0"
-              style={{background:"#111827",boxShadow:"0 6px 20px rgba(17,24,39,.30)"}}
+              style={{background:"linear-gradient(90deg, #F5B800, #E5A800)", color:"#032B45", boxShadow:"0 6px 20px rgba(245,184,0,.30)"}}
             >
               <Sparkles className="w-4 h-4"/> Donate Now
             </button>
@@ -269,10 +269,10 @@ export default function DonorDashboard() {
         {/* ── Stat Cards ── */}
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
           {[
-            { label:"Total Given",    value:totalDonated,         prefix:"$", suffix:"",    icon:Heart,    grad:"from-blue-500 to-blue-700"   },
-            { label:"Donations Made", value:donor?.donation_count??0, prefix:"", suffix:"", icon:CreditCard, grad:"from-blue-600 to-blue-800"   },
+            { label:"Total Given",    value:totalDonated,         prefix:"$", suffix:"",    icon:Heart,    grad:"from-[#032B45] to-[#053D61]"   },
+            { label:"Donations Made", value:donor?.donation_count??0, prefix:"", suffix:"", icon:CreditCard, grad:"from-[#053D61] to-navy-900"   },
             { label:"Tier",           value:0,                    prefix:"",  suffix:"",    icon:Award,    grad:"from-slate-700 to-slate-900", tierOverride:true },
-            { label:"Impact Score",   value:Math.round(totalDonated * 0.12), prefix:"", suffix:" pts", icon:Target, grad:"from-blue-700 to-blue-900" },
+            { label:"Impact Score",   value:Math.round(totalDonated * 0.12), prefix:"", suffix:" pts", icon:Target, grad:"from-gold-500 to-gold-600" },
           ].map((s, i) => (
             <div key={s.label} className="portal-stat-card" style={{animationDelay:`${i*80}ms`}}>
               <div className="flex items-start justify-between mb-3">
@@ -282,7 +282,7 @@ export default function DonorDashboard() {
               </div>
               {s.tierOverride ? (
                 <div>
-                  <div className="text-2xl font-black text-slate-900 mb-0.5">{currentTier.emoji} {currentTier.name}</div>
+                  <div className="text-2xl font-black text-navy-900 mb-0.5">{currentTier.emoji} {currentTier.name}</div>
                   {nextTier !== currentTier && (
                     <div className="mt-2">
                       <div className="flex justify-between text-xs text-slate-400 mb-1">
@@ -296,7 +296,7 @@ export default function DonorDashboard() {
                   )}
                 </div>
               ) : (
-                <div className="text-2xl sm:text-3xl font-black text-slate-900 mb-1">
+                <div className="text-2xl sm:text-3xl font-black text-navy-900 mb-1">
                   <CountUp to={s.value} prefix={s.prefix} suffix={s.suffix} duration={1200+i*150}/>
                 </div>
               )}
@@ -324,20 +324,20 @@ export default function DonorDashboard() {
           <div className="grid lg:grid-cols-2 gap-6 portal-fade-in">
             {/* Giving trend */}
             <div className="bg-white rounded-2xl border border-slate-100 shadow-sm p-6">
-              <h2 className="font-bold text-slate-900 mb-4">Giving Trend</h2>
+              <h2 className="font-bold text-navy-900 mb-4">Giving Trend</h2>
               <ResponsiveContainer width="100%" height={180}>
                 <AreaChart data={monthlyData} margin={{top:4,right:4,left:-22,bottom:0}}>
                   <defs>
                     <linearGradient id="donorGrad" x1="0" y1="0" x2="0" y2="1">
-                      <stop offset="5%"  stopColor="#0959d6" stopOpacity={0.18}/>
-                      <stop offset="95%" stopColor="#0959d6" stopOpacity={0.01}/>
+                      <stop offset="5%"  stopColor="#F5B800" stopOpacity={0.18}/>
+                      <stop offset="95%" stopColor="#F5B800" stopOpacity={0.01}/>
                     </linearGradient>
                   </defs>
                   <CartesianGrid strokeDasharray="3 3" stroke="#f1f5f9" vertical={false}/>
                   <XAxis dataKey="month" tick={{fontSize:11,fill:"#94a3b8"}} axisLine={false} tickLine={false}/>
                   <YAxis tick={{fontSize:11,fill:"#94a3b8"}} axisLine={false} tickLine={false} tickFormatter={v=>`$${v}`}/>
                   <Tooltip formatter={(v:any) => [`$${v}`, "Donated"]} contentStyle={{borderRadius:10,border:"1px solid #e2e8f0",fontSize:13}}/>
-                  <Area type="monotone" dataKey="amount" stroke="#0959d6" strokeWidth={2.5} fill="url(#donorGrad)" dot={false}/>
+                  <Area type="monotone" dataKey="amount" stroke="#F5B800" strokeWidth={2.5} fill="url(#donorGrad)" dot={false}/>
                 </AreaChart>
               </ResponsiveContainer>
             </div>
@@ -345,8 +345,8 @@ export default function DonorDashboard() {
             {/* Recent donations */}
             <div className="bg-white rounded-2xl border border-slate-100 shadow-sm overflow-hidden">
               <div className="flex items-center justify-between px-5 py-4 border-b border-slate-50">
-                <h2 className="font-bold text-slate-900">Recent Donations</h2>
-                <button onClick={() => setTab("donations")} className="text-sm text-blue-600 font-semibold flex items-center gap-1 hover:text-blue-700">
+                <h2 className="font-bold text-navy-900">Recent Donations</h2>
+                <button onClick={() => setTab("donations")} className="text-sm font-semibold flex items-center gap-1" style={{color:"#032B45"}}>
                   See all <ChevronRight className="w-4 h-4"/>
                 </button>
               </div>
@@ -355,21 +355,21 @@ export default function DonorDashboard() {
                   <Heart className="w-10 h-10 text-slate-200 mx-auto mb-3"/>
                   <p className="text-slate-500 font-medium">No donations yet</p>
                   <p className="text-slate-400 text-sm mt-1">Make your first donation to get started</p>
-                  <button onClick={() => setIsDonateModalOpen(true)} className="mt-4 px-4 py-2 rounded-xl text-white text-sm font-semibold" style={{background:"#0959d6"}}>
+                  <button onClick={() => setIsDonateModalOpen(true)} className="mt-4 px-4 py-2 rounded-xl text-white text-sm font-semibold" style={{background:"linear-gradient(90deg, #032B45, #053D61)"}}>
                     Donate Now
                   </button>
                 </div>
               ) : donations.slice(0,5).map(d => (
                 <div key={d.id} className="portal-activity-row">
-                  <div className="w-9 h-9 rounded-full flex items-center justify-center flex-shrink-0" style={{background:"#eff6ff"}}>
-                    <Heart className="w-4 h-4 text-blue-500"/>
+                  <div className="w-9 h-9 rounded-full flex items-center justify-center flex-shrink-0" style={{background:"rgba(245,184,0,0.15)"}}>
+                    <Heart className="w-4 h-4" style={{color:"#F5B800"}}/>
                   </div>
                   <div className="flex-1 min-w-0">
-                    <p className="text-sm font-medium text-slate-800 truncate">{d.program}</p>
+                    <p className="text-sm font-medium text-navy-800 truncate">{d.program}</p>
                     <p className="text-xs text-slate-400">{new Date(d.date).toLocaleDateString()}</p>
                   </div>
                   <div className="flex items-center gap-2 flex-shrink-0">
-                    <span className="text-sm font-bold text-slate-900">${d.amount.toLocaleString()}</span>
+                    <span className="text-sm font-bold text-navy-900">${d.amount.toLocaleString()}</span>
                     {statusBadge(d.status)}
                   </div>
                 </div>
@@ -378,7 +378,7 @@ export default function DonorDashboard() {
 
             {/* Tier card */}
             <div className="bg-white rounded-2xl border border-slate-100 shadow-sm p-6">
-              <h2 className="font-bold text-slate-900 mb-4">Donor Tier Status</h2>
+              <h2 className="font-bold text-navy-900 mb-4">Donor Tier Status</h2>
               <div className={`rounded-xl bg-gradient-to-br ${currentTier.color} p-5 text-white mb-4`}>
                 <div className="text-3xl mb-1">{currentTier.emoji}</div>
                 <div className="font-black text-2xl">{currentTier.name} Donor</div>
@@ -408,17 +408,17 @@ export default function DonorDashboard() {
             {/* Latest updates */}
             <div className="bg-white rounded-2xl border border-slate-100 shadow-sm overflow-hidden">
               <div className="px-5 py-4 border-b border-slate-50">
-                <h2 className="font-bold text-slate-900">Latest Updates</h2>
+                <h2 className="font-bold text-navy-900">Latest Updates</h2>
               </div>
               {projectUpdates.length === 0 ? (
                 <div className="p-6 text-center text-slate-400 text-sm">No updates yet</div>
               ) : projectUpdates.map(article => (
                 <div key={article.id} className="portal-activity-row">
-                  <div className="w-9 h-9 rounded-xl bg-blue-50 flex items-center justify-center flex-shrink-0">
-                    <FileText className="w-4 h-4 text-blue-500"/>
+                  <div className="w-9 h-9 rounded-xl flex items-center justify-center flex-shrink-0" style={{background:"rgba(3,43,69,0.06)"}}>
+                    <FileText className="w-4 h-4" style={{color:"#032B45"}}/>
                   </div>
                   <div className="flex-1 min-w-0">
-                    <p className="text-sm font-medium text-slate-800 truncate">{article.title}</p>
+                    <p className="text-sm font-medium text-navy-800 truncate">{article.title}</p>
                     <p className="text-xs text-slate-400">{article.category}</p>
                   </div>
                   <ChevronRight className="w-4 h-4 text-slate-300"/>
@@ -446,7 +446,7 @@ export default function DonorDashboard() {
                   <option value="all">All Programs</option>
                   {allPrograms.map(p => <option key={p} value={p}>{p}</option>)}
                 </select>
-                <button onClick={()=>setSortAsc(s=>!s)} className="flex items-center gap-2 border border-slate-200 rounded-xl px-3 py-2 text-sm font-medium text-slate-700 hover:bg-slate-50 transition-colors" style={{background:"#f8fafc"}}>
+                <button onClick={()=>setSortAsc(s=>!s)} className="flex items-center gap-2 border border-slate-200 rounded-xl px-3 py-2 text-sm font-medium text-slate-700 hover:bg-slate-100 transition-colors" style={{background:"#f8fafc"}}>
                   {sortAsc ? "Oldest first" : "Newest first"}
                 </button>
                 <div className="ml-auto text-sm text-slate-500 font-medium">{filteredDonations.length} results</div>
@@ -475,7 +475,7 @@ export default function DonorDashboard() {
                     </thead>
                     <tbody>
                       {filteredDonations.map(d => (
-                        <tr key={d.id} style={{borderBottom:"1px solid #f8fafc"}} className="hover:bg-slate-50 transition-colors">
+                        <tr key={d.id} style={{borderBottom:"1px solid #f8fafc"}} className="hover:bg-slate-100 transition-colors">
                           <td className="px-5 py-3.5 text-slate-600">{new Date(d.date).toLocaleDateString()}</td>
                           <td className="px-5 py-3.5">
                             <span className="flex items-center gap-2">
@@ -483,11 +483,11 @@ export default function DonorDashboard() {
                               <span className="text-slate-700 font-medium">{d.program}</span>
                             </span>
                           </td>
-                          <td className="px-5 py-3.5 font-bold text-slate-900">${d.amount.toLocaleString()}</td>
+                          <td className="px-5 py-3.5 font-bold text-navy-900">${d.amount.toLocaleString()}</td>
                           <td className="px-5 py-3.5">{statusBadge(d.status)}</td>
                           <td className="px-5 py-3.5">
                             {d.status==="completed" ? (
-                              <button onClick={()=>generateSingleReceipt(d)} className="flex items-center gap-1.5 text-blue-600 hover:text-blue-700 font-semibold transition-colors">
+                              <button onClick={()=>generateSingleReceipt(d)} className="flex items-center gap-1.5 font-semibold transition-colors" style={{color:"#032B45"}}>
                                 <Download className="w-3.5 h-3.5"/> PDF
                               </button>
                             ) : <span className="text-slate-300">—</span>}
@@ -510,7 +510,7 @@ export default function DonorDashboard() {
               {impactStats.map((s,i) => (
                 <div key={s.program} className="portal-stat-card text-center" style={{animationDelay:`${i*80}ms`}}>
                   <div className="text-3xl mb-2">{s.icon}</div>
-                  <div className="text-2xl font-black text-slate-900">
+                  <div className="text-2xl font-black text-navy-900">
                     <CountUp to={s.value} duration={1400+i*100}/>
                   </div>
                   <p className="text-sm text-slate-500 font-medium mt-1">{s.label}</p>
@@ -521,7 +521,7 @@ export default function DonorDashboard() {
 
             {/* Program distribution bar chart */}
             <div className="bg-white rounded-2xl border border-slate-100 shadow-sm p-6">
-              <h2 className="font-bold text-slate-900 mb-5">Giving by Program</h2>
+              <h2 className="font-bold text-navy-900 mb-5">Giving by Program</h2>
               {distributionData.length === 0 ? (
                 <div className="h-40 flex items-center justify-center text-slate-400 text-sm">No data yet — make a donation to see your impact</div>
               ) : (
@@ -533,7 +533,7 @@ export default function DonorDashboard() {
                     <Tooltip formatter={(v:any,_:any,props:any) => [`$${v.toLocaleString()}`, props.payload.fullName]} contentStyle={{borderRadius:10,border:"1px solid #e2e8f0",fontSize:13}}/>
                     <Bar dataKey="amount" radius={[6,6,0,0]}>
                       {distributionData.map((entry) => (
-                        <Cell key={entry.name} fill={PROGRAM_COLORS[entry.fullName] ?? "#3b82f6"}/>
+                        <Cell key={entry.name} fill={PROGRAM_COLORS[entry.fullName] ?? "#F5B800"}/>
                       ))}
                     </Bar>
                   </BarChart>
@@ -542,13 +542,13 @@ export default function DonorDashboard() {
             </div>
 
             {/* Impact narrative */}
-            <div className="bg-gradient-to-br from-blue-600 to-blue-800 rounded-2xl p-6 text-white">
+            <div className="bg-gradient-to-br from-[#032B45] to-[#053D61] rounded-2xl p-6 text-white">
               <div className="flex items-start gap-4">
-                <div className="w-12 h-12 bg-white/10 rounded-xl flex items-center justify-center flex-shrink-0">
-                  <Sparkles className="w-6 h-6"/>
+                <div className="w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0" style={{background:"rgba(245,184,0,0.15)"}}>
+                  <Sparkles className="w-6 h-6" style={{color:"#F5B800"}}/>
                 </div>
                 <div>
-                  <h3 className="font-bold text-xl mb-2">Your Combined Impact</h3>
+                  <h3 className="font-bold text-xl mb-2" style={{color:"#F5B800"}}>Your Combined Impact</h3>
                   <p className="text-blue-100 text-sm leading-relaxed">
                     Through your <strong className="text-white">${totalDonated.toLocaleString()}</strong> in contributions, you've helped provide meals, support education, enable healthcare access, and empower communities across 38+ countries.
                   </p>
@@ -564,17 +564,17 @@ export default function DonorDashboard() {
             {/* Reports */}
             <div className="bg-white rounded-2xl border border-slate-100 shadow-sm overflow-hidden">
               <div className="flex items-center justify-between px-5 py-4 border-b border-slate-50">
-                <h2 className="font-bold text-slate-900 flex items-center gap-2"><BarChart3 className="w-5 h-5 text-blue-500"/> Organization Reports</h2>
+                <h2 className="font-bold text-navy-900 flex items-center gap-2"><BarChart3 className="w-5 h-5" style={{color:"#032B45"}}/> Organization Reports</h2>
               </div>
               {orgReports.length === 0 ? (
                 <div className="p-6 text-center text-slate-400 text-sm">No reports available</div>
               ) : orgReports.slice(0,5).map(r => (
                 <a key={r.id} href={r.file_url} target="_blank" rel="noopener noreferrer" className="portal-activity-row flex-row no-underline" style={{display:"flex",textDecoration:"none"}}>
-                  <div className="w-9 h-9 rounded-xl bg-blue-50 flex items-center justify-center flex-shrink-0">
-                    <FileText className="w-4 h-4 text-blue-500"/>
+                  <div className="w-9 h-9 rounded-xl flex items-center justify-center flex-shrink-0" style={{background:"rgba(3,43,69,0.06)"}}>
+                    <FileText className="w-4 h-4" style={{color:"#032B45"}}/>
                   </div>
                   <div className="flex-1 min-w-0">
-                    <p className="text-sm font-medium text-slate-800 truncate">{r.title}</p>
+                    <p className="text-sm font-medium text-navy-800 truncate">{r.title}</p>
                     <p className="text-xs text-slate-400">{r.category} · {r.year}</p>
                   </div>
                   <Download className="w-4 h-4 text-slate-400 flex-shrink-0"/>
@@ -585,17 +585,17 @@ export default function DonorDashboard() {
             {/* Event Archives */}
             <div className="bg-white rounded-2xl border border-slate-100 shadow-sm overflow-hidden">
               <div className="px-5 py-4 border-b border-slate-50">
-                <h2 className="font-bold text-slate-900 flex items-center gap-2"><Calendar className="w-5 h-5 text-purple-500"/> Event Archives</h2>
+                <h2 className="font-bold text-navy-900 flex items-center gap-2"><Calendar className="w-5 h-5" style={{color:"#E5A800"}}/> Event Archives</h2>
               </div>
               {eventArchives.length === 0 ? (
                 <div className="p-6 text-center text-slate-400 text-sm">No event archives</div>
               ) : eventArchives.slice(0,5).map(e => (
                 <a key={e.id} href={e.drive_url} target="_blank" rel="noopener noreferrer" className="portal-activity-row" style={{display:"flex",textDecoration:"none"}}>
-                  <div className="w-9 h-9 rounded-xl bg-purple-50 flex items-center justify-center flex-shrink-0">
-                    <Calendar className="w-4 h-4 text-purple-500"/>
+                  <div className="w-9 h-9 rounded-xl flex items-center justify-center flex-shrink-0" style={{background:"rgba(245,184,0,0.12)"}}>
+                    <Calendar className="w-4 h-4" style={{color:"#E5A800"}}/>
                   </div>
                   <div className="flex-1 min-w-0">
-                    <p className="text-sm font-medium text-slate-800 truncate">{e.title}</p>
+                    <p className="text-sm font-medium text-navy-800 truncate">{e.title}</p>
                     <p className="text-xs text-slate-400">{new Date(e.date).toLocaleDateString()}</p>
                   </div>
                   <Eye className="w-4 h-4 text-slate-400 flex-shrink-0"/>
@@ -606,8 +606,8 @@ export default function DonorDashboard() {
             {/* Gallery */}
             <div className="bg-white rounded-2xl border border-slate-100 shadow-sm overflow-hidden lg:col-span-2">
               <div className="flex items-center justify-between px-5 py-4 border-b border-slate-50">
-                <h2 className="font-bold text-slate-900">Gallery Highlights</h2>
-                <Link to="/gallery" className="text-sm text-blue-600 font-semibold hover:text-blue-700 flex items-center gap-1">
+                <h2 className="font-bold text-navy-900">Gallery Highlights</h2>
+                <Link to="/gallery" className="text-sm font-semibold flex items-center gap-1" style={{color:"#032B45"}}>
                   View All <ChevronRight className="w-4 h-4"/>
                 </Link>
               </div>
@@ -629,11 +629,11 @@ export default function DonorDashboard() {
 
       {/* ── Donate Modal ── */}
       {isDonateModalOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4" style={{background:"rgba(6,72,179,.6)",backdropFilter:"blur(4px)"}}>
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4" style={{background:"rgba(3,43,69,0.75)",backdropFilter:"blur(6px)"}}>
           <div className="bg-white rounded-2xl shadow-xl w-full max-w-md portal-fade-in overflow-hidden">
             <div className="flex items-center justify-between px-6 py-5 border-b border-slate-100">
               <div>
-                <h2 className="font-bold text-slate-900 text-lg">Make a Donation</h2>
+                <h2 className="font-bold text-navy-900 text-lg">Make a Donation</h2>
                 <p className="text-sm text-slate-500 mt-0.5">Choose your program and amount</p>
               </div>
               <button onClick={()=>setIsDonateModalOpen(false)} className="text-slate-400 hover:text-slate-600 p-1">
@@ -651,7 +651,7 @@ export default function DonorDashboard() {
                 {PROGRAM_AMOUNTS.map(amt => (
                   <button key={amt} onClick={()=>{setDonateAmount(amt);setCustomAmount("");}}
                     className="py-3 rounded-xl font-bold text-sm transition-all border-2"
-                    style={{borderColor:donateAmount===amt&&!customAmount?"#0959d6":"#e5e7eb",background:donateAmount===amt&&!customAmount?"#eff6ff":"#f8fafc",color:donateAmount===amt&&!customAmount?"#0959d6":"#64748b"}}>
+                    style={{borderColor:donateAmount===amt&&!customAmount?"#032B45":"#e5e7eb",background:donateAmount===amt&&!customAmount?"rgba(3,43,69,0.05)":"#f8fafc",color:donateAmount===amt&&!customAmount?"#032B45":"#64748b"}}>
                     ${amt}
                   </button>
                 ))}

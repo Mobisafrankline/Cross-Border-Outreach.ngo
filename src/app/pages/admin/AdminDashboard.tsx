@@ -150,29 +150,29 @@ export default function AdminDashboard() {
   useEffect(() => { if (!authLoading && user) loadData(); }, [user, authLoading]);
 
   const quickActions = [
-    { label:"Upload Images",   href:"/admin/gallery",      icon:Image,          gradient:"from-blue-600 to-blue-800"  },
-    { label:"Manage Events",   href:"/admin/events",       icon:Calendar,       gradient:"from-blue-500 to-blue-700"  },
-    { label:"Manage Content",  href:"/admin/content",      icon:Newspaper,      gradient:"from-slate-700 to-slate-900"},
-    { label:"Manage Jobs",     href:"/admin/jobs",         icon:Briefcase,      gradient:"from-blue-700 to-slate-900"},
-    { label:"Applications",    href:"/admin/applications", icon:FileSignature,  gradient:"from-slate-600 to-slate-800"},
-    { label:"Reports",         href:"/admin/reports",      icon:BarChart3,      gradient:"from-blue-600 to-blue-900" },
+    { label:"Upload Images",   href:"/admin/gallery",      icon:Image,          gradient:"from-navy-900 to-navy-800"  },
+    { label:"Manage Events",   href:"/admin/events",       icon:Calendar,       gradient:"from-[#053D61] to-navy-900"  },
+    { label:"Manage Content",  href:"/admin/content",      icon:Newspaper,      gradient:"from-navy-800 to-navy-900"},
+    { label:"Manage Jobs",     href:"/admin/jobs",         icon:Briefcase,      gradient:"from-[#053D61] to-navy-900"},
+    { label:"Applications",    href:"/admin/applications", icon:FileSignature,  gradient:"from-navy-900 to-[#0a2540]"},
+    { label:"Reports",         href:"/admin/reports",      icon:BarChart3,      gradient:"from-[#053D61] to-navy-800" },
   ];
 
   const statCards = [
-    { label:"Total Donors",       value:stats.totalDonors,      icon:Users,      gradient:"from-blue-500 to-blue-700",   prefix:"",  suffix:"" },
-    { label:"Total Donations",    value:stats.totalDonations,   icon:DollarSign, gradient:"from-blue-600 to-blue-800",   prefix:"$", suffix:"" },
-    { label:"Gallery Images",     value:stats.galleryImages,    icon:Image,      gradient:"from-slate-700 to-slate-900", prefix:"",  suffix:"" },
-    { label:"Published Articles", value:stats.publishedArticles,icon:FileText,   gradient:"from-blue-700 to-slate-800", prefix:"",  suffix:"" },
+    { label:"Total Donors",       value:stats.totalDonors,      icon:Users,      gradient:"from-navy-900 to-[#053D61]",   prefix:"",  suffix:"" },
+    { label:"Total Donations",    value:stats.totalDonations,   icon:DollarSign, gradient:"from-[#053D61] to-navy-900",   prefix:"$", suffix:"" },
+    { label:"Gallery Images",     value:stats.galleryImages,    icon:Image,      gradient:"from-navy-800 to-navy-900", prefix:"",  suffix:"" },
+    { label:"Published Articles", value:stats.publishedArticles,icon:FileText,   gradient:"from-navy-900 to-navy-800", prefix:"",  suffix:"" },
   ];
 
   const activityIcon = (type: ActivityItem["type"]) => {
-    if (type==="donation")    return <CreditCard    className="w-4 h-4 text-blue-600"/>;
-    if (type==="donor")       return <UserPlus      className="w-4 h-4 text-blue-500"/>;
+    if (type==="donation")    return <CreditCard    className="w-4 h-4" style={{color:"#F5B800"}}/>;
+    if (type==="donor")       return <UserPlus      className="w-4 h-4" style={{color:"#032B45"}}/>;
     if (type==="application") return <FileSignature className="w-4 h-4 text-slate-600"/>;
   };
   const activityBg = (type: ActivityItem["type"]) => {
-    if (type==="donation")    return "#eff6ff";
-    if (type==="donor")       return "#dbeafe";
+    if (type==="donation")    return "rgba(245,184,0,0.15)";
+    if (type==="donor")       return "rgba(3,43,69,0.06)";
     if (type==="application") return "#f1f5f9";
     return "#f8fafc";
   };
@@ -181,7 +181,7 @@ export default function AdminDashboard() {
     <div className="flex-1 h-full bg-slate-50 flex items-center justify-center min-h-[60vh]">
       <div className="text-center">
         <div className="w-16 h-16 mx-auto mb-4 rounded-3xl flex items-center justify-center shadow-lg"
-          style={{background:"linear-gradient(135deg,#1e3a8a,#3b82f6)",boxShadow:"0 8px 24px rgba(59,130,246,.35)"}}>
+          style={{background:"linear-gradient(135deg, #032B45, #053D61)",boxShadow:"0 8px 24px rgba(3,43,69,.35)"}}>
           <Loader2 className="w-8 h-8 text-white animate-spin"/>
         </div>
         <p className="text-slate-500 font-medium">Loading dashboard…</p>
@@ -198,10 +198,10 @@ export default function AdminDashboard() {
 
       {/* ── Welcome Banner ── */}
       <div className="relative overflow-hidden">
-        <div className="absolute inset-0" style={{background:"linear-gradient(135deg,#0d1117,#0d2360,#0648b3)"}}/>
-        <div className="absolute inset-0 opacity-10">
-          <div className="absolute top-0 right-0 w-96 h-96 bg-blue-400 rounded-full blur-3xl -translate-y-1/2 translate-x-1/3"/>
-          <div className="absolute bottom-0 left-0 w-72 h-72 bg-blue-600 rounded-full blur-3xl translate-y-1/2 -translate-x-1/3"/>
+        <div className="absolute inset-0" style={{background:"linear-gradient(135deg,#032B45,#053D61,#032B45)"}}/>
+        <div className="absolute inset-0 opacity-20">
+          <div className="absolute top-0 right-0 w-96 h-96 bg-[#F5B800] rounded-full blur-3xl -translate-y-1/2 translate-x-1/3"/>
+          <div className="absolute bottom-0 left-0 w-72 h-72 bg-[#0a2540] rounded-full blur-3xl translate-y-1/2 -translate-x-1/3"/>
         </div>
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 py-8 sm:py-10">
           <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
@@ -210,7 +210,7 @@ export default function AdminDashboard() {
                 <Clock className="w-4 h-4"/> {currentDate}
               </p>
               <h1 className="text-2xl sm:text-3xl font-bold text-white">
-                {greeting}, <span style={{color:"#93c5fd"}}>{adminProfile?.first_name || "Admin"}</span> 👋
+                {greeting}, <span style={{ color: "#F5B800" }}>{adminProfile?.first_name || "Admin"}</span> 👋
               </h1>
               <p className="text-blue-200/70 font-medium mt-2 text-sm">
                 Here's what's happening with Cross-Borders Outreach today.
@@ -240,9 +240,9 @@ export default function AdminDashboard() {
                 <div className={`w-11 h-11 rounded-xl bg-gradient-to-br ${s.gradient} flex items-center justify-center shadow-md flex-shrink-0`}>
                   <s.icon className="w-5 h-5 text-white"/>
                 </div>
-                <TrendingUp className="w-4 h-4 text-sky-400"/>
+                <TrendingUp className="w-4 h-4" style={{color:"#F5B800"}}/>
               </div>
-              <div className="text-2xl sm:text-3xl font-black text-slate-900 mb-1">
+              <div className="text-2xl sm:text-3xl font-black text-navy-900 mb-1">
                 <CountUp to={s.value} prefix={s.prefix} duration={1200 + i*150}/>
               </div>
               <p className="text-sm text-slate-500 font-medium">{s.label}</p>
@@ -257,10 +257,10 @@ export default function AdminDashboard() {
           <div className="lg:col-span-2 bg-white rounded-2xl border border-slate-100 shadow-sm p-6">
             <div className="flex items-center justify-between mb-6">
               <div>
-                <h2 className="font-bold text-slate-900 text-lg">Monthly Donations</h2>
+                <h2 className="font-bold text-navy-900 text-lg">Monthly Donations</h2>
                 <p className="text-sm text-slate-400 mt-0.5">Last 6 months</p>
               </div>
-              <Link to="/admin/reports" className="flex items-center gap-1 text-sm text-blue-600 font-semibold hover:text-blue-700 transition-colors">
+              <Link to="/admin/reports" className="flex items-center gap-1 text-sm font-semibold transition-colors" style={{color:"#032B45"}}>
                 Full Report <ArrowUpRight className="w-4 h-4"/>
               </Link>
             </div>
@@ -269,15 +269,15 @@ export default function AdminDashboard() {
                 <AreaChart data={monthlyData} margin={{top:4,right:4,left:-20,bottom:0}}>
                   <defs>
                     <linearGradient id="adminGrad" x1="0" y1="0" x2="0" y2="1">
-                      <stop offset="5%"  stopColor="#3b82f6" stopOpacity={0.18}/>
-                      <stop offset="95%" stopColor="#3b82f6" stopOpacity={0.01}/>
+                      <stop offset="5%"  stopColor="#032B45" stopOpacity={0.25}/>
+                      <stop offset="95%" stopColor="#032B45" stopOpacity={0.01}/>
                     </linearGradient>
                   </defs>
                   <CartesianGrid strokeDasharray="3 3" stroke="#f1f5f9" vertical={false}/>
                   <XAxis dataKey="month" tick={{fontSize:12,fill:"#94a3b8"}} axisLine={false} tickLine={false}/>
                   <YAxis tick={{fontSize:12,fill:"#94a3b8"}} axisLine={false} tickLine={false} tickFormatter={v=>`$${v>=1000?`${(v/1000).toFixed(0)}k`:v}`}/>
                   <Tooltip content={<ChartTooltip/>}/>
-                  <Area type="monotone" dataKey="amount" stroke="#3b82f6" strokeWidth={2.5} fill="url(#adminGrad)" dot={false} activeDot={{r:5,fill:"#3b82f6"}}/>
+                  <Area type="monotone" dataKey="amount" stroke="#F5B800" strokeWidth={2.5} fill="url(#adminGrad)" dot={false} activeDot={{r:5,fill:"#F5B800",stroke:"#fff",strokeWidth:2}}/>
                 </AreaChart>
               </ResponsiveContainer>
             ) : (
@@ -291,7 +291,7 @@ export default function AdminDashboard() {
           <div className="bg-white rounded-2xl border border-slate-100 shadow-sm overflow-hidden">
             <div className="flex items-center justify-between px-5 py-4 border-b border-slate-50">
               <div>
-                <h2 className="font-bold text-slate-900">Recent Activity</h2>
+                <h2 className="font-bold text-navy-900">Recent Activity</h2>
                 <p className="text-xs text-slate-400 mt-0.5">Live updates</p>
               </div>
               <div className="portal-status-dot"/>
@@ -305,11 +305,11 @@ export default function AdminDashboard() {
                     {activityIcon(item.type)}
                   </div>
                   <div className="flex-1 min-w-0">
-                    <p className="text-sm font-medium text-slate-800 truncate">{item.label}</p>
+                    <p className="text-sm font-medium text-navy-800 truncate">{item.label}</p>
                     <p className="text-xs text-slate-400 mt-0.5">{new Date(item.time).toLocaleDateString()}</p>
                   </div>
                   {item.amount && (
-                    <span className="text-sm font-bold text-sky-600 flex-shrink-0">${item.amount.toLocaleString()}</span>
+                    <span className="text-sm font-bold flex-shrink-0" style={{color:"#032B45"}}>${item.amount.toLocaleString()}</span>
                   )}
                   {!item.amount && (
                     <span className="text-xs px-2 py-0.5 rounded-full font-semibold flex-shrink-0"
@@ -325,7 +325,7 @@ export default function AdminDashboard() {
 
         {/* ── Quick Actions ── */}
         <div>
-          <h2 className="font-bold text-slate-900 text-lg mb-4">Quick Actions</h2>
+          <h2 className="font-bold text-navy-900 text-lg mb-4">Quick Actions</h2>
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4">
             {quickActions.map((action, i) => (
               <Link key={action.href} to={action.href} className="portal-action-card" style={{animationDelay:`${i*60}ms`}}>
@@ -341,8 +341,8 @@ export default function AdminDashboard() {
         {/* ── Recent Donors ── */}
         <div className="bg-white rounded-2xl border border-slate-100 shadow-sm overflow-hidden">
           <div className="flex items-center justify-between px-5 sm:px-6 py-4 border-b border-slate-50">
-            <h2 className="font-bold text-slate-900">Recent Donors</h2>
-            <Link to="/admin/users" className="flex items-center gap-1 text-sm text-blue-600 font-semibold hover:text-blue-700 transition-colors">
+            <h2 className="font-bold text-navy-900">Recent Donors</h2>
+            <Link to="/admin/users" className="flex items-center gap-1 text-sm font-semibold transition-colors" style={{color:"#032B45"}}>
               View All <ChevronRight className="w-4 h-4"/>
             </Link>
           </div>
@@ -356,15 +356,15 @@ export default function AdminDashboard() {
               {recentDonors.map((donor) => (
                 <div key={donor.id} className="portal-activity-row">
                   <div className="w-9 h-9 rounded-full flex items-center justify-center text-white text-xs font-bold flex-shrink-0"
-                    style={{background:"linear-gradient(135deg,#3b82f6,#8b5cf6)"}}>
+                    style={{background:"linear-gradient(135deg, #032B45, #053D61)"}}>
                     {donor.first_name?.[0]}{donor.last_name?.[0]}
                   </div>
                   <div className="flex-1 min-w-0">
-                    <p className="text-sm font-semibold text-slate-800">{donor.first_name} {donor.last_name}</p>
+                    <p className="text-sm font-semibold text-navy-800">{donor.first_name} {donor.last_name}</p>
                     <p className="text-xs text-slate-400 truncate">{donor.email}</p>
                   </div>
                   <div className="text-right flex-shrink-0">
-                    <p className="text-sm font-bold text-slate-900">${(donor.total_donated ?? 0).toLocaleString()}</p>
+                    <p className="text-sm font-bold text-navy-900">${(donor.total_donated ?? 0).toLocaleString()}</p>
                     <p className="text-xs text-slate-400">{donor.donation_count ?? 0} donations</p>
                   </div>
                 </div>

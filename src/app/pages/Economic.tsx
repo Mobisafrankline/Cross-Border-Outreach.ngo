@@ -58,7 +58,7 @@ export default function Economic() {
 
       <section className="prog-initiatives-section">
         <div className="prog-initiatives-header">
-          <div className="prog-initiatives-label" style={{ color: "#8b5cf6" }}>Our Programs</div>
+          <div className="prog-initiatives-label" style={{ color: "#032B45" }}>Our Programs</div>
           <h2 className="prog-initiatives-title font-playfair">Economic Empowerment Initiatives</h2>
           <p className="prog-initiatives-subtitle">Comprehensive programs designed to create lasting economic change</p>
         </div>
@@ -99,12 +99,12 @@ export default function Economic() {
         </div>
       </section>
 
-      <section className="prog-cta-section" style={{ background: "linear-gradient(135deg, #7c3aed, #8b5cf6)" }}>
+      <section className="prog-cta-section" style={{ background: "linear-gradient(135deg, #032B45, #053D61)" }}>
         <div className="prog-cta-inner">
           <h2 className="prog-cta-title font-playfair">Invest in Entrepreneurship</h2>
           <p className="prog-cta-subtitle">Your support can help someone start a business and transform their community.</p>
           <div className="prog-cta-actions">
-            <Link to="/donate" className="prog-cta-btn-primary" style={{ color: "#7c3aed" }}><Heart className="w-5 h-5" /> Fund a Microloan</Link>
+            <Link to="/donate" className="prog-cta-btn-primary" style={{ color: "#032B45" }}><Heart className="w-5 h-5" /> Fund a Microloan</Link>
             <Link to="/opportunities" className="prog-cta-btn-secondary">Become a Mentor <ChevronRight className="w-5 h-5" /></Link>
           </div>
         </div>

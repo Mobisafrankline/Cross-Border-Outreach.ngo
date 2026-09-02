@@ -300,7 +300,7 @@ export default function TwoLayerNavbar() {
                 <Link
                   key={link.href}
                   to={link.href}
-                  className="px-2.5 py-1 text-slate-600 hover:text-blue-700 text-xs font-bold uppercase tracking-wider transition-colors hidden sm:inline-flex items-center"
+                  className="px-2.5 py-1 text-slate-600 hover:text-[#032B45] text-xs font-bold uppercase tracking-wider transition-colors hidden sm:inline-flex items-center"
                 >
                   {link.label}
                 </Link>
@@ -310,7 +310,7 @@ export default function TwoLayerNavbar() {
 
               <Link
                 to="/login"
-                className="hidden md:flex items-center gap-1.5 px-3 py-1 text-slate-600 hover:text-blue-700 text-xs font-bold uppercase tracking-wider transition-colors"
+                className="hidden md:flex items-center gap-1.5 px-3 py-1 text-slate-600 hover:text-[#032B45] text-xs font-bold uppercase tracking-wider transition-colors"
               >
                 <LogIn className="w-4 h-4" />
                 <span>Sign In</span>
@@ -337,7 +337,7 @@ export default function TwoLayerNavbar() {
               {/* Mobile hamburger */}
               <button
                 onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-                className="lg:hidden p-2 text-slate-800 hover:bg-slate-100 rounded transition-colors duration-200 border border-slate-200"
+                className="lg:hidden p-2 text-navy-800 hover:bg-slate-100 rounded transition-colors duration-200 border border-slate-200"
                 aria-label={mobileMenuOpen ? "Close menu" : "Open menu"}
                 aria-expanded={mobileMenuOpen}
                 aria-controls="mobile-menu"
@@ -377,9 +377,9 @@ export default function TwoLayerNavbar() {
                         onClick={() => setActiveDropdown(activeDropdown === item.label ? null : item.label)}
                         aria-expanded={activeDropdown === item.label}
                         aria-haspopup="true"
-                        className={`flex items-center gap-1 px-4 py-3 text-slate-800 hover:text-blue-700 hover:bg-slate-50 font-bold transition-all duration-200 text-sm border-b-2 ${
+                        className={`flex items-center gap-1 px-4 py-3 text-navy-800 hover:text-[#032B45] hover:bg-sky-50 font-bold transition-all duration-200 text-sm border-b-2 ${
                           activeDropdown === item.label
-                            ? 'bg-slate-50 text-blue-700 border-blue-700'
+                            ? 'bg-sky-50 text-[#032B45] border-blue-700'
                             : 'border-transparent'
                         }`}
                       >
@@ -407,15 +407,15 @@ export default function TwoLayerNavbar() {
                                   className={`flex items-start gap-3.5 px-4 py-3.5 hover:bg-orange-50 transition-all duration-150 group relative ${location.pathname === subItem.href ? 'bg-orange-50' : ''}`}
                                 >
                                   <div className={`w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0 transition-colors duration-150 ${location.pathname === subItem.href
-                                    ? 'bg-blue-700 text-white'
-                                    : 'bg-orange-100 text-blue-700 group-hover:bg-blue-700 group-hover:text-white'
+                                    ? 'bg-[#032B45] text-white'
+                                    : 'bg-orange-100 text-[#032B45] group-hover:bg-[#032B45] group-hover:text-white'
                                     }`}>
                                     {subItem.icon}
                                   </div>
                                   <div className="flex-1 min-w-0">
                                     <div className={`font-bold transition-colors duration-150 ${location.pathname === subItem.href
-                                      ? 'text-blue-700'
-                                      : 'text-slate-800 group-hover:text-blue-700'
+                                      ? 'text-[#032B45]'
+                                      : 'text-navy-800 group-hover:text-[#032B45]'
                                       }`}>
                                       {subItem.label}
                                     </div>
@@ -440,8 +440,8 @@ export default function TwoLayerNavbar() {
                     to={item.href!}
                     className={`px-4 py-3 text-sm font-bold transition-all duration-200 border-b-2 ${
                       location.pathname === item.href
-                        ? 'bg-slate-50 text-blue-700 border-blue-700'
-                        : 'text-slate-800 hover:text-blue-700 hover:bg-slate-50 border-transparent'
+                        ? 'bg-sky-50 text-[#032B45] border-blue-700'
+                        : 'text-navy-800 hover:text-[#032B45] hover:bg-sky-50 border-transparent'
                     }`}
                   >
                     {item.label}
@@ -503,7 +503,7 @@ export default function TwoLayerNavbar() {
                       aria-expanded={mobileExpandedItem === item.label}
                       className="w-full flex items-center justify-between py-3 text-left"
                     >
-                      <span className="font-bold text-slate-800">{item.label}</span>
+                      <span className="font-bold text-navy-800">{item.label}</span>
                       <span className={`text-slate-400 transition-transform duration-200 text-lg ${mobileExpandedItem === item.label ? 'rotate-45' : ''}`}>+</span>
                     </button>
 
@@ -524,17 +524,17 @@ export default function TwoLayerNavbar() {
                                 onClick={() => setMobileMenuOpen(false)}
                                 className={`flex items-center gap-3 px-3 py-3 rounded-lg transition-colors duration-150 ${location.pathname === subItem.href
                                   ? 'bg-orange-50'
-                                  : 'hover:bg-slate-50'
+                                  : 'hover:bg-sky-50'
                                   }`}
                               >
                                 <div className={`w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0 ${location.pathname === subItem.href
-                                  ? 'bg-blue-700 text-white'
-                                  : 'bg-orange-100 text-blue-700'
+                                  ? 'bg-[#032B45] text-white'
+                                  : 'bg-orange-100 text-[#032B45]'
                                   }`}>
                                   {subItem.icon}
                                 </div>
                                 <div>
-                                  <div className={`font-bold ${location.pathname === subItem.href ? 'text-blue-700' : 'text-slate-800'}`}>{subItem.label}</div>
+                                  <div className={`font-bold ${location.pathname === subItem.href ? 'text-[#032B45]' : 'text-navy-800'}`}>{subItem.label}</div>
                                   <div className="text-sm text-slate-500">{subItem.description}</div>
                                 </div>
                               </Link>
@@ -549,7 +549,7 @@ export default function TwoLayerNavbar() {
                 <Link
                   to="/events"
                   onClick={() => setMobileMenuOpen(false)}
-                  className={`block py-3 font-bold border-b border-gray-100 ${location.pathname === '/events' ? 'text-blue-700' : 'text-slate-800'}`}
+                  className={`block py-3 font-bold border-b border-gray-100 ${location.pathname === '/events' ? 'text-[#032B45]' : 'text-navy-800'}`}
                 >
                   Events
                 </Link>
@@ -557,7 +557,7 @@ export default function TwoLayerNavbar() {
                 <Link
                   to="/blog"
                   onClick={() => setMobileMenuOpen(false)}
-                  className={`block py-3 font-bold border-b border-gray-100 ${location.pathname === '/blog' ? 'text-blue-700' : 'text-slate-800'}`}
+                  className={`block py-3 font-bold border-b border-gray-100 ${location.pathname === '/blog' ? 'text-[#032B45]' : 'text-navy-800'}`}
                 >
                   Blog
                 </Link>
@@ -565,7 +565,7 @@ export default function TwoLayerNavbar() {
                 <Link
                   to="/company-news"
                   onClick={() => setMobileMenuOpen(false)}
-                  className={`block py-3 font-bold border-b border-gray-100 ${location.pathname === '/company-news' ? 'text-blue-700' : 'text-slate-800'}`}
+                  className={`block py-3 font-bold border-b border-gray-100 ${location.pathname === '/company-news' ? 'text-[#032B45]' : 'text-navy-800'}`}
                 >
                   Company News
                 </Link>
@@ -573,7 +573,7 @@ export default function TwoLayerNavbar() {
                 <Link
                   to="/gallery"
                   onClick={() => setMobileMenuOpen(false)}
-                  className={`block py-3 font-bold border-b border-gray-100 ${location.pathname === '/gallery' ? 'text-blue-700' : 'text-slate-800'}`}
+                  className={`block py-3 font-bold border-b border-gray-100 ${location.pathname === '/gallery' ? 'text-[#032B45]' : 'text-navy-800'}`}
                 >
                   Gallery
                 </Link>
@@ -581,7 +581,7 @@ export default function TwoLayerNavbar() {
                 <Link
                   to="/reports"
                   onClick={() => setMobileMenuOpen(false)}
-                  className={`block py-3 font-bold border-b border-gray-100 ${location.pathname === '/reports' ? 'text-blue-700' : 'text-slate-800'}`}
+                  className={`block py-3 font-bold border-b border-gray-100 ${location.pathname === '/reports' ? 'text-[#032B45]' : 'text-navy-800'}`}
                 >
                   Reports
                 </Link>
@@ -589,7 +589,7 @@ export default function TwoLayerNavbar() {
                 <Link
                   to="/contact"
                   onClick={() => setMobileMenuOpen(false)}
-                  className={`block py-3 font-bold border-b border-gray-100 ${location.pathname === '/contact' ? 'text-blue-700' : 'text-slate-800'}`}
+                  className={`block py-3 font-bold border-b border-gray-100 ${location.pathname === '/contact' ? 'text-[#032B45]' : 'text-navy-800'}`}
                 >
                   Contact
                 </Link>
@@ -599,9 +599,9 @@ export default function TwoLayerNavbar() {
                 <Link
                   to="/login"
                   onClick={() => setMobileMenuOpen(false)}
-                  className="flex items-center gap-3 py-3 font-bold text-slate-800 border-b border-gray-100"
+                  className="flex items-center gap-3 py-3 font-bold text-navy-800 border-b border-gray-100"
                 >
-                  <LogIn className="w-5 h-5 text-blue-700" />
+                  <LogIn className="w-5 h-5 text-[#032B45]" />
                   Login
                 </Link>
 

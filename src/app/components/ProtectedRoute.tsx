@@ -29,7 +29,7 @@ export default function ProtectedRoute({
         <div className="relative">
           <div className="w-16 h-16 rounded-full border-4 border-blue-100 border-t-blue-600 animate-spin" />
           <div className="absolute inset-0 flex items-center justify-center">
-            <Shield className="w-6 h-6 text-blue-600" />
+            <Shield className="w-6 h-6 text-[#F5B800]" />
           </div>
         </div>
         <p className="text-gray-500 text-sm font-medium">Verifying session…</p>

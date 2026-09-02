@@ -36,7 +36,7 @@ export default function Contact() {
   return (
     <div className="min-h-screen">
       {/* Hero */}
-      <section className="py-20 bg-blue-900">
+      <section className="py-20 bg-navy-900">
         <div className="max-w-4xl mx-auto px-6 text-center text-white">
           <h1 className="text-5xl md:text-6xl font-bold mb-6 font-playfair">Get in Touch</h1>
           <p className="text-xl md:text-2xl opacity-95 font-source-serif">
@@ -50,17 +50,17 @@ export default function Contact() {
           <div className="grid lg:grid-cols-2 gap-12">
             {/* Contact Info */}
             <div>
-              <h2 className="text-3xl font-bold text-gray-900 mb-8 font-playfair">Contact Information</h2>
+              <h2 className="text-3xl font-bold text-navy-900 mb-8 font-playfair">Contact Information</h2>
               <div className="space-y-6">
 
 
                 {/* Phone */}
                 <div className="flex items-start gap-4">
                   <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center flex-shrink-0">
-                    <Phone className="w-6 h-6 text-blue-600" />
+                    <Phone className="w-6 h-6 text-[#F5B800]" />
                   </div>
                   <div>
-                    <h3 className="font-semibold text-gray-900 mb-1 font-playfair">Phone</h3>
+                    <h3 className="font-semibold text-navy-900 mb-1 font-playfair">Phone</h3>
                     <p className="text-gray-600">+1 (404) 980 6138</p>
                   </div>
                 </div>
@@ -68,10 +68,10 @@ export default function Contact() {
                 {/* Email */}
                 <div className="flex items-start gap-4">
                   <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center flex-shrink-0">
-                    <Mail className="w-6 h-6 text-blue-600" />
+                    <Mail className="w-6 h-6 text-[#F5B800]" />
                   </div>
                   <div>
-                    <h3 className="font-semibold text-gray-900 mb-1 font-playfair">Email</h3>
+                    <h3 className="font-semibold text-navy-900 mb-1 font-playfair">Email</h3>
                     <p className="text-gray-600">skamau@crossbordersoutreach.org</p>
                   </div>
                 </div>
@@ -79,10 +79,10 @@ export default function Contact() {
                 {/* Office Hours */}
                 <div className="flex items-start gap-4">
                   <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center flex-shrink-0">
-                    <Clock className="w-6 h-6 text-blue-600" />
+                    <Clock className="w-6 h-6 text-[#F5B800]" />
                   </div>
                   <div>
-                    <h3 className="font-semibold text-gray-900 mb-1 font-playfair">Office Hours</h3>
+                    <h3 className="font-semibold text-navy-900 mb-1 font-playfair">Office Hours</h3>
                     <p className="text-gray-600">
                       Monday - Friday: 9:00 AM - 6:00 PM<br />
                       Saturday: 10:00 AM - 2:00 PM<br />
@@ -97,7 +97,7 @@ export default function Contact() {
 
             {/* Contact Form */}
             <div className="bg-white rounded-3xl shadow-xl p-8">
-              <h2 className="text-3xl font-bold text-gray-900 mb-6 font-playfair">Send Us a Message</h2>
+              <h2 className="text-3xl font-bold text-navy-900 mb-6 font-playfair">Send Us a Message</h2>
               <form className="space-y-6" onSubmit={handleSubmit}>
                 <div className="grid md:grid-cols-2 gap-6">
                   <input
@@ -167,7 +167,7 @@ export default function Contact() {
 
                 <button
                   type="submit"
-                  className="w-full py-4 bg-blue-900 text-white rounded-lg font-bold text-lg hover:from-blue-700 hover:to-blue-800 transition-all shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 flex items-center justify-center gap-2"
+                  className="w-full py-4 bg-navy-900 text-white rounded-lg font-bold text-lg hover:from-blue-700 hover:to-blue-800 transition-all shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 flex items-center justify-center gap-2"
                 >
                   <Send className="w-5 h-5" />
                   Send Message
@@ -181,7 +181,7 @@ export default function Contact() {
       {/* Emergency Contact */}
       <section className="py-16 bg-orange-50">
         <div className="max-w-4xl mx-auto px-6 text-center">
-          <h2 className="text-3xl font-bold text-gray-900 mb-4 font-playfair">Emergency Assistance</h2>
+          <h2 className="text-3xl font-bold text-navy-900 mb-4 font-playfair">Emergency Assistance</h2>
           <p className="text-lg text-gray-600 mb-6 font-source-serif">
             If you need immediate humanitarian assistance, please call our 24/7 emergency hotline:
           </p>

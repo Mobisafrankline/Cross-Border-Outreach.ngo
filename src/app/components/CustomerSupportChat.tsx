@@ -131,13 +131,13 @@ export default function CustomerSupportChat() {
               whileHover={{ scale: 1.05, y: -2 }}
               whileTap={{ scale: 0.95 }}
               onClick={() => setIsOpen(true)}
-              className="bg-blue-600 hover:bg-blue-700 text-white p-4 lg:p-5 rounded-full shadow-[0_10px_40px_-10px_rgba(37,99,235,0.8)] flex items-center justify-center transition-all group relative border-2 border-white"
+              className="bg-[#F5B800] hover:bg-[#032B45] text-white p-4 lg:p-5 rounded-full shadow-[0_10px_40px_-10px_rgba(37,99,235,0.8)] flex items-center justify-center transition-all group relative border-2 border-white"
             >
               <MessageCircle className="w-6 h-6 lg:w-7 lg:h-7" />
               <div className="absolute -top-1 -right-1 w-3 h-3 bg-red-500 rounded-full border-2 border-white animate-pulse" />
               
               {/* Tooltip */}
-              <div className="absolute right-full mr-4 bg-white text-gray-900 py-1.5 px-3 rounded-lg shadow-lg text-sm font-semibold whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
+              <div className="absolute right-full mr-4 bg-white text-navy-900 py-1.5 px-3 rounded-lg shadow-lg text-sm font-semibold whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
                 Need help? Chat with us!
                 <div className="absolute right-[-4px] top-1/2 -translate-y-1/2 w-2 h-2 bg-white rotate-45" />
               </div>
@@ -158,14 +158,14 @@ export default function CustomerSupportChat() {
           >
             {/* Header */}
             <div className="bg-gradient-to-r from-blue-700 to-blue-500 p-5 text-white flex items-center justify-between shrink-0 relative overflow-hidden">
-              <div className="absolute inset-0 bg-blue-900/20 pattern-grid-lg opacity-20 mix-blend-overlay" />
+              <div className="absolute inset-0 bg-navy-900/20 pattern-grid-lg opacity-20 mix-blend-overlay" />
               
               <div className="flex items-center gap-3 relative z-10">
                 <div className="relative">
                   <div className="w-10 h-10 bg-white/10 backdrop-blur-md rounded-full flex items-center justify-center border border-white/20">
                     <Heart className="w-5 h-5 text-red-300 fill-red-300" />
                   </div>
-                  <div className="absolute bottom-0 right-0 w-2.5 h-2.5 bg-green-400 border-2 border-blue-600 rounded-full" />
+                  <div className="absolute bottom-0 right-0 w-2.5 h-2.5 bg-green-400 border-2 border-[#F5B800] rounded-full" />
                 </div>
                 <div>
                   <h3 className="font-extrabold text-white text-lg leading-tight tracking-tight">CrossBorders AI</h3>
@@ -193,7 +193,7 @@ export default function CustomerSupportChat() {
                     <div className="w-16 h-16 bg-green-100 text-green-600 rounded-full flex items-center justify-center mb-2 shadow-sm border border-green-200">
                       <CheckCircle2 className="w-8 h-8" />
                     </div>
-                    <h4 className="text-xl font-bold text-gray-900 tracking-tight">Message Sent</h4>
+                    <h4 className="text-xl font-bold text-navy-900 tracking-tight">Message Sent</h4>
                     <p className="text-gray-600 text-sm leading-relaxed px-4">
                       Our human support team will review your request and get back to you via email shortly.
                     </p>
@@ -203,7 +203,7 @@ export default function CustomerSupportChat() {
                         setHandoffState("idle");
                         setMessages(prev => [...prev, { id: Date.now().toString(), role: "model", text: "I've escalated that to our human team! Is there anything simpler I can help you with?" }]);
                       }}
-                      className="mt-6 px-6 py-3 border-2 border-blue-600 text-blue-600 rounded-xl font-bold hover:bg-blue-50 transition-colors w-full"
+                      className="mt-6 px-6 py-3 border-2 border-[#F5B800] text-[#F5B800] rounded-xl font-bold hover:bg-sky-50 transition-colors w-full"
                     >
                       Return to AI Chat
                     </button>
@@ -214,7 +214,7 @@ export default function CustomerSupportChat() {
                       <div className="w-12 h-12 bg-orange-100 text-orange-600 rounded-full flex items-center justify-center mx-auto mb-3 shadow-sm border border-orange-200">
                         <User className="w-6 h-6" />
                       </div>
-                      <h4 className="font-bold text-gray-900 text-lg tracking-tight">Connect with a Human</h4>
+                      <h4 className="font-bold text-navy-900 text-lg tracking-tight">Connect with a Human</h4>
                       <p className="text-xs text-gray-500 mt-1.5 leading-relaxed">Let's get you connected with a real team member for this request.</p>
                     </div>
 
@@ -250,7 +250,7 @@ export default function CustomerSupportChat() {
                       <button 
                         type="submit"
                         disabled={handoffState === "submitting"}
-                        className="mt-2 w-full flex items-center justify-center gap-2 px-6 py-3.5 bg-blue-600 text-white rounded-xl font-bold shadow-lg shadow-blue-600/20 hover:-translate-y-0.5 hover:shadow-xl transition-all disabled:opacity-70 disabled:hover:translate-y-0"
+                        className="mt-2 w-full flex items-center justify-center gap-2 px-6 py-3.5 bg-[#F5B800] text-white rounded-xl font-bold shadow-lg shadow-[#F5B800]/20 hover:-translate-y-0.5 hover:shadow-xl transition-all disabled:opacity-70 disabled:hover:translate-y-0"
                       >
                         {handoffState === "submitting" ? (
                           <><Loader2 className="w-5 h-5 animate-spin" /> Sending Securely...</>
@@ -272,10 +272,10 @@ export default function CustomerSupportChat() {
             ) : (
               /* ── Chat View ── */
               <>
-                <div className="flex-1 p-5 overflow-y-auto bg-slate-50 flex flex-col gap-5">
+                <div className="flex-1 p-5 overflow-y-auto bg-sky-50 flex flex-col gap-5">
                   {/* NGO Mission Banner */}
-                  <div className="bg-blue-50 border border-blue-100 rounded-2xl p-4 flex gap-3 text-sm text-blue-900 shadow-sm mx-2">
-                    <Globe className="w-8 h-8 text-blue-500 shrink-0" />
+                  <div className="bg-sky-50 border border-blue-100 rounded-2xl p-4 flex gap-3 text-sm text-navy-900 shadow-sm mx-2">
+                    <Globe className="w-8 h-8 text-[#F5B800] shrink-0" />
                     <p className="leading-relaxed opacity-90 text-xs mt-0.5">
                       Your donations directly fund our local outreach programs in Kenya and the USA. Thanks for making a difference!
                     </p>
@@ -290,14 +290,14 @@ export default function CustomerSupportChat() {
                     >
                       {msg.role === "model" && idx !== 0 && (
                         <div className="flex items-center gap-2 mb-1.5 ml-1">
-                          <Bot className="w-3.5 h-3.5 text-blue-600" />
+                          <Bot className="w-3.5 h-3.5 text-[#F5B800]" />
                           <span className="text-[10px] font-bold text-gray-400 uppercase tracking-wider">CrossBorders AI</span>
                         </div>
                       )}
                       <div 
                         className={`px-4 py-3 rounded-2xl text-[14px] leading-relaxed shadow-sm ${
                           msg.role === "user" 
-                            ? "bg-blue-600 text-white rounded-br-sm" 
+                            ? "bg-[#F5B800] text-white rounded-br-sm" 
                             : "bg-white text-gray-800 border border-gray-100 rounded-bl-sm"
                         }`}
                       >
@@ -309,9 +309,9 @@ export default function CustomerSupportChat() {
                   {isTyping && (
                     <div className="self-start items-start max-w-[85%] mt-2">
                       <div className="px-5 py-4 bg-white border border-gray-100 rounded-2xl rounded-bl-sm shadow-sm flex items-center gap-1.5">
-                        <div className="w-1.5 h-1.5 bg-blue-600/50 rounded-full animate-bounce [animation-delay:-0.3s]"></div>
-                        <div className="w-1.5 h-1.5 bg-blue-600/50 rounded-full animate-bounce [animation-delay:-0.15s]"></div>
-                        <div className="w-1.5 h-1.5 bg-blue-600/50 rounded-full animate-bounce"></div>
+                        <div className="w-1.5 h-1.5 bg-[#F5B800]/50 rounded-full animate-bounce [animation-delay:-0.3s]"></div>
+                        <div className="w-1.5 h-1.5 bg-[#F5B800]/50 rounded-full animate-bounce [animation-delay:-0.15s]"></div>
+                        <div className="w-1.5 h-1.5 bg-[#F5B800]/50 rounded-full animate-bounce"></div>
                       </div>
                     </div>
                   )}
@@ -334,7 +334,7 @@ export default function CustomerSupportChat() {
                           <button
                             key={action}
                             onClick={() => handleSend(action)}
-                            className="shrink-0 bg-white border border-gray-200 hover:border-blue-300 hover:bg-blue-50 text-gray-600 hover:text-blue-700 text-xs font-semibold px-3 py-1.5 rounded-full transition-colors whitespace-nowrap"
+                            className="shrink-0 bg-white border border-gray-200 hover:border-blue-300 hover:bg-sky-50 text-gray-600 hover:text-[#032B45] text-xs font-semibold px-3 py-1.5 rounded-full transition-colors whitespace-nowrap"
                           >
                             {action}
                           </button>
@@ -355,7 +355,7 @@ export default function CustomerSupportChat() {
                     <button 
                       onClick={() => handleSend(input)}
                       disabled={!input.trim() || isTyping}
-                      className="absolute right-2 p-2 bg-blue-600 text-white rounded-xl shadow-md transition-all hover:bg-blue-700 disabled:opacity-0 disabled:scale-75 disabled:pointer-events-none"
+                      className="absolute right-2 p-2 bg-[#F5B800] text-white rounded-xl shadow-md transition-all hover:bg-[#032B45] disabled:opacity-0 disabled:scale-75 disabled:pointer-events-none"
                     >
                       <Send className="w-4 h-4 ml-0.5" />
                     </button>

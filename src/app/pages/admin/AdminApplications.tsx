@@ -35,7 +35,7 @@ export default function AdminApplications() {
   const getStatusColor = (status: string) => {
     switch(status) {
       case 'pending': return 'bg-amber-100 text-amber-700';
-      case 'reviewed': return 'bg-blue-100 text-blue-700';
+      case 'reviewed': return 'bg-blue-100 text-[#032B45]';
       case 'accepted': return 'bg-sky-100 text-sky-700';
       case 'rejected': return 'bg-red-100 text-red-700';
       default: return 'bg-slate-100 text-slate-700';
@@ -43,12 +43,12 @@ export default function AdminApplications() {
   };
 
   return (
-    <div className="flex-1 min-h-full bg-slate-50 p-6 md:p-10">
+    <div className="flex-1 min-h-full bg-sky-50 p-6 md:p-10">
       <div className="max-w-7xl mx-auto">
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-8">
           <div>
-            <h1 className="text-3xl font-black text-slate-900 flex items-center gap-3 font-playfair">
-              <FileSignature className="w-8 h-8 text-blue-600" />
+            <h1 className="text-3xl font-black text-navy-900 flex items-center gap-3 font-playfair">
+              <FileSignature className="w-8 h-8 text-[#F5B800]" />
               Applications
             </h1>
           </div>
@@ -58,7 +58,7 @@ export default function AdminApplications() {
               <button 
                 key={t}
                 onClick={() => setFilterType(t as any)}
-                className={`px-4 py-2 text-sm font-bold rounded-lg capitalize transition-colors ${filterType === t ? 'bg-slate-900 text-white' : 'text-slate-500 hover:text-slate-900'}`}
+                className={`px-4 py-2 text-sm font-bold rounded-lg capitalize transition-colors ${filterType === t ? 'bg-navy-900 text-white' : 'text-slate-500 hover:text-navy-900'}`}
               >
                 {t}
               </button>
@@ -68,14 +68,14 @@ export default function AdminApplications() {
 
         {loading ? (
           <div className="flex justify-center p-20">
-            <Loader2 className="w-10 h-10 animate-spin text-blue-600" />
+            <Loader2 className="w-10 h-10 animate-spin text-[#F5B800]" />
           </div>
         ) : (
           <div className="grid lg:grid-cols-3 gap-8">
             <div className="lg:col-span-2 bg-white rounded-3xl shadow-sm border border-slate-200 overflow-hidden">
               <table className="w-full text-left border-collapse">
                 <thead>
-                  <tr className="bg-slate-50 border-b border-slate-200">
+                  <tr className="bg-sky-50 border-b border-slate-200">
                     <th className="p-4 font-bold text-slate-700">Applicant</th>
                     <th className="p-4 font-bold text-slate-700">Type / Interest</th>
                     <th className="p-4 font-bold text-slate-700">Date</th>
@@ -90,9 +90,9 @@ export default function AdminApplications() {
                     </tr>
                   ) : (
                     filteredApps.map((app) => (
-                      <tr key={app.id} onClick={() => setSelectedApp(app)} className={`cursor-pointer transition-colors ${selectedApp?.id === app.id ? 'bg-blue-50' : 'hover:bg-slate-50'}`}>
+                      <tr key={app.id} onClick={() => setSelectedApp(app)} className={`cursor-pointer transition-colors ${selectedApp?.id === app.id ? 'bg-sky-50' : 'hover:bg-sky-50'}`}>
                         <td className="p-4">
-                          <div className="font-bold text-slate-900">{app.first_name} {app.last_name}</div>
+                          <div className="font-bold text-navy-900">{app.first_name} {app.last_name}</div>
                           <div className="text-sm text-slate-500">{app.email}</div>
                         </td>
                         <td className="p-4">
@@ -112,7 +112,7 @@ export default function AdminApplications() {
                           </span>
                         </td>
                         <td className="p-4 text-right">
-                          <button className="p-2 text-blue-600 hover:bg-blue-100 rounded-lg transition-colors inline-block">
+                          <button className="p-2 text-[#F5B800] hover:bg-blue-100 rounded-lg transition-colors inline-block">
                             <Eye className="w-4 h-4" />
                           </button>
                         </td>
@@ -128,8 +128,8 @@ export default function AdminApplications() {
                 <div className="bg-white rounded-3xl shadow-sm border border-slate-200 p-6 sticky top-6">
                   <div className="flex justify-between items-start mb-6">
                     <div>
-                      <h3 className="text-xl font-black text-slate-900 font-playfair">{selectedApp.first_name} {selectedApp.last_name}</h3>
-                      <a href={`mailto:${selectedApp.email}`} className="text-blue-600 hover:underline flex items-center gap-1 mt-1 text-sm font-medium">
+                      <h3 className="text-xl font-black text-navy-900 font-playfair">{selectedApp.first_name} {selectedApp.last_name}</h3>
+                      <a href={`mailto:${selectedApp.email}`} className="text-[#F5B800] hover:underline flex items-center gap-1 mt-1 text-sm font-medium">
                         <Mail className="w-4 h-4" /> {selectedApp.email}
                       </a>
                     </div>
@@ -141,17 +141,17 @@ export default function AdminApplications() {
                   <div className="space-y-4 mb-6">
                     <div>
                       <div className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-1">Applying For</div>
-                      <div className="font-medium text-slate-900">
+                      <div className="font-medium text-navy-900">
                         {selectedApp.type === 'job' && selectedApp.jobs ? selectedApp.jobs.title : selectedApp.interest_or_position}
                       </div>
                     </div>
                     <div>
                       <div className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-1">Availability</div>
-                      <div className="font-medium text-slate-900">{selectedApp.availability || 'Not specified'}</div>
+                      <div className="font-medium text-navy-900">{selectedApp.availability || 'Not specified'}</div>
                     </div>
                     <div>
                       <div className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-1">About</div>
-                      <div className="text-slate-700 text-sm whitespace-pre-wrap p-4 bg-slate-50 rounded-xl border border-slate-100 mt-2">
+                      <div className="text-slate-700 text-sm whitespace-pre-wrap p-4 bg-sky-50 rounded-xl border border-slate-100 mt-2">
                         {selectedApp.about || 'No additional information provided.'}
                       </div>
                     </div>
@@ -162,7 +162,7 @@ export default function AdminApplications() {
                     <select 
                       value={selectedApp.status}
                       onChange={(e) => handleStatusChange(selectedApp.id, e.target.value)}
-                      className="w-full p-3 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:border-blue-500 font-semibold text-slate-700"
+                      className="w-full p-3 bg-sky-50 border border-slate-200 rounded-xl focus:outline-none focus:border-blue-500 font-semibold text-slate-700"
                     >
                       <option value="pending">Pending Review</option>
                       <option value="reviewed">Reviewed</option>

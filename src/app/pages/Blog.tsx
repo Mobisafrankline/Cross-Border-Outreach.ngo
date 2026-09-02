@@ -110,7 +110,7 @@ export default function Blog() {
   if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-[#f8f9fa]">
-        <div className="w-12 h-12 border-4 border-blue-600 border-t-transparent rounded-full animate-spin"></div>
+        <div className="w-12 h-12 border-4 border-[#F5B800] border-t-transparent rounded-full animate-spin"></div>
       </div>
     );
   }

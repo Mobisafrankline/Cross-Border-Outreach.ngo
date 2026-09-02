@@ -6,14 +6,14 @@ import { publications } from "../../data/content";
 // Category color mapping
 const categoryColors: Record<string, { bg: string; text: string; accent: string }> = {
   "Research Paper": { bg: "bg-violet-50", text: "text-violet-700", accent: "bg-violet-600" },
-  "White Paper": { bg: "bg-blue-50", text: "text-blue-700", accent: "bg-blue-600" },
+  "White Paper": { bg: "bg-slate-50", text: "text-navy-800", accent: "bg-navy-900" },
   "Case Study": { bg: "bg-sky-50", text: "text-sky-700", accent: "bg-sky-600" },
   "Report": { bg: "bg-amber-50", text: "text-amber-700", accent: "bg-amber-600" },
   "Guide": { bg: "bg-rose-50", text: "text-rose-700", accent: "bg-rose-600" },
   "Toolkit": { bg: "bg-cyan-50", text: "text-cyan-700", accent: "bg-cyan-600" },
 };
 
-const getCategoryStyle = (cat: string) => categoryColors[cat] || { bg: "bg-slate-50", text: "text-slate-700", accent: "bg-slate-600" };
+const getCategoryStyle = (cat: string) => categoryColors[cat] || { bg: "bg-sky-50", text: "text-slate-700", accent: "bg-slate-600" };
 
 export default function Publications() {
   const [searchTerm, setSearchTerm] = useState("");
@@ -37,9 +37,9 @@ export default function Publications() {
     <div className="min-h-screen bg-white">
 
       {/* ── Hero ── */}
-      <section className="relative py-28 md:py-36 overflow-hidden bg-slate-900">
+      <section className="relative py-28 md:py-36 overflow-hidden bg-navy-900">
         {/* Decorative elements */}
-        <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-blue-600/15 rounded-full blur-[120px] -mr-60 -mt-60" />
+        <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-gold-500/15 rounded-full blur-[120px] -mr-60 -mt-60" />
         <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-violet-600/10 rounded-full blur-[100px] -ml-60 -mb-60" />
         
         {/* Grid pattern overlay */}
@@ -47,7 +47,7 @@ export default function Publications() {
 
         <div className="relative z-10 max-w-4xl mx-auto px-6 text-center text-white">
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}>
-            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-blue-500/20 backdrop-blur-md border border-blue-400/30 text-blue-200 text-xs font-bold uppercase tracking-widest mb-8">
+            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-sky-500/20 backdrop-blur-md border border-blue-400/30 text-blue-200 text-xs font-bold uppercase tracking-widest mb-8">
               <Sparkles className="w-3.5 h-3.5 text-yellow-300" /> Research & Insights
             </div>
             <h1 className="text-4xl md:text-7xl font-black mb-6 tracking-tight leading-[1.05] font-playfair">
@@ -75,7 +75,7 @@ export default function Publications() {
                 placeholder="Search publications, topics, or tags..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="w-full pl-12 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-3xl text-sm font-medium text-slate-800 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500/30 focus:border-blue-500 transition-all"
+                className="w-full pl-12 pr-4 py-3 bg-sky-50 border border-slate-200 rounded-3xl text-sm font-medium text-navy-800 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500/30 focus:border-blue-500 transition-all"
               />
             </div>
             <div className="flex items-center gap-2 overflow-x-auto w-full md:w-auto pb-1">
@@ -86,7 +86,7 @@ export default function Publications() {
                   onClick={() => setSelectedCategory(cat)}
                   className={`px-4 py-2 rounded-full text-xs font-bold uppercase tracking-wider whitespace-nowrap transition-all ${
                     selectedCategory === cat
-                      ? "bg-blue-600 text-white shadow-lg shadow-blue-600/30"
+                      ? "bg-navy-900 text-white shadow-lg shadow-navy-900/30"
                       : "bg-slate-100 text-slate-600 hover:bg-slate-200"
                   }`}
                 >
@@ -109,7 +109,7 @@ export default function Publications() {
               transition={{ duration: 0.6 }}
               className="relative bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900 rounded-3xl overflow-hidden p-8 md:p-14"
             >
-              <div className="absolute top-0 right-0 -mt-20 -mr-20 w-64 h-64 bg-blue-500 rounded-full blur-3xl opacity-15" />
+              <div className="absolute top-0 right-0 -mt-20 -mr-20 w-64 h-64 bg-sky-500 rounded-full blur-3xl opacity-15" />
               <div className="absolute bottom-0 left-0 -mb-16 -ml-16 w-48 h-48 bg-violet-500 rounded-full blur-3xl opacity-10" />
               
               <div className="relative z-10 flex flex-col lg:flex-row items-center gap-10">
@@ -119,13 +119,13 @@ export default function Publications() {
                     <FileText className="w-6 h-6" />
                   </div>
                   <div className="text-xs font-black text-slate-400 uppercase tracking-widest mb-1">{featured.category}</div>
-                  <div className="text-sm font-bold text-slate-900 leading-tight">{featured.title.substring(0, 40)}...</div>
+                  <div className="text-sm font-bold text-navy-900 leading-tight">{featured.title.substring(0, 40)}...</div>
                   <div className="mt-auto pt-4 text-[10px] font-bold text-slate-400 uppercase tracking-widest">{featured.pages} pages • {featured.size}</div>
                 </div>
 
                 <div className="flex-1 text-white text-center lg:text-left">
                   <div className="flex flex-wrap items-center gap-3 mb-5 justify-center lg:justify-start">
-                    <span className="px-4 py-1.5 bg-blue-500/20 border border-blue-400/30 text-blue-300 rounded-full text-xs font-bold uppercase tracking-widest">
+                    <span className="px-4 py-1.5 bg-sky-500/20 border border-blue-400/30 text-blue-300 rounded-full text-xs font-bold uppercase tracking-widest">
                       Featured
                     </span>
                     <span className="px-4 py-1.5 bg-white/10 border border-white/10 text-white/70 rounded-full text-xs font-bold uppercase tracking-widest">
@@ -153,7 +153,7 @@ export default function Publications() {
                     ))}
                   </div>
                   <a href={featured.pdfUrl} download
-                    className="inline-flex items-center gap-3 px-10 py-5 bg-white text-slate-900 rounded-3xl font-black text-sm uppercase tracking-widest hover:bg-blue-50 transition-all shadow-xl">
+                    className="inline-flex items-center gap-3 px-10 py-5 bg-white text-navy-900 rounded-3xl font-black text-sm uppercase tracking-widest hover:bg-sky-50 transition-all shadow-xl">
                     <Download className="w-5 h-5" /> Download PDF
                   </a>
                 </div>
@@ -197,7 +197,7 @@ export default function Publications() {
                         </div>
                       </div>
 
-                      <h3 className="text-xl font-black text-slate-900 mb-3 leading-tight tracking-tight group-hover:text-blue-600 transition-colors font-playfair">
+                      <h3 className="text-xl font-black text-navy-900 mb-3 leading-tight tracking-tight group-hover:text-gold-500 transition-colors font-playfair">
                         {pub.title}
                       </h3>
                       <p className="text-slate-500 text-sm leading-relaxed mb-5 flex-1 font-source-serif">
@@ -206,7 +206,7 @@ export default function Publications() {
 
                       <div className="flex flex-wrap gap-1.5 mb-5">
                         {pub.tags.map((tag, i) => (
-                          <span key={i} className="inline-flex items-center gap-1 px-2.5 py-1 bg-slate-50 text-slate-500 rounded-lg text-[10px] font-bold uppercase tracking-wider">
+                          <span key={i} className="inline-flex items-center gap-1 px-2.5 py-1 bg-sky-50 text-slate-500 rounded-lg text-[10px] font-bold uppercase tracking-wider">
                             <Tag className="w-2.5 h-2.5" /> {tag}
                           </span>
                         ))}
@@ -218,7 +218,7 @@ export default function Publications() {
                       </div>
 
                       <a href={pub.pdfUrl} download
-                        className="inline-flex items-center justify-center gap-2 w-full px-6 py-4 bg-slate-50 hover:bg-blue-600 text-slate-700 hover:text-white rounded-3xl text-xs font-black uppercase tracking-widest transition-all duration-300 mt-auto group/btn">
+                        className="inline-flex items-center justify-center gap-2 w-full px-6 py-4 bg-slate-50 hover:bg-navy-900 text-slate-700 hover:text-white rounded-3xl text-xs font-black uppercase tracking-widest transition-all duration-300 mt-auto group/btn">
                         <Download className="w-4 h-4" /> Download PDF
                         <ArrowRight className="w-4 h-4 opacity-0 group-hover/btn:opacity-100 group-hover/btn:translate-x-1 transition-all" />
                       </a>
@@ -238,10 +238,10 @@ export default function Publications() {
             <div className="w-20 h-20 bg-slate-100 rounded-3xl flex items-center justify-center mx-auto mb-6">
               <Search className="w-8 h-8 text-slate-400" />
             </div>
-            <h3 className="text-2xl font-black text-slate-900 mb-3 font-playfair">No publications found</h3>
+            <h3 className="text-2xl font-black text-navy-900 mb-3 font-playfair">No publications found</h3>
             <p className="text-slate-500 mb-8">Try adjusting your search or filter.</p>
             <button onClick={() => { setSearchTerm(""); setSelectedCategory("All"); }}
-              className="px-6 py-3 bg-blue-600 text-white rounded-3xl font-bold text-sm hover:bg-blue-700 transition-all">
+              className="px-6 py-3 bg-navy-900 text-white rounded-3xl font-bold text-sm hover:bg-navy-800 transition-all">
               Clear Filters
             </button>
           </div>
@@ -249,7 +249,7 @@ export default function Publications() {
       )}
 
       {/* ── Newsletter Subscribe ── */}
-      <section className="py-24 bg-slate-50">
+      <section className="py-24 bg-sky-50">
         <div className="max-w-3xl mx-auto px-6 text-center">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -257,10 +257,10 @@ export default function Publications() {
             viewport={{ once: true }}
             transition={{ duration: 0.5 }}
           >
-            <div className="w-16 h-16 bg-blue-100 rounded-3xl flex items-center justify-center mx-auto mb-8">
-              <BookOpen className="w-8 h-8 text-blue-600" />
+            <div className="w-16 h-16 bg-slate-100 rounded-3xl flex items-center justify-center mx-auto mb-8">
+              <BookOpen className="w-8 h-8 text-navy-900" />
             </div>
-            <h2 className="text-3xl md:text-5xl font-black text-slate-900 mb-6 tracking-tight font-playfair">Stay Updated</h2>
+            <h2 className="text-3xl md:text-5xl font-black text-navy-900 mb-6 tracking-tight font-playfair">Stay Updated</h2>
             <p className="text-lg text-slate-500 mb-10 leading-relaxed max-w-xl mx-auto font-source-serif">
               Get notified when we publish new research, case studies, and community impact reports.
             </p>
@@ -268,9 +268,9 @@ export default function Publications() {
               <input
                 type="email"
                 placeholder="Your email address"
-                className="flex-1 px-6 py-4 bg-white border border-slate-200 rounded-3xl text-sm font-medium text-slate-800 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500/30 focus:border-blue-500 transition-all shadow-sm"
+                className="flex-1 px-6 py-4 bg-white border border-slate-200 rounded-3xl text-sm font-medium text-navy-800 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500/30 focus:border-blue-500 transition-all shadow-sm"
               />
-              <button className="px-8 py-4 bg-blue-600 hover:bg-blue-700 text-white rounded-3xl font-black text-sm uppercase tracking-widest transition-all shadow-xl shadow-blue-600/20 whitespace-nowrap">
+              <button className="px-8 py-4 bg-navy-900 hover:bg-navy-800 text-white rounded-3xl font-black text-sm uppercase tracking-widest transition-all shadow-xl shadow-navy-900/20 whitespace-nowrap">
                 Subscribe
               </button>
             </div>

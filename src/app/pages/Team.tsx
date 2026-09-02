@@ -32,7 +32,7 @@ export default function Team() {
       <section className="py-20 bg-white">
         <div className="max-w-6xl mx-auto px-6">
           <div className="text-center mb-12">
-            <h2 className="text-4xl font-bold text-gray-900 mb-4 font-playfair">
+            <h2 className="text-4xl font-bold text-navy-900 mb-4 font-playfair">
               Leadership Team
             </h2>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto font-source-serif">
@@ -54,24 +54,24 @@ export default function Team() {
                 </div>
 
                 <div className="p-6">
-                  <h3 className="text-xl font-bold text-gray-900 mb-1 font-playfair">
+                  <h3 className="text-xl font-bold text-navy-900 mb-1 font-playfair">
                     {member.name}
                   </h3>
-                  <p className="text-blue-600 mb-4">{member.role}</p>
+                  <p className="text-[#F5B800] mb-4">{member.role}</p>
 
                   <div className="flex gap-3">
                     <a
                       href="#"
-                      className="w-10 h-10 bg-blue-50 rounded-lg flex items-center justify-center hover:bg-blue-100 transition-colors"
+                      className="w-10 h-10 bg-sky-50 rounded-lg flex items-center justify-center hover:bg-blue-100 transition-colors"
                     >
-                      <Mail className="w-5 h-5 text-blue-600" />
+                      <Mail className="w-5 h-5 text-[#F5B800]" />
                     </a>
 
                     <a
                       href="#"
-                      className="w-10 h-10 bg-blue-50 rounded-lg flex items-center justify-center hover:bg-blue-100 transition-colors"
+                      className="w-10 h-10 bg-sky-50 rounded-lg flex items-center justify-center hover:bg-blue-100 transition-colors"
                     >
-                      <Linkedin className="w-5 h-5 text-blue-600" />
+                      <Linkedin className="w-5 h-5 text-[#F5B800]" />
                     </a>
                   </div>
                 </div>
@@ -81,10 +81,10 @@ export default function Team() {
         </div>
       </section>
 
-      <section className="py-20 bg-blue-50">
+      <section className="py-20 bg-sky-50">
         <div className="max-w-4xl mx-auto px-6 text-center">
-          <Users className="w-16 h-16 text-blue-600 mx-auto mb-6" />
-          <h2 className="text-4xl font-bold text-gray-900 mb-6 font-playfair">
+          <Users className="w-16 h-16 text-[#F5B800] mx-auto mb-6" />
+          <h2 className="text-4xl font-bold text-navy-900 mb-6 font-playfair">
             Join Our Team
           </h2>
           <p className="text-xl text-gray-600 mb-8 font-source-serif">
@@ -94,7 +94,7 @@ export default function Team() {
 
           <a
             href="/contact"
-            className="inline-block px-8 py-4 bg-blue-600 text-white rounded-lg font-semibold hover:bg-blue-700 transition-colors shadow-lg"
+            className="inline-block px-8 py-4 bg-[#F5B800] text-white rounded-lg font-semibold hover:bg-[#032B45] transition-colors shadow-lg"
           >
             View Open Positions
           </a>

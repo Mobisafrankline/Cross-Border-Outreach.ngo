@@ -6,14 +6,14 @@ import "../../styles/programs.css";
 export default function HelpingFamilies() {
   const impacts = [
     { number: "350+", label: "Families Assisted", icon: <Home className="w-6 h-6 text-rose-500" /> },
-    { number: "1,200+", label: "Children Supported", icon: <Baby className="w-6 h-6 text-blue-500" /> },
+    { number: "1,200+", label: "Children Supported", icon: <Baby className="w-6 h-6" style={{color:"#F5B800"}} /> },
     { number: "100%", label: "Needs Assessed", icon: <ShieldCheck className="w-6 h-6 text-sky-500" /> },
     { number: "24/7", label: "Emergency Support", icon: <Heart className="w-6 h-6 text-purple-500" /> }
   ];
 
   const programs = [
     { icon: Home, title: "Emergency Shelter Support", description: "Providing temporary housing, rent assistance, and connecting displaced families with safe shelter solutions.", color: "#e11d48" },
-    { icon: Heart, title: "Basic Needs Provision", description: "Distributing essential supplies—clothing, hygiene products, bedding, and household items—to families in crisis.", color: "#3b82f6" },
+    { icon: Heart, title: "Basic Needs Provision", description: "Distributing essential supplies—clothing, hygiene products, bedding, and household items—to families in crisis.", color: "#F5B800" },
     { icon: Users, title: "Family Counseling & Support", description: "Professional counseling, parenting workshops, and emotional support groups to strengthen family bonds.", color: "#10b981" },
     { icon: ShieldCheck, title: "Child Welfare Programs", description: "School enrollment assistance, after-school care, nutritional support, and protection services for vulnerable children.", color: "#f97316" }
   ];
@@ -58,7 +58,7 @@ export default function HelpingFamilies() {
             <div className="prog-checklist">
               {[
                 { text: "Emergency food and supply packages", color: "#e11d48" },
-                { text: "Housing and rent assistance", color: "#3b82f6" },
+                { text: "Housing and rent assistance", color: "#F5B800" },
                 { text: "Children's education sponsorship", color: "#10b981" },
                 { text: "Medical care for family members", color: "#8b5cf6" },
                 { text: "Job placement and skills training", color: "#f97316" }
@@ -75,7 +75,7 @@ export default function HelpingFamilies() {
 
       <section className="prog-initiatives-section">
         <div className="prog-initiatives-header">
-          <div className="prog-initiatives-label" style={{ color: "#e11d48" }}>Our Initiatives</div>
+          <div className="prog-initiatives-label" style={{ color: "#032B45" }}>Our Initiatives</div>
           <h2 className="prog-initiatives-title font-playfair">Family Support Programs</h2>
           <p className="prog-initiatives-subtitle">Comprehensive care designed to lift families out of crisis and into stability</p>
         </div>
@@ -116,12 +116,12 @@ export default function HelpingFamilies() {
         </div>
       </section>
 
-      <section className="prog-cta-section" style={{ background: "linear-gradient(135deg, #be123c, #e11d48)" }}>
+      <section className="prog-cta-section" style={{ background: "linear-gradient(135deg, #032B45, #053D61)" }}>
         <div className="prog-cta-inner">
           <h2 className="prog-cta-title font-playfair">Help a Family Today</h2>
           <p className="prog-cta-subtitle">Your generosity can provide shelter, food, and hope to a family in desperate need.</p>
           <div className="prog-cta-actions">
-            <Link to="/donate" className="prog-cta-btn-primary" style={{ color: "#be123c" }}><Heart className="w-5 h-5" /> Support a Family</Link>
+            <Link to="/donate" className="prog-cta-btn-primary" style={{ color: "#032B45" }}><Heart className="w-5 h-5" /> Support a Family</Link>
             <Link to="/opportunities" className="prog-cta-btn-secondary">Volunteer With Us <ChevronRight className="w-5 h-5" /></Link>
           </div>
         </div>

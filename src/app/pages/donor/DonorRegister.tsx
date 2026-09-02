@@ -148,7 +148,7 @@ export default function DonorRegister() {
           box-sizing: border-box;
         }
         .reg-input:focus {
-          border-color: #7c3aed;
+          border-color: #032B45;
           box-shadow: 0 0 0 3px rgba(124,58,237,.12);
           background: #fff;
         }
@@ -160,7 +160,7 @@ export default function DonorRegister() {
           display: flex; align-items: center; justify-content: center;
           font-weight: 700; font-size: 14px; transition: all .3s;
         }
-        .step-dot.active   { background: #7c3aed; color: #fff; box-shadow: 0 0 0 4px rgba(124,58,237,.2); }
+        .step-dot.active   { background: #032B45; color: #fff; box-shadow: 0 0 0 4px rgba(3,43,69,.2); }
         .step-dot.done     { background: #22c55e; color: #fff; }
         .step-dot.inactive { background: #e5e7eb; color: #9ca3af; }
 
@@ -177,7 +177,7 @@ export default function DonorRegister() {
           font-family: 'Inter', sans-serif;
           display: flex; align-items: center; justify-content: center; gap: 8px;
           transition: opacity .2s, transform .15s, box-shadow .2s;
-          background: linear-gradient(135deg, #7c3aed 0%, #db2777 100%);
+          background: linear-gradient(135deg, #032B45 0%, #db2777 100%);
           color: #fff;
           box-shadow: 0 4px 20px rgba(124,58,237,.4);
         }
@@ -186,8 +186,8 @@ export default function DonorRegister() {
 
         .reg-btn-outline {
           width: 100%; padding: 13px;
-          border: 1.5px solid #7c3aed; background: transparent;
-          color: #7c3aed; border-radius: 12px; cursor: pointer;
+          border: 1.5px solid #032B45; background: transparent;
+          color: #032B45; border-radius: 12px; cursor: pointer;
           font-size: 15px; font-weight: 600; font-family:'Inter',sans-serif;
           display:flex;align-items:center;justify-content:center;gap:8px;
           transition: background .2s, color .2s;
@@ -263,7 +263,7 @@ export default function DonorRegister() {
               </Link>
               <span style={{ fontSize: 13, color: "#9ca3af" }}>
                 Already a member?{" "}
-                <Link to="/donor/login" style={{ color: "#7c3aed", fontWeight: 600, textDecoration: "none" }}>Sign in</Link>
+                <Link to="/donor/login" style={{ color: "#032B45", fontWeight: 600, textDecoration: "none" }}>Sign in</Link>
               </span>
             </div>
 
@@ -275,7 +275,7 @@ export default function DonorRegister() {
                     <div className={`step-dot ${step > s ? "done" : step === s ? "active" : "inactive"}`}>
                       {step > s ? <CheckCircle size={18} /> : s}
                     </div>
-                    <span style={{ fontSize: 12, fontWeight: 500, color: step === s ? "#7c3aed" : "#9ca3af" }}>
+                    <span style={{ fontSize: 12, fontWeight: 500, color: step === s ? "#032B45" : "#9ca3af" }}>
                       {s === 1 ? "Personal Info" : "Security"}
                     </span>
                   </div>
@@ -530,13 +530,13 @@ export default function DonorRegister() {
                       type="checkbox"
                       checked={agreed}
                       onChange={e => setAgreed(e.target.checked)}
-                      style={{ width: 16, height: 16, accentColor: "#7c3aed", marginTop: 2, flexShrink: 0 }}
+                      style={{ width: 16, height: 16, accentColor: "#032B45", marginTop: 2, flexShrink: 0 }}
                     />
                     <span style={{ fontSize: 13, color: "#4b5563", lineHeight: 1.5 }}>
                       I agree to the{" "}
-                      <a href="/terms" style={{ color: "#7c3aed", fontWeight: 600, textDecoration: "none" }}>Terms of Service</a>
+                      <a href="/terms" style={{ color: "#032B45", fontWeight: 600, textDecoration: "none" }}>Terms of Service</a>
                       {" "}and{" "}
-                      <a href="/privacy" style={{ color: "#7c3aed", fontWeight: 600, textDecoration: "none" }}>Privacy Policy</a>
+                      <a href="/privacy" style={{ color: "#032B45", fontWeight: 600, textDecoration: "none" }}>Privacy Policy</a>
                     </span>
                   </label>
 

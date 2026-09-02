@@ -125,19 +125,19 @@ export default function AdminReports() {
   };
 
   return (
-    <div className="flex-1 bg-slate-50 text-slate-900 pb-12">
+    <div className="flex-1 bg-sky-50 text-navy-900 pb-12">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 pt-8 pb-4">
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
           <div className="flex items-center gap-3">
-            <FileText className="w-8 h-8 text-blue-600" />
+            <FileText className="w-8 h-8 text-[#F5B800]" />
             <div>
-              <h1 className="text-3xl font-bold text-slate-900 font-playfair">Reports Management</h1>
+              <h1 className="text-3xl font-bold text-navy-900 font-playfair">Reports Management</h1>
               <p className="text-slate-500 font-medium">Upload and manage organization reports</p>
             </div>
           </div>
           <button
             onClick={() => { resetForm(); setModalOpen(true); }}
-            className="flex items-center gap-2 px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-xl font-bold transition-all shadow-sm"
+            className="flex items-center gap-2 px-6 py-3 bg-[#F5B800] hover:bg-[#032B45] text-white rounded-xl font-bold transition-all shadow-sm"
           >
             <Plus className="w-5 h-5" />
             Add Report
@@ -157,7 +157,7 @@ export default function AdminReports() {
                   type="text"
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="w-full pl-11 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-600 focus:border-transparent outline-none"
+                  className="w-full pl-11 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#F5B800] focus:border-transparent outline-none"
                   placeholder="Search reports..."
                 />
               </div>
@@ -171,7 +171,7 @@ export default function AdminReports() {
                   onClick={() => setActiveFilter(cat.value)}
                   className={`px-4 py-2 rounded-lg font-semibold text-sm transition-all ${
                     activeFilter === cat.value
-                      ? "bg-blue-600 text-white"
+                      ? "bg-[#F5B800] text-white"
                       : "bg-gray-100 text-gray-700 hover:bg-gray-200"
                   }`}
                 >
@@ -189,7 +189,7 @@ export default function AdminReports() {
         {/* Reports List */}
         {loading ? (
           <div className="flex justify-center items-center py-24">
-            <Loader2 className="w-10 h-10 text-blue-600 animate-spin" />
+            <Loader2 className="w-10 h-10 text-[#F5B800] animate-spin" />
           </div>
         ) : filtered.length > 0 ? (
           <div className="space-y-4">
@@ -200,11 +200,11 @@ export default function AdminReports() {
               >
                 <div className="flex items-start gap-4 flex-1 min-w-0">
                   <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center shrink-0">
-                    <FileText className="w-6 h-6 text-blue-600" />
+                    <FileText className="w-6 h-6 text-[#F5B800]" />
                   </div>
                   <div className="min-w-0">
                     <div className="flex items-center gap-2 flex-wrap mb-1">
-                      <h3 className="font-bold text-gray-900 truncate font-playfair">{report.title}</h3>
+                      <h3 className="font-bold text-navy-900 truncate font-playfair">{report.title}</h3>
                       <span className={`px-2 py-0.5 rounded-full text-xs font-semibold capitalize ${getCategoryColor(report.category)}`}>
                         {report.category}
                       </span>
@@ -231,7 +231,7 @@ export default function AdminReports() {
                     href={report.file_url}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex items-center gap-1.5 px-4 py-2 bg-blue-50 text-blue-700 rounded-lg font-semibold text-sm hover:bg-blue-100 transition-colors"
+                    className="flex items-center gap-1.5 px-4 py-2 bg-sky-50 text-[#032B45] rounded-lg font-semibold text-sm hover:bg-blue-100 transition-colors"
                   >
                     <ExternalLink className="w-4 h-4" /> View
                   </a>
@@ -248,7 +248,7 @@ export default function AdminReports() {
         ) : (
           <div className="text-center py-16">
             <FileText className="w-16 h-16 text-gray-300 mx-auto mb-4" />
-            <h3 className="text-xl font-semibold text-gray-900 mb-2 font-playfair">No reports found</h3>
+            <h3 className="text-xl font-semibold text-navy-900 mb-2 font-playfair">No reports found</h3>
             <p className="text-gray-600">Upload a report to get started</p>
           </div>
         )}
@@ -259,7 +259,7 @@ export default function AdminReports() {
         <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-6">
           <div className="bg-white rounded-3xl max-w-lg w-full max-h-[90vh] overflow-y-auto">
             <div className="p-6 border-b border-gray-200 flex items-center justify-between">
-              <h2 className="text-2xl font-bold text-gray-900 font-playfair">Add Report</h2>
+              <h2 className="text-2xl font-bold text-navy-900 font-playfair">Add Report</h2>
               <button
                 onClick={() => setModalOpen(false)}
                 className="w-10 h-10 bg-gray-100 hover:bg-gray-200 rounded-lg flex items-center justify-center transition-colors"
@@ -284,7 +284,7 @@ export default function AdminReports() {
                     type="text"
                     value={formTitle}
                     onChange={(e) => setFormTitle(e.target.value)}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-600 focus:border-transparent outline-none"
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#F5B800] focus:border-transparent outline-none"
                     placeholder="e.g. Q1 2026 Impact Report"
                   />
                 </div>
@@ -295,7 +295,7 @@ export default function AdminReports() {
                   <select
                     value={formCategory}
                     onChange={(e) => setFormCategory(e.target.value as Report["category"])}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-600 focus:border-transparent outline-none"
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#F5B800] focus:border-transparent outline-none"
                   >
                     <option value="event">Event Report</option>
                     <option value="quarterly">Quarterly Report</option>
@@ -335,7 +335,7 @@ export default function AdminReports() {
                       type="text"
                       value={formYear}
                       onChange={(e) => setFormYear(e.target.value)}
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-600 focus:border-transparent outline-none"
+                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#F5B800] focus:border-transparent outline-none"
                       placeholder="2026"
                     />
                   </div>
@@ -345,7 +345,7 @@ export default function AdminReports() {
                       type="text"
                       value={formDate}
                       onChange={(e) => setFormDate(e.target.value)}
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-600 focus:border-transparent outline-none"
+                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#F5B800] focus:border-transparent outline-none"
                       placeholder="January 2026"
                     />
                   </div>
@@ -358,7 +358,7 @@ export default function AdminReports() {
                     value={formDesc}
                     onChange={(e) => setFormDesc(e.target.value)}
                     rows={3}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-600 focus:border-transparent outline-none resize-none"
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#F5B800] focus:border-transparent outline-none resize-none"
                     placeholder="Brief description of this report..."
                   />
                 </div>
@@ -370,7 +370,7 @@ export default function AdminReports() {
                     type="url"
                     value={formUrl}
                     onChange={(e) => setFormUrl(e.target.value)}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-600 focus:border-transparent outline-none"
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#F5B800] focus:border-transparent outline-none"
                     placeholder="https://docs.google.com/..."
                   />
                 </div>
@@ -383,7 +383,7 @@ export default function AdminReports() {
                       type="text"
                       value={formSize}
                       onChange={(e) => setFormSize(e.target.value)}
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-600 focus:border-transparent outline-none"
+                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#F5B800] focus:border-transparent outline-none"
                       placeholder="e.g. 2.4 MB"
                     />
                   </div>
@@ -393,7 +393,7 @@ export default function AdminReports() {
                       type="number"
                       value={formPages}
                       onChange={(e) => setFormPages(e.target.value)}
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-600 focus:border-transparent outline-none"
+                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#F5B800] focus:border-transparent outline-none"
                       placeholder="e.g. 39"
                     />
                   </div>
@@ -412,7 +412,7 @@ export default function AdminReports() {
                 <button
                   onClick={handleSave}
                   disabled={saving}
-                  className="flex-1 px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-semibold transition-colors flex items-center justify-center gap-2 disabled:opacity-50"
+                  className="flex-1 px-6 py-3 bg-[#F5B800] hover:bg-[#032B45] text-white rounded-lg font-semibold transition-colors flex items-center justify-center gap-2 disabled:opacity-50"
                 >
                   {saving ? <Loader2 className="w-5 h-5 animate-spin" /> : "Publish Report"}
                 </button>

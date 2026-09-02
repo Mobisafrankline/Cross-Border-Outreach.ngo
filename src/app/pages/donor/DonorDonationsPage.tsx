@@ -123,7 +123,7 @@ export default function DonorDonationsPage() {
   const SortButton = ({ field, label }: { field: "date"|"amount"; label: string }) => (
     <button
       onClick={() => { if (sortField === field) setSortAsc(v => !v); else { setSortField(field); setSortAsc(false); } }}
-      className="flex items-center gap-1 font-semibold text-slate-500 hover:text-slate-800 transition-colors text-xs uppercase tracking-wide"
+      className="flex items-center gap-1 font-semibold text-slate-500 hover:text-navy-800 transition-colors text-xs uppercase tracking-wide"
     >
       {label}
       {sortField === field
@@ -134,16 +134,16 @@ export default function DonorDonationsPage() {
 
   if (loading) return (
     <div className="flex items-center justify-center min-h-[50vh]">
-      <Loader2 className="w-8 h-8 text-blue-500 animate-spin"/>
+      <Loader2 className="w-8 h-8 text-[#F5B800] animate-spin"/>
     </div>
   );
 
   return (
-    <div className="flex-1 bg-slate-50 pb-12 portal-fade-in" style={{ fontFamily:"'Inter',sans-serif" }}>
+    <div className="flex-1 bg-sky-50 pb-12 portal-fade-in" style={{ fontFamily:"'Inter',sans-serif" }}>
 
       {/* Header */}
       <div className="relative overflow-hidden">
-        <div className="absolute inset-0" style={{background:"linear-gradient(135deg,#0648b3,#0959d6)"}}/>
+        <div className="absolute inset-0" style={{background:"linear-gradient(135deg, #032B45, #053D61)"}}/>
         <div className="relative max-w-6xl mx-auto px-4 sm:px-6 py-8">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
             <div>
@@ -159,7 +159,7 @@ export default function DonorDonationsPage() {
               </div>
               {completed.length > 0 && (
                 <button onClick={generateAnnualReceipt}
-                  className="flex items-center gap-2 px-4 py-2.5 bg-white text-blue-700 font-bold text-sm rounded-xl shadow-sm hover:shadow-md transition-all">
+                  className="flex items-center gap-2 px-4 py-2.5 bg-white text-[#032B45] font-bold text-sm rounded-xl shadow-sm hover:shadow-md transition-all">
                   <Download className="w-4 h-4"/> Annual Receipt
                 </button>
               )}
@@ -179,7 +179,7 @@ export default function DonorDonationsPage() {
         {/* Summary cards */}
         <div className="grid grid-cols-3 gap-4">
           {[
-            { label:"Total Donations", value:donations.length,                              color:"#0959d6" },
+            { label:"Total Donations", value:donations.length,                              color:"#F5B800" },
             { label:"Completed",       value:completed.length,                              color:"#16a34a" },
             { label:"Pending",         value:donations.filter(d=>d.status==="pending").length, color:"#d97706" },
           ].map(s => (
@@ -243,7 +243,7 @@ export default function DonorDonationsPage() {
                 </thead>
                 <tbody>
                   {filtered.map(d => (
-                    <tr key={d.id} style={{borderBottom:"1px solid #f8fafc"}} className="hover:bg-slate-50 transition-colors">
+                    <tr key={d.id} style={{borderBottom:"1px solid #f8fafc"}} className="hover:bg-sky-50 transition-colors">
                       <td className="px-5 py-4 text-slate-600">{new Date(d.date).toLocaleDateString()}</td>
                       <td className="px-5 py-4">
                         <span className="flex items-center gap-2">
@@ -251,13 +251,13 @@ export default function DonorDonationsPage() {
                           <span className="text-slate-700 font-medium">{d.program}</span>
                         </span>
                       </td>
-                      <td className="px-5 py-4 font-bold text-slate-900">${d.amount.toLocaleString()}</td>
+                      <td className="px-5 py-4 font-bold text-navy-900">${d.amount.toLocaleString()}</td>
                       <td className="px-5 py-4">{statusBadge(d.status)}</td>
                       <td className="px-5 py-4 text-xs text-slate-400 font-mono">{d.receipt_number || "—"}</td>
                       <td className="px-5 py-4">
                         {d.status === "completed" ? (
                           <button onClick={() => generateSingleReceipt(d)}
-                            className="flex items-center gap-1.5 text-blue-600 hover:text-blue-700 font-semibold text-sm transition-colors">
+                            className="flex items-center gap-1.5 text-[#F5B800] hover:text-[#032B45] font-semibold text-sm transition-colors">
                             <Download className="w-3.5 h-3.5"/> PDF
                           </button>
                         ) : <span className="text-slate-300">—</span>}

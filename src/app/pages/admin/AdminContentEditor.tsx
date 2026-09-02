@@ -230,7 +230,7 @@ export default function AdminContentEditor() {
   };
 
   const ToolbarButton = ({ command, value, title, icon: Icon }: { command: string, value?: string, title: string, icon: any }) => (
-    <button type="button" onMouseDown={(e) => handleFormat(e, command, value)} className="p-2 hover:bg-blue-50 hover:text-blue-600 rounded-lg text-gray-600 transition-colors" title={title}>
+    <button type="button" onMouseDown={(e) => handleFormat(e, command, value)} className="p-2 hover:bg-sky-50 hover:text-[#F5B800] rounded-lg text-gray-600 transition-colors" title={title}>
       <Icon className="w-4 h-4" />
     </button>
   );
@@ -238,7 +238,7 @@ export default function AdminContentEditor() {
   const ToolbarSeparator = () => <div className="w-px h-6 bg-gray-200 mx-1" />;
 
   return (
-    <div className="flex-1 bg-slate-50 text-slate-900 pb-12">
+    <div className="flex-1 bg-sky-50 text-navy-900 pb-12">
       {/* Sticky toolbar */}
       <div className="bg-white border-b border-slate-200 sticky top-0 z-10">
         <div className="max-w-7xl mx-auto px-3 sm:px-6 py-3 sm:py-4">
@@ -246,7 +246,7 @@ export default function AdminContentEditor() {
             <div className="flex items-center gap-2 sm:gap-3 min-w-0">
               <span className="text-2xl sm:text-3xl">{currentType.icon}</span>
               <div className="min-w-0">
-                <h1 className="text-lg sm:text-2xl font-bold text-slate-900 truncate font-playfair">{isEditing ? `Edit ${currentType.label}` : `Create ${currentType.label}`}</h1>
+                <h1 className="text-lg sm:text-2xl font-bold text-navy-900 truncate font-playfair">{isEditing ? `Edit ${currentType.label}` : `Create ${currentType.label}`}</h1>
                 <p className="text-xs sm:text-sm text-slate-500 font-medium hidden sm:block">Cross-Borders Content Management</p>
               </div>
             </div>
@@ -260,7 +260,7 @@ export default function AdminContentEditor() {
                 {isSaving && <Loader2 className="w-4 h-4 animate-spin" />} <span className="hidden sm:inline">Save</span> Draft
               </button>
               <button onClick={() => handleSave("publish")} disabled={isSaving}
-                className="px-4 sm:px-6 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-xl font-bold transition-colors flex items-center gap-1.5 sm:gap-2 disabled:opacity-50 text-sm">
+                className="px-4 sm:px-6 py-2 bg-[#F5B800] hover:bg-[#032B45] text-white rounded-xl font-bold transition-colors flex items-center gap-1.5 sm:gap-2 disabled:opacity-50 text-sm">
                 {isSaving ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
                 Publish
               </button>
@@ -293,7 +293,7 @@ export default function AdminContentEditor() {
                       <User className="w-4 h-4 inline mr-1" /> Author Name
                     </label>
                     <input type="text" value={author} onChange={(e) => setAuthor(e.target.value)}
-                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-600 focus:border-transparent outline-none"
+                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#F5B800] focus:border-transparent outline-none"
                       placeholder="e.g. Sarah Jenkins" />
                   </div>
                   <div>
@@ -301,7 +301,7 @@ export default function AdminContentEditor() {
                       <Calendar className="w-4 h-4 inline mr-1" /> Publish Date
                     </label>
                     <input type="date" value={publishDate} onChange={(e) => setPublishDate(e.target.value)}
-                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-600 focus:border-transparent outline-none" />
+                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#F5B800] focus:border-transparent outline-none" />
                   </div>
                 </div>
               )}
@@ -310,8 +310,8 @@ export default function AdminContentEditor() {
             {/* Event-specific fields */}
             {isEvent && (
               <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6 space-y-4">
-                <h3 className="font-bold text-gray-900 flex items-center gap-2 font-playfair">
-                  <Calendar className="w-4 h-4 text-blue-600" /> Event Details
+                <h3 className="font-bold text-navy-900 flex items-center gap-2 font-playfair">
+                  <Calendar className="w-4 h-4 text-[#F5B800]" /> Event Details
                 </h3>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -320,7 +320,7 @@ export default function AdminContentEditor() {
                       <Calendar className="w-3.5 h-3.5 inline mr-1" /> Event Date *
                     </label>
                     <input type="text" value={eventDate} onChange={e => setEventDate(e.target.value)}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-600 outline-none"
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#F5B800] outline-none"
                       placeholder="e.g. June 15, 2026 or TBD" />
                   </div>
                   <div>
@@ -328,7 +328,7 @@ export default function AdminContentEditor() {
                       <Clock className="w-3.5 h-3.5 inline mr-1" /> Event Time
                     </label>
                     <input type="text" value={eventTime} onChange={e => setEventTime(e.target.value)}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-600 outline-none"
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#F5B800] outline-none"
                       placeholder="e.g. 10:00 AM – 4:00 PM" />
                   </div>
                   <div>
@@ -336,7 +336,7 @@ export default function AdminContentEditor() {
                       <MapPin className="w-3.5 h-3.5 inline mr-1" /> Location / Venue
                     </label>
                     <input type="text" value={eventLocation} onChange={e => setEventLocation(e.target.value)}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-600 outline-none"
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#F5B800] outline-none"
                       placeholder="e.g. Sienna Ridge Apartment Homes" />
                   </div>
                   <div>
@@ -344,7 +344,7 @@ export default function AdminContentEditor() {
                       <MapPin className="w-3.5 h-3.5 inline mr-1" /> Full Address
                     </label>
                     <input type="text" value={eventAddress} onChange={e => setEventAddress(e.target.value)}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-600 outline-none"
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#F5B800] outline-none"
                       placeholder="e.g. 2283 Plaster Rd NE, Atlanta, GA" />
                   </div>
                   <div>
@@ -352,7 +352,7 @@ export default function AdminContentEditor() {
                       <Users className="w-3.5 h-3.5 inline mr-1" /> Capacity
                     </label>
                     <input type="number" value={eventCapacity} onChange={e => setEventCapacity(e.target.value)}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-600 outline-none"
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#F5B800] outline-none"
                       placeholder="e.g. 100" />
                   </div>
                   <div>
@@ -360,13 +360,13 @@ export default function AdminContentEditor() {
                       <DollarSign className="w-3.5 h-3.5 inline mr-1" /> Ticket Price
                     </label>
                     <input type="text" value={ticketPrice} onChange={e => setTicketPrice(e.target.value)}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-600 outline-none"
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#F5B800] outline-none"
                       placeholder="Free or $25, etc." />
                   </div>
                   <div>
                     <label className="block text-sm font-semibold text-gray-700 mb-1">Event Status</label>
                     <select value={eventStatus} onChange={e => setEventStatus(e.target.value as "upcoming" | "past")}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-600 outline-none">
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#F5B800] outline-none">
                       <option value="upcoming">Upcoming</option>
                       <option value="past">Past</option>
                     </select>
@@ -376,7 +376,7 @@ export default function AdminContentEditor() {
                       <User className="w-3.5 h-3.5 inline mr-1" /> Organizer
                     </label>
                     <input type="text" value={organizer} onChange={e => setOrganizer(e.target.value)}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-600 outline-none"
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#F5B800] outline-none"
                       placeholder="Organizer name" />
                   </div>
                   <div>
@@ -384,7 +384,7 @@ export default function AdminContentEditor() {
                       <Mail className="w-3.5 h-3.5 inline mr-1" /> Contact Email
                     </label>
                     <input type="email" value={contactEmail} onChange={e => setContactEmail(e.target.value)}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-600 outline-none"
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#F5B800] outline-none"
                       placeholder="contact@example.org" />
                   </div>
                   <div>
@@ -392,7 +392,7 @@ export default function AdminContentEditor() {
                       <Phone className="w-3.5 h-3.5 inline mr-1" /> Contact Phone
                     </label>
                     <input type="tel" value={contactPhone} onChange={e => setContactPhone(e.target.value)}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-600 outline-none"
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#F5B800] outline-none"
                       placeholder="+1 (404) 641-9248" />
                   </div>
                 </div>
@@ -405,7 +405,7 @@ export default function AdminContentEditor() {
                 {isEvent ? "Short Description (shown on event card)" : "Excerpt / Summary"}
               </label>
               <textarea value={excerpt} onChange={(e) => setExcerpt(e.target.value)}
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-600 focus:border-transparent outline-none resize-none"
+                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#F5B800] focus:border-transparent outline-none resize-none"
                 rows={3} placeholder="Brief summary of the content..." />
             </div>
 
@@ -467,12 +467,12 @@ export default function AdminContentEditor() {
           <div className="space-y-6">
             {/* Publish Settings */}
             <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
-              <h3 className="font-bold text-gray-900 mb-4 font-playfair">Publish Settings</h3>
+              <h3 className="font-bold text-navy-900 mb-4 font-playfair">Publish Settings</h3>
               <div className="space-y-4">
                 <div>
                   <label className="block text-sm font-semibold text-gray-700 mb-2">Content Type</label>
                   <select value={selectedType} onChange={(e) => setSelectedType(e.target.value)} disabled={isEditing}
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-600 focus:border-transparent outline-none font-semibold disabled:opacity-50 disabled:cursor-not-allowed">
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#F5B800] focus:border-transparent outline-none font-semibold disabled:opacity-50 disabled:cursor-not-allowed">
                     <option value="blog">✍️ Blog Post</option>
                     <option value="news">📰 Company News</option>
                     <option value="story">⭐ Impact Story</option>
@@ -484,11 +484,11 @@ export default function AdminContentEditor() {
 
             {/* Category */}
             <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
-              <h3 className="font-bold text-gray-900 mb-4 font-playfair">
+              <h3 className="font-bold text-navy-900 mb-4 font-playfair">
                 <Tag className="w-4 h-4 inline mr-1" /> Category
               </h3>
               <select value={category} onChange={(e) => setCategory(e.target.value)}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-600 focus:border-transparent outline-none">
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#F5B800] focus:border-transparent outline-none">
                 <option value="">Select category...</option>
                 {isEvent ? (
                   <>
@@ -518,7 +518,7 @@ export default function AdminContentEditor() {
 
             {/* Featured Image */}
             <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
-              <h3 className="font-bold text-gray-900 mb-4 font-playfair">
+              <h3 className="font-bold text-navy-900 mb-4 font-playfair">
                 <Image className="w-4 h-4 inline mr-1" /> Featured Image
               </h3>
               <input type="file" accept="image/*" className="hidden" id="featured-image-upload"
@@ -542,7 +542,7 @@ export default function AdminContentEditor() {
                 }} />
               {featuredImage === "uploading..." ? (
                 <div className="border-2 border-dashed border-gray-300 rounded-lg p-8 flex flex-col items-center justify-center">
-                  <Loader2 className="w-8 h-8 animate-spin text-blue-600 mb-2" />
+                  <Loader2 className="w-8 h-8 animate-spin text-[#F5B800] mb-2" />
                   <p className="text-sm text-gray-600">Uploading...</p>
                 </div>
               ) : featuredImage ? (
@@ -558,7 +558,7 @@ export default function AdminContentEditor() {
                   onClick={() => document.getElementById("featured-image-upload")?.click()}>
                   <Image className="w-12 h-12 text-gray-400 mx-auto mb-2" />
                   <p className="text-sm text-gray-600 mb-3">No image selected</p>
-                  <button className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-sm font-semibold transition-colors">
+                  <button className="px-4 py-2 bg-[#F5B800] hover:bg-[#032B45] text-white rounded-lg text-sm font-semibold transition-colors">
                     Select Image
                   </button>
                 </div>
@@ -567,22 +567,22 @@ export default function AdminContentEditor() {
 
             {/* Video Embed */}
             <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
-              <h3 className="font-bold text-gray-900 mb-4 font-playfair">
+              <h3 className="font-bold text-navy-900 mb-4 font-playfair">
                 <Video className="w-4 h-4 inline mr-1" /> Video Embed (Optional)
               </h3>
               <p className="text-xs text-gray-600 mb-2">
                 Paste an iframe embed code (YouTube, Vimeo, Cloudflare Stream). This will appear on the article page.
               </p>
               <textarea value={videoEmbed} onChange={(e) => setVideoEmbed(e.target.value)}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-600 focus:border-transparent outline-none resize-y"
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#F5B800] focus:border-transparent outline-none resize-y"
                 rows={3} placeholder='<iframe src="..." ...></iframe>' />
             </div>
 
             {/* Tags */}
             <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
-              <h3 className="font-bold text-gray-900 mb-4 font-playfair">Tags</h3>
+              <h3 className="font-bold text-navy-900 mb-4 font-playfair">Tags</h3>
               <input type="text" value={tags} onChange={(e) => setTags(e.target.value)}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-600 focus:border-transparent outline-none"
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#F5B800] focus:border-transparent outline-none"
                 placeholder="Enter tags (comma separated)..." />
               <p className="mt-2 text-xs text-gray-600">Example: education, impact, community</p>
             </div>

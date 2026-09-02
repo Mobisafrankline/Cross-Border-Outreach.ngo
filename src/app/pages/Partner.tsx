@@ -26,7 +26,7 @@ export default function Partner() {
         "Co-branded impact reporting",
         "Custom sponsorship packages"
       ],
-      color: "bg-blue-50 text-blue-700"
+      color: "bg-sky-50 text-[#032B45]"
     },
     {
       icon: Target,
@@ -86,7 +86,7 @@ export default function Partner() {
               We partner with forward-thinking organizations to solve the world's most pressing challenges through sustainable, community-led initiatives.
             </p>
             <div className="flex flex-col sm:flex-row gap-4">
-              <a href="#inquiry" className="px-8 py-4 bg-blue-600 text-white rounded-3xl font-bold hover:bg-blue-700 transition-all shadow-xl shadow-blue-600/20 flex items-center justify-center gap-2">
+              <a href="#inquiry" className="px-8 py-4 bg-[#F5B800] text-white rounded-3xl font-bold hover:bg-[#032B45] transition-all shadow-xl shadow-[#F5B800]/20 flex items-center justify-center gap-2">
                 Become a Partner <ArrowRight className="w-5 h-5" />
               </a>
               <a href="#types" className="px-8 py-4 bg-white/10 backdrop-blur-md border border-white/20 text-white rounded-3xl font-bold hover:bg-white/20 transition-all flex items-center justify-center gap-2">
@@ -98,11 +98,11 @@ export default function Partner() {
       </section>
 
       {/* Trust & Scale Section */}
-      <section className="py-24 bg-slate-50">
+      <section className="py-24 bg-sky-50">
         <div className="max-w-7xl mx-auto px-6">
           <div className="grid lg:grid-cols-2 gap-20 items-center">
             <div>
-              <h2 className="text-4xl md:text-5xl font-black text-slate-900 mb-8 font-playfair">Why Partner with Crossborders?</h2>
+              <h2 className="text-4xl md:text-5xl font-black text-navy-900 mb-8 font-playfair">Why Partner with Crossborders?</h2>
               <div className="space-y-8">
                 {[
                   {
@@ -123,10 +123,10 @@ export default function Partner() {
                 ].map((item, i) => (
                   <div key={i} className="flex gap-6">
                     <div className="w-14 h-14 bg-white rounded-3xl shadow-lg border border-slate-100 flex items-center justify-center shrink-0">
-                      <item.icon className="w-6 h-6 text-blue-600" />
+                      <item.icon className="w-6 h-6 text-[#F5B800]" />
                     </div>
                     <div>
-                      <h3 className="text-xl font-black text-slate-900 mb-2 font-playfair">{item.title}</h3>
+                      <h3 className="text-xl font-black text-navy-900 mb-2 font-playfair">{item.title}</h3>
                       <p className="text-slate-500 leading-relaxed font-source-serif">{item.desc}</p>
                     </div>
                   </div>
@@ -134,7 +134,7 @@ export default function Partner() {
               </div>
             </div>
             <div className="relative">
-              <div className="absolute inset-0 bg-blue-600 rounded-3xl rotate-3 opacity-10" />
+              <div className="absolute inset-0 bg-[#F5B800] rounded-3xl rotate-3 opacity-10" />
               <ImageWithFallback
                 src="https://images.unsplash.com/photo-1552664730-d307ca884978?q=80&w=1000&auto=format&fit=crop"
                 alt="Partnership meeting"
@@ -149,7 +149,7 @@ export default function Partner() {
       <section id="types" className="py-24 bg-white">
         <div className="max-w-7xl mx-auto px-6">
           <div className="text-center mb-20">
-            <h2 className="text-4xl md:text-5xl font-black text-slate-900 mb-6 font-playfair">Partnership Models</h2>
+            <h2 className="text-4xl md:text-5xl font-black text-navy-900 mb-6 font-playfair">Partnership Models</h2>
             <p className="text-slate-500 text-lg max-w-2xl mx-auto font-source-serif">
               Choose the engagement model that best suits your organization's capacity and mission.
             </p>
@@ -160,12 +160,12 @@ export default function Partner() {
               <motion.div 
                 key={i}
                 whileHover={{ y: -8 }}
-                className="bg-white rounded-3xl p-10 border border-slate-100 shadow-xl shadow-slate-900/5 flex flex-col"
+                className="bg-white rounded-3xl p-10 border border-slate-100 shadow-xl shadow-navy-900/5 flex flex-col"
               >
                 <div className={`w-16 h-16 rounded-3xl flex items-center justify-center mb-8 ${type.color}`}>
                   <type.icon className="w-8 h-8" />
                 </div>
-                <h3 className="text-2xl font-black text-slate-900 mb-4 font-playfair">{type.title}</h3>
+                <h3 className="text-2xl font-black text-navy-900 mb-4 font-playfair">{type.title}</h3>
                 <p className="text-slate-600 leading-relaxed mb-10 flex-1 font-source-serif">{type.description}</p>
                 
                 <div className="space-y-4 mb-10">
@@ -177,7 +177,7 @@ export default function Partner() {
                   ))}
                 </div>
                 
-                <a href="#inquiry" className="w-full py-4 bg-slate-900 text-white rounded-3xl font-bold hover:bg-slate-800 transition-all text-center">
+                <a href="#inquiry" className="w-full py-4 bg-navy-900 text-white rounded-3xl font-bold hover:bg-navy-800 transition-all text-center">
                   Select Model
                 </a>
               </motion.div>
@@ -187,15 +187,15 @@ export default function Partner() {
       </section>
 
       {/* Inquiry Form */}
-      <section id="inquiry" className="py-24 bg-slate-900 relative overflow-hidden">
-        <div className="absolute bottom-0 left-0 w-full h-1/2 bg-blue-600/10 blur-[120px] rounded-full transform -translate-y-1/2" />
+      <section id="inquiry" className="py-24 bg-navy-900 relative overflow-hidden">
+        <div className="absolute bottom-0 left-0 w-full h-1/2 bg-[#F5B800]/10 blur-[120px] rounded-full transform -translate-y-1/2" />
         <div className="max-w-4xl mx-auto px-6 relative z-10">
           <div className="bg-white rounded-3xl shadow-2xl p-10 md:p-16">
             <div className="text-center mb-12">
-              <div className="w-20 h-20 bg-blue-50 text-blue-600 rounded-[2rem] flex items-center justify-center mx-auto mb-8">
+              <div className="w-20 h-20 bg-sky-50 text-[#F5B800] rounded-[2rem] flex items-center justify-center mx-auto mb-8">
                 <Mail className="w-10 h-10" />
               </div>
-              <h2 className="text-3xl md:text-5xl font-black text-slate-900 mb-4 font-playfair">Let's Collaborate</h2>
+              <h2 className="text-3xl md:text-5xl font-black text-navy-900 mb-4 font-playfair">Let's Collaborate</h2>
               <p className="text-slate-500 text-lg font-source-serif">
                 Our partnerships team will review your inquiry and reach out within 48 hours.
               </p>
@@ -205,22 +205,22 @@ export default function Partner() {
               <div className="grid md:grid-cols-2 gap-8">
                 <div className="space-y-2">
                   <label className="text-sm font-bold text-slate-700 ml-1">Organization Name</label>
-                  <input type="text" className="w-full px-6 py-4 bg-slate-50 border-2 border-transparent focus:border-blue-600 rounded-3xl focus:outline-none transition-all font-medium" placeholder="Company Inc." />
+                  <input type="text" className="w-full px-6 py-4 bg-sky-50 border-2 border-transparent focus:border-[#F5B800] rounded-3xl focus:outline-none transition-all font-medium" placeholder="Company Inc." />
                 </div>
                 <div className="space-y-2">
                   <label className="text-sm font-bold text-slate-700 ml-1">Contact Person</label>
-                  <input type="text" className="w-full px-6 py-4 bg-slate-50 border-2 border-transparent focus:border-blue-600 rounded-3xl focus:outline-none transition-all font-medium" placeholder="Full Name" />
+                  <input type="text" className="w-full px-6 py-4 bg-sky-50 border-2 border-transparent focus:border-[#F5B800] rounded-3xl focus:outline-none transition-all font-medium" placeholder="Full Name" />
                 </div>
               </div>
 
               <div className="grid md:grid-cols-2 gap-8">
                 <div className="space-y-2">
                   <label className="text-sm font-bold text-slate-700 ml-1">Work Email</label>
-                  <input type="email" className="w-full px-6 py-4 bg-slate-50 border-2 border-transparent focus:border-blue-600 rounded-3xl focus:outline-none transition-all font-medium" placeholder="name@company.com" />
+                  <input type="email" className="w-full px-6 py-4 bg-sky-50 border-2 border-transparent focus:border-[#F5B800] rounded-3xl focus:outline-none transition-all font-medium" placeholder="name@company.com" />
                 </div>
                 <div className="space-y-2">
                   <label className="text-sm font-bold text-slate-700 ml-1">Partnership Type</label>
-                  <select className="w-full px-6 py-4 bg-slate-50 border-2 border-transparent focus:border-blue-600 rounded-3xl focus:outline-none transition-all font-medium appearance-none">
+                  <select className="w-full px-6 py-4 bg-sky-50 border-2 border-transparent focus:border-[#F5B800] rounded-3xl focus:outline-none transition-all font-medium appearance-none">
                     <option>Corporate Partnership</option>
                     <option>Foundation/Grant</option>
                     <option>Community NGO</option>
@@ -231,10 +231,10 @@ export default function Partner() {
 
               <div className="space-y-2">
                 <label className="text-sm font-bold text-slate-700 ml-1">Tell us about your goals</label>
-                <textarea rows={5} className="w-full px-6 py-4 bg-slate-50 border-2 border-transparent focus:border-blue-600 rounded-3xl focus:outline-none transition-all font-medium resize-none" placeholder="Describe how you'd like to partner with us..." />
+                <textarea rows={5} className="w-full px-6 py-4 bg-sky-50 border-2 border-transparent focus:border-[#F5B800] rounded-3xl focus:outline-none transition-all font-medium resize-none" placeholder="Describe how you'd like to partner with us..." />
               </div>
 
-              <button type="submit" className="w-full py-5 bg-blue-600 text-white rounded-3xl font-black text-lg hover:bg-blue-700 transition-all shadow-xl shadow-blue-600/20">
+              <button type="submit" className="w-full py-5 bg-[#F5B800] text-white rounded-3xl font-black text-lg hover:bg-[#032B45] transition-all shadow-xl shadow-[#F5B800]/20">
                 Submit Inquiry
               </button>
             </form>
@@ -245,15 +245,15 @@ export default function Partner() {
       {/* Global Impact CTA */}
       <section className="py-24 bg-white border-t border-slate-100">
         <div className="max-w-5xl mx-auto px-6 text-center">
-          <h2 className="text-4xl md:text-5xl font-black text-slate-900 mb-8 font-playfair">Ready to make a global difference?</h2>
+          <h2 className="text-4xl md:text-5xl font-black text-navy-900 mb-8 font-playfair">Ready to make a global difference?</h2>
           <p className="text-xl text-slate-500 mb-12 max-w-2xl mx-auto leading-relaxed font-source-serif">
             Join our network of 50+ partners already driving change across 3 continents.
           </p>
           <div className="flex flex-col sm:flex-row gap-6 justify-center">
-            <a href="/contact" className="px-10 py-5 bg-slate-900 text-white rounded-3xl font-bold hover:bg-slate-800 transition-all flex items-center justify-center gap-2">
+            <a href="/contact" className="px-10 py-5 bg-navy-900 text-white rounded-3xl font-bold hover:bg-navy-800 transition-all flex items-center justify-center gap-2">
               Speak to a Representative <ChevronRight className="w-5 h-5" />
             </a>
-            <a href="/about" className="px-10 py-5 bg-white border-2 border-slate-200 text-slate-900 rounded-3xl font-bold hover:border-blue-600 hover:text-blue-600 transition-all flex items-center justify-center gap-2">
+            <a href="/about" className="px-10 py-5 bg-white border-2 border-slate-200 text-navy-900 rounded-3xl font-bold hover:border-[#F5B800] hover:text-[#F5B800] transition-all flex items-center justify-center gap-2">
               Our Vision
             </a>
           </div>

@@ -81,7 +81,7 @@ export default function NewsletterSignup() {
               <input
                 type="email"
                 placeholder="Enter your email address"
-                className={`w-full bg-navy-900 border ${errors.email ? 'border-red-500' : 'border-white/20'} text-white placeholder-slate-400 rounded py-3.5 pl-4 pr-32 focus:outline-none focus:ring-2 focus:ring-blue-600 transition-all font-medium`}
+                className={`w-full bg-navy-900 border ${errors.email ? 'border-red-500' : 'border-white/20'} text-white placeholder-slate-400 rounded py-3.5 pl-4 pr-32 focus:outline-none focus:ring-2 focus:ring-[#F5B800] transition-all font-medium`}
                 {...register('email', { 
                   required: 'Email is required',
                   pattern: {
@@ -93,7 +93,7 @@ export default function NewsletterSignup() {
               <button
                 type="submit"
                 disabled={isLoading}
-                className="absolute right-1.5 top-1.5 bottom-1.5 bg-blue-600 hover:bg-blue-700 text-white font-bold px-4 rounded flex items-center gap-2 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                className="absolute right-1.5 top-1.5 bottom-1.5 bg-[#F5B800] hover:bg-[#032B45] text-white font-bold px-4 rounded flex items-center gap-2 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                 aria-label="Subscribe to newsletter"
               >
                 {isLoading ? <Loader2 className="w-4 h-4 animate-spin" /> : (

@@ -124,7 +124,7 @@ export default function EventDetail() {
   if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-white">
-        <Loader2 className="w-12 h-12 animate-spin text-blue-600" />
+        <Loader2 className="w-12 h-12 animate-spin text-[#F5B800]" />
       </div>
     );
   }
@@ -132,15 +132,15 @@ export default function EventDetail() {
   // ── Not Found ──────────────────────────────────────────────
   if (notFound || !event) {
     return (
-      <div className="min-h-screen flex flex-col items-center justify-center p-6 bg-slate-50">
+      <div className="min-h-screen flex flex-col items-center justify-center p-6 bg-sky-50">
         <div className="w-24 h-24 bg-rose-100 text-rose-600 rounded-3xl flex items-center justify-center mb-6">
           <Info className="w-12 h-12" />
         </div>
-        <h1 className="text-3xl font-bold text-slate-900 mb-4 font-playfair">Event Not Found</h1>
+        <h1 className="text-3xl font-bold text-navy-900 mb-4 font-playfair">Event Not Found</h1>
         <p className="text-slate-600 mb-8 text-center max-w-md">
           The event you are looking for might have been moved or is no longer available.
         </p>
-        <Link to="/events" className="px-8 py-3 bg-blue-600 text-white rounded-3xl font-bold shadow-lg hover:bg-blue-700 transition-all">
+        <Link to="/events" className="px-8 py-3 bg-[#F5B800] text-white rounded-3xl font-bold shadow-lg hover:bg-[#032B45] transition-all">
           Back to Events
         </Link>
       </div>
@@ -165,17 +165,17 @@ export default function EventDetail() {
       <div className="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-gray-100">
         <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
           <button onClick={() => navigate("/events")}
-            className="flex items-center gap-2 text-gray-600 hover:text-blue-600 font-bold text-sm transition-colors group">
+            className="flex items-center gap-2 text-gray-600 hover:text-[#F5B800] font-bold text-sm transition-colors group">
             <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />
             Back to Events
           </button>
           <div className="flex items-center gap-4">
-            <button className="p-2 text-gray-400 hover:text-blue-600 transition-colors"
+            <button className="p-2 text-gray-400 hover:text-[#F5B800] transition-colors"
               onClick={() => { navigator.clipboard.writeText(window.location.href); }}>
               <Share2 className="w-5 h-5" />
             </button>
             {isUpcoming && (
-              <button className="px-6 py-2 bg-blue-600 text-white rounded-xl font-bold text-sm shadow-lg shadow-blue-600/20 hover:bg-blue-700 transition-all">
+              <button className="px-6 py-2 bg-[#F5B800] text-white rounded-xl font-bold text-sm shadow-lg shadow-[#F5B800]/20 hover:bg-[#032B45] transition-all">
                 Register Now
               </button>
             )}
@@ -191,7 +191,7 @@ export default function EventDetail() {
           <div className="max-w-7xl mx-auto">
             <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}>
               <div className="flex flex-wrap gap-3 mb-6">
-                <span className="px-4 py-1.5 bg-blue-600 text-white rounded-full text-xs font-black uppercase tracking-widest shadow-xl">
+                <span className="px-4 py-1.5 bg-[#F5B800] text-white rounded-full text-xs font-black uppercase tracking-widest shadow-xl">
                   {event.category}
                 </span>
                 {isUpcoming ? (
@@ -230,8 +230,8 @@ export default function EventDetail() {
             {/* Left: Description */}
             <div className="lg:col-span-8">
               <div className="prose prose-slate prose-lg max-w-none">
-                <h2 className="text-3xl md:text-4xl font-black text-slate-900 mb-8 flex items-center gap-4 font-playfair">
-                  <span className="w-2 h-10 bg-blue-600 rounded-full" /> About the Event
+                <h2 className="text-3xl md:text-4xl font-black text-navy-900 mb-8 flex items-center gap-4 font-playfair">
+                  <span className="w-2 h-10 bg-[#F5B800] rounded-full" /> About the Event
                 </h2>
                 <div className="text-slate-600 leading-loose space-y-6 text-xl font-source-serif">
                   {(event.longDescription || event.description).split("\n").map((para, i) =>
@@ -242,20 +242,20 @@ export default function EventDetail() {
 
               {/* Impact Highlights */}
               <div className="mt-16 pt-16 border-t border-slate-100">
-                <h3 className="text-2xl md:text-3xl font-black text-slate-900 mb-8 flex items-center gap-3 font-playfair">
-                  <Sparkles className="w-8 h-8 text-blue-600" /> Impact Highlights
+                <h3 className="text-2xl md:text-3xl font-black text-navy-900 mb-8 flex items-center gap-3 font-playfair">
+                  <Sparkles className="w-8 h-8 text-[#F5B800]" /> Impact Highlights
                 </h3>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <div className="bg-slate-50 rounded-3xl p-8 border border-slate-100">
-                    <div className="text-4xl font-black text-blue-600 mb-2">
+                  <div className="bg-sky-50 rounded-3xl p-8 border border-slate-100">
+                    <div className="text-4xl font-black text-[#F5B800] mb-2">
                       {event.registered > 0 ? `${event.registered}+` : "—"}
                     </div>
-                    <div className="text-lg font-bold text-slate-900 mb-2">Lives Impacted</div>
+                    <div className="text-lg font-bold text-navy-900 mb-2">Lives Impacted</div>
                     <p className="text-slate-500 text-sm italic">Direct community reach through this specific program.</p>
                   </div>
-                  <div className="bg-slate-50 rounded-3xl p-8 border border-slate-100">
+                  <div className="bg-sky-50 rounded-3xl p-8 border border-slate-100">
                     <div className="text-4xl font-black text-sky-600 mb-2">100%</div>
-                    <div className="text-lg font-bold text-slate-900 mb-2">Goal Reached</div>
+                    <div className="text-lg font-bold text-navy-900 mb-2">Goal Reached</div>
                     <p className="text-slate-500 text-sm italic">Successfully delivered all planned resources and services.</p>
                   </div>
                 </div>
@@ -267,44 +267,44 @@ export default function EventDetail() {
               <div className="bg-white rounded-3xl border border-slate-900/5 shadow-[0_8px_30px_rgba(15,23,42,0.06)] p-8 sticky top-24">
                 <div className="text-center mb-10">
                   <div className="text-sm font-black text-gray-400 uppercase tracking-widest mb-2">Ticket Price</div>
-                  <div className="text-5xl font-black text-blue-600">{event.ticketPrice || "Free"}</div>
+                  <div className="text-5xl font-black text-[#F5B800]">{event.ticketPrice || "Free"}</div>
                 </div>
 
                 <div className="space-y-6 mb-10">
                   {event.time && (
                     <div className="flex items-start gap-4">
-                      <div className="w-12 h-12 bg-blue-50 rounded-3xl flex items-center justify-center text-blue-600 shrink-0">
+                      <div className="w-12 h-12 bg-sky-50 rounded-3xl flex items-center justify-center text-[#F5B800] shrink-0">
                         <Clock className="w-6 h-6" />
                       </div>
                       <div>
                         <div className="text-xs font-black text-gray-400 uppercase tracking-widest mb-1">Schedule</div>
-                        <div className="font-bold text-slate-900">{event.time}</div>
+                        <div className="font-bold text-navy-900">{event.time}</div>
                       </div>
                     </div>
                   )}
                   {event.address && (
                     <div className="flex items-start gap-4">
-                      <div className="w-12 h-12 bg-blue-50 rounded-3xl flex items-center justify-center text-blue-600 shrink-0">
+                      <div className="w-12 h-12 bg-sky-50 rounded-3xl flex items-center justify-center text-[#F5B800] shrink-0">
                         <MapIcon className="w-6 h-6" />
                       </div>
                       <div>
                         <div className="text-xs font-black text-gray-400 uppercase tracking-widest mb-1">Address</div>
-                        <div className="font-bold text-slate-900 leading-tight">{event.address}</div>
+                        <div className="font-bold text-navy-900 leading-tight">{event.address}</div>
                       </div>
                     </div>
                   )}
                   {event.capacity > 0 && (
                     <div className="flex items-start gap-4">
-                      <div className="w-12 h-12 bg-blue-50 rounded-3xl flex items-center justify-center text-blue-600 shrink-0">
+                      <div className="w-12 h-12 bg-sky-50 rounded-3xl flex items-center justify-center text-[#F5B800] shrink-0">
                         <Users className="w-6 h-6" />
                       </div>
                       <div className="flex-1">
                         <div className="flex justify-between items-center mb-1">
                           <div className="text-xs font-black text-gray-400 uppercase tracking-widest">Attendance</div>
-                          <span className="text-xs font-bold text-blue-600">{availabilityPercent}% Filled</span>
+                          <span className="text-xs font-bold text-[#F5B800]">{availabilityPercent}% Filled</span>
                         </div>
                         <div className="w-full bg-gray-100 rounded-full h-1.5 overflow-hidden">
-                          <div className="h-full bg-blue-600 rounded-full transition-all duration-1000"
+                          <div className="h-full bg-[#F5B800] rounded-full transition-all duration-1000"
                             style={{ width: `${availabilityPercent}%` }} />
                         </div>
                       </div>
@@ -313,7 +313,7 @@ export default function EventDetail() {
                 </div>
 
                 {isUpcoming ? (
-                  <button className="w-full py-5 bg-blue-600 text-white rounded-3xl font-black text-lg shadow-xl shadow-blue-600/30 hover:bg-blue-700 hover:-translate-y-1 transition-all active:scale-95 flex items-center justify-center gap-3">
+                  <button className="w-full py-5 bg-[#F5B800] text-white rounded-3xl font-black text-lg shadow-xl shadow-[#F5B800]/30 hover:bg-[#032B45] hover:-translate-y-1 transition-all active:scale-95 flex items-center justify-center gap-3">
                     Register Now <ExternalLink className="w-5 h-5" />
                   </button>
                 ) : (
@@ -330,22 +330,22 @@ export default function EventDetail() {
                     </div>
                     <div>
                       <div className="text-xs font-black text-gray-400 uppercase tracking-widest">Organizer</div>
-                      <div className="font-bold text-slate-900">{event.organizer}</div>
+                      <div className="font-bold text-navy-900">{event.organizer}</div>
                     </div>
                   </div>
                   <div className="grid grid-cols-2 gap-4">
                     {event.contactPhone && (
                       <a href={`tel:${event.contactPhone}`}
-                        className="flex flex-col items-center gap-2 p-4 bg-slate-50 hover:bg-blue-50 rounded-3xl transition-colors group">
-                        <Phone className="w-5 h-5 text-gray-400 group-hover:text-blue-600 transition-colors" />
-                        <span className="text-[10px] font-black uppercase text-gray-400 tracking-widest group-hover:text-blue-600">Call</span>
+                        className="flex flex-col items-center gap-2 p-4 bg-sky-50 hover:bg-sky-50 rounded-3xl transition-colors group">
+                        <Phone className="w-5 h-5 text-gray-400 group-hover:text-[#F5B800] transition-colors" />
+                        <span className="text-[10px] font-black uppercase text-gray-400 tracking-widest group-hover:text-[#F5B800]">Call</span>
                       </a>
                     )}
                     {event.contactEmail && (
                       <a href={`mailto:${event.contactEmail}`}
-                        className="flex flex-col items-center gap-2 p-4 bg-slate-50 hover:bg-blue-50 rounded-3xl transition-colors group">
-                        <Mail className="w-5 h-5 text-gray-400 group-hover:text-blue-600 transition-colors" />
-                        <span className="text-[10px] font-black uppercase text-gray-400 tracking-widest group-hover:text-blue-600">Email</span>
+                        className="flex flex-col items-center gap-2 p-4 bg-sky-50 hover:bg-sky-50 rounded-3xl transition-colors group">
+                        <Mail className="w-5 h-5 text-gray-400 group-hover:text-[#F5B800] transition-colors" />
+                        <span className="text-[10px] font-black uppercase text-gray-400 tracking-widest group-hover:text-[#F5B800]">Email</span>
                       </a>
                     )}
                   </div>
@@ -357,8 +357,8 @@ export default function EventDetail() {
       </section>
 
       {/* Bottom CTA */}
-      <section className="py-24 bg-blue-900 text-white overflow-hidden relative">
-        <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-blue-600/20 rounded-full blur-[120px] -mr-64 -mt-64" />
+      <section className="py-24 bg-navy-900 text-white overflow-hidden relative">
+        <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-[#F5B800]/20 rounded-full blur-[120px] -mr-64 -mt-64" />
         <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-blue-400/10 rounded-full blur-[100px] -ml-64 -mb-64" />
         <div className="max-w-4xl mx-auto px-6 text-center relative z-10">
           <h2 className="text-4xl md:text-6xl font-black mb-8 leading-tight font-playfair drop-shadow-lg">
@@ -369,10 +369,10 @@ export default function EventDetail() {
             Your donations help us fund these essential programs and extend our reach to even more communities in need.
           </p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-            <Link to="/donate" className="w-full sm:w-auto px-10 py-5 bg-white text-blue-900 rounded-3xl font-black text-lg hover:bg-blue-50 transition-all shadow-xl">
+            <Link to="/donate" className="w-full sm:w-auto px-10 py-5 bg-white text-navy-900 rounded-3xl font-black text-lg hover:bg-sky-50 transition-all shadow-xl">
               Make a Donation
             </Link>
-            <Link to="/contact" className="w-full sm:w-auto px-10 py-5 bg-blue-800 text-white border border-blue-700 rounded-3xl font-black text-lg hover:bg-blue-700 transition-all">
+            <Link to="/contact" className="w-full sm:w-auto px-10 py-5 bg-navy-800 text-white border border-blue-700 rounded-3xl font-black text-lg hover:bg-[#032B45] transition-all">
               Contact Us
             </Link>
           </div>

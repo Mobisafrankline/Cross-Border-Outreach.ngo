@@ -41,11 +41,11 @@
   --sidebar-ring: oklch(0.708 0 0);
 
   /* ── Brand Palette (Poster Match) ── */
-  --brand-teal: #0959D6;
+  --brand-teal: #F5B800;
   /* Bright Blue */
   --brand-teal-light: #2F7AEE;
   /* Lighter Blue */
-  --brand-teal-dark: #0648B3;
+  --brand-teal-dark: #032B45;
   /* Dark Blue */
   --brand-gold: #FF7A00;
   /* Vibrant Orange */
@@ -54,7 +54,7 @@
   --brand-orange: #FF7A00;
   --brand-cream: #f8fafc;
   --brand-text: #475569;
-  --brand-heading: #0648B3;
+  --brand-heading: #032B45;
   /* Dark Blue Headings */
 }
 

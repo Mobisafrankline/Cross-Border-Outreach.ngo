@@ -100,7 +100,7 @@ export default function FoodSupport() {
       {/* Initiatives */}
       <section className="prog-initiatives-section">
         <div className="prog-initiatives-header">
-          <div className="prog-initiatives-label" style={{ color: "#f97316" }}>Our Initiatives</div>
+          <div className="prog-initiatives-label" style={{ color: "#032B45" }}>Our Initiatives</div>
           <h2 className="prog-initiatives-title font-playfair">Comprehensive Food Security</h2>
           <p className="prog-initiatives-subtitle">
             Programs designed to meet diverse community nutritional needs
@@ -158,14 +158,14 @@ export default function FoodSupport() {
       </section>
 
       {/* CTA */}
-      <section className="prog-cta-section" style={{ background: "linear-gradient(135deg, #f97316, #ef4444)" }}>
+      <section className="prog-cta-section" style={{ background: "linear-gradient(135deg, #032B45, #053D61)" }}>
         <div className="prog-cta-inner">
           <h2 className="prog-cta-title font-playfair">Help Us Feed More Families</h2>
           <p className="prog-cta-subtitle">
             Your donation can provide nutritious meals to families in need. Every contribution makes a difference.
           </p>
           <div className="prog-cta-actions">
-            <Link to="/donate" className="prog-cta-btn-primary" style={{ color: "#f97316" }}>
+            <Link to="/donate" className="prog-cta-btn-primary" style={{ color: "#032B45" }}>
               <Heart className="w-5 h-5" /> Donate Now
             </Link>
             <Link to="/opportunities" className="prog-cta-btn-secondary">

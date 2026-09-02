@@ -125,26 +125,26 @@ export default function AdminLayout() {
           `}
           style={{
             width: 264,
-            background: "linear-gradient(180deg, #0d1117 0%, #161b22 50%, #0d1117 100%)",
+          background: "linear-gradient(180deg, #032B45 0%, #053D61 50%, #032B45 100%)",
             position: "relative",
           }}
         >
           {/* Subtle radial highlights */}
           <div style={{
             position:"absolute",inset:0,pointerEvents:"none",
-            background:"radial-gradient(ellipse at top left,rgba(59,130,246,.08) 0%,transparent 60%),radial-gradient(ellipse at bottom right,rgba(139,92,246,.06) 0%,transparent 60%)"
+            background:"radial-gradient(ellipse at top left,rgba(245,184,0,.08) 0%,transparent 60%),radial-gradient(ellipse at bottom right,rgba(9,89,214,.06) 0%,transparent 60%)"
           }}/>
 
           {/* Logo */}
           <div className="relative z-10 flex items-center px-5 border-b border-white/5" style={{height:64,flexShrink:0}}>
             <Link to="/" className="flex items-center gap-3 group">
               <div className="w-9 h-9 rounded-xl flex items-center justify-center text-white text-xs font-extrabold shadow-lg transition-shadow"
-                style={{background:"linear-gradient(135deg,#0959d6,#0648b3)",boxShadow:"0 6px 20px rgba(9,89,214,.35)"}}>
+                style={{background:"linear-gradient(135deg, #032B45, #053D61)",boxShadow:"0 6px 20px rgba(9,89,214,.35)"}}>
                 <ShieldCheck size={26} color="#fff"/>
               </div>
               <div>
                 <div className="text-white font-bold text-sm leading-tight tracking-wide">Admin Portal</div>
-                <div className="text-blue-400/70 font-medium tracking-wider" style={{fontSize:10}}>Cross-Borders Outreach</div>
+                <div className="text-gold-400/70 font-medium tracking-wider" style={{fontSize:10}}>Cross-Borders Outreach</div>
               </div>
             </Link>
             {/* Mobile close */}
@@ -171,7 +171,7 @@ export default function AdminLayout() {
                         onClick={() => setIsSidebarOpen(false)}
                         className={`portal-nav-item ${isActive ? "active" : ""}`}
                       >
-                        <item.icon style={{width:19,height:19,flexShrink:0,color:isActive?"#60a5fa":"currentColor"}}/>
+                        <item.icon style={{width:19,height:19,flexShrink:0,color:isActive?"#F5B800":"currentColor"}}/>
                         <span style={{flex:1}}>{item.label}</span>
                         {hasBadge && (
                           <span className="portal-badge">{pendingCount > 99 ? "99+" : pendingCount}</span>
@@ -199,7 +199,7 @@ export default function AdminLayout() {
                   <div className="text-xs text-slate-400 truncate">{user?.email}</div>
                 </div>
               </div>
-              <Link to="/admin/profile" className="flex items-center gap-2 text-xs font-medium text-slate-400 hover:text-blue-400 mb-3 transition-colors px-1">
+              <Link to="/admin/profile" className="flex items-center gap-2 text-xs font-medium text-slate-400 hover:text-gold-400 mb-3 transition-colors px-1">
                 <Settings className="w-3.5 h-3.5"/> Profile Settings
               </Link>
               <button onClick={handleSignOut} className="portal-signout-btn">
@@ -227,11 +227,11 @@ export default function AdminLayout() {
               <div className="hidden lg:flex items-center gap-2 text-sm">
                 <span className="text-slate-400 font-medium">Admin</span>
                 <ChevronRight className="w-4 h-4 text-slate-300"/>
-                <span className="font-semibold text-slate-800">{crumb}</span>
+                <span className="font-semibold text-navy-800">{crumb}</span>
               </div>
 
               {/* Page title — mobile */}
-              <span className="font-bold text-slate-900 lg:hidden">{crumb}</span>
+              <span className="font-bold text-navy-900 lg:hidden">{crumb}</span>
             </div>
 
             <div className="flex items-center gap-2">
@@ -257,7 +257,7 @@ export default function AdminLayout() {
           </header>
 
           {/* Page content */}
-          <div className="flex-1 overflow-y-auto bg-slate-50">
+          <div className="flex-1 overflow-y-auto bg-sky-50">
             <Outlet/>
           </div>
         </main>

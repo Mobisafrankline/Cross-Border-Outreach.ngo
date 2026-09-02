@@ -152,7 +152,7 @@ export default function Footer() {
                       to={prog.href} 
                       className="text-slate-300 hover:text-white transition-colors duration-200 flex items-center gap-2 group font-semibold"
                     >
-                      <span className="w-1.5 h-1.5 rounded-full bg-transparent group-hover:bg-blue-600 transition-colors" />
+                      <span className="w-1.5 h-1.5 rounded-full bg-transparent group-hover:bg-[#F5B800] transition-colors" />
                       {prog.label}
                     </Link>
                   </li>
@@ -169,7 +169,7 @@ export default function Footer() {
                     href="tel:+14049806138" 
                     className="flex items-start gap-3 text-slate-300 hover:text-white transition-colors duration-200 group"
                   >
-                    <div className="w-10 h-10 rounded bg-white/10 flex items-center justify-center shrink-0 group-hover:bg-blue-700 transition-colors">
+                    <div className="w-10 h-10 rounded bg-white/10 flex items-center justify-center shrink-0 group-hover:bg-[#032B45] transition-colors">
                       <Phone className="w-4 h-4 text-white" />
                     </div>
                     <div>
@@ -183,7 +183,7 @@ export default function Footer() {
                     href="mailto:info@cross-bordersoutreach.ngo" 
                     className="flex items-start gap-3 text-slate-300 hover:text-white transition-colors duration-200 group"
                   >
-                    <div className="w-10 h-10 rounded bg-white/10 flex items-center justify-center shrink-0 group-hover:bg-blue-700 transition-colors">
+                    <div className="w-10 h-10 rounded bg-white/10 flex items-center justify-center shrink-0 group-hover:bg-[#032B45] transition-colors">
                       <Mail className="w-4 h-4 text-white" />
                     </div>
                     <div>

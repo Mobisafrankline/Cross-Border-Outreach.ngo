@@ -58,7 +58,7 @@ export default function Healthcare() {
 
       <section className="prog-initiatives-section">
         <div className="prog-initiatives-header">
-          <div className="prog-initiatives-label" style={{ color: "#10b981" }}>Our Services</div>
+          <div className="prog-initiatives-label" style={{ color: "#032B45" }}>Our Services</div>
           <h2 className="prog-initiatives-title font-playfair">Healthcare Services</h2>
           <p className="prog-initiatives-subtitle">Comprehensive medical care addressing diverse community health needs</p>
         </div>
@@ -99,12 +99,12 @@ export default function Healthcare() {
         </div>
       </section>
 
-      <section className="prog-cta-section" style={{ background: "linear-gradient(135deg, #059669, #10b981)" }}>
+      <section className="prog-cta-section" style={{ background: "linear-gradient(135deg, #032B45, #053D61)" }}>
         <div className="prog-cta-inner">
           <h2 className="prog-cta-title font-playfair">Support Life-Saving Healthcare</h2>
           <p className="prog-cta-subtitle">Your donation provides essential medical care to those who need it most.</p>
           <div className="prog-cta-actions">
-            <Link to="/donate" className="prog-cta-btn-primary" style={{ color: "#059669" }}><Heart className="w-5 h-5" /> Make a Donation</Link>
+            <Link to="/donate" className="prog-cta-btn-primary" style={{ color: "#032B45" }}><Heart className="w-5 h-5" /> Make a Donation</Link>
             <Link to="/opportunities" className="prog-cta-btn-secondary">Join Our Medical Team <ChevronRight className="w-5 h-5" /></Link>
           </div>
         </div>

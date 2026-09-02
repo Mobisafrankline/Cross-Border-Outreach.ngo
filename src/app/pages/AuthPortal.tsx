@@ -4,7 +4,7 @@ import {
   Heart, Mail, Lock, User, Phone, MapPin,
   AlertCircle, CheckCircle, Eye, EyeOff,
   Globe, Shield, ArrowRight, ArrowLeft, Sparkles, KeyRound,
-  TrendingUp, Users, Database, Activity, RefreshCw
+  TrendingUp, Users, Database, Activity, Fingerprint
 } from "lucide-react";
 import { signIn, signUp, createDonor, registerAdmin, supabase } from "../../lib/supabase";
 import "../../styles/portal.css";
@@ -75,6 +75,7 @@ export default function AuthPortal() {
   const [adminCode,       setAdminCode]       = useState("");
   const [donorCode,       setDonorCode]       = useState("");
   const [rememberMe,      setRememberMe]      = useState(false);
+  const [focused,         setFocused]         = useState<string | null>(null);
 
   /* UI state */
   const [showPw,  setShowPw]  = useState(false);
@@ -162,7 +163,6 @@ export default function AuthPortal() {
     if (password.length < 6) { setError("Password must be at least 6 characters."); return; }
     setLoading(true);
 
-    // Validate donor code via Supabase RPC (code never exposed in bundle)
     const { data: codeValid, error: codeError } = await supabase.rpc('verify_donor_code', { p_code: donorCode });
     if (codeError || !codeValid) {
       setError("Invalid Donor Registration Code. Please contact us if you need one.");
@@ -227,8 +227,51 @@ export default function AuthPortal() {
 
   return (
     <>
+      <style>{`
+        /* Embedded premium particles and mesh from Donor/Admin login concepts */
+        .auth-mesh {
+          position: absolute; inset: 0; opacity: .12;
+          background:
+            radial-gradient(ellipse 80% 50% at 20% 80%, #F5B800, transparent),
+            radial-gradient(ellipse 60% 40% at 80% 20%, #032B45, transparent),
+            radial-gradient(ellipse 50% 60% at 50% 50%, #053D61, transparent);
+          filter: blur(60px);
+          animation: auth-mesh-shift 12s ease-in-out infinite alternate;
+        }
+        @keyframes auth-mesh-shift {
+          0%   { transform: scale(1) translate(0, 0); }
+          100% { transform: scale(1.15) translate(-3%, 5%); }
+        }
+        .auth-grid-bg {
+          position: absolute; inset: 0;
+          background-image:
+            linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px);
+          background-size: 48px 48px;
+          mask-image: radial-gradient(ellipse at 40% 50%, black 30%, transparent 70%);
+        }
+        .auth-particle {
+          position: absolute; border-radius: 50%; background: #F5B800;
+          animation: auth-particle-rise linear infinite;
+          opacity: 0;
+        }
+        @keyframes auth-particle-rise {
+          0%   { opacity: 0; transform: translateY(0) scale(0.5); }
+          15%  { opacity: 0.7; }
+          85%  { opacity: 0.3; }
+          100% { opacity: 0; transform: translateY(-400px) scale(0); }
+        }
+        .auth-input-group { position: relative; }
+        .auth-input-group.focused .auth-input-icon { color: #032B45; }
+        .auth-input-icon {
+          position: absolute; left: 16px; top: 50%; transform: translateY(-50%);
+          color: #94a3b8; transition: color .25s;
+          pointer-events: none; z-index: 2;
+        }
+      `}</style>
+
       {/* Mobile top banner */}
-      <div className="auth-mobile-banner" style={{display:"none"}}>
+      <div className="auth-mobile-banner">
         <img src="/logo.png" alt="Logo" style={{height:40,objectFit:"contain",filter:"brightness(10)"}} />
         <div>
           <div style={{color:"#fff",fontWeight:700,fontSize:15}}>Cross-Borders Outreach</div>
@@ -238,33 +281,48 @@ export default function AuthPortal() {
         </div>
       </div>
 
-      <div className="auth-root" style={{minHeight:"100vh",display:"flex",background:"#f8f9fa"}}>
+      <div className="auth-root" style={{minHeight:"100vh",display:"flex",background:"linear-gradient(180deg, #f8fafc 0%, #f0f4f8 100%)"}}>
 
         {/* ── LEFT PANEL ── */}
-        <div className={`auth-left ${portalType}`} style={{flex:"0 0 44%",display:"flex",flexDirection:"column",justifyContent:"space-between",padding:"52px 48px",color:"#fff"}}>
-          <div className="auth-orb" style={{width:290,height:290,background:"#3b82f6",top:-80,right:-60}} />
-          <div className="auth-orb" style={{width:200,height:200,background:portalType==="admin"?"#8b5cf6":"#6366f1",bottom:60,left:-50,animationDelay:"3.5s"}} />
+        <div className={`auth-left ${portalType}`} style={{flex:"0 0 46%",display:"flex",flexDirection:"column",justifyContent:"space-between",padding:"52px 48px",color:"#fff"}}>
+          <div className="auth-mesh" />
+          <div className="auth-grid-bg" />
+          <div className="auth-orb" style={{width:350,height:350,background:"rgba(245,184,0,0.15)",top:-120,right:-100}} />
+          <div className="auth-orb" style={{width:250,height:250,background:"rgba(3,43,69,0.3)",bottom:40,left:-80,animationDelay:"4s"}} />
+
+          {/* Gold particles */}
+          {[...Array(8)].map((_, i) => (
+            <div key={i} className="auth-particle"
+              style={{
+                width: 3 + Math.random() * 3, height: 3 + Math.random() * 3,
+                left: `${10 + Math.random() * 80}%`, bottom: `${Math.random() * 20}%`,
+                animationDuration: `${5 + Math.random() * 7}s`,
+                animationDelay: `${Math.random() * 5}s`,
+              }}
+            />
+          ))}
 
           {/* Logo & Header */}
           <div style={{position:"relative",zIndex:2}}>
             <div style={{display:"flex",alignItems:"flex-start",justifyContent:"space-between",marginBottom:44}}>
               <img src="/logo.png" alt="Cross-Borders Outreach" style={{height:72,objectFit:"contain",filter:"drop-shadow(0 4px 16px rgba(0,0,0,.3))"}} />
               {portalType==="admin" && (
-                <div style={{display:"inline-flex",alignItems:"center",gap:6,padding:"5px 12px",borderRadius:999,background:"rgba(239,68,68,.15)",border:"1px solid rgba(239,68,68,.3)",color:"#fca5a5",fontSize:12,fontWeight:600}}>
-                  <Shield size={11}/> Admin
+                <div style={{display:"inline-flex",alignItems:"center",gap:6,padding:"6px 14px",borderRadius:999,background:"rgba(245,184,0,.15)",border:"1px solid rgba(245,184,0,.3)",color:"#F5B800",fontSize:11,fontWeight:700,letterSpacing:"0.5px",textTransform:"uppercase"}}>
+                  <div style={{width:6,height:6,borderRadius:"50%",background:"#F5B800",boxShadow:"0 0 8px rgba(245,184,0,0.5)",animation:"portal-pulse 2s infinite"}}/>
+                  Admin Access
                 </div>
               )}
             </div>
 
             {portalType === "donor" ? (
               <>
-                <h2 style={{fontSize:32,fontWeight:800,lineHeight:1.25,marginBottom:14}}>
+                <h2 style={{fontSize:36,fontWeight:800,lineHeight:1.15,marginBottom:18,fontFamily:"'Playfair Display', Georgia, serif"}}>
                   {authMode==="login" ? "Welcome back," : "Make a difference"}<br />
-                  <span style={{background:authMode==="login"?"linear-gradient(90deg,#93c5fd,#a5b4fc)":"linear-gradient(90deg,#c084fc,#f472b6)",WebkitBackgroundClip:"text",WebkitTextFillColor:"transparent"}}>
+                  <span style={{background:"linear-gradient(90deg, #F5B800, #FFD13B)",WebkitBackgroundClip:"text",WebkitTextFillColor:"transparent"}}>
                     {authMode==="login" ? "generous donor." : "starting today."}
                   </span>
                 </h2>
-                <p style={{opacity:.75,fontSize:15,lineHeight:1.65,marginBottom:40}}>
+                <p style={{opacity:.75,fontSize:15,lineHeight:1.65,marginBottom:40,maxWidth:380}}>
                   {authMode==="login"
                     ? "Sign in to your Donor Portal to track donations, view your impact, and manage your giving profile."
                     : "Join thousands of compassionate donors transforming lives across borders."}
@@ -278,8 +336,8 @@ export default function AuthPortal() {
                       {icon:Users,text:`Join ${donors}+ compassionate donors`},
                     ].map(({icon:Icon,text}) => (
                       <div className="auth-highlight" key={text}>
-                        <div className="auth-icon-wrap"><Icon size={18} color="#93c5fd"/></div>
-                        <span style={{fontSize:14,opacity:.9}}>{text}</span>
+                        <div className="auth-icon-wrap"><Icon size={18} color="#F5B800"/></div>
+                        <span style={{fontSize:14.5,opacity:.9}}>{text}</span>
                       </div>
                     ))}
                   </div>
@@ -290,9 +348,9 @@ export default function AuthPortal() {
                       {label:"Countries Reached", value:countries},
                       {label:"Donations Processed", value:`$${donated}M`},
                     ].map(s => (
-                      <div className="auth-highlight" key={s.label} style={{justifyContent:"space-between"}}>
-                        <span style={{opacity:.8,fontSize:14}}>{s.label}</span>
-                        <span style={{fontWeight:800,fontSize:20}}>{s.value}</span>
+                      <div className="auth-highlight" key={s.label} style={{justifyContent:"space-between",padding:"20px"}}>
+                        <span style={{opacity:.8,fontSize:14.5}}>{s.label}</span>
+                        <span style={{fontWeight:800,fontSize:22,background:"linear-gradient(135deg, #F5B800, #FFD13B)",WebkitBackgroundClip:"text",WebkitTextFillColor:"transparent"}}>{s.value}</span>
                       </div>
                     ))}
                   </div>
@@ -300,20 +358,20 @@ export default function AuthPortal() {
               </>
             ) : (
               <>
-                <h2 style={{fontSize:30,fontWeight:800,lineHeight:1.25,marginBottom:14}}>
+                <h2 style={{fontSize:36,fontWeight:800,lineHeight:1.15,marginBottom:18,fontFamily:"'Playfair Display', Georgia, serif"}}>
                   Administration<br/>
-                  <span style={{background:"linear-gradient(90deg,#60a5fa,#818cf8)",WebkitBackgroundClip:"text",WebkitTextFillColor:"transparent"}}>
+                  <span style={{background:"linear-gradient(90deg, #F5B800, #FFD13B, #F5B800)",backgroundSize:"200% 200%",WebkitBackgroundClip:"text",WebkitTextFillColor:"transparent"}}>
                     Command Center
                   </span>
                 </h2>
-                <p style={{opacity:.72,fontSize:14.5,lineHeight:1.65,marginBottom:38}}>
-                  Restricted access. Authorized administrators only. All login attempts are logged and monitored.
+                <p style={{opacity:.72,fontSize:14.5,lineHeight:1.65,marginBottom:40,maxWidth:380}}>
+                  Restricted access portal for authorized administrators. All login attempts are logged and monitored.
                 </p>
                 <div style={{display:"flex",flexDirection:"column",gap:12}}>
                   {ADMIN_FEATURES.map(({icon:Icon,text}) => (
                     <div className="auth-highlight" key={text}>
-                      <div className="auth-icon-wrap"><Icon size={17} color="#93c5fd"/></div>
-                      <span style={{fontSize:14,opacity:.88}}>{text}</span>
+                      <div className="auth-icon-wrap"><Icon size={18} color="#F5B800"/></div>
+                      <span style={{fontSize:14.5,opacity:.88}}>{text}</span>
                     </div>
                   ))}
                 </div>
@@ -323,20 +381,25 @@ export default function AuthPortal() {
 
           <div style={{position:"relative",zIndex:2,display:"flex",alignItems:"center",gap:8,opacity:.6,fontSize:13}}>
             {portalType==="admin"
-              ? <><Shield size={13}/><span>256-bit encrypted · Supabase Auth · Admin-only</span></>
+              ? <><Shield size={13}/><span>256-bit encrypted · Supabase Auth · Admin-only access</span></>
               : <><Globe size={14}/><span>Transforming lives across 38+ nations</span></>}
           </div>
         </div>
 
         {/* ── RIGHT PANEL ── */}
-        <div style={{flex:1,display:"flex",alignItems:"center",justifyContent:"center",padding:"40px 24px",overflowY:"auto",background:"#fff"}}>
+        <div style={{flex:1,display:"flex",alignItems:"center",justifyContent:"center",padding:"40px 24px",overflowY:"auto"}}>
           <div style={{width:"100%",maxWidth:480}}>
 
-            {/* Back link */}
-            <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:32}}>
-              <Link to="/" style={{display:"flex",alignItems:"center",gap:6,color:"#6b7280",fontSize:14,textDecoration:"none"}}>
+            {/* Back link & Navigation */}
+            <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:36}}>
+              <Link to="/" style={{display:"flex",alignItems:"center",gap:6,color:"#64748b",fontSize:14,fontWeight:600,textDecoration:"none",transition:"color .2s"}}>
                 <ArrowLeft size={15}/> Back to site
               </Link>
+              {portalType === "donor" && authMode === "login" && (
+                <span style={{ fontSize:13, color:"#94a3b8" }}>
+                  New here? <Link to="/donor/register" onClick={(e) => { e.preventDefault(); setAuthMode('register'); setRegStep(1); }} style={{ color:"#032B45", fontWeight:700, textDecoration:"none" }}>Create account</Link>
+                </span>
+              )}
             </div>
 
             {/* Portal toggle */}
@@ -349,381 +412,398 @@ export default function AuthPortal() {
               </div>
             </div>
 
-            {/* Banners */}
-            {success && (
-              <div style={{display:"flex",gap:14,padding:"16px 18px",borderRadius:12,background:"#f0fdf4",border:"1px solid #bbf7d0",marginBottom:24}}>
-                <CheckCircle size={22} color="#16a34a" style={{flexShrink:0}}/>
-                <div>
-                  <p style={{fontWeight:700,color:"#15803d",margin:0}}>Account created successfully!</p>
-                  <p style={{color:"#166534",fontSize:13,marginTop:4}}>Please confirm your email to continue.</p>
-                </div>
-              </div>
-            )}
-            <ErrorBanner />
+            {/* Form Card */}
+            <div style={{background:"#fff",borderRadius:24,border:"1px solid rgba(0,0,0,0.06)",boxShadow:"0 8px 32px rgba(3,43,69,0.06), 0 24px 60px rgba(3,43,69,0.04)",padding:"40px 36px",position:"relative",overflow:"hidden"}}>
+              {/* Card top gradient line */}
+              <div style={{position:"absolute",top:0,left:0,right:0,height:4,background:`linear-gradient(90deg, #032B45, ${portalType==='admin'?'#F5B800':'#FFD13B'}, #053D61)`}} />
 
-            {/* ── DONOR ── */}
-            {portalType==="donor" && (
-              <>
-                <div className="mode-tabs">
-                  <div className={`mode-tab ${authMode==='login'?'active':''}`} onClick={()=>{setAuthMode('login');setRegStep(1);}}>Sign In</div>
-                  <div className={`mode-tab ${authMode==='register'?'active':''}`} onClick={()=>{setAuthMode('register');setRegStep(1);}}>Create Account</div>
-                </div>
-
-                {/* ── DONOR LOGIN ── */}
-                {authMode==="login" && (
-                  <form onSubmit={handleLogin} style={{display:"flex",flexDirection:"column",gap:20}}>
-                    <div>
-                      <label style={{display:"block",fontSize:13,fontWeight:600,color:"#374151",marginBottom:7}}>Email Address</label>
-                      <div style={{position:"relative"}}>
-                        <Mail size={17} color="#9ca3af" style={{position:"absolute",left:13,top:"50%",transform:"translateY(-50%)"}}/>
-                        <input className="auth-input" type="email" value={email} onChange={e=>setEmail(e.target.value)} placeholder="your.email@example.com" required disabled={loading} autoComplete="email"/>
-                      </div>
-                    </div>
-                    <div>
-                      <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:7}}>
-                        <label style={{fontSize:13,fontWeight:600,color:"#374151"}}>Password</label>
-                        <button type="button" onClick={()=>setAuthMode('forgot')} style={{fontSize:13,color:"#1d4ed8",fontWeight:500,background:"none",border:"none",cursor:"pointer",padding:0}}>
-                          Forgot password?
-                        </button>
-                      </div>
-                      <div style={{position:"relative"}}>
-                        <Lock size={17} color="#9ca3af" style={{position:"absolute",left:13,top:"50%",transform:"translateY(-50%)"}}/>
-                        <input className="auth-input" type={showPw?"text":"password"} value={password} onChange={e=>setPassword(e.target.value)} placeholder="••••••••" required disabled={loading} autoComplete="current-password" style={{paddingRight:44}}/>
-                        <button type="button" onClick={()=>setShowPw(p=>!p)} style={{position:"absolute",right:12,top:"50%",transform:"translateY(-50%)",background:"none",border:"none",cursor:"pointer",color:"#6b7280"}}>
-                          {showPw?<EyeOff size={18}/>:<Eye size={18}/>}
-                        </button>
-                      </div>
-                    </div>
-                    <label style={{display:"flex",alignItems:"center",gap:9,cursor:"pointer",marginTop:-4}}>
-                      <input type="checkbox" checked={rememberMe} onChange={e=>setRememberMe(e.target.checked)} style={{width:15,height:15,accentColor:"#1d4ed8"}}/>
-                      <span style={{fontSize:13,color:"#4b5563"}}>Remember me</span>
-                    </label>
-                    <button type="submit" className="auth-btn donor" disabled={loading} style={{marginTop:4}}>
-                      {loading?<><Spinner/> Signing in…</>:"Sign In"}
-                    </button>
-                  </form>
-                )}
-
-                {/* ── FORGOT PASSWORD ── */}
-                {authMode==="forgot" && (
+              {/* Banners */}
+              {success && (
+                <div style={{display:"flex",gap:14,padding:"16px 18px",borderRadius:12,background:"#f0fdf4",border:"1px solid #bbf7d0",marginBottom:24}}>
+                  <CheckCircle size={22} color="#16a34a" style={{flexShrink:0}}/>
                   <div>
-                    <div style={{display:"flex",alignItems:"center",gap:10,marginBottom:28}}>
-                      <button type="button" onClick={()=>setAuthMode('login')} style={{background:"none",border:"none",cursor:"pointer",color:"#6b7280",display:"flex",alignItems:"center",gap:6,fontSize:14,padding:0}}>
-                        <ArrowLeft size={15}/> Back to sign in
-                      </button>
-                    </div>
-                    <div style={{marginBottom:28}}>
-                      <h1 style={{fontSize:24,fontWeight:800,color:"#111827",margin:0}}>Reset Password</h1>
-                      <p style={{color:"#6b7280",marginTop:8,fontSize:14.5,lineHeight:1.6}}>
-                        Enter your email and we'll send you a secure reset link.
-                      </p>
-                    </div>
-                    {forgotSent ? (
-                      <div style={{display:"flex",gap:14,padding:"20px",borderRadius:14,background:"#f0fdf4",border:"1px solid #bbf7d0"}}>
-                        <CheckCircle size={24} color="#16a34a" style={{flexShrink:0}}/>
-                        <div>
-                          <p style={{fontWeight:700,color:"#15803d",margin:0}}>Reset email sent!</p>
-                          <p style={{color:"#166534",fontSize:13.5,marginTop:5,lineHeight:1.5}}>
-                            Check <strong>{email}</strong> for a password reset link. It may take a minute to arrive.
-                          </p>
+                    <p style={{fontWeight:700,color:"#15803d",margin:0}}>Account created successfully!</p>
+                    <p style={{color:"#166534",fontSize:13,marginTop:4}}>Please confirm your email to continue.</p>
+                  </div>
+                </div>
+              )}
+              <ErrorBanner />
+
+              {/* ── DONOR ── */}
+              {portalType==="donor" && (
+                <>
+                  <div className="mode-tabs">
+                    <div className={`mode-tab ${authMode==='login'?'active':''}`} onClick={()=>{setAuthMode('login');setRegStep(1);}}>Sign In</div>
+                    <div className={`mode-tab ${authMode==='register'?'active':''}`} onClick={()=>{setAuthMode('register');setRegStep(1);}}>Create Account</div>
+                  </div>
+
+                  {/* ── DONOR LOGIN ── */}
+                  {authMode==="login" && (
+                    <>
+                      <div style={{textAlign:"center",marginBottom:32}}>
+                        <div style={{width:64,height:64,borderRadius:20,margin:"0 auto 20px",background:"linear-gradient(135deg, #032B45, #053D61)",display:"flex",alignItems:"center",justifyContent:"center",boxShadow:"0 8px 32px rgba(3,43,69,0.3)"}}>
+                          <Heart size={28} color="#F5B800" style={{fill:"#F5B800"}}/>
                         </div>
+                        <h1 style={{fontSize:26,fontWeight:800,color:"#032B45",margin:0,fontFamily:"'Playfair Display', Georgia, serif"}}>Donor Sign In</h1>
+                        <p style={{color:"#64748b",marginTop:8,fontSize:14,lineHeight:1.6}}>Access your donation history and impact reports.</p>
                       </div>
-                    ) : (
-                      <form onSubmit={handleForgotPassword} style={{display:"flex",flexDirection:"column",gap:20}}>
+
+                      <form onSubmit={handleLogin} style={{display:"flex",flexDirection:"column",gap:20}}>
                         <div>
-                          <label style={{display:"block",fontSize:13,fontWeight:600,color:"#374151",marginBottom:7}}>Email Address</label>
-                          <div style={{position:"relative"}}>
-                            <Mail size={17} color="#9ca3af" style={{position:"absolute",left:13,top:"50%",transform:"translateY(-50%)"}}/>
-                            <input className="auth-input" type="email" value={email} onChange={e=>setEmail(e.target.value)} placeholder="your.email@example.com" required disabled={loading}/>
+                          <label style={{display:"block",fontSize:13,fontWeight:600,color:"#334155",marginBottom:8}}>Email Address</label>
+                          <div className={`auth-input-group ${focused === "email" ? "focused" : ""}`}>
+                            <Mail size={17} className="auth-input-icon"/>
+                            <input className="auth-input" type="email" value={email} onChange={e=>setEmail(e.target.value)} placeholder="your.email@example.com" required disabled={loading} autoComplete="email" onFocus={()=>setFocused("email")} onBlur={()=>setFocused(null)}/>
                           </div>
                         </div>
-                        <button type="submit" className="auth-btn donor" disabled={loading}>
-                          {loading?<><Spinner/> Sending…</>:<><Mail size={17}/> Send Reset Link</>}
+                        <div>
+                          <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:8}}>
+                            <label style={{fontSize:13,fontWeight:600,color:"#334155"}}>Password</label>
+                            <button type="button" onClick={()=>setAuthMode('forgot')} style={{fontSize:13,color:"#032B45",fontWeight:600,background:"none",border:"none",cursor:"pointer",padding:0}}>
+                              Forgot password?
+                            </button>
+                          </div>
+                          <div className={`auth-input-group ${focused === "password" ? "focused" : ""}`}>
+                            <Lock size={17} className="auth-input-icon"/>
+                            <input className="auth-input" type={showPw?"text":"password"} value={password} onChange={e=>setPassword(e.target.value)} placeholder="••••••••" required disabled={loading} autoComplete="current-password" style={{paddingRight:48}} onFocus={()=>setFocused("password")} onBlur={()=>setFocused(null)}/>
+                            <button type="button" onClick={()=>setShowPw(p=>!p)} style={{position:"absolute",right:14,top:"50%",transform:"translateY(-50%)",background:"none",border:"none",cursor:"pointer",color:"#94a3b8",zIndex:2}}>
+                              {showPw?<EyeOff size={18}/>:<Eye size={18}/>}
+                            </button>
+                          </div>
+                        </div>
+                        <label style={{display:"flex",alignItems:"center",gap:9,cursor:"pointer",marginTop:-4}}>
+                          <input type="checkbox" checked={rememberMe} onChange={e=>setRememberMe(e.target.checked)} style={{width:16,height:16,accentColor:"#032B45"}}/>
+                          <span style={{fontSize:13,color:"#64748b"}}>Remember me</span>
+                        </label>
+                        <button type="submit" className="auth-btn donor" disabled={loading} style={{marginTop:8}}>
+                          {loading?<><Spinner/> <span>Signing in…</span></>:<span>Sign In</span>}
                         </button>
                       </form>
-                    )}
-                  </div>
-                )}
+                    </>
+                  )}
 
-                {/* ── DONOR REGISTER ── */}
-                {authMode==="register" && (
-                  <>
-                    {/* Step indicator */}
-                    <div style={{display:"flex",alignItems:"center",marginBottom:32}}>
-                      {[1,2].map((s,i) => (
-                        <Fragment key={s}>
-                          <div style={{display:"flex",flexDirection:"column",alignItems:"center",gap:6}}>
-                            <div className={`step-dot ${regStep>s?"done":regStep===s?"active":"inactive"}`}>
-                              {regStep>s?<CheckCircle size={16}/>:s}
-                            </div>
-                            <span style={{fontSize:11,fontWeight:600,color:regStep===s?"#7c3aed":"#9ca3af"}}>
-                              {s===1?"Personal Info":"Security"}
-                            </span>
+                  {/* ── FORGOT PASSWORD ── */}
+                  {authMode==="forgot" && (
+                    <div>
+                      <div style={{display:"flex",alignItems:"center",gap:10,marginBottom:28}}>
+                        <button type="button" onClick={()=>setAuthMode('login')} style={{background:"none",border:"none",cursor:"pointer",color:"#64748b",display:"flex",alignItems:"center",gap:6,fontSize:14,padding:0,fontWeight:600}}>
+                          <ArrowLeft size={15}/> Back to sign in
+                        </button>
+                      </div>
+                      <div style={{marginBottom:32}}>
+                        <h1 style={{fontSize:24,fontWeight:800,color:"#032B45",margin:0,fontFamily:"'Playfair Display', Georgia, serif"}}>Reset Password</h1>
+                        <p style={{color:"#64748b",marginTop:10,fontSize:14,lineHeight:1.6}}>
+                          Enter your email and we'll send you a secure reset link.
+                        </p>
+                      </div>
+                      {forgotSent ? (
+                        <div style={{display:"flex",gap:14,padding:"20px",borderRadius:14,background:"#f0fdf4",border:"1px solid #bbf7d0"}}>
+                          <CheckCircle size={24} color="#16a34a" style={{flexShrink:0}}/>
+                          <div>
+                            <p style={{fontWeight:700,color:"#15803d",margin:0}}>Reset email sent!</p>
+                            <p style={{color:"#166534",fontSize:13.5,marginTop:6,lineHeight:1.5}}>
+                              Check <strong>{email}</strong> for a password reset link. It may take a minute to arrive.
+                            </p>
                           </div>
-                          {i<1 && <div style={{flex:1,height:2,background:regStep>1?"#22c55e":"#e5e7eb",margin:"0 10px",marginBottom:20}}/>}
-                        </Fragment>
-                      ))}
+                        </div>
+                      ) : (
+                        <form onSubmit={handleForgotPassword} style={{display:"flex",flexDirection:"column",gap:20}}>
+                          <div>
+                            <label style={{display:"block",fontSize:13,fontWeight:600,color:"#334155",marginBottom:8}}>Email Address</label>
+                            <div className={`auth-input-group ${focused === "email" ? "focused" : ""}`}>
+                              <Mail size={17} className="auth-input-icon"/>
+                              <input className="auth-input" type="email" value={email} onChange={e=>setEmail(e.target.value)} placeholder="your.email@example.com" required disabled={loading} onFocus={()=>setFocused("email")} onBlur={()=>setFocused(null)}/>
+                            </div>
+                          </div>
+                          <button type="submit" className="auth-btn donor" disabled={loading} style={{marginTop:8}}>
+                            {loading?<><Spinner/> <span>Sending…</span></>:<><Mail size={17}/> <span>Send Reset Link</span></>}
+                          </button>
+                        </form>
+                      )}
                     </div>
+                  )}
 
-                    <form onSubmit={regStep===2 ? handleRegister : (e)=>{e.preventDefault();if(step1Valid)setRegStep(2);}}>
-                      {regStep===1 && (
-                        <div style={{display:"flex",flexDirection:"column",gap:16}}>
-                          <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:14}}>
-                            {(["First Name","Last Name"] as const).map((label,i) => (
-                              <div key={label}>
-                                <label style={{display:"block",fontSize:13,fontWeight:600,color:"#374151",marginBottom:6}}>{label} *</label>
-                                <div style={{position:"relative"}}>
-                                  <User size={17} color="#9ca3af" style={{position:"absolute",left:13,top:"50%",transform:"translateY(-50%)"}}/>
-                                  <input className="auth-input" value={i===0?firstName:lastName} onChange={e=>i===0?setFirstName(e.target.value):setLastName(e.target.value)} placeholder={i===0?"John":"Doe"} required/>
+                  {/* ── DONOR REGISTER ── */}
+                  {authMode==="register" && (
+                    <>
+                      {/* Step indicator */}
+                      <div style={{display:"flex",alignItems:"center",marginBottom:36}}>
+                        {[1,2].map((s,i) => (
+                          <Fragment key={s}>
+                            <div style={{display:"flex",flexDirection:"column",alignItems:"center",gap:8}}>
+                              <div className={`step-dot ${regStep>s?"done":regStep===s?"active":"inactive"}`}>
+                                {regStep>s?<CheckCircle size={18}/>:s}
+                              </div>
+                              <span style={{fontSize:12,fontWeight:600,color:regStep===s?"#032B45":"#94a3b8"}}>
+                                {s===1?"Personal Info":"Security"}
+                              </span>
+                            </div>
+                            {i<1 && <div style={{flex:1,height:3,background:regStep>1?"#F5B800":"#e8ecf1",margin:"0 12px",marginBottom:24,borderRadius:2}}/>}
+                          </Fragment>
+                        ))}
+                      </div>
+
+                      <form onSubmit={regStep===2 ? handleRegister : (e)=>{e.preventDefault();if(step1Valid)setRegStep(2);}}>
+                        {regStep===1 && (
+                          <div style={{display:"flex",flexDirection:"column",gap:20}}>
+                            <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:16}}>
+                              {(["First Name","Last Name"] as const).map((label,i) => (
+                                <div key={label}>
+                                  <label style={{display:"block",fontSize:13,fontWeight:600,color:"#334155",marginBottom:8}}>{label} *</label>
+                                  <div className="auth-input-group">
+                                    <User size={17} className="auth-input-icon"/>
+                                    <input className="auth-input" value={i===0?firstName:lastName} onChange={e=>i===0?setFirstName(e.target.value):setLastName(e.target.value)} placeholder={i===0?"Jane":"Doe"} required/>
+                                  </div>
+                                </div>
+                              ))}
+                            </div>
+                            <div>
+                              <label style={{display:"block",fontSize:13,fontWeight:600,color:"#334155",marginBottom:8}}>Email Address *</label>
+                              <div className="auth-input-group">
+                                <Mail size={17} className="auth-input-icon"/>
+                                <input className="auth-input" type="email" value={email} onChange={e=>setEmail(e.target.value)} placeholder="jane.doe@example.com" required/>
+                              </div>
+                            </div>
+                            <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:16}}>
+                              <div>
+                                <label style={{display:"block",fontSize:13,fontWeight:600,color:"#334155",marginBottom:8}}>Phone</label>
+                                <div className="auth-input-group">
+                                  <Phone size={17} className="auth-input-icon"/>
+                                  <input className="auth-input" type="tel" value={phone} onChange={e=>setPhone(e.target.value)} placeholder="+1 (234) 567"/>
                                 </div>
                               </div>
-                            ))}
-                          </div>
-                          <div>
-                            <label style={{display:"block",fontSize:13,fontWeight:600,color:"#374151",marginBottom:6}}>Email Address *</label>
-                            <div style={{position:"relative"}}>
-                              <Mail size={17} color="#9ca3af" style={{position:"absolute",left:13,top:"50%",transform:"translateY(-50%)"}}/>
-                              <input className="auth-input" type="email" value={email} onChange={e=>setEmail(e.target.value)} placeholder="john.doe@example.com" required/>
-                            </div>
-                          </div>
-                          <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:14}}>
-                            <div>
-                              <label style={{display:"block",fontSize:13,fontWeight:600,color:"#374151",marginBottom:6}}>Phone</label>
-                              <div style={{position:"relative"}}>
-                                <Phone size={17} color="#9ca3af" style={{position:"absolute",left:13,top:"50%",transform:"translateY(-50%)"}}/>
-                                <input className="auth-input" type="tel" value={phone} onChange={e=>setPhone(e.target.value)} placeholder="+1 (234)"/>
+                              <div>
+                                <label style={{display:"block",fontSize:13,fontWeight:600,color:"#334155",marginBottom:8}}>Address</label>
+                                <div className="auth-input-group">
+                                  <MapPin size={17} className="auth-input-icon"/>
+                                  <input className="auth-input" type="text" value={address} onChange={e=>setAddress(e.target.value)} placeholder="City, Country"/>
+                                </div>
                               </div>
                             </div>
                             <div>
-                              <label style={{display:"block",fontSize:13,fontWeight:600,color:"#374151",marginBottom:6}}>Address</label>
-                              <div style={{position:"relative"}}>
-                                <MapPin size={17} color="#9ca3af" style={{position:"absolute",left:13,top:"50%",transform:"translateY(-50%)"}}/>
-                                <input className="auth-input" type="text" value={address} onChange={e=>setAddress(e.target.value)} placeholder="City, Country"/>
+                              <label style={{display:"block",fontSize:13,fontWeight:600,color:"#334155",marginBottom:8}}>Donor Registration Code *</label>
+                              <div className="auth-input-group">
+                                <KeyRound size={17} className="auth-input-icon"/>
+                                <input className="auth-input" type="text" value={donorCode} onChange={e=>setDonorCode(e.target.value)} placeholder="Enter unique code" required/>
                               </div>
+                              <p style={{fontSize:12,color:"#94a3b8",marginTop:6}}>Contact us if you don't have a registration code.</p>
                             </div>
+                            <button type="submit" className="auth-btn donor-reg" disabled={!step1Valid} style={{marginTop:12}}>
+                              <span>Continue</span> <ArrowRight size={18}/>
+                            </button>
                           </div>
-                          <div>
-                            <label style={{display:"block",fontSize:13,fontWeight:600,color:"#374151",marginBottom:6}}>Donor Registration Code *</label>
-                            <div style={{position:"relative"}}>
-                              <KeyRound size={17} color="#9ca3af" style={{position:"absolute",left:13,top:"50%",transform:"translateY(-50%)"}}/>
-                              <input className="auth-input" type="text" value={donorCode} onChange={e=>setDonorCode(e.target.value)} placeholder="Enter donor registration code" required/>
-                            </div>
-                            <p style={{fontSize:11.5,color:"#9ca3af",marginTop:5}}>Contact us if you don't have a registration code.</p>
-                          </div>
-                          <button type="submit" className="auth-btn donor-reg" disabled={!step1Valid} style={{marginTop:8}}>
-                            Continue <ArrowRight size={18}/>
-                          </button>
-                        </div>
-                      )}
+                        )}
 
-                      {regStep===2 && (
-                        <div style={{display:"flex",flexDirection:"column",gap:16}}>
+                        {regStep===2 && (
+                          <div style={{display:"flex",flexDirection:"column",gap:20}}>
+                            <div>
+                              <label style={{display:"block",fontSize:13,fontWeight:600,color:"#334155",marginBottom:8}}>Password *</label>
+                              <div className="auth-input-group">
+                                <Lock size={17} className="auth-input-icon"/>
+                                <input className="auth-input" type={showPw?"text":"password"} value={password} onChange={e=>setPassword(e.target.value)} placeholder="Min. 6 characters" required style={{paddingRight:48}}/>
+                                <button type="button" onClick={()=>setShowPw(p=>!p)} style={{position:"absolute",right:14,top:"50%",transform:"translateY(-50%)",background:"none",border:"none",cursor:"pointer",color:"#94a3b8",zIndex:2}}>
+                                  {showPw?<EyeOff size={18}/>:<Eye size={18}/>}
+                                </button>
+                              </div>
+                              {password && (
+                                <div style={{marginTop:12}}>
+                                  <div style={{display:"flex",gap:6,marginBottom:6}}>
+                                    {[1,2,3,4].map(i=><div key={i} className="pw-bar" style={{flex:1,background:i<=pwStrength?strengthColor[pwStrength]:"#e8ecf1"}}/>)}
+                                  </div>
+                                  {pwStrength>0 && <span style={{fontSize:12.5,fontWeight:700,color:strengthColor[pwStrength]}}>{strengthLabel[pwStrength]}</span>}
+                                </div>
+                              )}
+                            </div>
+                            <div>
+                              <label style={{display:"block",fontSize:13,fontWeight:600,color:"#334155",marginBottom:8}}>Confirm Password *</label>
+                              <div className="auth-input-group">
+                                <Lock size={17} className="auth-input-icon"/>
+                                <input className={`auth-input${confirmPassword&&confirmPassword!==password?" error":""}`} type={showCpw?"text":"password"} value={confirmPassword} onChange={e=>setConfirmPassword(e.target.value)} placeholder="Re-enter password" required style={{paddingRight:48}}/>
+                                <button type="button" onClick={()=>setShowCpw(p=>!p)} style={{position:"absolute",right:14,top:"50%",transform:"translateY(-50%)",background:"none",border:"none",cursor:"pointer",color:"#94a3b8",zIndex:2}}>
+                                  {showCpw?<EyeOff size={18}/>:<Eye size={18}/>}
+                                </button>
+                              </div>
+                              {confirmPassword&&confirmPassword!==password && <p style={{fontSize:12.5,color:"#dc2626",marginTop:6,fontWeight:500}}>Passwords do not match</p>}
+                            </div>
+                            <label style={{display:"flex",alignItems:"flex-start",gap:12,cursor:"pointer",marginTop:4}}>
+                              <input type="checkbox" checked={agreed} onChange={e=>setAgreed(e.target.checked)} style={{width:18,height:18,accentColor:"#032B45",marginTop:1}}/>
+                              <span style={{fontSize:13.5,color:"#64748b",lineHeight:1.5}}>
+                                I agree to the <a href="/terms" style={{color:"#032B45",fontWeight:700,textDecoration:"none"}}>Terms of Service</a> and <a href="/privacy" style={{color:"#032B45",fontWeight:700,textDecoration:"none"}}>Privacy Policy</a>
+                              </span>
+                            </label>
+                            <div style={{display:"flex",flexDirection:"column",gap:12,marginTop:12}}>
+                              <button type="submit" className="auth-btn donor-reg" disabled={!step2Valid||loading||success}>
+                                {loading?<><Spinner/> <span>Creating account…</span></>:<><Sparkles size={18}/> <span>Create Account</span></>}
+                              </button>
+                              <button type="button" className="auth-btn-outline" onClick={()=>setRegStep(1)}>
+                                <ArrowLeft size={16}/> <span>Back</span>
+                              </button>
+                            </div>
+                          </div>
+                        )}
+                      </form>
+                    </>
+                  )}
+                </>
+              )}
+
+              {/* ── ADMIN ── */}
+              {portalType==="admin" && (
+                <>
+                  <div className="mode-tabs">
+                    <div className={`mode-tab ${authMode==='login'?'active':''}`} onClick={()=>setAuthMode('login')}>Sign In</div>
+                    <div className={`mode-tab ${authMode==='register'?'active':''}`} onClick={()=>setAuthMode('register')}>Register</div>
+                  </div>
+
+                  {authMode==="login" && (
+                    <>
+                      <div style={{textAlign:"center",marginBottom:32}}>
+                        <div style={{width:64,height:64,borderRadius:20,margin:"0 auto 20px",background:"linear-gradient(135deg, #032B45, #053D61)",display:"flex",alignItems:"center",justifyContent:"center",boxShadow:"0 8px 32px rgba(3,43,69,0.3)"}}>
+                          <Fingerprint size={30} color="#F5B800"/>
+                        </div>
+                        <h1 style={{fontSize:26,fontWeight:800,color:"#032B45",margin:0,fontFamily:"'Playfair Display', Georgia, serif"}}>Admin Sign In</h1>
+                        <p style={{color:"#64748b",marginTop:8,fontSize:14,lineHeight:1.6}}>Authorized personnel only. Your activity is monitored.</p>
+                      </div>
+                      <form onSubmit={handleLogin} style={{display:"flex",flexDirection:"column",gap:20}}>
+                        <div>
+                          <label style={{display:"block",fontSize:13,fontWeight:600,color:"#334155",marginBottom:8}}>Admin Email</label>
+                          <div className={`auth-input-group ${focused === "email" ? "focused" : ""}`}>
+                            <Mail size={17} className="auth-input-icon"/>
+                            <input className="auth-input" type="email" value={email} onChange={e=>setEmail(e.target.value)} placeholder="admin@cross-borders.org" required disabled={loading} autoComplete="email" onFocus={()=>setFocused("email")} onBlur={()=>setFocused(null)}/>
+                          </div>
+                        </div>
+                        <div>
+                          <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:8}}>
+                            <label style={{fontSize:13,fontWeight:600,color:"#334155"}}>Password</label>
+                            <button type="button" onClick={()=>setAuthMode('forgot')} style={{fontSize:13,color:"#032B45",fontWeight:600,background:"none",border:"none",cursor:"pointer",padding:0}}>
+                              Forgot password?
+                            </button>
+                          </div>
+                          <div className={`auth-input-group ${focused === "password" ? "focused" : ""}`}>
+                            <Lock size={17} className="auth-input-icon"/>
+                            <input className="auth-input" type={showPw?"text":"password"} value={password} onChange={e=>setPassword(e.target.value)} placeholder="••••••••" required disabled={loading} style={{paddingRight:48}} onFocus={()=>setFocused("password")} onBlur={()=>setFocused(null)}/>
+                            <button type="button" onClick={()=>setShowPw(p=>!p)} style={{position:"absolute",right:14,top:"50%",transform:"translateY(-50%)",background:"none",border:"none",cursor:"pointer",color:"#94a3b8",zIndex:2}}>
+                              {showPw?<EyeOff size={18}/>:<Eye size={18}/>}
+                            </button>
+                          </div>
+                        </div>
+                        <div style={{display:"flex",alignItems:"center",gap:12,padding:"14px 18px",borderRadius:14,background:"rgba(3,43,69,0.04)",border:"1px solid rgba(3,43,69,0.08)"}}>
+                          <Shield size={16} color="#032B45" style={{flexShrink:0}}/>
+                          <p style={{fontSize:12.5,color:"#032B45",margin:0,lineHeight:1.5,fontWeight:600}}>This is a restricted area. Unauthorized access attempts are logged.</p>
+                        </div>
+                        <button type="submit" className="auth-btn admin" disabled={loading} style={{marginTop:8}}>
+                          {loading?<><Spinner/> <span>Authenticating…</span></>:<><Shield size={17}/> <span>Sign In Securely</span></>}
+                        </button>
+                      </form>
+                    </>
+                  )}
+
+                  {authMode==="forgot" && (
+                    <div>
+                      <div style={{marginBottom:32}}>
+                        <button type="button" onClick={()=>setAuthMode('login')} style={{background:"none",border:"none",cursor:"pointer",color:"#64748b",display:"flex",alignItems:"center",gap:6,fontSize:14,padding:0,marginBottom:24,fontWeight:600}}>
+                          <ArrowLeft size={15}/> Back to sign in
+                        </button>
+                        <h1 style={{fontSize:24,fontWeight:800,color:"#032B45",margin:0,fontFamily:"'Playfair Display', Georgia, serif"}}>Reset Admin Password</h1>
+                        <p style={{color:"#64748b",marginTop:10,fontSize:14,lineHeight:1.6}}>Enter your admin email to receive a secure reset link.</p>
+                      </div>
+                      {forgotSent ? (
+                        <div style={{display:"flex",gap:14,padding:"20px",borderRadius:14,background:"#f0fdf4",border:"1px solid #bbf7d0"}}>
+                          <CheckCircle size={24} color="#16a34a" style={{flexShrink:0}}/>
                           <div>
-                            <label style={{display:"block",fontSize:13,fontWeight:600,color:"#374151",marginBottom:6}}>Password *</label>
-                            <div style={{position:"relative"}}>
-                              <Lock size={17} color="#9ca3af" style={{position:"absolute",left:13,top:"50%",transform:"translateY(-50%)"}}/>
-                              <input className="auth-input" type={showPw?"text":"password"} value={password} onChange={e=>setPassword(e.target.value)} placeholder="Min. 6 characters" required style={{paddingRight:44}}/>
-                              <button type="button" onClick={()=>setShowPw(p=>!p)} style={{position:"absolute",right:12,top:"50%",transform:"translateY(-50%)",background:"none",border:"none",cursor:"pointer",color:"#6b7280"}}>
+                            <p style={{fontWeight:700,color:"#15803d",margin:0}}>Reset email sent!</p>
+                            <p style={{color:"#166534",fontSize:13.5,marginTop:6,lineHeight:1.5}}>Check <strong>{email}</strong> for your reset link.</p>
+                          </div>
+                        </div>
+                      ) : (
+                        <form onSubmit={handleForgotPassword} style={{display:"flex",flexDirection:"column",gap:20}}>
+                          <div>
+                            <label style={{display:"block",fontSize:13,fontWeight:600,color:"#334155",marginBottom:8}}>Admin Email</label>
+                            <div className={`auth-input-group ${focused === "email" ? "focused" : ""}`}>
+                              <Mail size={17} className="auth-input-icon"/>
+                              <input className="auth-input" type="email" value={email} onChange={e=>setEmail(e.target.value)} placeholder="admin@cross-borders.org" required disabled={loading} onFocus={()=>setFocused("email")} onBlur={()=>setFocused(null)}/>
+                            </div>
+                          </div>
+                          <button type="submit" className="auth-btn admin" disabled={loading} style={{marginTop:8}}>
+                            {loading?<><Spinner/> <span>Sending…</span></>:<><Mail size={17}/> <span>Send Reset Link</span></>}
+                          </button>
+                        </form>
+                      )}
+                    </div>
+                  )}
+
+                  {authMode==="register" && (
+                    <>
+                      <div style={{textAlign:"center",marginBottom:32}}>
+                        <div style={{width:64,height:64,borderRadius:20,margin:"0 auto 20px",background:"linear-gradient(135deg, #032B45, #053D61)",display:"flex",alignItems:"center",justifyContent:"center",boxShadow:"0 8px 32px rgba(3,43,69,0.3)"}}>
+                          <Shield size={28} color="#F5B800"/>
+                        </div>
+                        <h1 style={{fontSize:26,fontWeight:800,color:"#032B45",margin:0,fontFamily:"'Playfair Display', Georgia, serif"}}>Admin Registration</h1>
+                        <p style={{color:"#64748b",marginTop:8,fontSize:14,lineHeight:1.6}}>Enter your unique code to register as an administrator.</p>
+                      </div>
+                      <form onSubmit={handleAdminRegister} style={{display:"flex",flexDirection:"column",gap:20}}>
+                        <div>
+                          <label style={{display:"block",fontSize:13,fontWeight:600,color:"#334155",marginBottom:8}}>Registration Code *</label>
+                          <div className="auth-input-group">
+                            <KeyRound size={17} className="auth-input-icon"/>
+                            <input className="auth-input" type="text" value={adminCode} onChange={e=>setAdminCode(e.target.value)} placeholder="Enter unique code" required disabled={loading}/>
+                          </div>
+                        </div>
+                        <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:16}}>
+                          <div>
+                            <label style={{display:"block",fontSize:13,fontWeight:600,color:"#334155",marginBottom:8}}>First Name *</label>
+                            <div className="auth-input-group">
+                              <User size={17} className="auth-input-icon"/>
+                              <input className="auth-input" value={firstName} onChange={e=>setFirstName(e.target.value)} placeholder="Jane" required disabled={loading}/>
+                            </div>
+                          </div>
+                          <div>
+                            <label style={{display:"block",fontSize:13,fontWeight:600,color:"#334155",marginBottom:8}}>Last Name *</label>
+                            <div className="auth-input-group">
+                              <User size={17} className="auth-input-icon"/>
+                              <input className="auth-input" value={lastName} onChange={e=>setLastName(e.target.value)} placeholder="Doe" required disabled={loading}/>
+                            </div>
+                          </div>
+                        </div>
+                        <div>
+                          <label style={{display:"block",fontSize:13,fontWeight:600,color:"#334155",marginBottom:8}}>Email Address *</label>
+                          <div className="auth-input-group">
+                            <Mail size={17} className="auth-input-icon"/>
+                            <input className="auth-input" type="email" value={email} onChange={e=>setEmail(e.target.value)} placeholder="admin@example.com" required disabled={loading}/>
+                          </div>
+                        </div>
+                        <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:16}}>
+                          <div>
+                            <label style={{display:"block",fontSize:13,fontWeight:600,color:"#334155",marginBottom:8}}>Password *</label>
+                            <div className="auth-input-group">
+                              <Lock size={17} className="auth-input-icon"/>
+                              <input className="auth-input" type={showPw?"text":"password"} value={password} onChange={e=>setPassword(e.target.value)} placeholder="Min. 6 chars" required disabled={loading} style={{paddingRight:48}}/>
+                              <button type="button" onClick={()=>setShowPw(p=>!p)} style={{position:"absolute",right:14,top:"50%",transform:"translateY(-50%)",background:"none",border:"none",cursor:"pointer",color:"#94a3b8",zIndex:2}}>
                                 {showPw?<EyeOff size={18}/>:<Eye size={18}/>}
                               </button>
                             </div>
-                            {password && (
-                              <div style={{marginTop:10}}>
-                                <div style={{display:"flex",gap:4,marginBottom:5}}>
-                                  {[1,2,3,4].map(i=><div key={i} className="pw-bar" style={{flex:1,background:i<=pwStrength?strengthColor[pwStrength]:"#e5e7eb"}}/>)}
-                                </div>
-                                {pwStrength>0 && <span style={{fontSize:12,fontWeight:600,color:strengthColor[pwStrength]}}>{strengthLabel[pwStrength]}</span>}
-                              </div>
-                            )}
                           </div>
                           <div>
-                            <label style={{display:"block",fontSize:13,fontWeight:600,color:"#374151",marginBottom:6}}>Confirm Password *</label>
-                            <div style={{position:"relative"}}>
-                              <Lock size={17} color="#9ca3af" style={{position:"absolute",left:13,top:"50%",transform:"translateY(-50%)"}}/>
-                              <input className={`auth-input${confirmPassword&&confirmPassword!==password?" error":""}`} type={showCpw?"text":"password"} value={confirmPassword} onChange={e=>setConfirmPassword(e.target.value)} placeholder="Re-enter password" required style={{paddingRight:44}}/>
-                              <button type="button" onClick={()=>setShowCpw(p=>!p)} style={{position:"absolute",right:12,top:"50%",transform:"translateY(-50%)",background:"none",border:"none",cursor:"pointer",color:"#6b7280"}}>
+                            <label style={{display:"block",fontSize:13,fontWeight:600,color:"#334155",marginBottom:8}}>Confirm Password *</label>
+                            <div className="auth-input-group">
+                              <Lock size={17} className="auth-input-icon"/>
+                              <input className={`auth-input${confirmPassword&&confirmPassword!==password?" error":""}`} type={showCpw?"text":"password"} value={confirmPassword} onChange={e=>setConfirmPassword(e.target.value)} placeholder="Re-enter password" required disabled={loading} style={{paddingRight:48}}/>
+                              <button type="button" onClick={()=>setShowCpw(p=>!p)} style={{position:"absolute",right:14,top:"50%",transform:"translateY(-50%)",background:"none",border:"none",cursor:"pointer",color:"#94a3b8",zIndex:2}}>
                                 {showCpw?<EyeOff size={18}/>:<Eye size={18}/>}
                               </button>
                             </div>
-                            {confirmPassword&&confirmPassword!==password && <p style={{fontSize:12,color:"#ef4444",marginTop:5}}>Passwords do not match</p>}
-                          </div>
-                          <label style={{display:"flex",alignItems:"flex-start",gap:10,cursor:"pointer",marginTop:8}}>
-                            <input type="checkbox" checked={agreed} onChange={e=>setAgreed(e.target.checked)} style={{width:16,height:16,accentColor:"#7c3aed",marginTop:2}}/>
-                            <span style={{fontSize:13,color:"#4b5563",lineHeight:1.5}}>
-                              I agree to the <a href="/terms" style={{color:"#7c3aed",fontWeight:600,textDecoration:"none"}}>Terms of Service</a> and <a href="/privacy" style={{color:"#7c3aed",fontWeight:600,textDecoration:"none"}}>Privacy Policy</a>
-                            </span>
-                          </label>
-                          <div style={{display:"flex",flexDirection:"column",gap:10,marginTop:8}}>
-                            <button type="submit" className="auth-btn donor-reg" disabled={!step2Valid||loading||success}>
-                              {loading?<><Spinner/> Creating account…</>:<><Sparkles size={18}/> Create Account</>}
-                            </button>
-                            <button type="button" className="auth-btn-outline" onClick={()=>setRegStep(1)}>
-                              <ArrowLeft size={16}/> Back
-                            </button>
                           </div>
                         </div>
-                      )}
-                    </form>
-                  </>
-                )}
-              </>
-            )}
-
-            {/* ── ADMIN ── */}
-            {portalType==="admin" && (
-              <>
-                <div className="mode-tabs">
-                  <div className={`mode-tab ${authMode==='login'?'active':''}`} onClick={()=>setAuthMode('login')}>Sign In</div>
-                  <div className={`mode-tab ${authMode==='register'?'active':''}`} onClick={()=>setAuthMode('register')}>Register Admin</div>
-                </div>
-
-                {authMode==="login" && (
-                  <>
-                    <div style={{marginBottom:32}}>
-                      <div style={{width:52,height:52,borderRadius:14,background:"linear-gradient(135deg,#1e3a8a,#1d4ed8)",display:"flex",alignItems:"center",justifyContent:"center",marginBottom:18,boxShadow:"0 6px 20px rgba(30,58,138,.35)"}}>
-                        <Shield size={26} color="#fff"/>
-                      </div>
-                      <h1 style={{fontSize:26,fontWeight:800,color:"#111827",margin:0}}>Admin Sign In</h1>
-                      <p style={{color:"#6b7280",marginTop:8,fontSize:14.5}}>Authorized personnel only. Activity is monitored.</p>
-                    </div>
-                    <form onSubmit={handleLogin} style={{display:"flex",flexDirection:"column",gap:20}}>
-                      <div>
-                        <label style={{display:"block",fontSize:13,fontWeight:600,color:"#374151",marginBottom:7}}>Admin Email</label>
-                        <div style={{position:"relative"}}>
-                          <Mail size={17} color="#9ca3af" style={{position:"absolute",left:13,top:"50%",transform:"translateY(-50%)"}}/>
-                          <input className="auth-input" type="email" value={email} onChange={e=>setEmail(e.target.value)} placeholder="admin@cross-borders.org" required disabled={loading} autoComplete="email"/>
-                        </div>
-                      </div>
-                      <div>
-                        <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:7}}>
-                          <label style={{fontSize:13,fontWeight:600,color:"#374151"}}>Password</label>
-                          <button type="button" onClick={()=>setAuthMode('forgot')} style={{fontSize:13,color:"#1d4ed8",fontWeight:500,background:"none",border:"none",cursor:"pointer",padding:0}}>
-                            Forgot password?
-                          </button>
-                        </div>
-                        <div style={{position:"relative"}}>
-                          <Lock size={17} color="#9ca3af" style={{position:"absolute",left:13,top:"50%",transform:"translateY(-50%)"}}/>
-                          <input className="auth-input" type={showPw?"text":"password"} value={password} onChange={e=>setPassword(e.target.value)} placeholder="••••••••" required disabled={loading} style={{paddingRight:44}}/>
-                          <button type="button" onClick={()=>setShowPw(p=>!p)} style={{position:"absolute",right:12,top:"50%",transform:"translateY(-50%)",background:"none",border:"none",cursor:"pointer",color:"#6b7280"}}>
-                            {showPw?<EyeOff size={18}/>:<Eye size={18}/>}
-                          </button>
-                        </div>
-                      </div>
-                      <div style={{display:"flex",alignItems:"center",gap:10,padding:"12px 14px",borderRadius:10,background:"#eff6ff",border:"1px solid #bfdbfe"}}>
-                        <Shield size={15} color="#1d4ed8" style={{flexShrink:0}}/>
-                        <p style={{fontSize:12.5,color:"#1e40af",margin:0,lineHeight:1.5}}>This is a restricted area. Unauthorized access attempts are logged.</p>
-                      </div>
-                      <button type="submit" className="auth-btn admin" disabled={loading} style={{marginTop:4}}>
-                        {loading?<><Spinner/> Authenticating…</>:<><Shield size={17}/> Sign In Securely</>}
-                      </button>
-                    </form>
-                  </>
-                )}
-
-                {authMode==="forgot" && (
-                  <div>
-                    <div style={{marginBottom:28}}>
-                      <button type="button" onClick={()=>setAuthMode('login')} style={{background:"none",border:"none",cursor:"pointer",color:"#6b7280",display:"flex",alignItems:"center",gap:6,fontSize:14,padding:0,marginBottom:20}}>
-                        <ArrowLeft size={15}/> Back to sign in
-                      </button>
-                      <h1 style={{fontSize:24,fontWeight:800,color:"#111827",margin:0}}>Reset Admin Password</h1>
-                      <p style={{color:"#6b7280",marginTop:8,fontSize:14.5}}>Enter your admin email to receive a reset link.</p>
-                    </div>
-                    {forgotSent ? (
-                      <div style={{display:"flex",gap:14,padding:"20px",borderRadius:14,background:"#f0fdf4",border:"1px solid #bbf7d0"}}>
-                        <CheckCircle size={24} color="#16a34a" style={{flexShrink:0}}/>
-                        <div>
-                          <p style={{fontWeight:700,color:"#15803d",margin:0}}>Reset email sent!</p>
-                          <p style={{color:"#166534",fontSize:13.5,marginTop:5}}>Check <strong>{email}</strong> for your reset link.</p>
-                        </div>
-                      </div>
-                    ) : (
-                      <form onSubmit={handleForgotPassword} style={{display:"flex",flexDirection:"column",gap:20}}>
-                        <div>
-                          <label style={{display:"block",fontSize:13,fontWeight:600,color:"#374151",marginBottom:7}}>Admin Email</label>
-                          <div style={{position:"relative"}}>
-                            <Mail size={17} color="#9ca3af" style={{position:"absolute",left:13,top:"50%",transform:"translateY(-50%)"}}/>
-                            <input className="auth-input" type="email" value={email} onChange={e=>setEmail(e.target.value)} placeholder="admin@cross-borders.org" required disabled={loading}/>
-                          </div>
-                        </div>
-                        <button type="submit" className="auth-btn admin" disabled={loading}>
-                          {loading?<><Spinner/> Sending…</>:<><Mail size={17}/> Send Reset Link</>}
+                        <button type="submit" className="auth-btn admin" disabled={loading} style={{marginTop:12}}>
+                          {loading?<><Spinner/> <span>Registering…</span></>:<><Shield size={17}/> <span>Complete Registration</span></>}
                         </button>
                       </form>
-                    )}
-                  </div>
-                )}
+                    </>
+                  )}
+                </>
+              )}
 
-                {authMode==="register" && (
-                  <>
-                    <div style={{marginBottom:32}}>
-                      <div style={{width:52,height:52,borderRadius:14,background:"linear-gradient(135deg,#1e3a8a,#1d4ed8)",display:"flex",alignItems:"center",justifyContent:"center",marginBottom:18,boxShadow:"0 6px 20px rgba(30,58,138,.35)"}}>
-                        <Shield size={26} color="#fff"/>
-                      </div>
-                      <h1 style={{fontSize:26,fontWeight:800,color:"#111827",margin:0}}>Admin Registration</h1>
-                      <p style={{color:"#6b7280",marginTop:8,fontSize:14.5}}>Enter your unique code to register as an administrator.</p>
-                    </div>
-                    <form onSubmit={handleAdminRegister} style={{display:"flex",flexDirection:"column",gap:16}}>
-                      <div>
-                        <label style={{display:"block",fontSize:13,fontWeight:600,color:"#374151",marginBottom:7}}>Registration Code *</label>
-                        <div style={{position:"relative"}}>
-                          <KeyRound size={17} color="#9ca3af" style={{position:"absolute",left:13,top:"50%",transform:"translateY(-50%)"}}/>
-                          <input className="auth-input" type="text" value={adminCode} onChange={e=>setAdminCode(e.target.value)} placeholder="Enter unique code" required disabled={loading}/>
-                        </div>
-                      </div>
-                      <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:14}}>
-                        <div>
-                          <label style={{display:"block",fontSize:13,fontWeight:600,color:"#374151",marginBottom:6}}>First Name *</label>
-                          <div style={{position:"relative"}}>
-                            <User size={17} color="#9ca3af" style={{position:"absolute",left:13,top:"50%",transform:"translateY(-50%)"}}/>
-                            <input className="auth-input" value={firstName} onChange={e=>setFirstName(e.target.value)} placeholder="Jane" required disabled={loading}/>
-                          </div>
-                        </div>
-                        <div>
-                          <label style={{display:"block",fontSize:13,fontWeight:600,color:"#374151",marginBottom:6}}>Last Name *</label>
-                          <div style={{position:"relative"}}>
-                            <User size={17} color="#9ca3af" style={{position:"absolute",left:13,top:"50%",transform:"translateY(-50%)"}}/>
-                            <input className="auth-input" value={lastName} onChange={e=>setLastName(e.target.value)} placeholder="Doe" required disabled={loading}/>
-                          </div>
-                        </div>
-                      </div>
-                      <div>
-                        <label style={{display:"block",fontSize:13,fontWeight:600,color:"#374151",marginBottom:7}}>Email Address *</label>
-                        <div style={{position:"relative"}}>
-                          <Mail size={17} color="#9ca3af" style={{position:"absolute",left:13,top:"50%",transform:"translateY(-50%)"}}/>
-                          <input className="auth-input" type="email" value={email} onChange={e=>setEmail(e.target.value)} placeholder="admin@example.com" required disabled={loading}/>
-                        </div>
-                      </div>
-                      <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:14}}>
-                        <div>
-                          <label style={{display:"block",fontSize:13,fontWeight:600,color:"#374151",marginBottom:6}}>Password *</label>
-                          <div style={{position:"relative"}}>
-                            <Lock size={17} color="#9ca3af" style={{position:"absolute",left:13,top:"50%",transform:"translateY(-50%)"}}/>
-                            <input className="auth-input" type={showPw?"text":"password"} value={password} onChange={e=>setPassword(e.target.value)} placeholder="Min. 6 chars" required disabled={loading} style={{paddingRight:40}}/>
-                            <button type="button" onClick={()=>setShowPw(p=>!p)} style={{position:"absolute",right:10,top:"50%",transform:"translateY(-50%)",background:"none",border:"none",cursor:"pointer",color:"#6b7280"}}>
-                              {showPw?<EyeOff size={17}/>:<Eye size={17}/>}
-                            </button>
-                          </div>
-                        </div>
-                        <div>
-                          <label style={{display:"block",fontSize:13,fontWeight:600,color:"#374151",marginBottom:6}}>Confirm *</label>
-                          <div style={{position:"relative"}}>
-                            <Lock size={17} color="#9ca3af" style={{position:"absolute",left:13,top:"50%",transform:"translateY(-50%)"}}/>
-                            <input className={`auth-input${confirmPassword&&confirmPassword!==password?" error":""}`} type={showCpw?"text":"password"} value={confirmPassword} onChange={e=>setConfirmPassword(e.target.value)} placeholder="Re-enter" required disabled={loading} style={{paddingRight:40}}/>
-                            <button type="button" onClick={()=>setShowCpw(p=>!p)} style={{position:"absolute",right:10,top:"50%",transform:"translateY(-50%)",background:"none",border:"none",cursor:"pointer",color:"#6b7280"}}>
-                              {showCpw?<EyeOff size={17}/>:<Eye size={17}/>}
-                            </button>
-                          </div>
-                        </div>
-                      </div>
-                      <button type="submit" className="auth-btn admin" disabled={loading||success} style={{marginTop:8}}>
-                        {loading?<><Spinner/> Registering…</>:<><Shield size={17}/> Register as Admin</>}
-                      </button>
-                    </form>
-                  </>
-                )}
-              </>
-            )}
+            </div>
           </div>
         </div>
       </div>

@@ -27,7 +27,7 @@ export default function Fundraise() {
       icon: Trophy,
       title: "Athletic Challenge",
       description: "Run, swim, or cycle for a cause and let your network sponsor your grit.",
-      color: "bg-blue-50 text-blue-600"
+      color: "bg-sky-50 text-[#F5B800]"
     },
     {
       icon: Heart,
@@ -120,7 +120,7 @@ export default function Fundraise() {
               </div>
             </div>
             <div className="order-1 lg:order-2">
-              <h2 className="text-4xl md:text-5xl font-black text-slate-900 mb-8 leading-tight font-playfair">Multiply Your Impact Through Community.</h2>
+              <h2 className="text-4xl md:text-5xl font-black text-navy-900 mb-8 leading-tight font-playfair">Multiply Your Impact Through Community.</h2>
               <p className="text-lg text-slate-600 mb-8 leading-relaxed font-source-serif">
                 When you fundraise, you're not just giving money—you're giving a platform to the cause. You become an ambassador, educating your network and inspiring others to join the mission.
               </p>
@@ -151,7 +151,7 @@ export default function Fundraise() {
       <section id="ideas" className="py-24 bg-white">
         <div className="max-w-7xl mx-auto px-6">
           <div className="text-center mb-20">
-            <h2 className="text-4xl md:text-5xl font-black text-slate-900 mb-6 font-display font-playfair">Endless Ways to Give</h2>
+            <h2 className="text-4xl md:text-5xl font-black text-navy-900 mb-6 font-display font-playfair">Endless Ways to Give</h2>
             <p className="text-slate-500 text-lg max-w-2xl mx-auto font-source-serif">
               Whether it's a big event or a simple birthday pledge, every effort counts.
             </p>
@@ -162,12 +162,12 @@ export default function Fundraise() {
               <motion.div 
                 key={i}
                 whileHover={{ y: -8 }}
-                className="bg-white rounded-[2rem] p-8 border border-slate-100 shadow-xl shadow-slate-900/5 hover:shadow-orange-900/10 transition-all text-center flex flex-col"
+                className="bg-white rounded-[2rem] p-8 border border-slate-100 shadow-xl shadow-navy-900/5 hover:shadow-orange-900/10 transition-all text-center flex flex-col"
               >
                 <div className={`w-16 h-16 rounded-3xl flex items-center justify-center mx-auto mb-8 ${idea.color}`}>
                   <idea.icon className="w-8 h-8" />
                 </div>
-                <h3 className="text-2xl font-black text-slate-900 mb-4 font-playfair">{idea.title}</h3>
+                <h3 className="text-2xl font-black text-navy-900 mb-4 font-playfair">{idea.title}</h3>
                 <p className="text-slate-600 text-sm leading-relaxed mb-8 flex-1 font-source-serif">{idea.description}</p>
                 <a href="#start" className="text-orange-600 font-bold text-sm flex items-center justify-center gap-2 group">
                   Start this campaign <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
@@ -179,7 +179,7 @@ export default function Fundraise() {
       </section>
 
       {/* Success Tips */}
-      <section className="py-24 bg-slate-900 text-white relative overflow-hidden">
+      <section className="py-24 bg-navy-900 text-white relative overflow-hidden">
         <div className="absolute top-0 right-0 w-1/3 h-full bg-orange-500/5 blur-[100px] rounded-full" />
         <div className="max-w-7xl mx-auto px-6 relative z-10">
           <div className="text-center mb-20">
@@ -207,7 +207,7 @@ export default function Fundraise() {
               <div className="w-20 h-20 bg-orange-50 text-orange-600 rounded-[2rem] flex items-center justify-center mx-auto mb-8">
                 <Gift className="w-10 h-10" />
               </div>
-              <h2 className="text-3xl md:text-5xl font-black text-slate-900 mb-4 font-playfair">Start Your Campaign</h2>
+              <h2 className="text-3xl md:text-5xl font-black text-navy-900 mb-4 font-playfair">Start Your Campaign</h2>
               <p className="text-slate-500 text-lg font-source-serif">
                 Your page will be live and ready for donations in less than 5 minutes.
               </p>
@@ -216,13 +216,13 @@ export default function Fundraise() {
             <form className="space-y-8">
               <div className="space-y-2">
                 <label className="text-sm font-bold text-slate-700 ml-1">Campaign Title</label>
-                <input type="text" className="w-full px-6 py-4 bg-slate-50 border-2 border-transparent focus:border-orange-500 rounded-3xl focus:outline-none transition-all font-medium" placeholder="E.g. Sarah's 30th Birthday for Clean Water" />
+                <input type="text" className="w-full px-6 py-4 bg-sky-50 border-2 border-transparent focus:border-orange-500 rounded-3xl focus:outline-none transition-all font-medium" placeholder="E.g. Sarah's 30th Birthday for Clean Water" />
               </div>
 
               <div className="grid md:grid-cols-2 gap-8">
                 <div className="space-y-2">
                   <label className="text-sm font-bold text-slate-700 ml-1">Cause to Support</label>
-                  <select className="w-full px-6 py-4 bg-slate-50 border-2 border-transparent focus:border-orange-500 rounded-3xl focus:outline-none transition-all font-medium appearance-none">
+                  <select className="w-full px-6 py-4 bg-sky-50 border-2 border-transparent focus:border-orange-500 rounded-3xl focus:outline-none transition-all font-medium appearance-none">
                     <option>General Fund (Greatest Need)</option>
                     <option>Food Security Program</option>
                     <option>Education & Literacy</option>
@@ -231,13 +231,13 @@ export default function Fundraise() {
                 </div>
                 <div className="space-y-2">
                   <label className="text-sm font-bold text-slate-700 ml-1">Fundraising Goal ($)</label>
-                  <input type="number" className="w-full px-6 py-4 bg-slate-50 border-2 border-transparent focus:border-orange-500 rounded-3xl focus:outline-none transition-all font-medium" placeholder="1000" />
+                  <input type="number" className="w-full px-6 py-4 bg-sky-50 border-2 border-transparent focus:border-orange-500 rounded-3xl focus:outline-none transition-all font-medium" placeholder="1000" />
                 </div>
               </div>
 
               <div className="space-y-2">
                 <label className="text-sm font-bold text-slate-700 ml-1">Your Story</label>
-                <textarea rows={5} className="w-full px-6 py-4 bg-slate-50 border-2 border-transparent focus:border-orange-500 rounded-3xl focus:outline-none transition-all font-medium resize-none" placeholder="Share why you're passionate about this cause..." />
+                <textarea rows={5} className="w-full px-6 py-4 bg-sky-50 border-2 border-transparent focus:border-orange-500 rounded-3xl focus:outline-none transition-all font-medium resize-none" placeholder="Share why you're passionate about this cause..." />
               </div>
 
               <button type="submit" className="w-full py-5 bg-orange-500 text-white rounded-3xl font-black text-lg hover:bg-orange-600 transition-all shadow-xl shadow-orange-500/20 flex items-center justify-center gap-2">
@@ -251,15 +251,15 @@ export default function Fundraise() {
       {/* Final Call */}
       <section className="py-24 bg-orange-50 border-t border-orange-100">
         <div className="max-w-5xl mx-auto px-6 text-center">
-          <h2 className="text-4xl md:text-5xl font-black text-slate-900 mb-8 leading-tight font-playfair">Can't start a fundraiser? <br/>Every share counts.</h2>
+          <h2 className="text-4xl md:text-5xl font-black text-navy-900 mb-8 leading-tight font-playfair">Can't start a fundraiser? <br/>Every share counts.</h2>
           <p className="text-xl text-slate-500 mb-12 max-w-2xl mx-auto font-source-serif">
             Following us on social media and sharing our stories is a powerful way to help us reach new supporters.
           </p>
           <div className="flex justify-center gap-6">
-            <a href="/donate" className="px-10 py-5 bg-slate-900 text-white rounded-3xl font-bold hover:bg-slate-800 transition-all shadow-xl flex items-center justify-center gap-2">
+            <a href="/donate" className="px-10 py-5 bg-navy-900 text-white rounded-3xl font-bold hover:bg-navy-800 transition-all shadow-xl flex items-center justify-center gap-2">
               Make a Direct Gift <Heart className="w-5 h-5 fill-current" />
             </a>
-            <a href="/stories" className="px-10 py-5 bg-white border-2 border-slate-200 text-slate-900 rounded-3xl font-bold hover:border-orange-500 hover:text-orange-600 transition-all flex items-center justify-center gap-2">
+            <a href="/stories" className="px-10 py-5 bg-white border-2 border-slate-200 text-navy-900 rounded-3xl font-bold hover:border-orange-500 hover:text-orange-600 transition-all flex items-center justify-center gap-2">
               Read Impact Stories <ChevronRight className="w-5 h-5" />
             </a>
           </div>

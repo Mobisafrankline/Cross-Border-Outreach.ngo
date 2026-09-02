@@ -39,22 +39,22 @@ export default function CompanyNewsArticle() {
   if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-white">
-        <Loader2 className="w-12 h-12 animate-spin text-blue-600" />
+        <Loader2 className="w-12 h-12 animate-spin text-[#F5B800]" />
       </div>
     );
   }
 
   if (notFound || !article) {
     return (
-      <div className="min-h-screen flex flex-col items-center justify-center p-6 bg-slate-50">
+      <div className="min-h-screen flex flex-col items-center justify-center p-6 bg-sky-50">
         <div className="w-24 h-24 bg-rose-100 text-rose-600 rounded-3xl flex items-center justify-center mb-6">
           <Info className="w-12 h-12" />
         </div>
-        <h1 className="text-3xl font-black text-slate-900 mb-4 font-playfair">Article Not Found</h1>
+        <h1 className="text-3xl font-black text-navy-900 mb-4 font-playfair">Article Not Found</h1>
         <p className="text-slate-600 mb-8 text-center max-w-md font-source-serif">
           The news article you are looking for might have been removed or does not exist.
         </p>
-        <button onClick={() => navigate("/company-news")} className="px-8 py-3 bg-blue-600 text-white rounded-3xl font-bold shadow-lg hover:bg-blue-700 transition-all">
+        <button onClick={() => navigate("/company-news")} className="px-8 py-3 bg-[#F5B800] text-white rounded-3xl font-bold shadow-lg hover:bg-[#032B45] transition-all">
           Back to Company News
         </button>
       </div>
@@ -67,12 +67,12 @@ export default function CompanyNewsArticle() {
       <div className="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-gray-100">
         <div className="max-w-4xl mx-auto px-6 h-16 flex items-center justify-between">
           <button onClick={() => navigate("/company-news")}
-            className="flex items-center gap-2 text-slate-500 hover:text-blue-600 font-black text-[10px] uppercase tracking-widest transition-colors group">
+            className="flex items-center gap-2 text-slate-500 hover:text-[#F5B800] font-black text-[10px] uppercase tracking-widest transition-colors group">
             <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />
             Back to News
           </button>
           <div className="flex items-center gap-4">
-            <button className="p-2 text-gray-400 hover:text-blue-600 transition-colors"
+            <button className="p-2 text-gray-400 hover:text-[#F5B800] transition-colors"
               onClick={() => { navigator.clipboard.writeText(window.location.href); }}>
               <Share2 className="w-5 h-5" />
             </button>
@@ -83,10 +83,10 @@ export default function CompanyNewsArticle() {
       <article className="max-w-3xl mx-auto px-6 py-12 md:py-20">
         <div className="mb-10 text-center">
           <div className="flex items-center justify-center gap-2 mb-6">
-            <Tag className="w-4 h-4 text-blue-600" />
-            <span className="text-[10px] font-black uppercase tracking-widest text-blue-600">{article.category || 'Announcement'}</span>
+            <Tag className="w-4 h-4 text-[#F5B800]" />
+            <span className="text-[10px] font-black uppercase tracking-widest text-[#F5B800]">{article.category || 'Announcement'}</span>
           </div>
-          <h1 className="text-4xl md:text-5xl font-black text-slate-900 mb-8 leading-tight tracking-tight font-playfair drop-shadow-sm">
+          <h1 className="text-4xl md:text-5xl font-black text-navy-900 mb-8 leading-tight tracking-tight font-playfair drop-shadow-sm">
             {article.title}
           </h1>
           <div className="flex items-center justify-center gap-6 text-xs font-bold uppercase tracking-widest text-slate-500">
@@ -107,7 +107,7 @@ export default function CompanyNewsArticle() {
           </div>
         )}
 
-        <div className="prose prose-slate prose-lg md:prose-xl max-w-none prose-headings:font-black prose-headings:font-playfair prose-a:text-blue-600 hover:prose-a:text-blue-800 font-source-serif leading-loose">
+        <div className="prose prose-slate prose-lg md:prose-xl max-w-none prose-headings:font-black prose-headings:font-playfair prose-a:text-[#F5B800] hover:prose-a:text-navy-800 font-source-serif leading-loose">
           {(article.content || article.excerpt || '').split('\n').map((paragraph: string, idx: number) => {
             if (!paragraph.trim()) return null;
             return <p key={idx} dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(paragraph) }} />;
@@ -116,10 +116,10 @@ export default function CompanyNewsArticle() {
       </article>
       
       {/* Footer CTA */}
-      <section className="bg-slate-50 border-t border-slate-200 py-16">
+      <section className="bg-sky-50 border-t border-slate-200 py-16">
         <div className="max-w-3xl mx-auto px-6 text-center">
-          <h2 className="text-2xl font-black text-slate-900 mb-8 font-playfair">Stay updated with our latest news</h2>
-          <Link to="/company-news" className="inline-flex items-center gap-2 px-8 py-4 bg-blue-600 hover:bg-blue-700 text-white rounded-3xl font-black uppercase tracking-widest transition-colors shadow-lg shadow-blue-600/30 text-[10px]">
+          <h2 className="text-2xl font-black text-navy-900 mb-8 font-playfair">Stay updated with our latest news</h2>
+          <Link to="/company-news" className="inline-flex items-center gap-2 px-8 py-4 bg-[#F5B800] hover:bg-[#032B45] text-white rounded-3xl font-black uppercase tracking-widest transition-colors shadow-lg shadow-[#F5B800]/30 text-[10px]">
             Read More Articles
           </Link>
         </div>

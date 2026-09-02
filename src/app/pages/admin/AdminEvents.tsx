@@ -53,17 +53,17 @@ export default function AdminEvents() {
   };
 
   return (
-    <div className="flex-1 bg-slate-50 pb-12">
+    <div className="flex-1 bg-sky-50 pb-12">
       <div className="bg-white border-b border-slate-200">
         <div className="max-w-7xl mx-auto px-6 py-8">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
             <div>
-              <h1 className="text-3xl font-bold text-slate-900 font-playfair">Manage Events</h1>
+              <h1 className="text-3xl font-bold text-navy-900 font-playfair">Manage Events</h1>
               <p className="text-slate-500 font-medium mt-1">View, edit, or delete upcoming and past events.</p>
             </div>
             <Link
               to="/admin/events/new"
-              className="px-6 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-xl font-bold transition-colors flex items-center justify-center gap-2"
+              className="px-6 py-2 bg-[#F5B800] hover:bg-[#032B45] text-white rounded-xl font-bold transition-colors flex items-center justify-center gap-2"
             >
               <Plus className="w-5 h-5" /> Add Event
             </Link>
@@ -81,7 +81,7 @@ export default function AdminEvents() {
 
         {loading ? (
           <div className="flex items-center justify-center py-20">
-            <Loader2 className="w-10 h-10 text-blue-600 animate-spin" />
+            <Loader2 className="w-10 h-10 text-[#F5B800] animate-spin" />
           </div>
         ) : (
           <div className="bg-white rounded-3xl shadow-sm border border-slate-200 overflow-hidden">
@@ -95,7 +95,7 @@ export default function AdminEvents() {
               <div className="overflow-x-auto">
                 <table className="w-full text-left border-collapse">
                   <thead>
-                    <tr className="bg-slate-50 border-b border-slate-200 text-sm uppercase tracking-wider text-slate-500 font-bold">
+                    <tr className="bg-sky-50 border-b border-slate-200 text-sm uppercase tracking-wider text-slate-500 font-bold">
                       <th className="px-6 py-4">Title</th>
                       <th className="px-6 py-4">Event Date</th>
                       <th className="px-6 py-4">Location</th>
@@ -105,9 +105,9 @@ export default function AdminEvents() {
                   </thead>
                   <tbody className="divide-y divide-slate-100">
                     {events.map((item) => (
-                      <tr key={item.id} className="hover:bg-slate-50/50 transition-colors">
+                      <tr key={item.id} className="hover:bg-sky-50/50 transition-colors">
                         <td className="px-6 py-4">
-                          <div className="font-bold text-slate-900">{item.title}</div>
+                          <div className="font-bold text-navy-900">{item.title}</div>
                         </td>
                         <td className="px-6 py-4 text-sm text-slate-600 font-medium">
                           {item.event_date || "TBD"}
@@ -126,7 +126,7 @@ export default function AdminEvents() {
                           <div className="flex justify-end gap-2">
                             <Link
                               to={`/admin/content/${item.id}/edit`}
-                              className="p-2 text-blue-600 hover:bg-blue-50 rounded-lg transition-colors"
+                              className="p-2 text-[#F5B800] hover:bg-sky-50 rounded-lg transition-colors"
                               title="Edit"
                             >
                               <Edit className="w-4 h-4" />
