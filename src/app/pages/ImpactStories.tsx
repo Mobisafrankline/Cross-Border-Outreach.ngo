@@ -219,9 +219,9 @@ export default function ImpactStories() {
               )}
 
               {/* Author byline */}
-              <div className="flex items-center justify-between py-5 border-y border-slate-200 mb-10">
+              <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 py-5 border-y border-slate-200 mb-10">
                 <div className="flex items-center gap-3">
-                  <div className="w-11 h-11 rounded-full bg-[#032B45] flex items-center justify-center text-white text-base font-bold">
+                  <div className="w-11 h-11 rounded-full bg-[#032B45] flex items-center justify-center text-white text-base font-bold shrink-0">
                     {selectedStory.author ? selectedStory.author.charAt(0).toUpperCase() : "C"}
                   </div>
                   <div>
@@ -231,7 +231,7 @@ export default function ImpactStories() {
                     </div>
                   </div>
                 </div>
-                <div className="flex items-center gap-2">
+                <div className="flex items-center gap-4 sm:gap-2 self-end sm:self-auto w-full sm:w-auto justify-between sm:justify-end">
                   {selectedStory.location && (
                     <span className="flex items-center gap-1.5 text-xs text-slate-500 font-semibold">
                       <MapPin className="w-3.5 h-3.5 text-[#F5B800]" /> {selectedStory.location}
@@ -239,7 +239,7 @@ export default function ImpactStories() {
                   )}
                   <button
                     onClick={() => { navigator.clipboard.writeText(window.location.href); alert("Link copied!"); }}
-                    className="w-9 h-9 rounded-full border border-slate-200 hover:border-blue-400 flex items-center justify-center transition-colors text-slate-400 hover:text-[#F5B800]"
+                    className="w-9 h-9 rounded-full border border-slate-200 hover:border-blue-400 flex items-center justify-center transition-colors text-slate-400 hover:text-[#F5B800] shrink-0"
                   >
                     <Share2 className="w-4 h-4" />
                   </button>
@@ -277,18 +277,18 @@ export default function ImpactStories() {
               />
 
               {/* Pagination Controls */}
-              <div className="flex items-center justify-between border-t border-slate-200 py-10 mt-12">
+              <div className="flex flex-col sm:flex-row items-center justify-between gap-6 border-t border-slate-200 py-10 mt-12 w-full">
                 <button
                   onClick={handlePrevious}
                   disabled={currentIndex <= 0}
-                  className="flex items-center gap-2 text-slate-500 hover:text-[#F5B800] font-bold uppercase tracking-widest text-sm disabled:opacity-30 disabled:cursor-not-allowed transition-colors group"
+                  className="flex items-center justify-center gap-2 text-slate-500 hover:text-[#F5B800] font-bold uppercase tracking-widest text-sm disabled:opacity-30 disabled:cursor-not-allowed transition-colors group w-full sm:w-auto"
                 >
                   <ArrowRight className="w-5 h-5 rotate-180 group-hover:-translate-x-1 transition-transform" /> Previous Story
                 </button>
                 <button
                   onClick={handleNext}
                   disabled={currentIndex >= allStories.length - 1}
-                  className="flex items-center gap-2 text-slate-500 hover:text-[#F5B800] font-bold uppercase tracking-widest text-sm disabled:opacity-30 disabled:cursor-not-allowed transition-colors group"
+                  className="flex items-center justify-center gap-2 text-slate-500 hover:text-[#F5B800] font-bold uppercase tracking-widest text-sm disabled:opacity-30 disabled:cursor-not-allowed transition-colors group w-full sm:w-auto"
                 >
                   Next Story <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
                 </button>
@@ -299,14 +299,14 @@ export default function ImpactStories() {
                 <Link
                   to="/donate"
                   onClick={() => setSelectedStory(null)}
-                  className="flex-1 sm:flex-none inline-flex items-center justify-center gap-3 px-10 py-5 bg-[#F5B800] hover:bg-[#032B45] text-white rounded-3xl font-black text-sm uppercase tracking-widest transition-all shadow-xl shadow-[#F5B800]/30"
+                  className="w-full sm:w-auto flex-1 sm:flex-none inline-flex items-center justify-center gap-3 px-8 sm:px-10 py-5 bg-[#F5B800] hover:bg-[#032B45] text-white rounded-3xl font-black text-sm uppercase tracking-widest transition-all shadow-xl shadow-[#F5B800]/30 text-center"
                 >
-                  <Heart className="w-5 h-5 fill-white" /> Support This Cause
+                  <Heart className="w-5 h-5 fill-white shrink-0" /> Support This Cause
                 </Link>
                 <Link
                   to="/opportunities"
                   onClick={() => setSelectedStory(null)}
-                  className="flex-1 sm:flex-none inline-flex items-center justify-center gap-3 px-10 py-5 bg-slate-100 hover:bg-slate-200 text-navy-800 rounded-3xl font-black text-sm uppercase tracking-widest transition-all"
+                  className="w-full sm:w-auto flex-1 sm:flex-none inline-flex items-center justify-center gap-3 px-8 sm:px-10 py-5 bg-slate-100 hover:bg-slate-200 text-navy-800 rounded-3xl font-black text-sm uppercase tracking-widest transition-all text-center"
                 >
                   Volunteer With Us
                 </Link>
