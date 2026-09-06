@@ -318,7 +318,7 @@ export default function AuthPortal() {
               <>
                 <h2 style={{fontSize:36,fontWeight:800,lineHeight:1.15,marginBottom:18,fontFamily:"'Playfair Display', Georgia, serif"}}>
                   {authMode==="login" ? "Welcome back," : "Make a difference"}<br />
-                  <span style={{background:"linear-gradient(90deg, #F5B800, #FFD13B)",WebkitBackgroundClip:"text",WebkitTextFillColor:"transparent"}}>
+                  <span style={{background:"linear-gradient(90deg, #F5B800, #FFD13B)",backgroundClip:"text",WebkitBackgroundClip:"text",color:"transparent",WebkitTextFillColor:"transparent"}}>
                     {authMode==="login" ? "generous donor." : "starting today."}
                   </span>
                 </h2>
@@ -350,7 +350,7 @@ export default function AuthPortal() {
                     ].map(s => (
                       <div className="auth-highlight" key={s.label} style={{justifyContent:"space-between",padding:"20px"}}>
                         <span style={{opacity:.8,fontSize:14.5}}>{s.label}</span>
-                        <span style={{fontWeight:800,fontSize:22,background:"linear-gradient(135deg, #F5B800, #FFD13B)",WebkitBackgroundClip:"text",WebkitTextFillColor:"transparent"}}>{s.value}</span>
+                        <span style={{fontWeight:800,fontSize:22,background:"linear-gradient(135deg, #F5B800, #FFD13B)",backgroundClip:"text",WebkitBackgroundClip:"text",color:"transparent",WebkitTextFillColor:"transparent"}}>{s.value}</span>
                       </div>
                     ))}
                   </div>
@@ -360,7 +360,7 @@ export default function AuthPortal() {
               <>
                 <h2 style={{fontSize:36,fontWeight:800,lineHeight:1.15,marginBottom:18,fontFamily:"'Playfair Display', Georgia, serif"}}>
                   Administration<br/>
-                  <span style={{background:"linear-gradient(90deg, #F5B800, #FFD13B, #F5B800)",backgroundSize:"200% 200%",WebkitBackgroundClip:"text",WebkitTextFillColor:"transparent"}}>
+                  <span style={{background:"linear-gradient(90deg, #F5B800, #FFD13B, #F5B800)",backgroundSize:"200% 200%",backgroundClip:"text",WebkitBackgroundClip:"text",color:"transparent",WebkitTextFillColor:"transparent"}}>
                     Command Center
                   </span>
                 </h2>
@@ -402,7 +402,7 @@ export default function AuthPortal() {
               )}
             </div>
 
-            {/* Portal toggle */}
+            {/* Portal toggle hidden as requested 
             <div className="type-tabs">
               <div className={`type-tab ${portalType==='donor'?'active':''}`} onClick={()=>setPortalType('donor')}>
                 <Heart size={16}/> Donor Portal
@@ -411,6 +411,7 @@ export default function AuthPortal() {
                 <Shield size={16}/> Admin Portal
               </div>
             </div>
+            */}
 
             {/* Form Card */}
             <div style={{background:"#fff",borderRadius:24,border:"1px solid rgba(0,0,0,0.06)",boxShadow:"0 8px 32px rgba(3,43,69,0.06), 0 24px 60px rgba(3,43,69,0.04)",padding:"40px 36px",position:"relative",overflow:"hidden"}}>

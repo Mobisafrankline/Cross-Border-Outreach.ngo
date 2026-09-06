@@ -87,7 +87,7 @@ function RotatingText() {
         transition: "opacity 0.35s ease, transform 0.35s ease",
         opacity: fade ? 1 : 0,
         transform: fade ? "translateY(0)" : "translateY(12px)",
-        color: "#F5B800",
+        color: "#032B45",
       }}
     >
       {heroRotatingPhrases[index]}
