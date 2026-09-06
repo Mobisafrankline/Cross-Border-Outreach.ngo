@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { FileText, Download, DollarSign, Users, BarChart3, Lock, Loader2, X, AlertCircle, Calendar, ClipboardList, Clock, Shield, Heart, ArrowRight } from "lucide-react";
+import { FileText, Download, DollarSign, Users, BarChart3, Lock, Loader2, X, AlertCircle, Calendar, ClipboardList, Clock, Shield, Heart, ArrowRight, ChevronLeft, ChevronRight } from "lucide-react";
 import { ImageWithFallback } from "../components/figma/ImageWithFallback";
 import { getReports, verifyReportAccessCode } from "../../lib/supabase";
 import type { Report } from "../../lib/supabase";
@@ -21,6 +21,8 @@ export default function Reports() {
   const [activeCategory, setActiveCategory] = useState<ReportCategory>("all");
   const [reports, setReports] = useState<Report[]>([]);
   const [loading, setLoading] = useState(true);
+  const [currentPage, setCurrentPage] = useState(1);
+  const REPORTS_PER_PAGE = 4;
 
   // Access code modal state
   const [codeModalOpen, setCodeModalOpen] = useState(false);
@@ -45,6 +47,12 @@ export default function Reports() {
   const filteredReports = activeCategory === "all"
     ? reports
     : reports.filter((r) => r.category === activeCategory);
+
+  const totalPages = Math.ceil(filteredReports.length / REPORTS_PER_PAGE);
+  const paginatedReports = filteredReports.slice(
+    (currentPage - 1) * REPORTS_PER_PAGE,
+    currentPage * REPORTS_PER_PAGE
+  );
 
   const handleReportClick = (report: Report) => {
     if (report.category === "financial" && report.access_code) {
@@ -164,7 +172,7 @@ export default function Reports() {
               return (
                 <button
                   key={key}
-                  onClick={() => setActiveCategory(key as ReportCategory)}
+                  onClick={() => { setActiveCategory(key as ReportCategory); setCurrentPage(1); }}
                   className={`flex items-center gap-2 px-5 py-3 rounded-3xl font-bold text-xs uppercase tracking-widest transition-all ${activeCategory === key
                       ? "bg-[#F5B800] text-white shadow-xl shadow-[#F5B800]/20"
                       : "bg-gray-50 text-gray-500 hover:bg-gray-100 border border-gray-100"
@@ -186,85 +194,122 @@ export default function Reports() {
               </div>
             </div>
           ) : filteredReports.length > 0 ? (
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              {filteredReports.map((report, index) => (
-                <motion.div
-                  key={report.id}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.4, delay: index * 0.05 }}
-                  className="group bg-white rounded-[2rem] border border-gray-100 hover:border-blue-100 hover:shadow-2xl transition-all duration-500 overflow-hidden"
-                >
-                  <div className="p-8">
-                    <div className="flex items-start gap-5">
-                      <div className={`w-14 h-14 ${getCategoryIconBg(report.category)} rounded-3xl flex items-center justify-center flex-shrink-0 shadow-lg`}>
-                        {getCategoryIcon(report.category)}
-                      </div>
+            <div>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                {paginatedReports.map((report, index) => (
+                  <motion.div
+                    key={report.id}
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.4, delay: index * 0.05 }}
+                    className="group bg-white rounded-[2rem] border border-gray-100 hover:border-blue-100 hover:shadow-2xl transition-all duration-500 overflow-hidden"
+                  >
+                    <div className="p-8">
+                      <div className="flex items-start gap-5">
+                        <div className={`w-14 h-14 ${getCategoryIconBg(report.category)} rounded-3xl flex items-center justify-center flex-shrink-0 shadow-lg`}>
+                          {getCategoryIcon(report.category)}
+                        </div>
 
-                      <div className="flex-1 min-w-0">
-                        <div className="flex items-center gap-2 flex-wrap mb-2">
-                          <h3 className="text-lg font-black text-navy-900 group-hover:text-[#F5B800] transition-colors line-clamp-1 font-playfair">
-                            {report.title}
-                          </h3>
-                          {report.category === "financial" && report.access_code && (
-                            <span className="inline-flex items-center gap-1 px-2.5 py-1 bg-rose-50 text-rose-600 text-[10px] font-black uppercase tracking-widest rounded-lg border border-rose-100">
-                              <Lock className="w-3 h-3" /> Protected
+                        <div className="flex-1 min-w-0">
+                          <div className="flex items-center gap-2 flex-wrap mb-2">
+                            <h3 className="text-lg font-black text-navy-900 group-hover:text-[#F5B800] transition-colors line-clamp-1 font-playfair">
+                              {report.title}
+                            </h3>
+                            {report.category === "financial" && report.access_code && (
+                              <span className="inline-flex items-center gap-1 px-2.5 py-1 bg-rose-50 text-rose-600 text-[10px] font-black uppercase tracking-widest rounded-lg border border-rose-100">
+                                <Lock className="w-3 h-3" /> Protected
+                              </span>
+                            )}
+                          </div>
+
+                          <div className="flex flex-wrap items-center gap-2 text-sm text-gray-400 mb-3">
+                            {report.year && <span className="font-bold">{report.year}</span>}
+                            {report.year && <span>•</span>}
+                            <span className={`px-2.5 py-0.5 rounded-lg text-[10px] font-black uppercase tracking-widest ${getCategoryBadgeColor(report.category)}`}>
+                              {report.category}
                             </span>
+                            {report.file_size && (
+                              <>
+                                <span>•</span>
+                                <span className="font-medium">{report.file_size}</span>
+                              </>
+                            )}
+                            {report.page_count > 0 && (
+                              <>
+                                <span>•</span>
+                                <span className="font-medium">{report.page_count} pages</span>
+                              </>
+                            )}
+                          </div>
+
+                          {report.description && (
+                            <p className="text-sm text-gray-500 line-clamp-2 italic leading-relaxed font-source-serif">
+                              {report.description}
+                            </p>
                           )}
                         </div>
+                      </div>
 
-                        <div className="flex flex-wrap items-center gap-2 text-sm text-gray-400 mb-3">
-                          {report.year && <span className="font-bold">{report.year}</span>}
-                          {report.year && <span>•</span>}
-                          <span className={`px-2.5 py-0.5 rounded-lg text-[10px] font-black uppercase tracking-widest ${getCategoryBadgeColor(report.category)}`}>
-                            {report.category}
-                          </span>
-                          {report.file_size && (
+                      <div className="mt-6 pt-6 border-t border-gray-50">
+                        <button
+                          onClick={() => handleReportClick(report)}
+                          className={`w-full px-6 py-4 rounded-3xl flex items-center justify-center gap-3 font-black text-[10px] uppercase tracking-widest transition-all ${report.category === "financial" && report.access_code
+                              ? "bg-rose-50 text-rose-600 hover:bg-rose-100 border border-rose-100"
+                              : "bg-gray-50 text-gray-700 hover:bg-sky-50 hover:text-[#F5B800] border border-gray-100"
+                            }`}
+                        >
+                          {report.category === "financial" && report.access_code ? (
                             <>
-                              <span>•</span>
-                              <span className="font-medium">{report.file_size}</span>
+                              <Lock className="w-4 h-4" />
+                              Enter Access Code
+                            </>
+                          ) : (
+                            <>
+                              <Download className="w-4 h-4" />
+                              Download Report
                             </>
                           )}
-                          {report.page_count > 0 && (
-                            <>
-                              <span>•</span>
-                              <span className="font-medium">{report.page_count} pages</span>
-                            </>
-                          )}
-                        </div>
-
-                        {report.description && (
-                          <p className="text-sm text-gray-500 line-clamp-2 italic leading-relaxed font-source-serif">
-                            {report.description}
-                          </p>
-                        )}
+                        </button>
                       </div>
                     </div>
+                  </motion.div>
+                ))}
+              </div>
 
-                    <div className="mt-6 pt-6 border-t border-gray-50">
-                      <button
-                        onClick={() => handleReportClick(report)}
-                        className={`w-full px-6 py-4 rounded-3xl flex items-center justify-center gap-3 font-black text-[10px] uppercase tracking-widest transition-all ${report.category === "financial" && report.access_code
-                            ? "bg-rose-50 text-rose-600 hover:bg-rose-100 border border-rose-100"
-                            : "bg-gray-50 text-gray-700 hover:bg-sky-50 hover:text-[#F5B800] border border-gray-100"
-                          }`}
-                      >
-                        {report.category === "financial" && report.access_code ? (
-                          <>
-                            <Lock className="w-4 h-4" />
-                            Enter Access Code
-                          </>
-                        ) : (
-                          <>
-                            <Download className="w-4 h-4" />
-                            Download Report
-                          </>
-                        )}
-                      </button>
-                    </div>
-                  </div>
-                </motion.div>
-              ))}
+              {/* Pagination Controls */}
+              {totalPages > 1 && (
+                <div className="flex justify-center items-center gap-2 mt-12">
+                  <button
+                    onClick={() => setCurrentPage(p => Math.max(1, p - 1))}
+                    disabled={currentPage === 1}
+                    className="w-10 h-10 rounded-full border border-gray-200 flex items-center justify-center text-gray-500 hover:bg-gray-50 hover:text-navy-900 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
+                  >
+                    <ChevronLeft className="w-5 h-5" />
+                  </button>
+                  
+                  {Array.from({ length: totalPages }).map((_, i) => (
+                    <button
+                      key={i}
+                      onClick={() => setCurrentPage(i + 1)}
+                      className={`w-10 h-10 rounded-full flex items-center justify-center font-bold text-sm transition-all ${
+                        currentPage === i + 1 
+                          ? "bg-[#F5B800] text-white shadow-lg shadow-[#F5B800]/20" 
+                          : "border border-gray-200 text-gray-500 hover:bg-gray-50 hover:text-navy-900"
+                      }`}
+                    >
+                      {i + 1}
+                    </button>
+                  ))}
+
+                  <button
+                    onClick={() => setCurrentPage(p => Math.min(totalPages, p + 1))}
+                    disabled={currentPage === totalPages}
+                    className="w-10 h-10 rounded-full border border-gray-200 flex items-center justify-center text-gray-500 hover:bg-gray-50 hover:text-navy-900 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
+                  >
+                    <ChevronRight className="w-5 h-5" />
+                  </button>
+                </div>
+              )}
             </div>
           ) : (
             <div className="text-center py-24 bg-gray-50 rounded-3xl border-2 border-dashed border-gray-200">
