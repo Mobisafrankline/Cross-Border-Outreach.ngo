@@ -115,5 +115,12 @@ export default function Blog() {
     );
   }
 
-  return <MagazineLayout categories={categories} articles={articles} />;
+  return (
+    <MagazineLayout 
+      pageTitle="Our Blog"
+      pageDescription="Insights, stories, and updates from the field. Discover how our programs are making a difference every day."
+      categories={categories} 
+      articles={articles} 
+    />
+  );
 }

@@ -60,5 +60,12 @@ export default function CompanyNews() {
     );
   }
 
-  return <MagazineLayout categories={categories} articles={news} />;
+  return (
+    <MagazineLayout 
+      pageTitle="Company News"
+      pageDescription="Stay up-to-date with our latest announcements, press releases, and organizational updates."
+      categories={categories} 
+      articles={news} 
+    />
+  );
 }

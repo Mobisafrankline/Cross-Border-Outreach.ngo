@@ -9,6 +9,8 @@ import { supabase } from "../../lib/supabase";
 import { galleryImages, events } from "../../data/content";
 import { useTranslation } from "react-i18next";
 import heroImage from "../../assets/hero.jpeg";
+import heroImage1 from "../../assets/3.jpeg";
+import heroImage2 from "../../assets/4.jpeg";
 import Autoplay from "embla-carousel-autoplay";
 import {
   Carousel,
@@ -101,13 +103,13 @@ function StatCard({ value, suffix = '', label, icon, trigger }: {
   const count = useCountUp(value, 2000, trigger);
   return (
     <div className="flex flex-col items-center justify-center text-center px-2 sm:px-4">
-      <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-white/10 flex items-center justify-center text-gold-400 mb-2 sm:mb-4 border border-white/20">
+      <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-white/10 flex items-center justify-center text-gold-400 mb-1 sm:mb-2 border border-white/20">
         {icon}
       </div>
-      <div className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-white mb-1 sm:mb-2 tracking-tight">
+      <div className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-white mb-0.5 sm:mb-1 tracking-tight">
         {count.toLocaleString()}{suffix}
       </div>
-      <div className="text-xs sm:text-sm font-bold tracking-widest uppercase text-sky-100">
+      <div className="text-[10px] sm:text-xs font-bold tracking-widest uppercase text-sky-100">
         {label}
       </div>
     </div>
@@ -234,7 +236,7 @@ export default function Home() {
     <div className="min-h-screen">
 
       {/* ── GABRIEL STYLE HERO ── */}
-      <section className="relative min-h-[90vh] flex items-center pt-32 pb-16 lg:pt-32 lg:pb-24 bg-gradient-to-br from-navy-900 via-[#0a2540] to-sky-900 overflow-hidden">
+      <section className="relative flex items-center pt-24 pb-8 lg:pt-28 lg:pb-8 bg-gradient-to-br from-navy-900 via-[#0a2540] to-sky-900 overflow-hidden">
         {/* Subtle pattern overlay */}
         <div className="absolute inset-0 opacity-10 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] mix-blend-overlay"></div>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 w-full">
@@ -247,7 +249,7 @@ export default function Home() {
                 <RotatingText />
               </div>
               
-              <h1 className="text-4xl sm:text-5xl lg:text-7xl font-extrabold tracking-tight text-white mb-6 leading-[1.15] lg:leading-[1.1] animate-[fade-in-up_1s_ease-out]">
+              <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight text-white mb-4 sm:mb-6 leading-[1.15] lg:leading-[1.1] animate-[fade-in-up_1s_ease-out]">
                 {t('home.heroTitle')}
               </h1>
               
@@ -273,10 +275,18 @@ export default function Home() {
               </div>
             </div>
 
-            {/* Right: Solid Image */}
-            <div className="relative animate-[fade-in-up_1.2s_ease-out] hidden lg:block">
-              <div className="relative rounded-2xl overflow-hidden shadow-2xl border-4 border-white/10 aspect-[4/5] lg:aspect-auto lg:h-[600px]">
+            {/* Right: Solid Image with Side Images */}
+            <div className="relative animate-[fade-in-up_1.2s_ease-out] hidden lg:flex gap-4 items-center">
+              <div className="relative rounded-2xl overflow-hidden shadow-2xl border-4 border-white/10 flex-[2] aspect-[4/5] lg:aspect-auto lg:h-[250px]">
                 <ImageWithFallback src={heroImage} alt="Main" className="w-full h-full object-cover" />
+              </div>
+              <div className="flex flex-col gap-4 flex-1 h-[250px]">
+                <div className="relative rounded-2xl overflow-hidden shadow-2xl border-4 border-white/10 h-1/2">
+                  <ImageWithFallback src={heroImage1} alt="Side 1" className="w-full h-full object-cover" />
+                </div>
+                <div className="relative rounded-2xl overflow-hidden shadow-2xl border-4 border-white/10 h-1/2">
+                  <ImageWithFallback src={heroImage2} alt="Side 2" className="w-full h-full object-cover" />
+                </div>
               </div>
             </div>
             
@@ -292,7 +302,7 @@ export default function Home() {
       </section>
 
       {/* ── STATS ── */}
-      <section className="bg-sky-600 py-10 md:py-16 border-y-4 border-sky-700" ref={statsRef}>
+      <section className="bg-sky-600 py-2 md:py-4 border-y-4 border-sky-700" ref={statsRef}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 relative z-10">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-y-8 gap-x-4 md:gap-0 md:divide-x-2 md:divide-white/10">
             <StatCard value={10055} suffix="+" label="Individuals Served" icon={<Users className="w-5 h-5" />} trigger={statsVisible} />

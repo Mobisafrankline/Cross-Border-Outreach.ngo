@@ -18,9 +18,11 @@ export interface MagazineArticle {
 export interface MagazineLayoutProps {
   categories: string[];
   articles: MagazineArticle[];
+  pageTitle?: string;
+  pageDescription?: string;
 }
 
-export default function MagazineLayout({ categories, articles }: MagazineLayoutProps) {
+export default function MagazineLayout({ categories, articles, pageTitle, pageDescription }: MagazineLayoutProps) {
   const [activeCategory, setActiveCategory] = useState("All");
 
   const filteredArticles = activeCategory === "All"
@@ -47,6 +49,28 @@ export default function MagazineLayout({ categories, articles }: MagazineLayoutP
 
   return (
     <div className="bg-[#f8f9fa] min-h-screen pb-20">
+      
+      {/* Hero Header Section */}
+      {(pageTitle || pageDescription) && (
+        <div className="bg-navy-900 pt-28 pb-16 lg:pt-36 lg:pb-20 px-4 md:px-6 relative overflow-hidden">
+          <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-[#0a2540] rounded-full blur-[100px] -translate-y-1/2 translate-x-1/3 opacity-80" />
+          <div className="absolute bottom-0 left-0 w-[300px] h-[300px] bg-sky-900 rounded-full blur-[80px] translate-y-1/2 -translate-x-1/3 opacity-60" />
+          
+          <div className="max-w-4xl mx-auto relative z-10 text-center animate-[fade-in-up_0.8s_ease-out]">
+            {pageTitle && (
+              <h1 className="text-4xl md:text-5xl lg:text-7xl font-playfair font-black text-white mb-6 tracking-tight drop-shadow-md">
+                {pageTitle}
+              </h1>
+            )}
+            {pageDescription && (
+              <p className="text-lg md:text-xl text-sky-100 max-w-2xl mx-auto font-source-serif leading-relaxed">
+                {pageDescription}
+              </p>
+            )}
+          </div>
+        </div>
+      )}
+
       {/* Category Nav */}
       <div className="bg-white border-b border-slate-200/60 sticky top-16 md:top-[72px] z-30 shadow-sm">
         <div className="max-w-7xl mx-auto px-4 md:px-6">
@@ -67,228 +91,268 @@ export default function MagazineLayout({ categories, articles }: MagazineLayoutP
       </div>
 
       <div className="max-w-7xl mx-auto px-4 md:px-6 py-12">
-        {/* Top Section */}
-        {featured && (
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 mb-16">
-            
-            {/* Featured Article */}
-            <div className="lg:col-span-8">
-              <ArticleWrapper article={featured} className="group block relative h-[450px] md:h-[600px] rounded-3xl overflow-hidden shadow-xl hover:shadow-2xl hover:-translate-y-1 transition-all duration-500">
-                <ImageWithFallback src={featured.image} alt={featured.title} className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105" />
-                <div className="absolute inset-0 bg-gradient-to-t from-slate-900/90 via-slate-900/40 to-transparent" />
-                <div className="absolute inset-0 ring-1 ring-inset ring-white/10 rounded-3xl" />
-                <div className="absolute bottom-0 left-0 right-0 p-8 md:p-12">
-                  <span className="inline-block px-4 py-1.5 bg-[#F5B800] text-white text-[10px] font-black uppercase tracking-widest mb-6 rounded-md shadow-md">
-                    {featured.category}
-                  </span>
-                  <h1 className="text-4xl md:text-5xl lg:text-6xl text-white font-black leading-[1.1] mb-6 group-hover:text-blue-200 transition-colors font-playfair drop-shadow-lg">
-                    {featured.title}
-                  </h1>
-                  <p className="text-slate-200 text-base md:text-lg line-clamp-2 mb-8 font-source-serif max-w-3xl">
-                    {featured.excerpt}
-                  </p>
-                  <div className="flex items-center gap-4 text-white/90 text-xs font-bold uppercase tracking-widest">
-                    <div className="w-10 h-10 rounded-full bg-[#F5B800]/80 backdrop-blur-md flex items-center justify-center text-white ring-2 ring-white/20">
-                      {featured.author ? featured.author[0] : 'C'}
+        {filteredArticles.length === 0 ? (
+           <div className="py-20 text-center animate-[fade-in_0.5s_ease-out]">
+             <h3 className="text-2xl font-playfair font-bold text-navy-900 mb-2">No articles found</h3>
+             <p className="text-slate-500 font-source-serif">Check back later for updates in this category.</p>
+           </div>
+        ) : filteredArticles.length < 4 ? (
+           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 animate-[fade-in-up_0.6s_ease-out]">
+             {/* Simple Grid for 1-3 articles */}
+             {filteredArticles.map(article => (
+               <ArticleWrapper key={article.id} article={article} className="group bg-white rounded-3xl border border-slate-900/5 shadow-[0_4px_20px_rgba(15,23,42,0.04)] hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex flex-col overflow-hidden">
+                 <div className="w-full h-64 overflow-hidden">
+                   <ImageWithFallback src={article.image} alt={article.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
+                 </div>
+                 <div className="p-8 flex flex-col flex-1">
+                   <span className="inline-block px-3 py-1.5 bg-sky-50 text-sky-700 rounded-md text-[10px] font-black uppercase tracking-widest mb-4 w-max">
+                     {article.category}
+                   </span>
+                   <h4 className="text-2xl font-black text-navy-900 leading-snug group-hover:text-[#F5B800] transition-colors mb-4 font-playfair">
+                     {article.title}
+                   </h4>
+                   <p className="text-base text-slate-600 line-clamp-3 mb-6 flex-1 font-source-serif">
+                     {article.excerpt}
+                   </p>
+                   <div className="text-xs font-bold text-slate-500 uppercase tracking-widest mt-auto flex items-center">
+                     {article.author || 'Staff'} <span className="mx-2 text-slate-300">•</span> {article.date}
+                   </div>
+                 </div>
+               </ArticleWrapper>
+             ))}
+           </div>
+        ) : (
+          <>
+            {/* Top Section */}
+            {featured && (
+              <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 mb-16 animate-[fade-in-up_0.6s_ease-out]">
+                
+                {/* Featured Article */}
+                <div className="lg:col-span-8">
+                  <ArticleWrapper article={featured} className="group block relative h-[450px] md:h-[600px] rounded-3xl overflow-hidden shadow-xl hover:shadow-2xl hover:-translate-y-1 transition-all duration-500">
+                    <ImageWithFallback src={featured.image} alt={featured.title} className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-slate-900/90 via-slate-900/40 to-transparent" />
+                    <div className="absolute inset-0 ring-1 ring-inset ring-white/10 rounded-3xl" />
+                    <div className="absolute bottom-0 left-0 right-0 p-8 md:p-12">
+                      <span className="inline-block px-4 py-1.5 bg-[#F5B800] text-navy-900 text-[10px] font-black uppercase tracking-widest mb-6 rounded-md shadow-md">
+                        {featured.category}
+                      </span>
+                      <h1 className="text-4xl md:text-5xl lg:text-6xl text-white font-black leading-[1.1] mb-6 group-hover:text-gold-200 transition-colors font-playfair drop-shadow-lg">
+                        {featured.title}
+                      </h1>
+                      <p className="text-slate-200 text-base md:text-lg line-clamp-2 mb-8 font-source-serif max-w-3xl">
+                        {featured.excerpt}
+                      </p>
+                      <div className="flex items-center gap-4 text-white/90 text-xs font-bold uppercase tracking-widest">
+                        <div className="w-10 h-10 rounded-full bg-white/20 backdrop-blur-md flex items-center justify-center text-white ring-2 ring-white/30">
+                          {featured.author ? featured.author[0] : 'C'}
+                        </div>
+                        <span>{featured.author || 'Staff Reporter'}</span>
+                        <span className="text-white/50">•</span>
+                        <span>{featured.date}</span>
+                      </div>
                     </div>
-                    <span>{featured.author || 'Staff Reporter'}</span>
-                    <span className="text-white/50">•</span>
-                    <span>{featured.date}</span>
+                  </ArticleWrapper>
+                </div>
+
+                {/* Trending Sidebar */}
+                <div className="lg:col-span-4 flex flex-col gap-6">
+                  <div className="bg-white p-8 rounded-3xl border border-slate-900/5 shadow-[0_4px_20px_rgba(15,23,42,0.04)] flex-1 relative overflow-hidden">
+                    <div className="absolute top-0 right-0 w-32 h-32 bg-[rgba(245,184,0,0.08)] rounded-bl-full -mr-16 -mt-16 z-0" />
+                    <div className="relative z-10">
+                      <div className="flex items-center gap-3 mb-8">
+                        <TrendingUp className="w-5 h-5 text-[#F5B800]" />
+                        <h3 className="text-xs font-black text-navy-900 uppercase tracking-widest">Trending</h3>
+                      </div>
+                      <div className="flex flex-col gap-8">
+                        {trending.length > 0 ? trending.map((article, idx) => (
+                          <ArticleWrapper key={article.id} article={article} className="group flex gap-5 items-start">
+                            <span className="text-4xl font-black text-slate-200 leading-none group-hover:text-[#F5B800]/40 transition-colors font-playfair">
+                              0{idx + 1}
+                            </span>
+                            <div>
+                              <h4 className="text-lg font-bold text-navy-900 leading-snug group-hover:text-[#032B45] transition-colors mb-2 font-playfair">
+                                {article.title}
+                              </h4>
+                              <div className="text-[10px] font-bold text-slate-500 uppercase tracking-widest">
+                                {article.author || 'Staff'} <span className="mx-2 text-slate-300">•</span> {article.date}
+                              </div>
+                            </div>
+                          </ArticleWrapper>
+                        )) : (
+                          <p className="text-sm text-slate-500 italic font-source-serif">No trending stories yet.</p>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                  
+                  {/* Weather / Local Widget */}
+                  <div className="bg-gradient-to-br from-navy-900 to-[#021A2E] p-8 rounded-3xl shadow-xl flex items-center justify-between text-white relative overflow-hidden group">
+                    <div className="absolute -right-8 -top-8 bg-[#F5B800]/20 w-32 h-32 rounded-full blur-2xl group-hover:bg-[#F5B800]/30 transition-colors" />
+                    <div className="relative z-10">
+                      <div className="text-[10px] font-black text-[#F5B800] uppercase tracking-widest mb-2">Global Impact</div>
+                      <div className="text-3xl font-black font-playfair tracking-tight">Active Now</div>
+                    </div>
+                    <Globe className="w-12 h-12 text-[#F5B800]/50 relative z-10 group-hover:text-[#F5B800] transition-colors group-hover:rotate-12" />
                   </div>
                 </div>
-              </ArticleWrapper>
-            </div>
+              </div>
+            )}
 
-            {/* Trending Sidebar */}
-            <div className="lg:col-span-4 flex flex-col gap-6">
-              <div className="bg-white p-8 rounded-3xl border border-slate-900/5 shadow-[0_4px_20px_rgba(15,23,42,0.04)] flex-1 relative overflow-hidden">
-                <div className="absolute top-0 right-0 w-32 h-32 bg-[rgba(245,184,0,0.08)] rounded-bl-full -mr-16 -mt-16 z-0" />
-                <div className="relative z-10">
-                  <div className="flex items-center gap-3 mb-8">
-                    <TrendingUp className="w-5 h-5 text-[#F5B800]" />
-                    <h3 className="text-xs font-black text-navy-900 uppercase tracking-widest">Trending</h3>
-                  </div>
-                  <div className="flex flex-col gap-8">
-                    {trending.length > 0 ? trending.map((article, idx) => (
-                      <ArticleWrapper key={article.id} article={article} className="group flex gap-5 items-start">
-                        <span className="text-4xl font-black text-slate-200 leading-none group-hover:text-[#F5B800]/40 transition-colors font-playfair">
-                          0{idx + 1}
-                        </span>
+            {/* Middle Section: Latest Stories */}
+            {(latestStories.length > 0 || middleLeft.length > 0) && (
+              <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 mb-16 animate-[fade-in-up_0.8s_ease-out]">
+                
+                {/* Left side smaller cards */}
+                {middleLeft.length > 0 && (
+                  <div className="lg:col-span-4 flex flex-col gap-6">
+                    {middleLeft.map(article => (
+                      <ArticleWrapper key={article.id} article={article} className="group bg-white p-5 rounded-3xl border border-slate-900/5 shadow-[0_4px_20px_rgba(15,23,42,0.04)] hover:shadow-lg hover:-translate-y-1 transition-all duration-300 flex gap-5 items-center">
+                        <div className="w-24 h-24 rounded-2xl overflow-hidden shrink-0 shadow-sm border border-slate-100">
+                          <ImageWithFallback src={article.image} alt={article.title} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />
+                        </div>
                         <div>
-                          <h4 className="text-lg font-bold text-navy-900 leading-snug group-hover:text-[#032B45] transition-colors mb-2 font-playfair">
+                          <span className="text-[9px] font-black text-[#F5B800] uppercase tracking-widest mb-2 block">
+                            {article.category}
+                          </span>
+                          <h4 className="text-base font-bold text-navy-900 leading-tight group-hover:text-[#032B45] transition-colors mb-3 line-clamp-3 font-playfair">
                             {article.title}
                           </h4>
                           <div className="text-[10px] font-bold text-slate-500 uppercase tracking-widest">
-                            {article.author || 'Staff'} <span className="mx-2 text-slate-300">•</span> {article.date}
+                            {article.date}
                           </div>
                         </div>
                       </ArticleWrapper>
-                    )) : (
-                      <p className="text-sm text-slate-500 italic font-source-serif">No trending stories yet.</p>
-                    )}
+                    ))}
                   </div>
-                </div>
-              </div>
-              
-              {/* Weather / Local Widget */}
-              <div className="bg-gradient-to-br from-navy-900 to-[#021A2E] p-8 rounded-3xl shadow-xl flex items-center justify-between text-white relative overflow-hidden group">
-                <div className="absolute -right-8 -top-8 bg-[#F5B800]/20 w-32 h-32 rounded-full blur-2xl group-hover:bg-[#F5B800]/30 transition-colors" />
-                <div className="relative z-10">
-                  <div className="text-[10px] font-black text-[#F5B800] uppercase tracking-widest mb-2">Global Impact</div>
-                  <div className="text-3xl font-black font-playfair tracking-tight">Active Now</div>
-                </div>
-                <Globe className="w-12 h-12 text-[#F5B800]/50 relative z-10 group-hover:text-[#F5B800] transition-colors group-hover:rotate-12" />
-              </div>
-            </div>
-          </div>
-        )}
+                )}
 
-        {/* Middle Section: Latest Stories */}
-        {(latestStories.length > 0 || middleLeft.length > 0) && (
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 mb-16">
-            
-            {/* Left side smaller cards */}
-            <div className="lg:col-span-4 flex flex-col gap-6">
-              {middleLeft.map(article => (
-                <ArticleWrapper key={article.id} article={article} className="group bg-white p-5 rounded-3xl border border-slate-900/5 shadow-[0_4px_20px_rgba(15,23,42,0.04)] hover:shadow-lg hover:-translate-y-1 transition-all duration-300 flex gap-5 items-center">
-                  <div className="w-24 h-24 rounded-2xl overflow-hidden shrink-0 shadow-sm border border-slate-100">
-                    <ImageWithFallback src={article.image} alt={article.title} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />
-                  </div>
-                  <div>
-                    <span className="text-[9px] font-black text-[#F5B800] uppercase tracking-widest mb-2 block">
-                      {article.category}
-                    </span>
-                    <h4 className="text-base font-bold text-navy-900 leading-tight group-hover:text-[#032B45] transition-colors mb-3 line-clamp-3 font-playfair">
-                      {article.title}
-                    </h4>
-                    <div className="text-[10px] font-bold text-slate-500 uppercase tracking-widest">
-                      {article.date}
+                {/* Right side Latest Stories */}
+                {latestStories.length > 0 && (
+                  <div className={`bg-white p-8 md:p-12 rounded-3xl border border-slate-900/5 shadow-[0_4px_20px_rgba(15,23,42,0.04)] ${middleLeft.length > 0 ? 'lg:col-span-8' : 'lg:col-span-12'}`}>
+                    <div className="flex items-center gap-3 mb-10">
+                      <div className="w-3 h-3 bg-[#F5B800] rounded-sm rotate-45" />
+                      <h3 className="text-xs font-black text-navy-900 uppercase tracking-widest">Latest Stories</h3>
+                    </div>
+                    <div className="flex flex-col gap-10 divide-y divide-slate-100">
+                      {latestStories.map((article, idx) => (
+                        <ArticleWrapper key={article.id} article={article} className={`group flex flex-col-reverse sm:flex-row gap-8 ${idx > 0 ? 'pt-10' : ''}`}>
+                          <div className="flex-1">
+                            <span className="text-[10px] font-black text-[#F5B800] uppercase tracking-widest mb-3 block">
+                              {article.category}
+                            </span>
+                            <h4 className="text-2xl md:text-3xl font-black text-navy-900 leading-snug group-hover:text-[#032B45] transition-colors mb-4 font-playfair">
+                              {article.title}
+                            </h4>
+                            <p className="text-base text-slate-600 line-clamp-2 mb-6 font-source-serif">
+                              {article.excerpt}
+                            </p>
+                            <div className="text-[10px] font-bold text-slate-500 uppercase tracking-widest">
+                              {article.author || 'Staff'} <span className="mx-2 text-slate-300">•</span> {article.date}
+                            </div>
+                          </div>
+                          <div className="w-full sm:w-64 h-56 sm:h-48 rounded-2xl overflow-hidden shrink-0 shadow-md">
+                            <ImageWithFallback src={article.image} alt={article.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
+                          </div>
+                        </ArticleWrapper>
+                      ))}
                     </div>
                   </div>
-                </ArticleWrapper>
-              ))}
-            </div>
-
-            {/* Right side Latest Stories */}
-            <div className="lg:col-span-8 bg-white p-8 md:p-12 rounded-3xl border border-slate-900/5 shadow-[0_4px_20px_rgba(15,23,42,0.04)]">
-              <div className="flex items-center gap-3 mb-10">
-                <div className="w-3 h-3 bg-[#F5B800] rounded-sm rotate-45" />
-                <h3 className="text-xs font-black text-navy-900 uppercase tracking-widest">Latest Stories</h3>
+                )}
               </div>
-              <div className="flex flex-col gap-10 divide-y divide-slate-100">
-                {latestStories.map((article, idx) => (
-                  <ArticleWrapper key={article.id} article={article} className={`group flex flex-col-reverse sm:flex-row gap-8 ${idx > 0 ? 'pt-10' : ''}`}>
-                    <div className="flex-1">
-                      <span className="text-[10px] font-black text-[#F5B800] uppercase tracking-widest mb-3 block">
-                        {article.category}
-                      </span>
-                      <h4 className="text-2xl md:text-3xl font-black text-navy-900 leading-snug group-hover:text-[#032B45] transition-colors mb-4 font-playfair">
-                        {article.title}
-                      </h4>
-                      <p className="text-base text-slate-600 line-clamp-2 mb-6 font-source-serif">
-                        {article.excerpt}
-                      </p>
-                      <div className="text-[10px] font-bold text-slate-500 uppercase tracking-widest">
-                        {article.author || 'Staff'} <span className="mx-2 text-slate-300">•</span> {article.date}
+            )}
+
+            {/* Editor's Picks */}
+            {editorsPicks.length > 0 && (
+              <div className="mb-16 animate-[fade-in-up_1s_ease-out]">
+                <div className="border-l-4 border-[#F5B800] pl-4 mb-8">
+                  <h3 className="text-2xl font-black text-navy-900 font-playfair">Editor's Picks</h3>
+                </div>
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                  {editorsPicks.map(article => (
+                    <ArticleWrapper key={article.id} article={article} className="group bg-white rounded-3xl border border-slate-900/5 shadow-[0_4px_20px_rgba(15,23,42,0.04)] hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex flex-col overflow-hidden">
+                      <div className="w-full h-56 overflow-hidden">
+                        <ImageWithFallback src={article.image} alt={article.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
                       </div>
-                    </div>
-                    <div className="w-full sm:w-64 h-56 sm:h-48 rounded-2xl overflow-hidden shrink-0 shadow-md">
-                      <ImageWithFallback src={article.image} alt={article.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
-                    </div>
-                  </ArticleWrapper>
-                ))}
+                      <div className="p-8 flex flex-col flex-1">
+                        <span className="inline-block px-3 py-1 bg-slate-100 text-slate-600 rounded-md text-[9px] font-black uppercase tracking-widest mb-4 w-max">
+                          {article.category}
+                        </span>
+                        <h4 className="text-xl font-black text-navy-900 leading-snug group-hover:text-[#032B45] transition-colors mb-4 font-playfair">
+                          {article.title}
+                        </h4>
+                        <p className="text-sm text-slate-600 line-clamp-3 mb-6 flex-1 font-source-serif">
+                          {article.excerpt}
+                        </p>
+                        <div className="text-[10px] font-bold text-slate-500 uppercase tracking-widest mt-auto">
+                          {article.author || 'Staff'} <span className="mx-2 text-slate-300">•</span> {article.date}
+                        </div>
+                      </div>
+                    </ArticleWrapper>
+                  ))}
+                </div>
               </div>
-            </div>
-          </div>
-        )}
+            )}
 
-        {/* Editor's Picks */}
-        {editorsPicks.length > 0 && (
-          <div className="mb-16">
-            <div className="border-l-4 border-[#F5B800] pl-4 mb-8">
-              <h3 className="text-2xl font-black text-navy-900 font-playfair">Editor's Picks</h3>
-            </div>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              {editorsPicks.map(article => (
-                <ArticleWrapper key={article.id} article={article} className="group bg-white rounded-3xl border border-slate-900/5 shadow-[0_4px_20px_rgba(15,23,42,0.04)] hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex flex-col overflow-hidden">
-                  <div className="w-full h-56 overflow-hidden">
-                    <ImageWithFallback src={article.image} alt={article.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
+            {/* Bottom Section */}
+            {(recommended.length > 0 || true) && (
+              <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 animate-[fade-in-up_1.2s_ease-out]">
+                
+                {/* Recommended For You */}
+                {recommended.length > 0 && (
+                  <div className="lg:col-span-8 bg-white p-8 md:p-12 rounded-3xl border border-slate-900/5 shadow-[0_4px_20px_rgba(15,23,42,0.04)]">
+                    <div className="flex items-center gap-3 mb-10">
+                      <Heart className="w-5 h-5 text-red-500 fill-red-500/20" />
+                      <h3 className="text-xs font-black text-navy-900 uppercase tracking-widest">Recommended For You</h3>
+                    </div>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-x-10 gap-y-8">
+                      {recommended.map(article => (
+                        <ArticleWrapper key={article.id} article={article} className="group flex gap-5 items-center">
+                          <div className="w-20 h-20 rounded-2xl overflow-hidden shrink-0 shadow-sm">
+                            <ImageWithFallback src={article.image} alt={article.title} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />
+                          </div>
+                          <div>
+                            <span className="text-[9px] font-black text-[#F5B800] uppercase tracking-widest mb-2 block">
+                              {article.category}
+                            </span>
+                            <h4 className="text-base font-bold text-navy-900 leading-tight group-hover:text-[#032B45] transition-colors mb-2 line-clamp-2 font-playfair">
+                              {article.title}
+                            </h4>
+                            <div className="text-[9px] font-bold text-slate-500 uppercase tracking-widest">
+                              {article.author || 'Staff'}
+                            </div>
+                          </div>
+                        </ArticleWrapper>
+                      ))}
+                    </div>
                   </div>
-                  <div className="p-8 flex flex-col flex-1">
-                    <span className="inline-block px-3 py-1 bg-slate-100 text-slate-600 rounded text-[9px] font-black uppercase tracking-widest mb-4 w-max">
-                      {article.category}
-                    </span>
-                    <h4 className="text-xl font-black text-navy-900 leading-snug group-hover:text-[#032B45] transition-colors mb-4 font-playfair">
-                      {article.title}
-                    </h4>
-                    <p className="text-sm text-slate-600 line-clamp-3 mb-6 flex-1 font-source-serif">
-                      {article.excerpt}
+                )}
+
+                {/* Ways to Help CTA */}
+                <div className={`${recommended.length > 0 ? 'lg:col-span-4' : 'lg:col-span-12'} bg-gradient-to-br from-navy-900 to-[#021A2E] rounded-3xl p-10 text-white flex flex-col justify-center shadow-2xl relative overflow-hidden group`}>
+                  <div className="absolute top-0 right-0 w-64 h-64 bg-[#F5B800]/20 rounded-full blur-3xl -mr-24 -mt-24 group-hover:bg-[#F5B800]/30 transition-colors" />
+                  <div className="absolute bottom-0 left-0 w-48 h-48 bg-[#053D61]/50 rounded-full blur-2xl -ml-16 -mb-16" />
+                  
+                  <div className="relative z-10">
+                    <h3 className="text-3xl font-black mb-4 leading-tight font-playfair">WAYS TO HELP</h3>
+                    <p className="text-blue-100/80 text-sm mb-8 leading-relaxed font-source-serif">
+                      Your support enables us to deliver medical aid, education, and clean water to families in need across the globe.
                     </p>
-                    <div className="text-[10px] font-bold text-slate-500 uppercase tracking-widest mt-auto">
-                      {article.author || 'Staff'} <span className="mx-2 text-slate-300">•</span> {article.date}
+                    <div className="flex flex-col sm:flex-row lg:flex-col gap-4">
+                      <Link to="/donate" className="w-full bg-[#F5B800] text-navy-900 hover:bg-[#FFD13B] font-black text-xs uppercase tracking-[0.15em] py-4 rounded-xl flex items-center justify-center gap-3 transition-all hover:-translate-y-0.5 shadow-lg shadow-[#F5B800]/20">
+                        <Heart className="w-4 h-4 fill-navy-900/20" /> Support A Cause
+                      </Link>
+                      <Link to="/opportunities" className="w-full bg-transparent text-[#F5B800] hover:bg-white/5 border border-[#F5B800]/30 font-black text-xs uppercase tracking-[0.15em] py-4 rounded-xl flex items-center justify-center gap-3 transition-all">
+                        Apply To Volunteer
+                      </Link>
                     </div>
                   </div>
-                </ArticleWrapper>
-              ))}
-            </div>
-          </div>
-        )}
+                </div>
 
-        {/* Bottom Section */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
-          
-          {/* Recommended For You */}
-          <div className="lg:col-span-8 bg-white p-8 md:p-12 rounded-3xl border border-slate-900/5 shadow-[0_4px_20px_rgba(15,23,42,0.04)]">
-            <div className="flex items-center gap-3 mb-10">
-              <Heart className="w-5 h-5 text-red-500 fill-red-500/20" />
-              <h3 className="text-xs font-black text-navy-900 uppercase tracking-widest">Recommended For You</h3>
-            </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-x-10 gap-y-8">
-              {recommended.length > 0 ? recommended.map(article => (
-                <ArticleWrapper key={article.id} article={article} className="group flex gap-5 items-center">
-                  <div className="w-20 h-20 rounded-2xl overflow-hidden shrink-0 shadow-sm">
-                    <ImageWithFallback src={article.image} alt={article.title} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />
-                  </div>
-                  <div>
-                    <span className="text-[9px] font-black text-[#F5B800] uppercase tracking-widest mb-2 block">
-                      {article.category}
-                    </span>
-                    <h4 className="text-base font-bold text-navy-900 leading-tight group-hover:text-[#032B45] transition-colors mb-2 line-clamp-2 font-playfair">
-                      {article.title}
-                    </h4>
-                    <div className="text-[9px] font-bold text-slate-500 uppercase tracking-widest">
-                      {article.author || 'Staff'}
-                    </div>
-                  </div>
-                </ArticleWrapper>
-              )) : (
-                <p className="text-sm text-slate-500 italic col-span-full font-source-serif">More recommendations coming soon.</p>
-              )}
-            </div>
-          </div>
-
-          {/* Ways to Help CTA */}
-          <div className="lg:col-span-4 bg-gradient-to-br from-navy-900 to-[#021A2E] rounded-3xl p-10 text-white flex flex-col justify-center shadow-2xl relative overflow-hidden group">
-            <div className="absolute top-0 right-0 w-64 h-64 bg-[#F5B800]/20 rounded-full blur-3xl -mr-24 -mt-24 group-hover:bg-[#F5B800]/30 transition-colors" />
-            <div className="absolute bottom-0 left-0 w-48 h-48 bg-[#053D61]/50 rounded-full blur-2xl -ml-16 -mb-16" />
-            
-            <div className="relative z-10">
-              <h3 className="text-3xl font-black mb-4 leading-tight font-playfair">WAYS TO HELP</h3>
-              <p className="text-blue-100/80 text-sm mb-8 leading-relaxed font-source-serif">
-                Your support enables CBNN and Cross-Borders Outreach to deliver medical aid, education, and clean water to families in need.
-              </p>
-              <div className="flex flex-col gap-4">
-                <Link to="/donate" className="w-full bg-[#F5B800] text-navy-900 hover:bg-[#FFD13B] font-black text-xs uppercase tracking-[0.15em] py-4 rounded-xl flex items-center justify-center gap-3 transition-all hover:-translate-y-0.5 shadow-lg shadow-[#F5B800]/20">
-                  <Heart className="w-4 h-4 fill-navy-900/20" /> Support A Cause
-                </Link>
-                <Link to="/opportunities" className="w-full bg-transparent text-[#F5B800] hover:bg-white/5 border border-[#F5B800]/30 font-black text-xs uppercase tracking-[0.15em] py-4 rounded-xl flex items-center justify-center gap-3 transition-all">
-                  Apply To Volunteer
-                </Link>
               </div>
-            </div>
-          </div>
-
-        </div>
+            )}
+          </>
+        )}
       </div>
     </div>
   );

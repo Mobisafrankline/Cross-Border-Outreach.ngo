@@ -168,7 +168,12 @@ export default function ImpactStories() {
 
   return (
     <>
-      <MagazineLayout categories={categories} articles={magazineArticles} />
+      <MagazineLayout 
+        pageTitle="Impact Stories"
+        pageDescription="Read about the lives we've transformed and the communities we've empowered across the globe through your generous support."
+        categories={categories} 
+        articles={magazineArticles} 
+      />
 
       {/* Story Modal View */}
       <AnimatePresence>
