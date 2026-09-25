@@ -6,14 +6,6 @@ import { Link } from "react-router";
 // ── Real Partners Data ─────────────────────────────────────────
 const partners = [
   {
-    name: "Amazon",
-    logo: "https://upload.wikimedia.org/wikipedia/commons/a/a9/Amazon_logo.svg",
-    type: "Corporate Partner",
-    description: "Amazon has partnered with us through product donations and logistical support, helping us distribute essential household items and supplies to hundreds of families across Atlanta.",
-    impact: "500+ families served",
-    website: "https://amazon.com",
-  },
-  {
     name: "Operation Compassion",
     logo: "https://images.squarespace-cdn.com/content/v1/56b3ef2a4d088e6e97fa3dc7/e7f8e0d0-86e0-4f2f-a6a5-e1d70fe9df93/OC+LOGO.png",
     type: "Logistics Partner",
