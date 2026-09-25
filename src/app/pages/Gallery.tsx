@@ -162,7 +162,7 @@ export default function Gallery() {
   const stats = [
     { icon: Camera, label: "Photos", value: allImages.length + "+" },
     { icon: Users, label: "Communities", value: "12+" },
-    { icon: Heart, label: "Lives Impacted", value: "3k+" },
+    { icon: Heart, label: "Lives Impacted", value: "13k+" },
     { icon: Globe, label: "Regions", value: "2+" },
   ];
 

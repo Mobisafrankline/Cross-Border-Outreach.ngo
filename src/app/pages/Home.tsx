@@ -310,7 +310,7 @@ export default function Home() {
       <section className="bg-sky-600 py-2 md:py-4 border-y-4 border-sky-700" ref={statsRef}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 relative z-10">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-y-8 gap-x-4 md:gap-0 md:divide-x-2 md:divide-white/10">
-            <StatCard value={10055} suffix="+" label="Individuals Served" icon={<Users className="w-5 h-5" />} trigger={statsVisible} />
+            <StatCard value={13555} suffix="+" label="Individuals Served" icon={<Users className="w-5 h-5" />} trigger={statsVisible} />
             <StatCard value={150} suffix="+" label="Active Volunteers" icon={<HandHeart className="w-5 h-5" />} trigger={statsVisible} />
             <StatCard value={5} label={t('stats.corePrograms')} icon={<CheckCircle2 className="w-5 h-5" />} trigger={statsVisible} />
             <StatCard value={2} label={t('stats.countriesReached')} icon={<Globe2 className="w-5 h-5" />} trigger={statsVisible} />
