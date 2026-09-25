@@ -327,14 +327,16 @@ export default function Home() {
           </div>
         </div>
         <div className="max-w-[1500px] mx-auto px-4 sm:px-6 pb-12">
-          <div className="home-accordion-gallery">
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
             {galleryImages.slice(0, 10).map((image, idx) => (
-              <div key={image.id || idx} className="home-accordion-item group">
-                <ImageWithFallback src={image.url} alt={image.alt} loading="lazy" decoding="async" className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105" />
-                <div className="home-accordion-overlay" />
-                <div className="home-accordion-number">{idx < 9 ? `0${idx + 1}` : idx + 1}</div>
-                <div className="home-accordion-content">
-                  <div className="home-accordion-title font-playfair">{image.alt || 'Community Impact'}</div>
+              <div key={image.id || idx} className="relative group rounded-2xl overflow-hidden aspect-[4/5] shadow-sm">
+                <ImageWithFallback src={image.url} alt={image.alt} loading="lazy" decoding="async" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
+                <div className="absolute inset-0 bg-gradient-to-t from-navy-900/90 via-navy-900/20 to-transparent opacity-60 group-hover:opacity-80 transition-opacity duration-300" />
+                <div className="absolute inset-0 p-6 flex flex-col justify-end">
+                  <div className="text-white/50 font-bold text-sm mb-1 tracking-widest">{idx < 9 ? `0${idx + 1}` : idx + 1}</div>
+                  <div className="text-white font-playfair text-lg font-bold leading-tight translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-300">
+                    {image.alt || 'Community Impact'}
+                  </div>
                 </div>
               </div>
             ))}
