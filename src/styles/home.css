@@ -353,6 +353,30 @@
   padding: 72px 0 48px;
   background: #ffffff;
 }
+
+/* ── 2-ROW SCROLL GALLERY ─────────────────────────────────────────────── */
+@keyframes scroll-left {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+@keyframes scroll-right {
+  0%   { transform: translateX(-50%); }
+  100% { transform: translateX(0); }
+}
+.scroll-gallery-row {
+  width: max-content;
+  will-change: transform;
+}
+.scroll-gallery-left {
+  animation: scroll-left 28s linear infinite;
+}
+.scroll-gallery-right {
+  animation: scroll-right 32s linear infinite;
+}
+.scroll-gallery-left:hover,
+.scroll-gallery-right:hover {
+  animation-play-state: paused;
+}
 .home-accordion-gallery {
   display: flex;
   gap: 12px;

@@ -11,6 +11,11 @@ import { useTranslation } from "react-i18next";
 import heroImage from "../../assets/hero.jpeg";
 import heroImage1 from "../../assets/3.jpeg";
 import heroImage2 from "../../assets/4.jpeg";
+import outreach1 from "../../assets/outreach1.jpeg";
+import outreach2 from "../../assets/outreach2.jpeg";
+import outreach3 from "../../assets/outreach3.jpeg";
+import outreach4 from "../../assets/outreach4.jpeg";
+import outreach5 from "../../assets/outreach5.jpeg";
 import Autoplay from "embla-carousel-autoplay";
 import {
   Carousel,
@@ -277,15 +282,15 @@ export default function Home() {
 
             {/* Right: Solid Image with Side Images */}
             <div className="relative animate-[fade-in-up_1.2s_ease-out] hidden lg:flex gap-4 items-center">
-              <div className="relative rounded-2xl overflow-hidden shadow-2xl border-4 border-white/10 flex-[2] aspect-[4/5] lg:aspect-auto lg:h-[250px]">
-                <ImageWithFallback src={heroImage} alt="Main" className="w-full h-full object-cover" />
+              <div className="relative rounded-2xl overflow-hidden shadow-2xl border-4 border-white/10 flex-[2] aspect-[4/5] lg:aspect-auto lg:h-[280px]">
+                <ImageWithFallback src={outreach1} alt="Community Outreach Event" className="w-full h-full object-cover" />
               </div>
-              <div className="flex flex-col gap-4 flex-1 h-[250px]">
+              <div className="flex flex-col gap-4 flex-1 h-[280px]">
                 <div className="relative rounded-2xl overflow-hidden shadow-2xl border-4 border-white/10 h-1/2">
-                  <ImageWithFallback src={heroImage1} alt="Side 1" className="w-full h-full object-cover" />
+                  <ImageWithFallback src={outreach2} alt="Volunteers Serving" className="w-full h-full object-cover" />
                 </div>
                 <div className="relative rounded-2xl overflow-hidden shadow-2xl border-4 border-white/10 h-1/2">
-                  <ImageWithFallback src={heroImage2} alt="Side 2" className="w-full h-full object-cover" />
+                  <ImageWithFallback src={outreach3} alt="Outreach Team" className="w-full h-full object-cover" />
                 </div>
               </div>
             </div>
@@ -293,7 +298,7 @@ export default function Home() {
             {/* Mobile Fallback Single Image */}
             <div className="relative animate-[fade-in-up_1.2s_ease-out] lg:hidden mt-8">
               <div className="relative rounded-xl overflow-hidden aspect-video shadow-2xl border-4 border-white/10">
-                <ImageWithFallback src={heroImage} alt="Vulnerable communities" className="w-full h-full object-cover" />
+                <ImageWithFallback src={outreach1} alt="Community Outreach Event" className="w-full h-full object-cover" />
               </div>
             </div>
 
@@ -321,7 +326,7 @@ export default function Home() {
             <h2 className="home-section-title font-playfair">In Action Across Communities</h2>
           </div>
         </div>
-        <div className="max-w-[1500px] mx-auto px-4 sm:px-6 pb-12">
+        <div className="max-w-[1500px] mx-auto px-4 sm:px-6 pb-6">
           <div className="home-accordion-gallery">
             {galleryImages.slice(0, 5).map((image, idx) => (
               <div key={image.id || idx} className="home-accordion-item group">
@@ -334,11 +339,32 @@ export default function Home() {
               </div>
             ))}
           </div>
-          <div className="flex justify-center mt-12">
-            <Link to="/gallery" className="home-view-all-link text-lg font-bold flex items-center">
-              Explore Our Full Gallery <ChevronRight className="w-5 h-5 ml-1" />
-            </Link>
+        </div>
+
+        {/* ── 2-ROW SCROLL GALLERY ── */}
+        <div className="pb-12 overflow-hidden">
+          {/* Row 1 — scrolls left */}
+          <div className="relative flex gap-4 mb-4 scroll-gallery-row scroll-gallery-left">
+            {[outreach1, outreach2, outreach3, outreach4, outreach5, outreach1, outreach2, outreach3, outreach4, outreach5].map((src, i) => (
+              <div key={i} className="flex-none w-72 h-48 rounded-2xl overflow-hidden shadow-lg border-2 border-white/10">
+                <ImageWithFallback src={src} alt={`Outreach event ${(i % 5) + 1}`} loading="lazy" decoding="async" className="w-full h-full object-cover hover:scale-105 transition-transform duration-700" />
+              </div>
+            ))}
           </div>
+          {/* Row 2 — scrolls right */}
+          <div className="relative flex gap-4 scroll-gallery-row scroll-gallery-right">
+            {[outreach5, outreach4, outreach3, outreach2, outreach1, outreach5, outreach4, outreach3, outreach2, outreach1].map((src, i) => (
+              <div key={i} className="flex-none w-72 h-48 rounded-2xl overflow-hidden shadow-lg border-2 border-white/10">
+                <ImageWithFallback src={src} alt={`Outreach event ${(i % 5) + 1}`} loading="lazy" decoding="async" className="w-full h-full object-cover hover:scale-105 transition-transform duration-700" />
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <div className="flex justify-center mt-4 pb-12">
+          <Link to="/gallery" className="home-view-all-link text-lg font-bold flex items-center">
+            Explore Our Full Gallery <ChevronRight className="w-5 h-5 ml-1" />
+          </Link>
         </div>
       </section>
 

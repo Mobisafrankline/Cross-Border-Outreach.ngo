@@ -5,7 +5,12 @@ import ImageSlide3 from "../assets/ImageSlide3.jpeg";
 import ImageSlide4 from "../assets/ImageSlide4.jpeg";
 import ImageSlide5 from "../assets/hero.jpeg";
 import BeyondGrades from "../assets/BeyondGrades.jpg";
-import NairobiFloods from "../assets/NairobiFloods.jpg";   
+import NairobiFloods from "../assets/NairobiFloods.jpg";
+import Outreach1 from "../assets/outreach1.jpeg";
+import Outreach2 from "../assets/outreach2.jpeg";
+import Outreach3 from "../assets/outreach3.jpeg";
+import Outreach4 from "../assets/outreach4.jpeg";
+import Outreach5 from "../assets/outreach5.jpeg";
 
 
 // Reports Data
@@ -222,8 +227,41 @@ export const galleryImages = [
     url: ImageSlide5,
     alt: "Classroom learning",
     category: "education"
+  },
+  {
+    id: 9,
+    url: Outreach1,
+    alt: "Community outreach food distribution event",
+    category: "outreach"
+  },
+  {
+    id: 10,
+    url: Outreach2,
+    alt: "Volunteers serving community members",
+    category: "community"
+  },
+  {
+    id: 11,
+    url: Outreach3,
+    alt: "Crossborders outreach team in action",
+    category: "outreach"
+  },
+  {
+    id: 12,
+    url: Outreach4,
+    alt: "Community outreach distribution",
+    category: "community"
+  },
+  {
+    id: 13,
+    url: Outreach5,
+    alt: "Outreach event with smiling volunteers",
+    category: "outreach"
   }
 ];
+
+// Exported outreach images for use in hero and scroll gallery
+export { Outreach1, Outreach2, Outreach3, Outreach4, Outreach5 };
 
 // Assets - Organized media library
 export const assets = {
