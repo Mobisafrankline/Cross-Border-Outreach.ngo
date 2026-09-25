@@ -328,19 +328,13 @@ export default function Home() {
         </div>
         <div className="max-w-[1500px] mx-auto px-4 sm:px-6 pb-12">
           <div className="home-accordion-gallery">
-            {[
-              { src: outreach1, label: 'Community Outreach Event' },
-              { src: outreach2, label: 'Volunteers Serving Families' },
-              { src: outreach3, label: 'Crossborders Team in Action' },
-              { src: outreach4, label: 'Community Distribution Drive' },
-              { src: outreach5, label: 'Outreach Event Highlights' },
-            ].map((item, idx) => (
-              <div key={idx} className="home-accordion-item group">
-                <ImageWithFallback src={item.src} alt={item.label} loading="lazy" decoding="async" className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105" />
+            {galleryImages.slice(0, 10).map((image, idx) => (
+              <div key={image.id || idx} className="home-accordion-item group">
+                <ImageWithFallback src={image.url} alt={image.alt} loading="lazy" decoding="async" className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105" />
                 <div className="home-accordion-overlay" />
-                <div className="home-accordion-number">0{idx + 1}</div>
+                <div className="home-accordion-number">{idx < 9 ? `0${idx + 1}` : idx + 1}</div>
                 <div className="home-accordion-content">
-                  <div className="home-accordion-title font-playfair">{item.label}</div>
+                  <div className="home-accordion-title font-playfair">{image.alt || 'Community Impact'}</div>
                 </div>
               </div>
             ))}
