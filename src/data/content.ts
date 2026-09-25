@@ -168,30 +168,13 @@ export const publications = [
 // News Updates removed
 // Gallery Images
 export const galleryImages = [
-    {
-    id: 1,
-    url: "https://images.unsplash.com/photo-1764738130382-cc7a8eaf26c7?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxodW1hbml0YXJpYW4lMjBhaWQlMjB2b2x1bnRlZXJzJTIwaGVscGluZyUyMGNvbW11bml0eXxlbnwxfHx8fDE3NzE5OTY2OTJ8MA&ixlib=rb-4.1.0&q=80&w=1080",
-    alt: "Volunteers helping community",
-    category: "community"
-  },
-  {
-    id: 2,
-    url: ImageSlide2,
-    alt: "Children studying",
-    category: "education"
-  },
   {
     id: 3,
     url: ImageSlide1,
     alt: "Crossborders outreach team",
     category: "outreach"
   },
-  {
-    id: 4,
-    url: ImageSlide3,
-    alt: "Food distribution",
-    category: "food"
-  },
+
   {
     id: 5,
     url: ImageSlide4,
@@ -210,24 +193,14 @@ export const galleryImages = [
     alt: "Easter Egg Hunt Outreach",
     category: "outreach"
   },
-  {
-    id: 8,
-    url: "https://images.unsplash.com/photo-1585984968562-1443b72fb0dc?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxkaXZlcnNlJTIwdGVhbSUyMGNvbGxhYm9yYXRpb24lMjBub25wcm9maXR8ZW58MXx8fHwxNzcxOTI1NzQwfDA&ixlib=rb-4.1.0&q=80&w=1080",
-    alt: "Team collaboration",
-    category: "community"
-  },
+
   {
     id: 9,
     url: ImageSlide4,
     alt: "Volunteers community service",
     category: "community"
   },
-  {
-    id: 8,
-    url: ImageSlide5,
-    alt: "Classroom learning",
-    category: "education"
-  },
+
   {
     id: 9,
     url: Outreach1,
