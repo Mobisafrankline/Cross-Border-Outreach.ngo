@@ -326,45 +326,30 @@ export default function Home() {
             <h2 className="home-section-title font-playfair">In Action Across Communities</h2>
           </div>
         </div>
-        <div className="max-w-[1500px] mx-auto px-4 sm:px-6 pb-6">
+        <div className="max-w-[1500px] mx-auto px-4 sm:px-6 pb-12">
           <div className="home-accordion-gallery">
-            {galleryImages.slice(0, 5).map((image, idx) => (
-              <div key={image.id || idx} className="home-accordion-item group">
-                <ImageWithFallback src={image.url} alt={image.alt} loading="lazy" decoding="async" className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105" />
+            {[
+              { src: outreach1, label: 'Community Outreach Event' },
+              { src: outreach2, label: 'Volunteers Serving Families' },
+              { src: outreach3, label: 'Crossborders Team in Action' },
+              { src: outreach4, label: 'Community Distribution Drive' },
+              { src: outreach5, label: 'Outreach Event Highlights' },
+            ].map((item, idx) => (
+              <div key={idx} className="home-accordion-item group">
+                <ImageWithFallback src={item.src} alt={item.label} loading="lazy" decoding="async" className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105" />
                 <div className="home-accordion-overlay" />
                 <div className="home-accordion-number">0{idx + 1}</div>
                 <div className="home-accordion-content">
-                  <div className="home-accordion-title font-playfair">{image.alt || 'Community Impact'}</div>
+                  <div className="home-accordion-title font-playfair">{item.label}</div>
                 </div>
               </div>
             ))}
           </div>
-        </div>
-
-        {/* ── 2-ROW SCROLL GALLERY ── */}
-        <div className="pb-12 overflow-hidden">
-          {/* Row 1 — scrolls left */}
-          <div className="relative flex gap-4 mb-4 scroll-gallery-row scroll-gallery-left">
-            {[outreach1, outreach2, outreach3, outreach4, outreach5, outreach1, outreach2, outreach3, outreach4, outreach5].map((src, i) => (
-              <div key={i} className="flex-none w-72 h-48 rounded-2xl overflow-hidden shadow-lg border-2 border-white/10">
-                <ImageWithFallback src={src} alt={`Outreach event ${(i % 5) + 1}`} loading="lazy" decoding="async" className="w-full h-full object-cover hover:scale-105 transition-transform duration-700" />
-              </div>
-            ))}
+          <div className="flex justify-center mt-12">
+            <Link to="/gallery" className="home-view-all-link text-lg font-bold flex items-center">
+              Explore Our Full Gallery <ChevronRight className="w-5 h-5 ml-1" />
+            </Link>
           </div>
-          {/* Row 2 — scrolls right */}
-          <div className="relative flex gap-4 scroll-gallery-row scroll-gallery-right">
-            {[outreach5, outreach4, outreach3, outreach2, outreach1, outreach5, outreach4, outreach3, outreach2, outreach1].map((src, i) => (
-              <div key={i} className="flex-none w-72 h-48 rounded-2xl overflow-hidden shadow-lg border-2 border-white/10">
-                <ImageWithFallback src={src} alt={`Outreach event ${(i % 5) + 1}`} loading="lazy" decoding="async" className="w-full h-full object-cover hover:scale-105 transition-transform duration-700" />
-              </div>
-            ))}
-          </div>
-        </div>
-
-        <div className="flex justify-center mt-4 pb-12">
-          <Link to="/gallery" className="home-view-all-link text-lg font-bold flex items-center">
-            Explore Our Full Gallery <ChevronRight className="w-5 h-5 ml-1" />
-          </Link>
         </div>
       </section>
 
