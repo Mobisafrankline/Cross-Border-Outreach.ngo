@@ -94,13 +94,14 @@ export default function Events() {
   const allEvents: EventItem[] = [...liveEvents, ...staticMapped].map(event => {
     // Dynamic status computation based on date
     const eventDate = event.date && event.date !== "TBD" ? new Date(event.date) : new Date();
+    const isValidDate = !isNaN(eventDate.getTime());
     // Use end of day for eventDate so it doesn't immediately become "past" on the day of the event
-    const isPast = eventDate < now && eventDate.toDateString() !== now.toDateString();
+    const isPast = isValidDate ? (eventDate < now && eventDate.toDateString() !== now.toDateString()) : true;
     
     return {
       ...event,
       status: isPast ? "past" : "upcoming",
-      computedDate: eventDate.getTime()
+      computedDate: isValidDate ? eventDate.getTime() : 0
     };
   });
   

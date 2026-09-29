@@ -147,7 +147,11 @@ export default function EventDetail() {
     );
   }
 
-  const isUpcoming = event.status === "upcoming";
+  const eventDate = event.date && event.date !== "TBD" ? new Date(event.date) : new Date();
+  const now = new Date();
+  const isPast = !isNaN(eventDate.getTime()) ? (eventDate < now && eventDate.toDateString() !== now.toDateString()) : true;
+  const isUpcoming = !isPast;
+  
   const availabilityPercent = event.capacity > 0
     ? Math.round((event.registered / event.capacity) * 100)
     : 0;
