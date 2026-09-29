@@ -730,6 +730,8 @@
   height: 220px;
   overflow: hidden;
   position: relative;
+  display: block;
+  flex-shrink: 0;
 }
 .home-event-status {
   position: absolute;

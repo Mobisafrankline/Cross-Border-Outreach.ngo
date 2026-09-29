@@ -420,39 +420,97 @@ export default function Home() {
             </div>
             <Link to="/events" className="home-view-all-link">View All Events <ChevronRight className="w-4 h-4" /></Link>
           </div>
-          <div className="home-events-grid">
-            {recentEvents.map((event) => {
-              const eventDate = event.event_date ? new Date(event.event_date) : new Date(event.date || Date.now());
-              const isPast = eventDate < new Date();
-              const { month, day } = formatDateParts(eventDate);
-              return (
-                <Link to={event.type === 'events' ? `/events/sb-${event.id}` : `/events/${event.id}`} key={event.id} className="home-event-card group">
-                  <div className="home-event-img-wrap">
-                    <ImageWithFallback src={event.featured_image || event.image || ''} alt={event.title} loading="lazy" decoding="async" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
-                    <div className="home-event-status">{isPast ? 'Past Event' : 'Upcoming'}</div>
-                    {/* Calendar-style date badge */}
-                    <div className="home-event-date-badge">
-                      <span className="home-event-date-month">{month}</span>
-                      <span className="home-event-date-day">{day}</span>
+
+          {recentEvents.length === 0 ? (
+            <div className="text-center py-16 text-slate-400 font-medium">
+              No events to display right now. <Link to="/events" className="text-[#F5B800] underline underline-offset-2">See all events →</Link>
+            </div>
+          ) : (
+            <div className="home-events-grid">
+              {recentEvents.map((event) => {
+                // Support both ISO date strings (Supabase) and human-readable date strings (static)
+                const rawDate = event.event_date || event.date;
+                const eventDate = rawDate ? new Date(rawDate) : new Date();
+                const isValidDate = !isNaN(eventDate.getTime());
+                const isPast = isValidDate ? eventDate < new Date() : true;
+                const { month, day } = isValidDate ? formatDateParts(eventDate) : { month: '---', day: '--' };
+
+                // Supabase events have a `type` field set to "events"; static events are objects from content.ts
+                const isSupabaseEvent = Boolean(event.event_date !== undefined && event.type === 'events');
+                const eventLink = isSupabaseEvent ? `/events/sb-${event.id}` : `/events/${event.id}`;
+
+                const displayDate = isValidDate
+                  ? eventDate.toLocaleDateString('en-US', { weekday: 'short', year: 'numeric', month: 'long', day: 'numeric' })
+                  : (rawDate || 'TBD');
+
+                return (
+                  <div key={event.id} className="home-event-card group flex flex-col">
+                    {/* Image */}
+                    <Link to={eventLink} className="home-event-img-wrap block">
+                      <ImageWithFallback
+                        src={event.featured_image || event.image || ''}
+                        alt={event.title}
+                        loading="lazy"
+                        decoding="async"
+                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                      />
+                      {/* Status pill */}
+                      <div
+                        className="home-event-status"
+                        style={{ background: isPast ? 'rgba(17,24,39,0.85)' : 'rgba(5,150,105,0.9)' }}
+                      >
+                        {isPast ? 'Past Event' : '● Upcoming'}
+                      </div>
+                      {/* Calendar date badge */}
+                      <div className="home-event-date-badge">
+                        <span className="home-event-date-month">{month}</span>
+                        <span className="home-event-date-day">{day}</span>
+                      </div>
+                    </Link>
+
+                    {/* Body */}
+                    <div className="home-event-body flex flex-col flex-1">
+                      <div className="home-event-meta">
+                        <span className="home-event-category">{event.category || 'General'}</span>
+                        {(event.ticketPrice || event.ticket_price) && (
+                          <span className="home-event-price">{event.ticketPrice || event.ticket_price}</span>
+                        )}
+                      </div>
+                      <h3 className="home-event-title font-playfair">
+                        <Link to={eventLink}>{event.title}</Link>
+                      </h3>
+                      <div className="home-event-info">
+                        <span><Calendar className="w-4 h-4" />{displayDate}</span>
+                        <span><MapPin className="w-4 h-4" />{event.event_location || event.location || 'TBD'}</span>
+                      </div>
+                      <p className="home-event-desc">
+                        {event.excerpt || event.description || (event.content ? event.content.substring(0, 120) + '...' : '')}
+                      </p>
+
+                      {/* CTA buttons — always show View Info; show Register only for upcoming */}
+                      <div className="flex items-center gap-3 mt-auto pt-2">
+                        <Link
+                          to={eventLink}
+                          className="home-event-cta flex-1 justify-center"
+                        >
+                          View Info
+                        </Link>
+                        {!isPast && (
+                          <Link
+                            to={`${eventLink}?register=1`}
+                            onClick={(e) => e.stopPropagation()}
+                            className="inline-flex items-center justify-center gap-1 px-4 py-2 bg-[#F5B800] text-white text-xs font-bold uppercase tracking-widest rounded-full hover:bg-[#032B45] transition-colors shadow-sm flex-1"
+                          >
+                            Register
+                          </Link>
+                        )}
+                      </div>
                     </div>
                   </div>
-                  <div className="home-event-body">
-                    <div className="home-event-meta">
-                      <span className="home-event-category">{event.category || 'General'}</span>
-                      {event.ticketPrice && <span className="home-event-price">{event.ticketPrice}</span>}
-                    </div>
-                    <h3 className="home-event-title font-playfair">{event.title}</h3>
-                    <div className="home-event-info">
-                      <span><Calendar className="w-4 h-4" />{event.event_date ? eventDate.toLocaleDateString() : event.date || 'TBD'}</span>
-                      <span><MapPin className="w-4 h-4" />{event.event_location || event.location || 'TBD'}</span>
-                    </div>
-                    <p className="home-event-desc">{event.excerpt || event.description || (event.content ? event.content.substring(0, 100) + '...' : '')}</p>
-                    <div className="home-event-cta">View Details<ChevronRight className="w-4 h-4 transition-transform group-hover:translate-x-1" /></div>
-                  </div>
-                </Link>
-              );
-            })}
-          </div>
+                );
+              })}
+            </div>
+          )}
         </div>
       </section>
 
