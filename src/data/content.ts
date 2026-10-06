@@ -11,6 +11,9 @@ import Outreach2 from "../assets/outreach2.jpeg";
 import Outreach3 from "../assets/outreach3.jpeg";
 import Outreach4 from "../assets/outreach4.jpeg";
 import Outreach5 from "../assets/outreach5.jpeg";
+import Img3 from "../assets/3.jpeg";
+import Img4 from "../assets/4.jpeg";
+import Img5 from "../assets/5.jpeg";
 
 
 // Reports Data
@@ -372,7 +375,7 @@ export const events = [
     ticketPrice: "Free",
     capacity: 200,
     registered: 200,
-    image: ImageSlide4,
+    image: Outreach1,
     organizer: "Cross-borders Outreach international",
     contactEmail: "volunteer@crossborders.org",
     contactPhone: "+1 (234) 567-8903"
@@ -391,7 +394,7 @@ export const events = [
     ticketPrice: "Free",
     capacity: 100,
     registered: 100,
-    image: "https://s3-media0.fl.yelpcdn.com/bphoto/7F5PCKyicmVX_ZLjw0uM0g/348s.jpg",
+    image: Img3,
     organizer: "Cross-borders Outreach international",
     contactEmail: "info@cross-bordersoutreach.org",
     contactPhone: "+1 (404) 641-9248"
@@ -410,7 +413,7 @@ export const events = [
     ticketPrice: "Free",
     capacity: 80,
     registered: 80,
-    image: "/images/easter-egg-hunt.jpg",
+    image: "/Easter Egg.jpeg",
     organizer: "Cross-borders Outreach international",
     contactEmail: "info@cross-bordersoutreach.org",
     contactPhone: "+1 (404) 641-9248"
@@ -429,9 +432,48 @@ export const events = [
     ticketPrice: "Free",
     capacity: 100,
     registered: 100,
-    image: "https://images.unsplash.com/photo-1567965178128-abb8d8532ae7?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MjB8fHNwcmluZyUyMGZlc3RpdmFsJTIwdXNhfGVufDB8fDB8fHww",
+    image: "/Spring Festival.jpeg",
     organizer: "Cross-borders Outreach international",
     contactEmail: "info@cross-bordersoutreach.org",
     contactPhone: "+1 (404) 641-9248"
+  },
+  {
+    id: 6,
+    title: "Tumshanglieni Mtoto Children's Home",
+    description: "Cross-borders Outreach International visited Tumshanglieni Mtoto Children's Home in Kenya, bringing educational support, food, and love to vulnerable children.",
+    longDescription: "Cross-borders Outreach International conducted a heartfelt outreach visit to Tumshanglieni Mtoto Children's Home in Kenya. The team engaged children through educational activities, mentorship sessions, and distributed essential supplies including food, clothing, and hygiene items. The visit strengthened the partnership between Cross-borders Outreach and the home, providing hope and encouragement to over 1,500 kids across partner centres in Kenya.",
+    date: "2026",
+    time: "8:00 AM - 5:00 PM",
+    location: "Tumshanglieni Mtoto Children's Home",
+    address: "Nairobi, Kenya",
+    category: "Children's Outreach",
+    status: "past",
+    ticketPrice: "Free",
+    capacity: 150,
+    registered: 150,
+    image: Outreach2,
+    organizer: "Cross-borders Outreach international",
+    contactEmail: "info@cross-bordersoutreach.org",
+    contactPhone: "+254 700 000 000"
+  },
+  {
+    id: 7,
+    title: "Koimbi Children's Home 2026",
+    description: "A dedicated outreach to Koimbi Children's Home in Kenya — delivering meals, educational materials, and community care to vulnerable youth.",
+    longDescription: "As part of its expanding East Africa programs, Cross-borders Outreach International conducted a major outreach at Koimbi Children's Home in Kenya in 2026. Volunteers brought food packs, school supplies, and spent quality time with the children through mentorship, games, and learning sessions. This visit is part of the organization's commitment to reaching 1,500+ children across Kenya's children's homes, building lasting relationships and sustainable support.",
+    date: "2026",
+    time: "8:00 AM - 5:00 PM",
+    location: "Koimbi Children's Home",
+    address: "Kenya",
+    category: "Children's Outreach",
+    status: "past",
+    ticketPrice: "Free",
+    capacity: 120,
+    registered: 120,
+    image: Outreach3,
+    organizer: "Cross-borders Outreach international",
+    contactEmail: "info@cross-bordersoutreach.org",
+    contactPhone: "+254 700 000 000"
   }
 ];
+

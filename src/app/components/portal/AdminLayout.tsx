@@ -20,6 +20,7 @@ import {
   ChevronRight,
   Newspaper,
   UserCog,
+  MessageSquare,
 } from "lucide-react";
 import { useAuth } from "../../../lib/AuthContext";
 import { supabase, signOut } from "../../../lib/supabase";
@@ -39,10 +40,11 @@ const navGroups = [
   {
     title: "Content",
     items: [
-      { label: "Content Manager", href: "/admin/content",     icon: Newspaper       },
-      { label: "New Article",     href: "/admin/blog/new",    icon: PenTool         },
-      { label: "Events",          href: "/admin/events",      icon: Calendar        },
-      { label: "Gallery",         href: "/admin/gallery",     icon: Image           },
+      { label: "Content Manager", href: "/admin/content",        icon: Newspaper       },
+      { label: "New Article",     href: "/admin/blog/new",       icon: PenTool         },
+      { label: "Events",          href: "/admin/events",         icon: Calendar        },
+      { label: "Gallery",         href: "/admin/gallery",        icon: Image           },
+      { label: "Popup Message",   href: "/admin/popup-settings", icon: MessageSquare   },
     ],
   },
 ];
@@ -54,10 +56,11 @@ const CRUMB_MAP: Record<string, string> = {
   "/admin/jobs":         "Jobs",
   "/admin/applications": "Applications",
   "/admin/reports":      "Reports",
-  "/admin/content":      "Content Manager",
-  "/admin/events":       "Events",
-  "/admin/gallery":      "Gallery",
-  "/admin/profile":      "Profile Settings",
+  "/admin/content":         "Content Manager",
+  "/admin/events":           "Events",
+  "/admin/gallery":          "Gallery",
+  "/admin/popup-settings":   "Popup Message",
+  "/admin/profile":          "Profile Settings",
 };
 
 export default function AdminLayout() {

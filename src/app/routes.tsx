@@ -29,6 +29,8 @@ import Contact from "./pages/Contact";
 import Publications from "./pages/Publications";
 import AuthPortal from "./pages/AuthPortal";
 import InitiativeDetail from "./pages/InitiativeDetail";
+import OutreachUSA from "./pages/OutreachUSA";
+import OutreachEastAfrica from "./pages/OutreachEastAfrica";
 
 // Admin Pages
 import AdminLayout from "./components/portal/AdminLayout";
@@ -41,6 +43,7 @@ import AdminReports from "./pages/admin/AdminReports";
 import AdminJobs from "./pages/admin/AdminJobs";
 import AdminApplications from "./pages/admin/AdminApplications";
 import AdminEvents from "./pages/admin/AdminEvents";
+import AdminPopupSettings from "./pages/admin/AdminPopupSettings";
 
 // Donor Pages
 import DonorLayout from "./components/portal/DonorLayout";
@@ -84,6 +87,8 @@ export const router = createBrowserRouter([
       { path: "contact", Component: Contact },
       { path: "publications", Component: Publications },
       { path: "login", Component: AuthPortal },
+      { path: "outreach/usa", Component: OutreachUSA },
+      { path: "outreach/east-africa", Component: OutreachEastAfrica },
     ],
   },
 
@@ -110,6 +115,7 @@ export const router = createBrowserRouter([
           { path: "reports", Component: AdminReports },
           { path: "jobs", Component: AdminJobs },
           { path: "applications", Component: AdminApplications },
+          { path: "popup-settings", Component: AdminPopupSettings },
 
           { path: "profile", Component: ProfileSettings },
         ],

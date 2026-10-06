@@ -1,6 +1,6 @@
 import {
   Heart, ArrowRight, CheckCircle2, Quote, Calendar,
-  MapPin, Users, Globe2, HandHeart, ChevronRight, Sparkles,
+  MapPin, Users, Globe2, HandHeart, ChevronRight, Sparkles, X, Leaf,
 } from "lucide-react";
 import { Link } from "react-router";
 import { ImageWithFallback } from "../components/figma/ImageWithFallback";
@@ -129,6 +129,8 @@ export default function Home() {
   const [statsVisible, setStatsVisible] = useState(false);
   const [recentEvents, setRecentEvents] = useState<any[]>([]);
   const [recentNews, setRecentNews] = useState<any[]>([]);
+  const [showPopup, setShowPopup] = useState(false);
+  const [popupConfig, setPopupConfig] = useState<any>(null);
 
   // Scroll-reveal refs
   const programsReveal = useReveal<HTMLDivElement>();
@@ -202,6 +204,31 @@ export default function Home() {
     fetchHomeContent();
   }, []);
 
+  // Show popup after 2.5 seconds on first visit, fetch config from Supabase
+  useEffect(() => {
+    const loadPopup = async () => {
+      try {
+        const { data } = await supabase
+          .from("site_settings")
+          .select("value")
+          .eq("key", "popup_config")
+          .maybeSingle();
+        if (data?.value) setPopupConfig(data.value);
+      } catch (_) {}
+
+      const dismissed = sessionStorage.getItem('charity-popup-dismissed');
+      if (!dismissed) {
+        setTimeout(() => setShowPopup(true), 2500);
+      }
+    };
+    loadPopup();
+  }, []);
+
+  const handleDismissPopup = () => {
+    setShowPopup(false);
+    sessionStorage.setItem('charity-popup-dismissed', '1');
+  };
+
   useEffect(() => {
     const observer = new IntersectionObserver(
       ([entry]) => { if (entry.isIntersecting) { setStatsVisible(true); observer.disconnect(); } },
@@ -239,6 +266,85 @@ export default function Home() {
 
   return (
     <div className="min-h-screen">
+
+      {/* ── EMERGING CHARITIES FLOATING POPUP ── */}
+      {showPopup && (() => {
+        const cfg = popupConfig;
+        const enabled = cfg ? cfg.enabled !== false : true;
+        if (!enabled) return null;
+        const label    = cfg?.label    || "Emerging Causes";
+        const heading  = cfg?.heading  || "Two Urgent Causes That Need Your Help";
+        const donateBtn = cfg?.donate_button_text  || "Donate Now";
+        const dismissBtn = cfg?.dismiss_button_text || "Maybe Later";
+        const causes: any[] = cfg?.causes || [
+          { emoji: "🍽️", title: "Feed a Kid — $1 a Day", description: "Just $1 feeds a child for a full day across East Africa and the US.", link: "/donate", linkLabel: "Feed a Child Now", color: "orange" },
+          { emoji: "🌿", title: "Climate Calamity Relief", description: "Floods, droughts and extreme weather devastating vulnerable communities.", link: "/donate", linkLabel: "Respond to Crisis", color: "green" },
+        ];
+        const colorMap: Record<string, string> = {
+          orange: "bg-orange-50 border-orange-100 text-orange-600",
+          green:  "bg-green-50 border-green-100 text-green-700",
+          blue:   "bg-blue-50 border-blue-100 text-blue-700",
+          purple: "bg-purple-50 border-purple-100 text-purple-700",
+        };
+        return (
+          <div
+            className="fixed bottom-6 right-6 z-[9999] w-80 bg-white rounded-3xl shadow-[0_20px_60px_rgba(15,23,42,0.18)] border border-slate-100 overflow-hidden animate-[fade-in-up_0.4s_ease-out]"
+            role="dialog"
+            aria-modal="true"
+            aria-label="Emerging Charities"
+          >
+            <div className="bg-gradient-to-br from-[#032B45] to-[#0a2540] px-6 pt-6 pb-5 relative">
+              <button
+                onClick={handleDismissPopup}
+                className="absolute top-3 right-3 w-7 h-7 rounded-full bg-white/10 flex items-center justify-center text-white hover:bg-white/25 transition-colors"
+                aria-label="Close popup"
+              >
+                <X className="w-3.5 h-3.5" />
+              </button>
+              <div className="text-[#F5B800] text-[10px] font-bold uppercase tracking-widest mb-2">{label}</div>
+              <h2 className="text-lg font-extrabold text-white leading-snug">{heading}</h2>
+            </div>
+
+            <div className="p-4 space-y-3">
+              {causes.map((cause: any, i: number) => {
+                const colClass = colorMap[cause.color] || colorMap.orange;
+                const [bgBorder, , textCol] = colClass.split(" ");
+                return (
+                  <div key={i} className={`flex items-start gap-3 p-3 border rounded-2xl hover:shadow-sm transition-shadow ${bgBorder} ${colClass.split(" ")[1]}`}>
+                    <div className="flex-1">
+                      <div className="font-extrabold text-navy-900 text-sm mb-1">{cause.emoji} {cause.title}</div>
+                      <p className="text-slate-500 text-xs leading-relaxed">{cause.description}</p>
+                      <Link
+                        to={cause.link || "/donate"}
+                        onClick={handleDismissPopup}
+                        className={`inline-flex items-center gap-1 mt-2 text-[10px] font-bold uppercase tracking-widest ${colClass.split(" ")[2]}`}
+                      >
+                        {cause.linkLabel} <ArrowRight className="w-3 h-3" />
+                      </Link>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+
+            <div className="px-4 pb-4 flex gap-2">
+              <Link
+                to="/donate"
+                onClick={handleDismissPopup}
+                className="flex-1 inline-flex items-center justify-center gap-1.5 px-4 py-2.5 bg-[#F5B800] text-[#032B45] rounded-xl font-bold hover:bg-yellow-300 transition-colors text-xs"
+              >
+                <Heart className="w-3.5 h-3.5 fill-[#032B45]" /> {donateBtn}
+              </Link>
+              <button
+                onClick={handleDismissPopup}
+                className="flex-1 px-4 py-2.5 border-2 border-slate-200 text-slate-500 rounded-xl font-bold hover:border-slate-300 hover:text-slate-700 transition-colors text-xs"
+              >
+                {dismissBtn}
+              </button>
+            </div>
+          </div>
+        );
+      })()}
 
       {/* ── GABRIEL STYLE HERO ── */}
       <section className="relative flex items-center pt-24 pb-8 lg:pt-28 lg:pb-8 bg-gradient-to-br from-navy-900 via-[#0a2540] to-sky-900 overflow-hidden">
@@ -310,7 +416,7 @@ export default function Home() {
       <section className="bg-sky-600 py-2 md:py-4 border-y-4 border-sky-700" ref={statsRef}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 relative z-10">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-y-8 gap-x-4 md:gap-0 md:divide-x-2 md:divide-white/10">
-            <StatCard value={13555} suffix="+" label="Individuals Served" icon={<Users className="w-5 h-5" />} trigger={statsVisible} />
+            <StatCard value={17555} suffix="+" label="Individuals Served" icon={<Users className="w-5 h-5" />} trigger={statsVisible} />
             <StatCard value={150} suffix="+" label="Active Volunteers" icon={<HandHeart className="w-5 h-5" />} trigger={statsVisible} />
             <StatCard value={5} label={t('stats.corePrograms')} icon={<CheckCircle2 className="w-5 h-5" />} trigger={statsVisible} />
             <StatCard value={2} label={t('stats.countriesReached')} icon={<Globe2 className="w-5 h-5" />} trigger={statsVisible} />
@@ -342,6 +448,63 @@ export default function Home() {
           <div className="flex justify-center mt-12">
             <Link to="/gallery" className="home-view-all-link text-lg font-bold flex items-center">
               Explore Our Full Gallery <ChevronRight className="w-5 h-5 ml-1" />
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* ── OUTREACH REGIONS ── */}
+      <section className="bg-white py-16 border-b-2 border-slate-100">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-10">
+            <div className="text-xs font-bold uppercase tracking-widest text-[#F5B800] mb-2">Where We Operate</div>
+            <h2 className="text-3xl font-extrabold text-[#032B45]">Our Outreach Regions</h2>
+          </div>
+          <div className="grid md:grid-cols-2 gap-8">
+            {/* USA */}
+            <Link to="/outreach/usa" className="group relative rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-500 hover:-translate-y-1 block">
+              <div className="h-72 w-full">
+                <img
+                  src="https://images.unsplash.com/photo-1569025743873-ea3a9ade89f9?w=800&q=80"
+                  alt="USA Outreach"
+                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                />
+              </div>
+              <div className="absolute inset-0 bg-gradient-to-t from-[#032B45]/90 via-[#032B45]/40 to-transparent" />
+              <div className="absolute top-5 left-5">
+                <span className="text-3xl">🇺🇸</span>
+              </div>
+              <div className="absolute bottom-0 left-0 right-0 p-7">
+                <div className="text-[#F5B800] text-xs font-bold uppercase tracking-widest mb-1">United States</div>
+                <h3 className="text-2xl font-extrabold text-white mb-2">USA Outreach</h3>
+                <p className="text-sky-100 text-sm mb-4 leading-relaxed">Serving immigrant families and underserved communities across Atlanta and beyond.</p>
+                <span className="inline-flex items-center gap-1 text-xs font-bold text-white bg-[#F5B800]/20 border border-[#F5B800]/40 px-4 py-2 rounded-full group-hover:bg-[#F5B800] group-hover:text-[#032B45] transition-colors">
+                  Explore USA Programs <ArrowRight className="w-3 h-3" />
+                </span>
+              </div>
+            </Link>
+
+            {/* East Africa */}
+            <Link to="/outreach/east-africa" className="group relative rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-500 hover:-translate-y-1 block">
+              <div className="h-72 w-full">
+                <img
+                  src="https://images.unsplash.com/photo-1509099836639-18ba1795216d?w=800&q=80"
+                  alt="East Africa Outreach"
+                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                />
+              </div>
+              <div className="absolute inset-0 bg-gradient-to-t from-[#166534]/90 via-[#166534]/40 to-transparent" />
+              <div className="absolute top-5 left-5">
+                <span className="text-3xl">🌍</span>
+              </div>
+              <div className="absolute bottom-0 left-0 right-0 p-7">
+                <div className="text-[#F5B800] text-xs font-bold uppercase tracking-widest mb-1">East Africa</div>
+                <h3 className="text-2xl font-extrabold text-white mb-2">East Africa Outreach</h3>
+                <p className="text-green-100 text-sm mb-4 leading-relaxed">From Kenya to beyond — education, food, healthcare and climate resilience for vulnerable communities.</p>
+                <span className="inline-flex items-center gap-1 text-xs font-bold text-white bg-[#F5B800]/20 border border-[#F5B800]/40 px-4 py-2 rounded-full group-hover:bg-[#F5B800] group-hover:text-[#032B45] transition-colors">
+                  Explore East Africa Programs <ArrowRight className="w-3 h-3" />
+                </span>
+              </div>
             </Link>
           </div>
         </div>

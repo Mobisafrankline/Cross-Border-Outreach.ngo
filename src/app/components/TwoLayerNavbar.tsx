@@ -14,6 +14,7 @@ import {
   FileText,
   Target,
   Globe,
+  Globe2,
   UserCircle,
   Building2,
   BarChart3,
@@ -21,7 +22,9 @@ import {
   X,
   LogIn,
   Search,
-  ChevronDown
+  ChevronDown,
+  MapPin,
+  Leaf,
 } from "lucide-react";
 import { motion, AnimatePresence } from "motion/react";
 import { Link, useLocation } from "react-router";
@@ -244,6 +247,23 @@ export default function TwoLayerNavbar() {
           description: "Give your time and skills"
         }
       ]
+    },
+    {
+      label: "Where We Operate",
+      dropdown: [
+        {
+          label: "USA Outreach",
+          href: "/outreach/usa",
+          icon: <MapPin className="w-5 h-5" />,
+          description: "Atlanta & communities across America"
+        },
+        {
+          label: "East Africa Outreach",
+          href: "/outreach/east-africa",
+          icon: <Leaf className="w-5 h-5" />,
+          description: "Kenya and beyond — food, health & climate"
+        }
+      ]
     }
   ];
 
@@ -257,6 +277,7 @@ export default function TwoLayerNavbar() {
     { label: "Ways to Give", hasDropdown: true, key: "Ways to Give" },
     { label: "Stories", hasDropdown: true, key: "Stories" },
     { label: "About Us", hasDropdown: true, key: "About Us" },
+    { label: "Where We Operate", hasDropdown: true, key: "Where We Operate" },
     { label: "Events", href: "/events" },
     { label: "Gallery", href: "/gallery" },
     { label: "Reports", href: "/reports" },
@@ -545,6 +566,25 @@ export default function TwoLayerNavbar() {
                     </AnimatePresence>
                   </div>
                 ))}
+
+                {/* Where We Operate — mobile */}
+                <div className="py-2 border-b border-gray-100">
+                  <div className="text-[10px] font-bold uppercase tracking-widest text-[#F5B800] mb-2 px-0">Where We Operate</div>
+                  <Link
+                    to="/outreach/usa"
+                    onClick={() => setMobileMenuOpen(false)}
+                    className={`flex items-center gap-2 py-2 font-bold ${location.pathname === '/outreach/usa' ? 'text-[#032B45]' : 'text-navy-800'}`}
+                  >
+                    <span>🇺🇸</span> USA Outreach
+                  </Link>
+                  <Link
+                    to="/outreach/east-africa"
+                    onClick={() => setMobileMenuOpen(false)}
+                    className={`flex items-center gap-2 py-2 font-bold ${location.pathname === '/outreach/east-africa' ? 'text-[#032B45]' : 'text-navy-800'}`}
+                  >
+                    <span>🌍</span> East Africa Outreach
+                  </Link>
+                </div>
 
                 <Link
                   to="/events"
