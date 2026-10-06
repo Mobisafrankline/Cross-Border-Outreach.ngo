@@ -465,7 +465,7 @@ export default function Home() {
             <Link to="/outreach/usa" className="group relative rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-500 hover:-translate-y-1 block">
               <div className="h-72 w-full">
                 <img
-                  src="https://images.unsplash.com/photo-1569025743873-ea3a9ade89f9?w=800&q=80"
+                  src={outreach1}
                   alt="USA Outreach"
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
                 />
@@ -488,7 +488,7 @@ export default function Home() {
             <Link to="/outreach/east-africa" className="group relative rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-500 hover:-translate-y-1 block">
               <div className="h-72 w-full">
                 <img
-                  src="https://images.unsplash.com/photo-1509099836639-18ba1795216d?w=800&q=80"
+                  src={outreach4}
                   alt="East Africa Outreach"
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
                 />
